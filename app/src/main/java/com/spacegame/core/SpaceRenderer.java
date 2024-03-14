@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
+import android.util.Log;
 import com.spacegame.R;
 import com.spacegame.graphics.Rect;
 import com.spacegame.graphics.ShaderHelper;
@@ -18,6 +19,9 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
 
+  // Zoom factor of the camera
+  private static final float ZOOM_FACTOR = 2.0f;
+  private final float[] projectionMatrix = new float[16];
   private static final int BYTES_PER_FLOAT = 4;
   private final FloatBuffer vertexData;
   private final Context context;
@@ -25,6 +29,9 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
   private static final String U_COLOR = "u_Color";
   private int uColorLocation;
   private static final String A_POSITION = "a_Position";
+  private static final String U_PROJECTION_MATRIX = "u_ProjectionMatrix";
+  private int uProjectionMatrixLocation;
+
   private int aPositionLocation;
   private Rect rect;
 
@@ -111,22 +118,44 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
 
     uColorLocation = glGetUniformLocation(program, U_COLOR);
     aPositionLocation = glGetAttribLocation(program, A_POSITION);
+    uProjectionMatrixLocation = glGetUniformLocation(program, U_PROJECTION_MATRIX);
+
     vertexData.position(0);
     glVertexAttribPointer(aPositionLocation, 2, GL_FLOAT, false, 0, vertexData);
     glEnableVertexAttribArray(aPositionLocation);
     pepeTexture = loadTexture(context, R.drawable.peepo);
+
     rect = new Rect(-0, -0, 0.2f, 0.3f);
   }
 
   @Override
   public void onSurfaceChanged(GL10 gl, int width, int height) {
     // Set the OpenGL viewport to fill the entire surface.
-    // This should not be necessary as the App is locked to portrait mode
     gl.glViewport(0, 0, width, height);
+
+    // Set up an orthographic projection
+    float aspectRatio = width > height ?
+        (float) width / (float) height :
+        (float) height / (float) width;
+//    float ZOOM_FACTOR = 8.0f; // Increase this value to zoom out
+    if (width > height) {
+      // Landscape
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, -aspectRatio * ZOOM_FACTOR,
+          aspectRatio * ZOOM_FACTOR, -1f * ZOOM_FACTOR, 1f * ZOOM_FACTOR, -1f, 1f);
+    } else {
+      // Portrait or square
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, -1f * ZOOM_FACTOR, 1f * ZOOM_FACTOR,
+          -aspectRatio * ZOOM_FACTOR, aspectRatio * ZOOM_FACTOR, -1f, 1f);
+    }
+    // Log the SurfaceView size
+    Log.d("SurfaceView", "Width: " + width + " Height: " + height);
   }
 
   @Override
   public void onDrawFrame(GL10 gl) {
+    // Pass the projection matrix to the shader
+    glUniformMatrix4fv(uProjectionMatrixLocation, 1, false, projectionMatrix, 0);
+
     // Clear the rendering surface.
     gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
 
@@ -152,7 +181,7 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
     int aTextureCoordinatesLocation = glGetAttribLocation(program, "a_TexCoordinate");
     rect.draw(aPositionLocation, aTextureCoordinatesLocation, pepeTexture);
 
-    rect.move((rect.getX() + 0.0005f), rect.getY() + 0.0005f);
+    rect.addVelocity(0.0005f, 0.0005f);
 
   }
 

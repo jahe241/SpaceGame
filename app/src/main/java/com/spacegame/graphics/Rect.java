@@ -11,6 +11,7 @@ import static android.opengl.GLES20.glVertexAttribPointer;
 import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE0;
 import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE_2D;
 
+import android.util.Log;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -93,7 +94,14 @@ public class Rect {
     glDrawArrays(GL_TRIANGLES, 0, 6);
   }
 
-  public void move(float dx, float dy) {
+  /**
+   * This method is used to move the rectangle by updating the x and y coordinates of each vertex.
+   * It also updates the x and y instance variables to reflect the new position of the rectangle.
+   *
+   * @param dx The change in x-coordinate.
+   * @param dy The change in y-coordinate.
+   */
+  public void addVelocity(float dx, float dy) {
     // Create a new array to store the updated vertex data
     float[] updatedVertexData = new float[vertexData.capacity()];
 
@@ -111,6 +119,12 @@ public class Rect {
     vertexData.clear();
     vertexData.put(updatedVertexData);
     vertexData.position(0);
+
+    // Update the x and y instance variables
+    this.x += dx;
+    this.y += dy;
+
+    Log.d("Rect", "move: " + vertexData.get(0) + " " + vertexData.get(1));
   }
 
   public void setColor(float r, float g, float b, float a, int uColorLocation) {
