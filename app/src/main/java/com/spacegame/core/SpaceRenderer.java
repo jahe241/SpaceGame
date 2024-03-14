@@ -3,7 +3,11 @@ package com.spacegame.core;
 import static android.opengl.GLES20.*;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.opengl.GLUtils;
 import com.spacegame.R;
+import com.spacegame.graphics.Quad;
 import com.spacegame.graphics.ShaderHelper;
 import com.spacegame.utils.TextResourceReader;
 import java.nio.ByteBuffer;
@@ -22,6 +26,10 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
   private int uColorLocation;
   private static final String A_POSITION = "a_Position";
   private int aPositionLocation;
+  private Quad quad;
+
+
+  private int pepeTexture;
 
   public SpaceRenderer(Context ctx) {
     this.context = ctx;
@@ -39,13 +47,49 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
         0.5f, 0f,
         // Mallets
         0f, -0.25f,
-        0f, 0.25f
+        0f, 0.25f,
+        // Point in 0,0
+        0f, 0f
     };
     vertexData = ByteBuffer
         .allocateDirect(tableVerticesWithTriangles.length * BYTES_PER_FLOAT)
         .order(ByteOrder.nativeOrder())
         .asFloatBuffer();
     vertexData.put(tableVerticesWithTriangles);
+  }
+
+  private int loadTexture(Context context, int resourceId) {
+    final int[] textureObjectIds = new int[1];
+    glGenTextures(1, textureObjectIds, 0);
+
+    if (textureObjectIds[0] == 0) {
+      return 0;
+    }
+
+    final BitmapFactory.Options options = new BitmapFactory.Options();
+    options.inScaled = false;
+
+    final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, options);
+
+    if (bitmap == null) {
+      glDeleteTextures(1, textureObjectIds, 0);
+      return 0;
+    }
+
+    glBindTexture(GL_TEXTURE_2D, textureObjectIds[0]);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+    GLUtils.texImage2D(GL_TEXTURE_2D, 0, bitmap, 0);
+
+    ((Bitmap) bitmap).recycle();
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+    glBindTexture(GL_TEXTURE_2D, 0);
+
+    return textureObjectIds[0];
   }
 
   public void onSurfaceCreated(GL10 gl, EGLConfig config) {
@@ -70,6 +114,10 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
     vertexData.position(0);
     glVertexAttribPointer(aPositionLocation, 2, GL_FLOAT, false, 0, vertexData);
     glEnableVertexAttribArray(aPositionLocation);
+    pepeTexture = loadTexture(context, R.drawable.peepo);
+    quad = new Quad();
+
+
   }
 
   @Override
@@ -99,6 +147,13 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
     // Draw the second mallet red
     glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
     glDrawArrays(GL_POINTS, 9, 1);
+
+    // Draw the first sprite here
+    glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
+    glDrawArrays(GL_POINTS, 11, 1);
+    int aTextureCoordinatesLocation = glGetAttribLocation(program, "a_TexCoordinate");
+    quad.draw(aPositionLocation, aTextureCoordinatesLocation, pepeTexture);
+
   }
 
 }
