@@ -7,6 +7,7 @@ import static android.opengl.GLES20.GL_TRIANGLES;
 import static android.opengl.GLES20.glDrawArrays;
 import static android.opengl.GLES20.glEnableVertexAttribArray;
 import static android.opengl.GLES20.glUniform4f;
+import static android.opengl.GLES20.glUniformMatrix4fv;
 import static android.opengl.GLES20.glVertexAttribPointer;
 import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE0;
 import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE_2D;
@@ -18,12 +19,21 @@ import java.nio.FloatBuffer;
 
 public class Rect {
 
+  // TODO: REFACTOR THIS TO ENTITY
+  private static final float SPEED = 1f; // Adjust this value to control the speed of the transition
+
   private static final int BYTES_PER_FLOAT = 4;
   private final FloatBuffer vertexData;
   private float x;
   private float y;
   private float width;
   private float height;
+
+  private float destinationX;
+  private float destinationY;
+  private float rotationAngle = 0f;
+  private float currentAngle = 0f; // Angle in degrees
+
 
   // Define the vertices for two triangles that make up a rectangle
   // Add texture coordinates for each vertex
@@ -57,6 +67,11 @@ public class Rect {
         .asFloatBuffer();
 
     setVertexData(x, y, width, height);
+  }
+
+  public void setDestination(float x, float y) {
+    this.destinationX = x;
+    this.destinationY = y;
   }
 
   public void setVertexData(float x, float y, float width, float height) {
@@ -126,6 +141,67 @@ public class Rect {
 
     Log.d("Rect", "move: " + vertexData.get(0) + " " + vertexData.get(1));
   }
+
+  public void goTo(float goX, float goY, float deltaTime) {
+    float dx = goX - this.x;
+    float dy = goY - this.y;
+    // Calculate the angle to the destination
+    float targetAngle = (float) Math.toDegrees(Math.atan2(dy, dx));
+
+    // Determine the rotation necessary from the current angle to the target angle
+    // This could be optimized based on the direction of rotation needed (clockwise or counterclockwise)
+    float angleDifference = targetAngle - this.currentAngle;
+    // Normalize the angle difference to be within -180 to 180 for proper rotation
+    while (angleDifference > 180) {
+      angleDifference -= 360;
+    }
+    while (angleDifference < -180) {
+      angleDifference += 360;
+    }
+
+    // Apply rotation speed limit here if necessary (e.g., limit how fast the rectangle can rotate per time step)
+    float rotationSpeed = 60f; // degrees per second, adjust as needed
+    float angleChange = rotationSpeed * deltaTime;
+    if (Math.abs(angleDifference) < angleChange) {
+      this.currentAngle = targetAngle; // Close enough, snap to the target angle
+    } else {
+      this.currentAngle +=
+          Math.signum(angleDifference) * angleChange; // Rotate towards the target angle
+    }
+
+    // Move the rectangle towards the destination
+    this.x += dx * SPEED * deltaTime;
+    this.y += dy * SPEED * deltaTime;
+
+    // Update the vertex data and apply rotation
+    setVertexDataWithRotation(this.x, this.y, this.width, this.height, this.currentAngle);
+  }
+
+  public void setVertexDataWithRotation(float x, float y, float width, float height, float angle) {
+    // Conversion from degrees to radians for math functions
+    float angleInRadians = (float) Math.toRadians(angle);
+
+    float[] rotatedVertexData = new float[VERTEX_DATA.length];
+    for (int i = 0; i < VERTEX_DATA.length; i += 4) {
+      // Apply rotation around the center (0, 0) then translate
+      float originalX = VERTEX_DATA[i] * width;
+      float originalY = VERTEX_DATA[i + 1] * height;
+
+      rotatedVertexData[i] =
+          x + (originalX * (float) Math.cos(angleInRadians) - originalY * (float) Math.sin(
+              angleInRadians));
+      rotatedVertexData[i + 1] =
+          y + (originalX * (float) Math.sin(angleInRadians) + originalY * (float) Math.cos(
+              angleInRadians));
+      rotatedVertexData[i + 2] = VERTEX_DATA[i + 2]; // Copy texture coordinates
+      rotatedVertexData[i + 3] = VERTEX_DATA[i + 3];
+    }
+
+    vertexData.clear();
+    vertexData.put(rotatedVertexData);
+    vertexData.position(0);
+  }
+
 
   public void setColor(float r, float g, float b, float a, int uColorLocation) {
     glUniform4f(uColorLocation, r, g, b, a);
