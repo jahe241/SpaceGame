@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLUtils;
 import com.spacegame.R;
-import com.spacegame.graphics.Quad;
+import com.spacegame.graphics.Rect;
 import com.spacegame.graphics.ShaderHelper;
 import com.spacegame.utils.TextResourceReader;
 import java.nio.ByteBuffer;
@@ -26,7 +26,7 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
   private int uColorLocation;
   private static final String A_POSITION = "a_Position";
   private int aPositionLocation;
-  private Quad quad;
+  private Rect rect;
 
 
   private int pepeTexture;
@@ -115,9 +115,7 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
     glVertexAttribPointer(aPositionLocation, 2, GL_FLOAT, false, 0, vertexData);
     glEnableVertexAttribArray(aPositionLocation);
     pepeTexture = loadTexture(context, R.drawable.peepo);
-    quad = new Quad();
-
-
+    rect = new Rect(-0, -0, 0.2f, 0.3f);
   }
 
   @Override
@@ -152,7 +150,9 @@ public class SpaceRenderer implements android.opengl.GLSurfaceView.Renderer {
     glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
     glDrawArrays(GL_POINTS, 11, 1);
     int aTextureCoordinatesLocation = glGetAttribLocation(program, "a_TexCoordinate");
-    quad.draw(aPositionLocation, aTextureCoordinatesLocation, pepeTexture);
+    rect.draw(aPositionLocation, aTextureCoordinatesLocation, pepeTexture);
+
+    rect.move((rect.getX() + 0.0005f), rect.getY() + 0.0005f);
 
   }
 

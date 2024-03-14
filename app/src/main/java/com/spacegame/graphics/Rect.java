@@ -15,10 +15,14 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-public class Quad {
+public class Rect {
 
   private static final int BYTES_PER_FLOAT = 4;
   private final FloatBuffer vertexData;
+  private float x;
+  private float y;
+  private float width;
+  private float height;
 
   // Define the vertices for two triangles that make up a rectangle
   // Add texture coordinates for each vertex
@@ -33,12 +37,42 @@ public class Quad {
       0.5f, 0.5f, 1.0f, 0.0f
   };
 
-  public Quad() {
+  public float getX() {
+    return x;
+  }
+
+  public float getY() {
+    return y;
+  }
+
+  public Rect(float x, float y, float width, float height) {
+    this.width = width;
+    this.height = height;
+    this.x = x;
+    this.y = y;
     vertexData = ByteBuffer
         .allocateDirect(VERTEX_DATA.length * BYTES_PER_FLOAT)
         .order(ByteOrder.nativeOrder())
         .asFloatBuffer();
-    vertexData.put(VERTEX_DATA);
+
+    setVertexData(x, y, width, height);
+  }
+
+  public void setVertexData(float x, float y, float width, float height) {
+    float[] adjustedVertexData = {
+        // Triangle 1
+        x - width / 2, y - height / 2, 0.0f, 1.0f,
+        x + width / 2, y - height / 2, 1.0f, 1.0f,
+        x - width / 2, y + height / 2, 0.0f, 0.0f,
+        // Triangle 2
+        x - width / 2, y + height / 2, 0.0f, 0.0f,
+        x + width / 2, y - height / 2, 1.0f, 1.0f,
+        x + width / 2, y + height / 2, 1.0f, 0.0f
+    };
+
+    vertexData.clear();
+    vertexData.put(adjustedVertexData);
+    vertexData.position(0);
   }
 
   // Add texture coordinates for each vertex
@@ -57,6 +91,26 @@ public class Quad {
 
     // Draw the quad
     glDrawArrays(GL_TRIANGLES, 0, 6);
+  }
+
+  public void move(float dx, float dy) {
+    // Create a new array to store the updated vertex data
+    float[] updatedVertexData = new float[vertexData.capacity()];
+
+    // Update the x and y coordinates of each vertex
+    for (int i = 0; i < vertexData.capacity(); i += 4) {
+      updatedVertexData[i] = vertexData.get(i) + dx; // Update x coordinate
+      updatedVertexData[i + 1] = vertexData.get(i + 1) + dy; // Update y coordinate
+      updatedVertexData[i + 2] = vertexData.get(
+          i + 2); // Copy over the existing texture coordinates
+      updatedVertexData[i + 3] = vertexData.get(
+          i + 3); // Copy over the existing texture coordinates
+    }
+
+    // Update the vertex data
+    vertexData.clear();
+    vertexData.put(updatedVertexData);
+    vertexData.position(0);
   }
 
   public void setColor(float r, float g, float b, float a, int uColorLocation) {
