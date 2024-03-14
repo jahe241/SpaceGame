@@ -1,5 +1,6 @@
 package com.spacegame;
 
+import android.content.Intent;
 import android.os.Build;
 import android.view.View;
 import android.view.WindowInsets;
@@ -15,6 +16,12 @@ public class MainActivity extends AppCompatActivity {
     setFullscreen();
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+
+    // Registering Buttons
+    findViewById(R.id.btnStart).setOnClickListener(v -> {
+      // Start the game
+      startActivity(new Intent(this, GameActivity.class));
+    });
   }
 
   @Override
@@ -22,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     super.onResume();
     setFullscreen();
   }
+
 
   private void setFullscreen() {
     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
