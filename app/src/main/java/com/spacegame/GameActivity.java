@@ -7,11 +7,9 @@ import android.view.View;
 import android.view.WindowInsets;
 import android.view.WindowInsetsController;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+import com.spacegame.core.SpaceRenderer;
+
 
 public class GameActivity extends AppCompatActivity {
 
@@ -21,6 +19,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         GLSurfaceView glSurfaceView = new GLSurfaceView(this);
         glSurfaceView.setEGLContextClientVersion(2);
+      glSurfaceView.setRenderer(new SpaceRenderer(this));
         setContentView(glSurfaceView);
     }
 
