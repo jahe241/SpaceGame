@@ -22,7 +22,7 @@ import android.view.MotionEvent;
 // TODO: Either extract rendering logic to a separate class or refactor
 public class SpaceGLSSurfaceView extends GLSurfaceView {
 
-  private static final float ZOOM_FACTOR = 1.5f;
+  private static final float ZOOM_FACTOR = 1f;
   private SpaceRenderer renderer;
   public Context context;
   private Rect rect;
@@ -200,27 +200,7 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
 
       // Clear the rendering surface.
       gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
-      {
-        // Draw the table
-        glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
 
-        // Draw the center line
-        glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
-        glDrawArrays(GL_LINES, 6, 2);
-
-        // Draw the first mallet blue
-        glUniform4f(uColorLocation, 0.0f, 0.0f, 1.0f, 1.0f);
-        glDrawArrays(GL_POINTS, 8, 1);
-
-        // Draw the second mallet red
-        glUniform4f(uColorLocation, 1.0f, 0.0f, 0.0f, 1.0f);
-        glDrawArrays(GL_POINTS, 9, 1);
-
-        // Draw the first sprite here
-        glUniform4f(uColorLocation, 1.0f, 1.0f, 1.0f, 1.0f);
-        glDrawArrays(GL_POINTS, 11, 1);
-      } // End of drawing the table
       int aTextureCoordinatesLocation = glGetAttribLocation(program, "a_TexCoordinate");
       rect.draw(aPositionLocation, aTextureCoordinatesLocation, pepeTexture);
 
