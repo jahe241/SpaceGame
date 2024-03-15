@@ -15,6 +15,8 @@ import com.spacegame.utils.TextResourceReader;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.util.Arrays;
+
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import android.view.MotionEvent;
@@ -50,9 +52,16 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
     // Convert touch coordinates to OpenGL coordinates
     float x = event.getX();
     float y = event.getY();
-    float normalizedX = (x / getWidth()) * 2 - 1;
-    float normalizedY = -((y / getHeight()) * 2 - 1); // Invert Y
 
+    Log.d("Touch", "X: " + x + " Y: " + y);
+
+    //float normalizedX = (x / getWidth()) * 2 - 1;
+    //float normalizedY = (y / getHeight()) * 2 - 1; // Invert Y
+
+    float normalizedX = x;
+    float normalizedY = y;
+
+    /*
     // Adjust for aspect ratio and zoom factor
     float aspectRatio = getWidth() > getHeight() ?
         (float) getWidth() / getHeight() :
@@ -65,6 +74,7 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       normalizedX = normalizedX * ZOOM_FACTOR;
       normalizedY = normalizedY * aspectRatio * ZOOM_FACTOR;
     }
+     */
 
     switch (action) {
       case MotionEvent.ACTION_DOWN:
@@ -163,7 +173,7 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
 
       pepeTexture = loadTexture(context, R.drawable.peepo);
 
-      rect = new Rect(0.5f, 0f, 0.2f, 0.3f);
+      rect = new Rect(500f, 500f, 200f, 100f);
     }
 
     @Override
@@ -182,8 +192,10 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
             aspectRatio * ZOOM_FACTOR, -1f * ZOOM_FACTOR, ZOOM_FACTOR, -1f, 1f);
       } else {
          //Portrait or square
-        android.opengl.Matrix.orthoM(projectionMatrix, 0, -1f * ZOOM_FACTOR, ZOOM_FACTOR,
-            -aspectRatio * ZOOM_FACTOR, aspectRatio * ZOOM_FACTOR, -1f, 1f);
+        android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width * ZOOM_FACTOR,
+                height * ZOOM_FACTOR, 0 , -1f, 1f);
+        Log.d("ProjectionMatrix", "width: " + width + " height: " + height);
+        Log.d("ProjectionMatrix", Arrays.toString(this.projectionMatrix));
       }
        //Log the SurfaceView size
       Log.d("SurfaceView", "Width: " + width + " Height: " + height);

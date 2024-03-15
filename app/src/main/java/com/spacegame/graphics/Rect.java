@@ -114,6 +114,9 @@ public class Rect {
 
   // Add texture coordinates for each vertex
   public void draw(int aPositionLocation, int aTextureCoordinatesLocation, int texture) {
+    Log.d("PLAYER COORDS", "x: " + x + " y:" + y);
+
+
     vertexData.position(0);
     glVertexAttribPointer(aPositionLocation, 4, GL_FLOAT, false, 24, vertexData);
     glEnableVertexAttribArray(aPositionLocation);
@@ -127,8 +130,7 @@ public class Rect {
     glBindTexture(GL_TEXTURE_2D, texture);
 
     // Draw the quad
-    glDrawArrays(GL_TRIANGLES, 0, 3);
-    glDrawArrays(GL_TRIANGLES, 3, 3);
+    glDrawArrays(GL_TRIANGLES, 0, 6);
   }
 
   /**
