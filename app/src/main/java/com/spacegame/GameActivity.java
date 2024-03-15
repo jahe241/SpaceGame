@@ -13,6 +13,7 @@ public class GameActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+
     setFullscreen();
     super.onCreate(savedInstanceState);
     GLSurfaceView glSurfaceView = new GLSurfaceView(this);
