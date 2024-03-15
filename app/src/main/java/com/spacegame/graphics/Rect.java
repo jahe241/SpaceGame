@@ -39,13 +39,13 @@ public class Rect {
   // Add texture coordinates for each vertex
   private static final float[] VERTEX_DATA = {
       // Triangle 1
-      -0.5f, -0.5f, 0.0f, 1.0f,
-      0.5f, -0.5f, 1.0f, 1.0f,
-      -0.5f, 0.5f, 0.0f, 0.0f,
+      -0.5f, -0.5f, 0f, 1f, 0.0f, 1.0f,
+      0.5f, -0.5f, 0f, 1f, 1.0f, 1.0f,
+      -0.5f, 0.5f, 0f, 1f, 0.0f, 0.0f,
       // Triangle 2
-      -0.5f, 0.5f, 0.0f, 0.0f,
-      0.5f, -0.5f, 1.0f, 1.0f,
-      0.5f, 0.5f, 1.0f, 0.0f
+      -0.5f, 0.5f, 0f, 1f, 0.0f, 0.0f,
+      0.5f, -0.5f, 0f, 1f, 1.0f, 1.0f,
+      0.5f, 0.5f, 0f, 1f, 1.0f, 0.0f
   };
 
   public float getX() {
@@ -77,13 +77,13 @@ public class Rect {
   public void setVertexData(float x, float y, float width, float height) {
     float[] adjustedVertexData = {
         // Triangle 1
-        x - width / 2, y - height / 2, 0.0f, 1.0f,
-        x + width / 2, y - height / 2, 1.0f, 1.0f,
-        x - width / 2, y + height / 2, 0.0f, 0.0f,
+        x - width / 2, y - height / 2, 0f, 1f, 0.0f, 0.0f,
+        x + width / 2, y - height / 2, 1.0f, 0f, 1f,  0.0f,
+        x - width / 2, y + height / 2, 0.0f, 0f, 1f, 1.0f,
         // Triangle 2
-        x - width / 2, y + height / 2, 0.0f, 0.0f,
-        x + width / 2, y - height / 2, 1.0f, 1.0f,
-        x + width / 2, y + height / 2, 1.0f, 0.0f
+        x - width / 2, y + height / 2, 0.0f, 0f, 1f, 1.0f,
+        x + width / 2, y - height / 2, 1.0f, 0f, 1f, 0.0f,
+        x + width / 2, y + height / 2, 1.0f, 0f, 1f, 1.0f
     };
 
     vertexData.clear();
@@ -94,11 +94,11 @@ public class Rect {
   // Add texture coordinates for each vertex
   public void draw(int aPositionLocation, int aTextureCoordinatesLocation, int texture) {
     vertexData.position(0);
-    glVertexAttribPointer(aPositionLocation, 2, GL_FLOAT, false, 16, vertexData);
+    glVertexAttribPointer(aPositionLocation, 4, GL_FLOAT, false, 24, vertexData);
     glEnableVertexAttribArray(aPositionLocation);
 
-    vertexData.position(2);
-    glVertexAttribPointer(aTextureCoordinatesLocation, 2, GL_FLOAT, false, 16, vertexData);
+    vertexData.position(4);
+    glVertexAttribPointer(aTextureCoordinatesLocation, 2, GL_FLOAT, false, 24, vertexData);
     glEnableVertexAttribArray(aTextureCoordinatesLocation);
 
     // Bind the texture to this unit

@@ -20,7 +20,7 @@ public class GameActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     spaceGLSurfaceView = new SpaceGLSSurfaceView(this);
-    spaceGLSurfaceView.context = this;
+    //spaceGLSurfaceView.context = this;
     setContentView(spaceGLSurfaceView);
   }
 

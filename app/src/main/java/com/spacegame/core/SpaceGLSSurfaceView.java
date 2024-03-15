@@ -22,13 +22,13 @@ import android.view.MotionEvent;
 // TODO: Either extract rendering logic to a separate class or refactor
 public class SpaceGLSSurfaceView extends GLSurfaceView {
 
-  private static final float ZOOM_FACTOR = 2.0f;
+  private static final float ZOOM_FACTOR = 1.5f;
   private SpaceRenderer renderer;
   public Context context;
   private Rect rect;
   private float goToTargetX = 0f;
   private float goToTargetY = 0f;
-  private long lastFrameTime;
+  private long lastFrameTime = System.nanoTime();
 
   public SpaceGLSSurfaceView(Context context) {
     super(context);
@@ -100,29 +100,6 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
 
     public SpaceRenderer(Context ctx) {
       this.context = ctx;
-      float[] tableVerticesWithTriangles = {
-          // Table: Triangle 1
-          -0.5f, -0.5f,
-          0.5f, 0.5f,
-          -0.5f, 0.5f,
-          // Table: Triangle 2
-          -0.5f, -0.5f,
-          0.5f, -0.5f,
-          0.5f, 0.5f,
-          // Line 1
-          -0.5f, 0f,
-          0.5f, 0f,
-          // Mallets
-          0f, -0.25f,
-          0f, 0.25f,
-          // Point in 0,0
-          0f, 0f
-      };
-      vertexData = ByteBuffer
-          .allocateDirect(tableVerticesWithTriangles.length * BYTES_PER_FLOAT)
-          .order(ByteOrder.nativeOrder())
-          .asFloatBuffer();
-      vertexData.put(tableVerticesWithTriangles);
     }
 
     private int loadTexture(Context context, int resourceId) {
@@ -184,12 +161,9 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       aPositionLocation = glGetAttribLocation(program, A_POSITION);
       uProjectionMatrixLocation = glGetUniformLocation(program, U_PROJECTION_MATRIX);
 
-      vertexData.position(0);
-      glVertexAttribPointer(aPositionLocation, 2, GL_FLOAT, false, 0, vertexData);
-      glEnableVertexAttribArray(aPositionLocation);
       pepeTexture = loadTexture(context, R.drawable.peepo);
 
-      rect = new Rect(-0, -0, 0.2f, 0.3f);
+      rect = new Rect(0.5f, 0f, 0.2f, 0.3f);
     }
 
     @Override
@@ -205,13 +179,13 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       if (width > height) {
         // Landscape
         android.opengl.Matrix.orthoM(projectionMatrix, 0, -aspectRatio * ZOOM_FACTOR,
-            aspectRatio * ZOOM_FACTOR, -1f * ZOOM_FACTOR, 1f * ZOOM_FACTOR, -1f, 1f);
+            aspectRatio * ZOOM_FACTOR, -1f * ZOOM_FACTOR, ZOOM_FACTOR, -1f, 1f);
       } else {
-        // Portrait or square
-        android.opengl.Matrix.orthoM(projectionMatrix, 0, -1f * ZOOM_FACTOR, 1f * ZOOM_FACTOR,
+         //Portrait or square
+        android.opengl.Matrix.orthoM(projectionMatrix, 0, -1f * ZOOM_FACTOR, ZOOM_FACTOR,
             -aspectRatio * ZOOM_FACTOR, aspectRatio * ZOOM_FACTOR, -1f, 1f);
       }
-      // Log the SurfaceView size
+       //Log the SurfaceView size
       Log.d("SurfaceView", "Width: " + width + " Height: " + height);
     }
 
@@ -250,7 +224,6 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       int aTextureCoordinatesLocation = glGetAttribLocation(program, "a_TexCoordinate");
       rect.draw(aPositionLocation, aTextureCoordinatesLocation, pepeTexture);
 
-//    rect.addVelocity(0.0005f, 0.0005f);
       Log.d("Draw, Thread name:" + Thread.currentThread().getName(),
           "GoToX: " + goToTargetX + " GoToY: " + goToTargetY);
       rect.goTo(goToTargetX, goToTargetY, deltaTime);
