@@ -20,7 +20,7 @@ public class ShaderHelper {
     final int shaderObjectId = GLES20.glCreateShader(type);
     // Check if the shader was created
     if (shaderObjectId == 0) {
-      Log.w(TAG, "Could not create new shader.");
+      Log.e(TAG, "Could not create new shader.");
       return 0;
     }
     // Pass the shader source to the shader object

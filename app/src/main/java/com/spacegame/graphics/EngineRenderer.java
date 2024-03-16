@@ -35,10 +35,9 @@ import javax.microedition.khronos.opengles.GL10;
 public class EngineRenderer implements GLSurfaceView.Renderer {
     Entity pepe;
 
-    public static int gl_u_ProjectionMatrix_ptr = 0;
-    public static int gl_a_Position_ptr=0;
-
-    public static int gl_a_TexCoordinate_ptr = 0;
+    public static int gl_u_ProjectionMatrix_ptr;
+    public static int gl_a_Position_ptr;
+    public static int gl_a_TexCoordinate_ptr;
 
     private long lastFrameTime;
     private Context context;
@@ -67,6 +66,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
         // Link the shaders into a program
         this.program = ShaderHelper.linkProgram(compiledVertexShader, compiledFragmentShader);
+        Log.d("EngineRenderer", "Program: " + this.program);
         if (this.program == 0) {
             Log.e("EngineRenderer", "Failed to link program");
             return;
@@ -80,9 +80,12 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
         }
 
         glUseProgram(this.program);
-        EngineRenderer.gl_a_Position_ptr = glGetAttribLocation(program, "a_Position");
-        EngineRenderer.gl_a_TexCoordinate_ptr = glGetAttribLocation(program, "a_TexCoordinate");
-        EngineRenderer.gl_u_ProjectionMatrix_ptr = glGetUniformLocation(program, "u_ProjectionMatrix");
+
+        EngineRenderer.gl_a_Position_ptr = glGetAttribLocation(this.program, "a_Position");
+        EngineRenderer.gl_a_TexCoordinate_ptr = glGetAttribLocation(this.program, "a_TexCoordinate");
+        EngineRenderer.gl_u_ProjectionMatrix_ptr = glGetUniformLocation(this.program, "u_ProjectionMatrix");
+
+        Log.d("EngineRenderer", "GL Pointers: " + EngineRenderer.gl_a_Position_ptr + " " + EngineRenderer.gl_a_TexCoordinate_ptr + " " + EngineRenderer.gl_u_ProjectionMatrix_ptr);
 
         // Load the textures
         int pepeTexture = loadTexture(R.drawable.peepo);

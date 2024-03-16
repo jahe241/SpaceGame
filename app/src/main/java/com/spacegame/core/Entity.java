@@ -41,31 +41,34 @@ public class Entity {
         this.width = width;
         this.height = height;
         this.gl_texture_ptr = gl_texture_ptr;
+
+        // Initialize the vertex data
+        float[] initialVertexData = {
+                // Triangle 1
+                x - width / 2, y - height / 2, 0f, 1f, 0f, 0f,
+                x + width / 2, y - height / 2, 0f, 1f, 1f, 0f,
+                x - width / 2, y + height / 2, 0f, 1f, 0f, 1f,
+                // Triangle 2
+                x - width / 2, y + height / 2, 0f, 1f, 0f, 1f,
+                x + width / 2, y - height / 2, 0f, 1f, 1f, 0f,
+                x + width / 2, y + height / 2, 0f, 1f, 1f, 1f
+        };
         this.vertexData = ByteBuffer
-            .allocateDirect(FLOATS_PER_VERTEX * 4 * VERTEX_PER_QUAD)
+            .allocateDirect(initialVertexData.length * 4)
             .order(ByteOrder.nativeOrder())
             .asFloatBuffer();
         // Set vertex data
 
-        float[] adjustedVertexData = {
-            // Triangle 1
-            x - width / 2, y - height / 2, 0f, 1f, 0f, 0f,
-            x + width / 2, y - height / 2, 0f, 1f, 1f, 0f,
-            x - width / 2, y + height / 2, 0f, 1f, 0f, 1f,
-            // Triangle 2
-            x - width / 2, y + height / 2, 0f, 1f, 0f, 1f,
-            x + width / 2, y - height / 2, 0f, 1f, 1f, 0f,
-            x + width / 2, y + height / 2, 0f, 1f, 1f, 1f
-        };
         vertexData.clear();
-        vertexData.put(adjustedVertexData);
+        vertexData.put(initialVertexData);
         vertexData.position(0);
     }
 
     public void draw() {
         // Static pointer not loaded, skip draw frame
-        if (EngineRenderer.gl_a_Position_ptr == 0) {
-            Log.d("Entity", "GL Pointer not set!!");
+        Log.d("Entity", "GL Pointer: " + EngineRenderer.gl_a_Position_ptr);
+        if (EngineRenderer.gl_a_Position_ptr == -1) {
+            Log.e("Entity", "GL Pointer not set!!");
             return;
         }
         // Give position vertex data to the shader
