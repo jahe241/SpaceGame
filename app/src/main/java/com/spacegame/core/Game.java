@@ -5,7 +5,6 @@ import java.util.ArrayList;
 public class Game {
     public static Game game;
 
-    public ArrayList<GameObject> objects = new ArrayList<GameObject>();
 
     private Game() {
         Game.game = new Game();

@@ -7,11 +7,12 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.spacegame.core.SpaceGLSSurfaceView;
+import com.spacegame.graphics.EngineGLSurfaceView;
 
 
 public class GameActivity extends AppCompatActivity {
 
-  private SpaceGLSSurfaceView spaceGLSurfaceView;
+  private EngineGLSurfaceView surfaceView;
 
 
   @Override
@@ -19,9 +20,9 @@ public class GameActivity extends AppCompatActivity {
     setFullscreen(getWindow());
     super.onCreate(savedInstanceState);
 
-    spaceGLSurfaceView = new SpaceGLSSurfaceView(this);
-    //spaceGLSurfaceView.context = this;
-    setContentView(spaceGLSurfaceView);
+    surfaceView = new EngineGLSurfaceView(this);
+    //surfaceView.context = this;
+    setContentView(surfaceView);
   }
 
   @Override

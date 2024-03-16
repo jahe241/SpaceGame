@@ -9,24 +9,43 @@ import static android.opengl.GLES20.glBindTexture;
 import static android.opengl.GLES20.glDeleteTextures;
 import static android.opengl.GLES20.glGenTextures;
 import static android.opengl.GLES20.glGenerateMipmap;
+import static android.opengl.GLES20.glGetAttribLocation;
+import static android.opengl.GLES20.glGetUniformLocation;
 import static android.opengl.GLES20.glTexParameteri;
+import static android.opengl.GLES20.glUniformMatrix4fv;
+import static android.opengl.GLES20.glUseProgram;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Shader;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
+import android.util.Log;
 
 import com.spacegame.R;
+import com.spacegame.core.Entity;
 import com.spacegame.utils.TextResourceReader;
+
+import java.util.Arrays;
 
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 
 public class EngineRenderer implements GLSurfaceView.Renderer {
-    Context context;
+    Entity pepe;
 
-    int program = 0;
+    public static int gl_u_ProjectionMatrix_ptr = 0;
+    public static int gl_a_Position_ptr=0;
+
+    public static int gl_a_TexCoordinate_ptr = 0;
+
+    private long lastFrameTime;
+    private Context context;
+
+    public float[] projectionMatrix = new float[16];
+
+    public int program = 0;
 
     public EngineRenderer(Context context) {
         super();
@@ -48,6 +67,31 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
         // Link the shaders into a program
         this.program = ShaderHelper.linkProgram(compiledVertexShader, compiledFragmentShader);
+        if (this.program == 0) {
+            Log.e("EngineRenderer", "Failed to link program");
+            return;
+        }
+
+        // Check if the program is valid
+        boolean programValidate = ShaderHelper.validateProgram(this.program);
+        if (!programValidate) {
+            Log.e("EngineRenderer", "Program is not valid");
+            return;
+        }
+
+        glUseProgram(this.program);
+        EngineRenderer.gl_a_Position_ptr = glGetAttribLocation(program, "a_Position");
+        EngineRenderer.gl_a_TexCoordinate_ptr = glGetAttribLocation(program, "a_TexCoordinate");
+        EngineRenderer.gl_u_ProjectionMatrix_ptr = glGetUniformLocation(program, "u_ProjectionMatrix");
+
+        // Load the textures
+        int pepeTexture = loadTexture(R.drawable.peepo);
+        if (pepeTexture == 0) {
+            Log.e("EngineRenderer", "Failed to load texture");
+            return;
+        }
+        Log.i("EngineRenderer", "Pepe texture loaded successfully!");
+        this.pepe = new Entity(500f, 500f, 200f, 100f, pepeTexture);
     }
 
     private int loadTexture(int resourceId) {
@@ -89,11 +133,42 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     @Override
     public void onSurfaceChanged(GL10 gl, int width, int height) {
+        // Set the OpenGL viewport to fill the entire surface.
+        gl.glViewport(0, 0, width, height);
 
+        // Set the projection matrix
+        if (width > height) {
+            // Landscape
+            android.opengl.Matrix.orthoM(projectionMatrix, 0, 0,
+                    width, height, 0, -1f, 1f);
+        } else {
+            //Portrait or square
+            android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width,
+                    height, 0 , -1f, 1f);
+        }
+        //Log the SurfaceView size
+        Log.d("SurfaceView", "Width: " + width + " Height: " + height);
     }
 
     @Override
     public void onDrawFrame(GL10 gl) {
+        // calculate time between frames
+        long currentTime = System.nanoTime();
+        float deltaTime = (currentTime - lastFrameTime) / 1000000000.0f;
+        lastFrameTime = currentTime;
 
+        // Pass the projection matrix to the shader
+        glUniformMatrix4fv(gl_u_ProjectionMatrix_ptr, 1, false, this.projectionMatrix, 0);
+
+        gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
+        gl.glClear(GL10.GL_COLOR_BUFFER_BIT);
+
+        // TODO: Draw the game objects
+        // Draw the pepe
+        if (this.pepe == null) {
+            Log.e("EngineRenderer", "Pepe is null");
+            return;
+        }
+        this.pepe.update(deltaTime);
     }
 }
