@@ -8,8 +8,16 @@ public class Game {
   public Entity player;
 
   public void update(float deltaTime) {
+    // Calls the update method for each entity: Updates Position and adjusts the vertex data based
+    // on the new position
     for (Entity entity : entities) {
       entity.update(deltaTime);
+    }
+    // TODO: Physics / Interaction-Checks here
+
+    // Draw the entities
+    for (Entity entity : entities) {
+      entity.draw();
     }
   }
 
