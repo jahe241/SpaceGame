@@ -22,18 +22,20 @@ public class Entity {
   int gl_texture_ptr;
   public static final int FLOATS_PER_VERTEX = 6;
   public static final int VERTEX_PER_QUAD = 6;
-  private float x;
+  private float x; // current x position
   private float y;
+  private float destX; // destination x position
+  private float destY;
   private float width;
   private float height;
-  private float[] velocity = {0f, 0f};
+  private float speed = 500f;
   private int roationDeg = 0;
 
   private FloatBuffer vertexData;
 
   public Entity(float x, float y, float width, float height, int gl_texture_ptr) {
-    this.x = x;
-    this.y = y;
+    this.x = this.destX = x;
+    this.y = this.destY = y;
     this.width = width;
     this.height = height;
     this.gl_texture_ptr = gl_texture_ptr;
@@ -121,11 +123,35 @@ public class Entity {
     glDrawArrays(GL_TRIANGLES, 0, 6);
   }
 
+  /**
+   * Update the entity's position based on the destination
+   *
+   * @param deltaTime the time since the last update
+   */
+  private void updateDestination(float deltaTime) {
+    float dx = destX - x;
+    float dy = destY - y;
+    float distance = (float) Math.sqrt(dx * dx + dy * dy);
+
+    // Define a small threshold distance, so the entity doesn't overshoot the destination
+    // needed because of floating point precision
+    float threshold = 10f;
+
+    if (distance > threshold) {
+      float step = speed / distance * deltaTime;
+      x += dx * step;
+      y += dy * step;
+    } else {
+      // If the entity is close enough to the destination, set its position to the destination
+      x = destX;
+      y = destY;
+    }
+  }
+
   public void update(float delta) {
     // Log.d("Entity Coords", "x: " + x + " y:" + y);
     // Update the entity's position
-    this.x += this.velocity[0] * delta;
-    this.y += this.velocity[1] * delta;
+    this.updateDestination(delta);
 
     // Update the entity's vertex data
     float[] adjustedVertexData = {
@@ -180,7 +206,11 @@ public class Entity {
     float touchY = event.getY();
     Log.d("Entity", "Touch event at x: " + touchX + " y: " + touchY);
 
-    this.x = touchX;
-    this.y = touchY;
+    this.setDestination(touchX, touchY);
+  }
+
+  public void setDestination(float destX, float destY) {
+    this.destX = destX;
+    this.destY = destY;
   }
 }
