@@ -71,7 +71,7 @@ public class Entity {
 
   public void draw() {
     // Static pointer not loaded, skip draw frame
-    Log.d("Entity", "GL Pointer: " + EngineRenderer.gl_a_Position_ptr);
+    //Log.d("Entity", "GL Pointer: " + EngineRenderer.gl_a_Position_ptr);
     if (EngineRenderer.gl_a_Position_ptr == -1) {
       Log.e("Entity", "GL Pointer not set!!");
       return;
@@ -113,7 +113,7 @@ public class Entity {
     float distance = Vector2D.calculateDistance(this.x, this.y, this.destX, this.destY);
 
     // Calculate target rotation angle towards the destination point
-    float targetRotationRad = (float) Math.atan2(dy, dx);
+    float targetRotationRad = -(float) Math.atan2(dy, dx);
 
     // Define a small threshold distance, so the entity doesn't overshoot the destination
     // Needed because of floating point precision issues
@@ -128,8 +128,9 @@ public class Entity {
       // Smooth rotation towards the target
       // Calculate the shortest angular distance between the current angle and the target angle
       float angleDifference = targetRotationRad - this.rotationRad;
-      angleDifference -=
-          (float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
+      Log.d("Entity", "Angle Difference: " + Math.toDegrees(angleDifference));
+      //angleDifference -=
+          //(float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
 
       // Adjust rotation speed based on the distance and angle difference to ensure smooth turning
       // The rotation speed could be adjusted to make the turn smoother or more immediate
@@ -143,18 +144,23 @@ public class Entity {
       this.y = this.destY;
     }
 
-    // Ensure rotation is within the range [0, 2π)
-    this.rotationRad = (this.rotationRad + (float) Math.PI * 2) % ((float) Math.PI * 2);
+    // Ensure rotation is within the range [-π, π)
+    if (this.rotationRad >= Math.PI) {
+      this.rotationRad -= 2 * Math.PI;
+    } else if (this.rotationRad < -Math.PI) {
+      this.rotationRad += 2 * Math.PI;
+    }
 
     if (this.rotationRad != this.lastRotationRad) {
       Log.d("Entity", "Rotation in Radians: " + this.rotationRad);
       Log.d("Entity", "Rotation in Degrees: " + Math.toDegrees(this.rotationRad));
+      Log.d("Entity", "Destination Rotation:" + Math.toDegrees(targetRotationRad));
       this.lastRotationRad = this.rotationRad;
     }
   }
 
   public void update(float delta) {
-    Log.d("Entity", "x: " + this.x + " y:" + this.y);
+    //Log.d("Entity", "x: " + this.x + " y:" + this.y);
     // Update the entity's position
     this.updatePosition(delta);
     // Update the entity's vertex data
@@ -217,7 +223,7 @@ public class Entity {
   public void onTouch(MotionEvent event) {
     float touchX = event.getX();
     float touchY = event.getY();
-    Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
+    //Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
 
     this.setDestination(touchX, touchY);
   }
