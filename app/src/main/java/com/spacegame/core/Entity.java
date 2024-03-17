@@ -129,8 +129,8 @@ public class Entity {
       // Calculate the shortest angular distance between the current angle and the target angle
       float angleDifference = targetRotationRad - this.rotationRad;
       Log.d("Entity", "Angle Difference: " + Math.toDegrees(angleDifference));
-      //angleDifference -=
-          //(float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
+      angleDifference -=
+          (float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
 
       // Adjust rotation speed based on the distance and angle difference to ensure smooth turning
       // The rotation speed could be adjusted to make the turn smoother or more immediate
