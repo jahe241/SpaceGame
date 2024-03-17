@@ -2,11 +2,9 @@ package com.spacegame;
 
 import static com.spacegame.utils.WindowManager.setFullscreen;
 
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.spacegame.core.SpaceGLSSurfaceView;
 import com.spacegame.graphics.EngineGLSurfaceView;
 
 public class GameActivity extends AppCompatActivity {

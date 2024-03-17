@@ -1,5 +1,6 @@
 package com.spacegame.graphics;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
@@ -9,7 +10,7 @@ public class EngineGLSurfaceView extends GLSurfaceView {
 
   private final Game game = new Game();
 
-  private EngineRenderer renderer;
+  private final EngineRenderer renderer;
 
   public EngineGLSurfaceView(Context context) {
     super(context);
@@ -25,6 +26,7 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     this.requestFocus();
   }
 
+  @SuppressLint("ClickableViewAccessibility") // handle later
   @Override
   public boolean onTouchEvent(MotionEvent event) {
     game.handleTouchEvent(event);

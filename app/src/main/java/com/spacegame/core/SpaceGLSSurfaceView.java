@@ -12,8 +12,6 @@ import com.spacegame.R;
 import com.spacegame.graphics.Rect;
 import com.spacegame.graphics.ShaderHelper;
 import com.spacegame.utils.TextResourceReader;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
 

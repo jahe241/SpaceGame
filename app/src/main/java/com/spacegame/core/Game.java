@@ -4,7 +4,6 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 
 public class Game {
-  private static Game instance = null;
   public ArrayList<Entity> entities = new ArrayList<>();
   public Entity player;
 
