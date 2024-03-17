@@ -30,6 +30,7 @@ import android.util.Log;
 
 import com.spacegame.R;
 import com.spacegame.core.Entity;
+import com.spacegame.core.Game;
 import com.spacegame.utils.TextResourceReader;
 
 import java.util.Arrays;
@@ -39,7 +40,7 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class EngineRenderer implements GLSurfaceView.Renderer {
 
-  Entity pepe;
+  //  Entity pepe;
 
   public static int gl_u_ProjectionMatrix_ptr;
   public static int gl_a_Position_ptr;
@@ -47,13 +48,15 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
   private long lastFrameTime;
   private Context context;
+  private Game game;
 
   public float[] projectionMatrix = new float[16];
 
   public int program = 0;
 
-  public EngineRenderer(Context context) {
+  public EngineRenderer(Context context, Game game) {
     super();
+    this.game = game;
     this.context = context;
   }
 
@@ -113,7 +116,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       return;
     }
     Log.i("EngineRenderer", "Pepe texture loaded successfully!");
-    this.pepe = new Entity(500f, 500f, 200f, 100f, pepeTexture);
+    this.game.setPlayer(new Entity(500f, 500f, 200f, 100f, pepeTexture));
   }
 
   private int loadTexture(int resourceId) {
@@ -186,10 +189,10 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     // TODO: Draw the game objects
     // Draw the pepe
-    if (this.pepe == null) {
-      Log.e("EngineRenderer", "Pepe is null");
+    if (this.game.player == null) {
+      Log.e("EngineRenderer", "Player is null");
       return;
     }
-    this.pepe.update(deltaTime);
+    this.game.update(deltaTime);
   }
 }
