@@ -9,7 +9,9 @@ import static javax.microedition.khronos.opengles.GL10.GL_FLOAT;
 import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE0;
 import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE_2D;
 import static javax.microedition.khronos.opengles.GL10.GL_TRIANGLES;
+import static javax.microedition.khronos.opengles.GL10.GL_UNSIGNED_SHORT;
 
+import android.opengl.GLES20;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.graphics.EngineRenderer;
@@ -17,6 +19,7 @@ import com.spacegame.utils.Vector2D;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
+import java.nio.ShortBuffer;
 
 public class Entity {
 
@@ -30,9 +33,11 @@ public class Entity {
   private float width;
   private float height;
   private float speed = 1000f;
-  private float rotationRad = 2f; // storing it in radians reduces the need for frequent conversion
-
+  private float rotationRad = 0f; // storing it in radians reduces the need for frequent conversion
+  private float lastRotationRad = 0f;
   private FloatBuffer vertexData;
+  private short[] indices;
+  private ShortBuffer indexBuffer;
 
   public Entity(float x, float y, float width, float height, int gl_texture_ptr) {
     this.x = this.destX = x;
@@ -41,56 +46,27 @@ public class Entity {
     this.height = height;
     this.gl_texture_ptr = gl_texture_ptr;
 
-    // Initialize the vertex data
-    float[] initialVertexData = {
-      // Triangle 1
-      x - width / 2,
-      y - height / 2,
-      0f,
-      1f,
-      0f,
-      0f,
-      x + width / 2,
-      y - height / 2,
-      0f,
-      1f,
-      1f,
-      0f,
-      x - width / 2,
-      y + height / 2,
-      0f,
-      1f,
-      0f,
-      1f,
-      // Triangle 2
-      x - width / 2,
-      y + height / 2,
-      0f,
-      1f,
-      0f,
-      1f,
-      x + width / 2,
-      y - height / 2,
-      0f,
-      1f,
-      1f,
-      0f,
-      x + width / 2,
-      y + height / 2,
-      0f,
-      1f,
-      1f,
-      1f
-    };
+    // Allocate buffer for vertex data (4 vertices per quad * 6 floats per vertex * 4 bytes per
+    // float
     this.vertexData =
-        ByteBuffer.allocateDirect(initialVertexData.length * 4)
-            .order(ByteOrder.nativeOrder())
-            .asFloatBuffer();
-    // Set vertex data
+        ByteBuffer.allocateDirect(4 * 6 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
 
-    vertexData.clear();
-    vertexData.put(initialVertexData);
-    vertexData.position(0);
+    // Set vertex data
+    this.updateVertexData();
+
+    // set the indices array
+    this.indices =
+        new short[] {
+          0, 1, 2, // First triangle (bottom-left, bottom-right, top-left)
+          2, 1, 3 // Second triangle (top-left, bottom-right, top-right)
+        };
+
+    // Allocate buffer for indices
+    ByteBuffer ibb = ByteBuffer.allocateDirect(this.indices.length * 2); // short is 2 bytes
+    ibb.order(ByteOrder.nativeOrder());
+    this.indexBuffer = ibb.asShortBuffer();
+    this.indexBuffer.put(this.indices);
+    this.indexBuffer.position(0);
   }
 
   public void draw() {
@@ -120,8 +96,9 @@ public class Entity {
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, this.gl_texture_ptr);
 
-    // Draw the all triangles
-    glDrawArrays(GL_TRIANGLES, 0, 6);
+    // Draw the rectangles using the index buffer
+    // Note: Using GL_UNSIGNED_SHORT because our indices are stored as short
+    GLES20.glDrawElements(GL_TRIANGLES, indices.length, GL_UNSIGNED_SHORT, indexBuffer);
   }
 
   /**
@@ -150,9 +127,9 @@ public class Entity {
 
       // Smooth rotation towards the target
       // Calculate the shortest angular distance between the current angle and the target angle
-      float angleDifference =
-          (targetRotationRad - this.rotationRad + (float) Math.PI * 3) % ((float) Math.PI * 2)
-              - (float) Math.PI;
+      float angleDifference = targetRotationRad - this.rotationRad;
+      angleDifference -=
+          (float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
 
       // Adjust rotation speed based on the distance and angle difference to ensure smooth turning
       // The rotation speed could be adjusted to make the turn smoother or more immediate
@@ -168,6 +145,12 @@ public class Entity {
 
     // Ensure rotation is within the range [0, 2π)
     this.rotationRad = (this.rotationRad + (float) Math.PI * 2) % ((float) Math.PI * 2);
+
+    if (this.rotationRad != this.lastRotationRad) {
+      Log.d("Entity", "Rotation in Radians: " + this.rotationRad);
+      Log.d("Entity", "Rotation in Degrees: " + Math.toDegrees(this.rotationRad));
+      this.lastRotationRad = this.rotationRad;
+    }
   }
 
   public void update(float delta) {
@@ -192,48 +175,37 @@ public class Entity {
 
     // Adjust vertex data based on current position, size, and rotation
     float[] adjustedVertexData = {
-      // Triangle 1
-      x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X for bottom-left vertex
-      y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y for bottom-left vertex
+      // Bottom-left vertex
+      x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
+      y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
       0f,
       1f,
       0f,
       0f, // Texture coordinates remain unchanged
-      x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X for bottom-right vertex
-      y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y for bottom-right vertex
+
+      // Bottom-right vertex
+      x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
+      y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
       0f,
       1f,
       1f,
       0f, // Texture coordinates remain unchanged
-      x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X for top-left vertex
-      y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y for top-left vertex
+
+      // Top-left vertex
+      x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
+      y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
       0f,
       1f,
       0f,
       1f, // Texture coordinates remain unchanged
-      // Triangle 2
-      x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X for top-left vertex (repeated)
-      y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y for top-left vertex (repeated)
+
+      // Top-right vertex
+      x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
+      y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
       0f,
       1f,
-      0f,
+      1f,
       1f, // Texture coordinates remain unchanged
-      x
-          + cosTheta * width / 2
-          + sinTheta * height / 2, // Adjusted X for bottom-right vertex (repeated)
-      y
-          + sinTheta * width / 2
-          - cosTheta * height / 2, // Adjusted Y for bottom-right vertex (repeated)
-      0f,
-      1f,
-      1f,
-      0f, // Texture coordinates remain unchanged
-      x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X for top-right vertex
-      y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y for top-right vertex
-      0f,
-      1f,
-      1f,
-      1f // Texture coordinates remain unchanged
     };
 
     // Reset the buffer to write the new vertex data
