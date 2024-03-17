@@ -9,11 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.spacegame.core.SpaceGLSSurfaceView;
 import com.spacegame.graphics.EngineGLSurfaceView;
 
-
 public class GameActivity extends AppCompatActivity {
 
   private EngineGLSurfaceView surfaceView;
-
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -21,7 +19,7 @@ public class GameActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
 
     surfaceView = new EngineGLSurfaceView(this);
-    //surfaceView.context = this;
+    // surfaceView.context = this;
     setContentView(surfaceView);
   }
 
@@ -33,8 +31,6 @@ public class GameActivity extends AppCompatActivity {
 
   @Override
   public void onPause() {
-    super.onPause();  // Always call the superclass method first
+    super.onPause(); // Always call the superclass method first
   }
-
-
 }

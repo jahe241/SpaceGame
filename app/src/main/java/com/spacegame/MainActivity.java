@@ -3,8 +3,8 @@ package com.spacegame;
 import static com.spacegame.utils.WindowManager.setFullscreen;
 
 import android.content.Intent;
-import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -15,10 +15,12 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
 
     // Registering Buttons
-    findViewById(R.id.btnStart).setOnClickListener(v -> {
-      // Start the game
-      startActivity(new Intent(this, GameActivity.class));
-    });
+    findViewById(R.id.btnStart)
+        .setOnClickListener(
+            v -> {
+              // Start the game
+              startActivity(new Intent(this, GameActivity.class));
+            });
   }
 
   @Override

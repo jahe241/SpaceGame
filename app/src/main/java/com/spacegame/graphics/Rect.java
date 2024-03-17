@@ -34,28 +34,27 @@ public class Rect {
   private float rotationAngle = 0f;
   private float currentAngle = 0f; // Angle in degrees
 
-
   // Define the vertices for two triangles that make up a rectangle
   // Add texture coordinates for each vertex
   private static final float[] VERTEX_DATA = {
-      // Triangle 1
-      -0.5f, -0.5f, 0f, 1f, 0.0f, 1.0f,
-      0.5f, -0.5f, 0f, 1f, 1.0f, 1.0f,
-      -0.5f, 0.5f, 0f, 1f, 0.0f, 0.0f,
-      // Triangle 2
-      -0.5f, 0.5f, 0f, 1f, 0.0f, 0.0f,
-      0.5f, -0.5f, 0f, 1f, 1.0f, 1.0f,
-      0.5f, 0.5f, 0f, 1f, 1.0f, 0.0f
+    // Triangle 1
+    -0.5f, -0.5f, 0f, 1f, 0.0f, 1.0f,
+    0.5f, -0.5f, 0f, 1f, 1.0f, 1.0f,
+    -0.5f, 0.5f, 0f, 1f, 0.0f, 0.0f,
+    // Triangle 2
+    -0.5f, 0.5f, 0f, 1f, 0.0f, 0.0f,
+    0.5f, -0.5f, 0f, 1f, 1.0f, 1.0f,
+    0.5f, 0.5f, 0f, 1f, 1.0f, 0.0f
 
-          /*
-      -0.5f, -0.5f, 0.0f, 1.0f,
-      0.5f, -0.5f, 1.0f, 1.0f,
-      -0.5f, 0.5f, 0.0f, 0.0f,
-      // Triangle 2
-      -0.5f, 0.5f, 0.0f, 0.0f,
-      0.5f, -0.5f, 1.0f, 1.0f,
-      0.5f, 0.5f, 1.0f, 0.0f
-      */
+    /*
+    -0.5f, -0.5f, 0.0f, 1.0f,
+    0.5f, -0.5f, 1.0f, 1.0f,
+    -0.5f, 0.5f, 0.0f, 0.0f,
+    // Triangle 2
+    -0.5f, 0.5f, 0.0f, 0.0f,
+    0.5f, -0.5f, 1.0f, 1.0f,
+    0.5f, 0.5f, 1.0f, 0.0f
+    */
   };
 
   public float getX() {
@@ -71,10 +70,10 @@ public class Rect {
     this.height = height;
     this.x = x;
     this.y = y;
-    vertexData = ByteBuffer
-        .allocateDirect(VERTEX_DATA.length * BYTES_PER_FLOAT)
-        .order(ByteOrder.nativeOrder())
-        .asFloatBuffer();
+    vertexData =
+        ByteBuffer.allocateDirect(VERTEX_DATA.length * BYTES_PER_FLOAT)
+            .order(ByteOrder.nativeOrder())
+            .asFloatBuffer();
 
     setVertexData(x, y, width, height);
   }
@@ -86,24 +85,54 @@ public class Rect {
 
   public void setVertexData(float x, float y, float width, float height) {
     float[] adjustedVertexData = {
-        // Triangle 1
-        x - width / 2, y - height / 2, 0f, 1f, 0f, 0f,
-        x + width / 2, y - height / 2, 0f, 1f, 1f, 0f,
-        x - width / 2, y + height / 2, 0f, 1f, 0f, 1f,
-        // Triangle 2
-        x - width / 2, y + height / 2, 0f, 1f, 0f, 1f,
-        x + width / 2, y - height / 2, 0f, 1f, 1f, 0f,
-        x + width / 2, y + height / 2, 0f, 1f, 1f, 1f
-            /*
-        // Triangle 1
-        x - width / 2, y - height / 2, 0.0f, 0.0f,
-        x + width / 2, y - height / 2, 1f,  0.0f,
-        x - width / 2, y + height / 2, 1f, 1.0f,
-        // Triangle 2
-        x - width / 2, y + height / 2, 1f, 1.0f,
-        x + width / 2, y - height / 2, 1f, 0.0f,
-        x + width / 2, y + height / 2, 1f, 1.0f
-             */
+      // Triangle 1
+      x - width / 2,
+      y - height / 2,
+      0f,
+      1f,
+      0f,
+      0f,
+      x + width / 2,
+      y - height / 2,
+      0f,
+      1f,
+      1f,
+      0f,
+      x - width / 2,
+      y + height / 2,
+      0f,
+      1f,
+      0f,
+      1f,
+      // Triangle 2
+      x - width / 2,
+      y + height / 2,
+      0f,
+      1f,
+      0f,
+      1f,
+      x + width / 2,
+      y - height / 2,
+      0f,
+      1f,
+      1f,
+      0f,
+      x + width / 2,
+      y + height / 2,
+      0f,
+      1f,
+      1f,
+      1f
+      /*
+      // Triangle 1
+      x - width / 2, y - height / 2, 0.0f, 0.0f,
+      x + width / 2, y - height / 2, 1f,  0.0f,
+      x - width / 2, y + height / 2, 1f, 1.0f,
+      // Triangle 2
+      x - width / 2, y + height / 2, 1f, 1.0f,
+      x + width / 2, y - height / 2, 1f, 0.0f,
+      x + width / 2, y + height / 2, 1f, 1.0f
+           */
 
     };
 
@@ -115,7 +144,6 @@ public class Rect {
   // Add texture coordinates for each vertex
   public void draw(int aPositionLocation, int aTextureCoordinatesLocation, int texture) {
     Log.d("PLAYER COORDS", "x: " + x + " y:" + y);
-
 
     vertexData.position(0);
     glVertexAttribPointer(aPositionLocation, 4, GL_FLOAT, false, 24, vertexData);
@@ -148,10 +176,10 @@ public class Rect {
     for (int i = 0; i < vertexData.capacity(); i += 6) {
       updatedVertexData[i] = vertexData.get(i) + dx; // Update x coordinate
       updatedVertexData[i + 1] = vertexData.get(i + 1) + dy; // Update y coordinate
-      updatedVertexData[i + 2] = vertexData.get(
-          i + 2); // Copy over the existing texture coordinates
-      updatedVertexData[i + 3] = vertexData.get(
-          i + 3); // Copy over the existing texture coordinates
+      updatedVertexData[i + 2] =
+          vertexData.get(i + 2); // Copy over the existing texture coordinates
+      updatedVertexData[i + 3] =
+          vertexData.get(i + 3); // Copy over the existing texture coordinates
     }
 
     // Update the vertex data
@@ -173,7 +201,8 @@ public class Rect {
     float targetAngle = (float) Math.toDegrees(Math.atan2(dy, dx));
 
     // Determine the rotation necessary from the current angle to the target angle
-    // This could be optimized based on the direction of rotation needed (clockwise or counterclockwise)
+    // This could be optimized based on the direction of rotation needed (clockwise or
+    // counterclockwise)
     float angleDifference = targetAngle - this.currentAngle;
     // Normalize the angle difference to be within -180 to 180 for proper rotation
     while (angleDifference > 180) {
@@ -183,7 +212,8 @@ public class Rect {
       angleDifference += 360;
     }
 
-    // Apply rotation speed limit here if necessary (e.g., limit how fast the rectangle can rotate per time step)
+    // Apply rotation speed limit here if necessary (e.g., limit how fast the rectangle can rotate
+    // per time step)
     float rotationSpeed = 60f; // degrees per second, adjust as needed
     float angleChange = rotationSpeed * deltaTime;
     if (Math.abs(angleDifference) < angleChange) {
@@ -205,7 +235,6 @@ public class Rect {
     // Conversion from degrees to radians for math functions
     float angleInRadians = (float) Math.toRadians(angle);
 
-
     float[] rotatedVertexData = new float[VERTEX_DATA.length];
     for (int i = 0; i < VERTEX_DATA.length; i += 6) {
       // Apply rotation around the center (0, 0) then translate
@@ -213,11 +242,13 @@ public class Rect {
       float originalY = VERTEX_DATA[i + 1] * height;
 
       rotatedVertexData[i] =
-          x + (originalX * (float) Math.cos(angleInRadians) - originalY * (float) Math.sin(
-              angleInRadians));
+          x
+              + (originalX * (float) Math.cos(angleInRadians)
+                  - originalY * (float) Math.sin(angleInRadians));
       rotatedVertexData[i + 1] =
-          y + (originalX * (float) Math.sin(angleInRadians) + originalY * (float) Math.cos(
-              angleInRadians));
+          y
+              + (originalX * (float) Math.sin(angleInRadians)
+                  + originalY * (float) Math.cos(angleInRadians));
       rotatedVertexData[i + 2] = VERTEX_DATA[i + 2];
       rotatedVertexData[i + 3] = VERTEX_DATA[i + 3];
       rotatedVertexData[i + 4] = VERTEX_DATA[i + 4]; // Copy texture coordinates
@@ -229,9 +260,7 @@ public class Rect {
     vertexData.position(0);
   }
 
-
   public void setColor(float r, float g, float b, float a, int uColorLocation) {
     glUniform4f(uColorLocation, r, g, b, a);
   }
-
 }

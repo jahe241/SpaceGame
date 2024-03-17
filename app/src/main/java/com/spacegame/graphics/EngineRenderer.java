@@ -23,18 +23,13 @@ import static android.opengl.GLES20.glUseProgram;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Shader;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.Log;
-
 import com.spacegame.R;
 import com.spacegame.core.Entity;
 import com.spacegame.core.Game;
 import com.spacegame.utils.TextResourceReader;
-
-import java.util.Arrays;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 

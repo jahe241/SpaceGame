@@ -13,13 +13,13 @@ public class WindowManager {
       // For API level 30 and above
       WindowInsetsController controller = view.getWindowInsetsController();
       if (controller != null) {
-        controller.hide(
-            WindowInsets.Type.navigationBars() | WindowInsets.Type.statusBars());
+        controller.hide(WindowInsets.Type.navigationBars() | WindowInsets.Type.statusBars());
         controller.setSystemBarsBehavior(
             WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE);
       }
       // We need this, for the SurfaceView to be fullscreen too.
-      window.setFlags(android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+      window.setFlags(
+          android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
           android.view.WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
     } else {
       // For API level 16 to 29

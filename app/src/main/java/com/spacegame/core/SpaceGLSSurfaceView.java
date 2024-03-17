@@ -55,8 +55,8 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
 
     Log.d("Touch", "X: " + x + " Y: " + y);
 
-    //float normalizedX = (x / getWidth()) * 2 - 1;
-    //float normalizedY = (y / getHeight()) * 2 - 1; // Invert Y
+    // float normalizedX = (x / getWidth()) * 2 - 1;
+    // float normalizedY = (y / getHeight()) * 2 - 1; // Invert Y
 
     float normalizedX = x;
     float normalizedY = y;
@@ -81,13 +81,14 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
         // A pressed gesture has started
         goToTargetX = normalizedX;
         goToTargetY = normalizedY;
-//        rect.setDestination(normalizedX, normalizedY);
+        //        rect.setDestination(normalizedX, normalizedY);
         break;
 
-      // Handle other events as needed...
+        // Handle other events as needed...
 
     }
-    Log.d("Touch Thread name:" + Thread.currentThread().getName(),
+    Log.d(
+        "Touch Thread name:" + Thread.currentThread().getName(),
         "GoToX: " + normalizedX + " GoToY: " + normalizedY);
     return false;
   }
@@ -123,8 +124,8 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       final BitmapFactory.Options options = new BitmapFactory.Options();
       options.inScaled = false;
 
-      final Bitmap bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId,
-          options);
+      final Bitmap bitmap =
+          BitmapFactory.decodeResource(context.getResources(), resourceId, options);
 
       if (bitmap == null) {
         glDeleteTextures(1, textureObjectIds, 0);
@@ -148,14 +149,14 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
     }
 
     public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-      Log.d("DEBUG",
-          "onSurfaceCreated() called with: gl = [" + gl + "], config = [" + config + "]");
+      Log.d(
+          "DEBUG", "onSurfaceCreated() called with: gl = [" + gl + "], config = [" + config + "]");
       gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
-      String vertexShaderSource = TextResourceReader.readTextFileFromResource(context,
-          R.raw.simple_vertex_shader);
-      String fragmentShaderSource = TextResourceReader.readTextFileFromResource(context,
-          R.raw.simple_fragment_shader);
+      String vertexShaderSource =
+          TextResourceReader.readTextFileFromResource(context, R.raw.simple_vertex_shader);
+      String fragmentShaderSource =
+          TextResourceReader.readTextFileFromResource(context, R.raw.simple_fragment_shader);
       Log.d("DEBUG", "Vertex shader: " + vertexShaderSource);
       int vertexShader = ShaderHelper.compileVertexShader(vertexShaderSource);
       Log.d("DEBUG", "Vertex shader: " + vertexShader);
@@ -182,22 +183,28 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       gl.glViewport(0, 0, width, height);
 
       // Set up an orthographic projection
-      float aspectRatio = width > height ?
-          (float) width / (float) height :
-          (float) height / (float) width;
-//    float ZOOM_FACTOR = 8.0f; // Increase this value to zoom out
+      float aspectRatio =
+          width > height ? (float) width / (float) height : (float) height / (float) width;
+      //    float ZOOM_FACTOR = 8.0f; // Increase this value to zoom out
       if (width > height) {
         // Landscape
-        android.opengl.Matrix.orthoM(projectionMatrix, 0, -aspectRatio * ZOOM_FACTOR,
-            aspectRatio * ZOOM_FACTOR, -1f * ZOOM_FACTOR, ZOOM_FACTOR, -1f, 1f);
+        android.opengl.Matrix.orthoM(
+            projectionMatrix,
+            0,
+            -aspectRatio * ZOOM_FACTOR,
+            aspectRatio * ZOOM_FACTOR,
+            -1f * ZOOM_FACTOR,
+            ZOOM_FACTOR,
+            -1f,
+            1f);
       } else {
-         //Portrait or square
-        android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width * ZOOM_FACTOR,
-                height * ZOOM_FACTOR, 0 , -1f, 1f);
+        // Portrait or square
+        android.opengl.Matrix.orthoM(
+            projectionMatrix, 0, 0, width * ZOOM_FACTOR, height * ZOOM_FACTOR, 0, -1f, 1f);
         Log.d("ProjectionMatrix", "width: " + width + " height: " + height);
         Log.d("ProjectionMatrix", Arrays.toString(this.projectionMatrix));
       }
-       //Log the SurfaceView size
+      // Log the SurfaceView size
       Log.d("SurfaceView", "Width: " + width + " Height: " + height);
     }
 
@@ -216,7 +223,8 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       int aTextureCoordinatesLocation = glGetAttribLocation(program, "a_TexCoordinate");
       rect.draw(aPositionLocation, aTextureCoordinatesLocation, pepeTexture);
 
-      Log.d("Draw, Thread name:" + Thread.currentThread().getName(),
+      Log.d(
+          "Draw, Thread name:" + Thread.currentThread().getName(),
           "GoToX: " + goToTargetX + " GoToY: " + goToTargetY);
       rect.goTo(goToTargetX, goToTargetY, deltaTime);
     }

@@ -3,9 +3,7 @@ package com.spacegame.graphics;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
 import android.view.MotionEvent;
-
 import com.spacegame.core.Game;
-import com.spacegame.core.SpaceGLSSurfaceView;
 
 public class EngineGLSurfaceView extends GLSurfaceView {
 

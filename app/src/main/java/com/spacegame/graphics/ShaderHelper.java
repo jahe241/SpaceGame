@@ -30,9 +30,13 @@ public class ShaderHelper {
     final int[] compileStatus = new int[1];
     // Check if the compilation was successful
     GLES20.glGetShaderiv(shaderObjectId, GLES20.GL_COMPILE_STATUS, compileStatus, 0);
-    Log.v(TAG,
-        "Results of compiling source:" + "\n" + shaderCode + "\n:" + GLES20.glGetShaderInfoLog(
-            shaderObjectId));
+    Log.v(
+        TAG,
+        "Results of compiling source:"
+            + "\n"
+            + shaderCode
+            + "\n:"
+            + GLES20.glGetShaderInfoLog(shaderObjectId));
 
     if (compileStatus[0] == 0) {
       GLES20.glDeleteShader(shaderObjectId);
@@ -76,8 +80,12 @@ public class ShaderHelper {
     GLES20.glValidateProgram(programObjectId);
     final int[] validateStatus = new int[1];
     GLES20.glGetProgramiv(programObjectId, GLES20.GL_VALIDATE_STATUS, validateStatus, 0);
-    Log.v(TAG, "Results of validating program: " + validateStatus[0] + "\nLog:"
-        + GLES20.glGetProgramInfoLog(programObjectId));
+    Log.v(
+        TAG,
+        "Results of validating program: "
+            + validateStatus[0]
+            + "\nLog:"
+            + GLES20.glGetProgramInfoLog(programObjectId));
     return validateStatus[0] != 0;
   }
 }
