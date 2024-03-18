@@ -151,9 +151,9 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 
       String vertexShaderSource =
-          TextResourceReader.readTextFileFromResource(context, R.raw.simple_vertex_shader);
+          TextResourceReader.readTextFileFromResource(context, R.raw.vertex_shader);
       String fragmentShaderSource =
-          TextResourceReader.readTextFileFromResource(context, R.raw.simple_fragment_shader);
+          TextResourceReader.readTextFileFromResource(context, R.raw.fragment_shader);
       Log.d("DEBUG", "Vertex shader: " + vertexShaderSource);
       int vertexShader = ShaderHelper.compileVertexShader(vertexShaderSource);
       Log.d("DEBUG", "Vertex shader: " + vertexShader);

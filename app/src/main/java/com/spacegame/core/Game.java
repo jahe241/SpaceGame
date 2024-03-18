@@ -16,9 +16,9 @@ public class Game {
     // TODO: Physics / Interaction-Checks here
 
     // Draw the entities
-    for (TextureEntity textureEntity : entities) {
-      textureEntity.draw();
-    }
+    //    for (TextureEntity textureEntity : entities) {
+    //      textureEntity.draw();
+    //    }
   }
 
   public void setPlayer(Player player) {

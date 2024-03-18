@@ -13,40 +13,35 @@ abstract class Quad {
   int BYTES_PER_FLOAT = 4;
   float x; // current x position
   float y; // current y position
-  FloatBuffer vertexData;
   short[] indices;
   ShortBuffer indexBuffer;
   float rotationRad = 0f; // storing it in radians reduces the need for frequent conversion
 
+  // REWRITE
+  float[] position = {0, 0, 0}; // Quad positions (x, y, z), center of the quad
+  float positionData[] = { // Quad corners, dummy data - ignore for now, just for allocating
+    // X    Y     Z
+    -0.5f, -0.5f, 0.0f, // Bottom-left
+    0.5f, -0.5f, 0.0f, // Bottom-right
+    -0.5f, 0.5f, 0.0f, // Top-left
+    0.5f, 0.5f, 0.0f // Top-right
+  };
+
   Quad(float x, float y, float width, float height) {
-    this.x = x;
-    this.y = y;
+    this.positionData[0] = this.x = x;
+    this.positionData[1] = this.y = y;
     this.width = width;
     this.height = height;
 
-    // Allocate buffer for vertex data (4 vertices per quad * 6 floats per vertex * 4 bytes per
-    // float
-    this.vertexData =
-        ByteBuffer.allocateDirect(VERTEX_PER_QUAD * FLOATS_PER_VERTEX * BYTES_PER_FLOAT)
-            .order(ByteOrder.nativeOrder())
-            .asFloatBuffer();
-
     // Set vertex data
-    this.updateVertexData();
+    this.updatePositionData();
 
-    // set the indices array
+    // set the indices array FIXME: most likely not needed anymore
     this.indices =
         new short[] {
           0, 1, 2, // First triangle (bottom-left, bottom-right, top-left)
           2, 1, 3 // Second triangle (top-left, bottom-right, top-right)
         };
-
-    // Allocate buffer for indices
-    ByteBuffer ibb = ByteBuffer.allocateDirect(this.indices.length * 2); // short is 2 bytes
-    ibb.order(ByteOrder.nativeOrder());
-    this.indexBuffer = ibb.asShortBuffer();
-    this.indexBuffer.put(this.indices);
-    this.indexBuffer.position(0);
   }
 
   /**
@@ -56,53 +51,80 @@ abstract class Quad {
    * sets texture coordinates for each vertex. These are static and do not change with the entity's
    * transformation.
    */
-  void updateVertexData() {
+  //  void updateVertexData() {
+  //    // Calculate the sine and cosine of the rotation angle for efficient use in vertex rotation
+  //    float cosTheta = (float) Math.cos(rotationRad);
+  //    float sinTheta = (float) Math.sin(rotationRad);
+  //
+  //    // Adjust vertex data based on current position, size, and rotation
+  //    float[] adjustedVertexData = {
+  //      // Bottom-left vertex
+  //      x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
+  //      y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
+  //      0f,
+  //      1f,
+  //      0f,
+  //
+  //      // Bottom-right vertex
+  //      x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
+  //      y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
+  //      0f,
+  //      1f,
+  //      1f,
+  //
+  //      // Top-left vertex
+  //      x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
+  //      y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
+  //      0f,
+  //      1f,
+  //      0f,
+  //
+  //      // Top-right vertex
+  //      x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
+  //      y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
+  //      0f,
+  //      1f,
+  //      1f,
+  //    };
+  //
+  //    // Reset the buffer to write the new vertex data
+  //    vertexData.clear();
+  //    vertexData.put(adjustedVertexData);
+  //    vertexData.position(0);
+  //  }
+
+  /**
+   * Updates the entity's positionData Array to reflect its current position, orientation, and size.
+   */
+  void updatePositionData() {
     // Calculate the sine and cosine of the rotation angle for efficient use in vertex rotation
     float cosTheta = (float) Math.cos(rotationRad);
     float sinTheta = (float) Math.sin(rotationRad);
+    float z = this.position[2];
+    positionData =
+        new float[] {
 
-    // Adjust vertex data based on current position, size, and rotation
-    float[] adjustedVertexData = {
-      // Bottom-left vertex
-      x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
-      y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
-      0f,
-      1f,
-      0f,
-      0f, // 0 Since we don't use a texture
+          // Bottom-left corner
+          x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
+          y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
+          z,
 
-      // Bottom-right vertex
-      x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
-      y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
-      0f,
-      1f,
-      1f,
-      0f, // 0
+          // Bottom-right corner
+          x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
+          y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
+          z,
 
-      // Top-left vertex
-      x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
-      y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
-      0f,
-      1f,
-      0f,
-      0f, // 0
+          // Top-left corner
+          x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
+          y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
+          z,
 
-      // Top-right vertex
-      x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
-      y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
-      0f,
-      1f,
-      1f,
-      0f, // 0
-    };
-
-    // Reset the buffer to write the new vertex data
-    vertexData.clear();
-    vertexData.put(adjustedVertexData);
-    vertexData.position(0);
+          // Top-right corner
+          x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
+          y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
+          z,
+        };
   }
-
-  public void draw() {}
 
   public float getWidth() {
     return width;
@@ -140,7 +162,25 @@ abstract class Quad {
     return rotationRad;
   }
 
+  public float getRotationDeg() {
+    return (float) Math.toDegrees(rotationRad);
+  }
+
   public void setRotationRad(float rotationRad) {
     this.rotationRad = rotationRad;
   }
+
+  public void setRotationDeg(float rotationDeg) {
+    this.rotationRad = (float) Math.toRadians(rotationDeg);
+  }
+
+  public float[] getPositionData() {
+    return positionData;
+  }
+
+  public short[] getIndices() {
+    return indices;
+  }
+
+  protected abstract void updateauxData();
 }
