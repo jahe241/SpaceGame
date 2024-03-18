@@ -1,24 +1,6 @@
 package com.spacegame.graphics;
 
-import static android.opengl.GLES20.GL_BLEND;
-import static android.opengl.GLES20.GL_LINEAR;
-import static android.opengl.GLES20.GL_LINEAR_MIPMAP_LINEAR;
-import static android.opengl.GLES20.GL_ONE_MINUS_SRC_ALPHA;
-import static android.opengl.GLES20.GL_SRC_ALPHA;
-import static android.opengl.GLES20.GL_TEXTURE_2D;
-import static android.opengl.GLES20.GL_TEXTURE_MAG_FILTER;
-import static android.opengl.GLES20.GL_TEXTURE_MIN_FILTER;
-import static android.opengl.GLES20.glBindTexture;
-import static android.opengl.GLES20.glBlendFunc;
-import static android.opengl.GLES20.glDeleteTextures;
-import static android.opengl.GLES20.glEnable;
-import static android.opengl.GLES20.glGenTextures;
-import static android.opengl.GLES20.glGenerateMipmap;
-import static android.opengl.GLES20.glGetAttribLocation;
-import static android.opengl.GLES20.glGetUniformLocation;
-import static android.opengl.GLES20.glTexParameteri;
-import static android.opengl.GLES20.glUniformMatrix4fv;
-import static android.opengl.GLES20.glUseProgram;
+import static android.opengl.GLES20.*;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -28,7 +10,7 @@ import android.opengl.GLUtils;
 import android.util.Log;
 
 import com.spacegame.R;
-import com.spacegame.core.Entity;
+import com.spacegame.core.TextureEntity;
 import com.spacegame.core.Game;
 import com.spacegame.utils.TextResourceReader;
 
@@ -113,7 +95,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       return;
     }
     Log.i("EngineRenderer", "Pepe texture loaded successfully!");
-    this.game.setPlayer(new Entity(500f, 500f, 200f, 100f, pepeTexture));
+    this.game.setPlayer(new TextureEntity(500f, 500f, 200f, 100f, pepeTexture));
   }
 
   private int loadTexture(int resourceId) {

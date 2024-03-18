@@ -1,15 +1,6 @@
 package com.spacegame.core;
 
-import static android.opengl.GLES20.glActiveTexture;
-import static android.opengl.GLES20.glBindTexture;
-import static android.opengl.GLES20.glDrawArrays;
-import static android.opengl.GLES20.glEnableVertexAttribArray;
-import static android.opengl.GLES20.glVertexAttribPointer;
-import static javax.microedition.khronos.opengles.GL10.GL_FLOAT;
-import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE0;
-import static javax.microedition.khronos.opengles.GL10.GL_TEXTURE_2D;
-import static javax.microedition.khronos.opengles.GL10.GL_TRIANGLES;
-import static javax.microedition.khronos.opengles.GL10.GL_UNSIGNED_SHORT;
+import static android.opengl.GLES20.*;
 
 import android.opengl.GLES20;
 import android.util.Log;
@@ -21,17 +12,11 @@ import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 
-public class Entity {
+public class TextureEntity extends Quad {
 
   int gl_texture_ptr;
-  public static final int FLOATS_PER_VERTEX = 6;
-  public static final int VERTEX_PER_QUAD = 6;
-  private float x; // current x position
-  private float y;
   private float destX; // destination x position
   private float destY;
-  private float width;
-  private float height;
   private float speed = 1000f;
   private float rotationRad = 0f; // storing it in radians reduces the need for frequent conversion
   private float lastRotationRad = 0f;
@@ -39,11 +24,10 @@ public class Entity {
   private short[] indices;
   private ShortBuffer indexBuffer;
 
-  public Entity(float x, float y, float width, float height, int gl_texture_ptr) {
-    this.x = this.destX = x;
-    this.y = this.destY = y;
-    this.width = width;
-    this.height = height;
+  public TextureEntity(float x, float y, float width, float height, int gl_texture_ptr) {
+    super(x, y, width, height);
+    this.destX = x;
+    this.destY = y;
     this.gl_texture_ptr = gl_texture_ptr;
 
     // Allocate buffer for vertex data (4 vertices per quad * 6 floats per vertex * 4 bytes per
@@ -71,7 +55,7 @@ public class Entity {
 
   public void draw() {
     // Static pointer not loaded, skip draw frame
-    //Log.d("Entity", "GL Pointer: " + EngineRenderer.gl_a_Position_ptr);
+    // Log.d("Entity", "GL Pointer: " + EngineRenderer.gl_a_Position_ptr);
     if (EngineRenderer.gl_a_Position_ptr == -1) {
       Log.e("Entity", "GL Pointer not set!!");
       return;
@@ -129,8 +113,8 @@ public class Entity {
       // Calculate the shortest angular distance between the current angle and the target angle
       float angleDifference = targetRotationRad - this.rotationRad;
       Log.d("Entity", "Angle Difference: " + Math.toDegrees(angleDifference));
-      //angleDifference -=
-          //(float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
+      // angleDifference -=
+      // (float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
 
       // Adjust rotation speed based on the distance and angle difference to ensure smooth turning
       // The rotation speed could be adjusted to make the turn smoother or more immediate
@@ -160,7 +144,7 @@ public class Entity {
   }
 
   public void update(float delta) {
-    //Log.d("Entity", "x: " + this.x + " y:" + this.y);
+    // Log.d("Entity", "x: " + this.x + " y:" + this.y);
     // Update the entity's position
     this.updatePosition(delta);
     // Update the entity's vertex data
@@ -223,7 +207,7 @@ public class Entity {
   public void onTouch(MotionEvent event) {
     float touchX = event.getX();
     float touchY = event.getY();
-    //Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
+    // Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
 
     this.setDestination(touchX, touchY);
   }
