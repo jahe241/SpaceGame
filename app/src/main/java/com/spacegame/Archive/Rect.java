@@ -1,4 +1,4 @@
-package com.spacegame.graphics;
+package com.spacegame.Archive;
 
 import static android.opengl.GLES10.glActiveTexture;
 import static android.opengl.GLES10.glBindTexture;

@@ -1,4 +1,4 @@
-package com.spacegame.core;
+package com.spacegame.Archive;
 
 import static android.opengl.GLES20.*;
 
@@ -9,7 +9,6 @@ import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.Log;
 import com.spacegame.R;
-import com.spacegame.graphics.Rect;
 import com.spacegame.graphics.ShaderHelper;
 import com.spacegame.utils.TextResourceReader;
 import java.nio.FloatBuffer;
