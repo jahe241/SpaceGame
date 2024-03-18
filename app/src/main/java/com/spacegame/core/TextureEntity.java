@@ -7,52 +7,23 @@ import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.graphics.EngineRenderer;
 import com.spacegame.utils.Vector2D;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
-import java.nio.ShortBuffer;
 
 public class TextureEntity extends Quad {
 
   int gl_texture_ptr;
   private float destX; // destination x position
-  private float destY;
+  private float destY; // destination y position
   private float speed = 1000f;
-  private float rotationRad = 0f; // storing it in radians reduces the need for frequent conversion
   private float lastRotationRad = 0f;
-  private FloatBuffer vertexData;
-  private short[] indices;
-  private ShortBuffer indexBuffer;
 
   public TextureEntity(float x, float y, float width, float height, int gl_texture_ptr) {
     super(x, y, width, height);
     this.destX = x;
     this.destY = y;
     this.gl_texture_ptr = gl_texture_ptr;
-
-    // Allocate buffer for vertex data (4 vertices per quad * 6 floats per vertex * 4 bytes per
-    // float
-    this.vertexData =
-        ByteBuffer.allocateDirect(4 * 6 * 4).order(ByteOrder.nativeOrder()).asFloatBuffer();
-
-    // Set vertex data
-    this.updateVertexData();
-
-    // set the indices array
-    this.indices =
-        new short[] {
-          0, 1, 2, // First triangle (bottom-left, bottom-right, top-left)
-          2, 1, 3 // Second triangle (top-left, bottom-right, top-right)
-        };
-
-    // Allocate buffer for indices
-    ByteBuffer ibb = ByteBuffer.allocateDirect(this.indices.length * 2); // short is 2 bytes
-    ibb.order(ByteOrder.nativeOrder());
-    this.indexBuffer = ibb.asShortBuffer();
-    this.indexBuffer.put(this.indices);
-    this.indexBuffer.position(0);
   }
 
+  @Override
   public void draw() {
     // Static pointer not loaded, skip draw frame
     // Log.d("Entity", "GL Pointer: " + EngineRenderer.gl_a_Position_ptr);
@@ -143,6 +114,12 @@ public class TextureEntity extends Quad {
     }
   }
 
+  /**
+   * Updates the entity's position, orientation, and vertex data based on the time elapsed since the
+   * last update.
+   *
+   * @param delta The time elapsed since the last update.
+   */
   public void update(float delta) {
     // Log.d("Entity", "x: " + this.x + " y:" + this.y);
     // Update the entity's position
@@ -158,14 +135,15 @@ public class TextureEntity extends Quad {
    * sets texture coordinates for each vertex. These are static and do not change with the entity's
    * transformation.
    */
-  private void updateVertexData() {
+  @Override
+  void updateVertexData() {
     // Calculate the sine and cosine of the rotation angle for efficient use in vertex rotation
     float cosTheta = (float) Math.cos(rotationRad);
     float sinTheta = (float) Math.sin(rotationRad);
 
     // Adjust vertex data based on current position, size, and rotation
     float[] adjustedVertexData = {
-      // Bottom-left vertex
+      // 0 Bottom-left vertex
       x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
       y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
       0f,
@@ -173,7 +151,7 @@ public class TextureEntity extends Quad {
       0f,
       0f, // Texture coordinates remain unchanged
 
-      // Bottom-right vertex
+      // 1 Bottom-right vertex
       x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
       y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
       0f,
@@ -181,7 +159,7 @@ public class TextureEntity extends Quad {
       1f,
       0f, // Texture coordinates remain unchanged
 
-      // Top-left vertex
+      // 2 Top-left vertex
       x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
       y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
       0f,
@@ -189,7 +167,7 @@ public class TextureEntity extends Quad {
       0f,
       1f, // Texture coordinates remain unchanged
 
-      // Top-right vertex
+      // 3 Top-right vertex
       x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
       y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
       0f,
@@ -204,16 +182,32 @@ public class TextureEntity extends Quad {
     vertexData.position(0);
   }
 
-  public void onTouch(MotionEvent event) {
-    float touchX = event.getX();
-    float touchY = event.getY();
-    // Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
-
-    this.setDestination(touchX, touchY);
-  }
-
   public void setDestination(float destX, float destY) {
     this.destX = destX;
     this.destY = destY;
+  }
+
+  public float getDestX() {
+    return destX;
+  }
+
+  public void setDestX(float destX) {
+    this.destX = destX;
+  }
+
+  public float getDestY() {
+    return destY;
+  }
+
+  public void setDestY(float destY) {
+    this.destY = destY;
+  }
+
+  public float getSpeed() {
+    return speed;
+  }
+
+  public void setSpeed(float speed) {
+    this.speed = speed;
   }
 }

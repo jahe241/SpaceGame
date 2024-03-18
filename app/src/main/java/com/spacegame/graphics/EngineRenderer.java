@@ -10,6 +10,7 @@ import android.opengl.GLUtils;
 import android.util.Log;
 
 import com.spacegame.R;
+import com.spacegame.core.Player;
 import com.spacegame.core.TextureEntity;
 import com.spacegame.core.Game;
 import com.spacegame.utils.TextResourceReader;
@@ -95,7 +96,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       return;
     }
     Log.i("EngineRenderer", "Pepe texture loaded successfully!");
-    this.game.setPlayer(new TextureEntity(500f, 500f, 200f, 100f, pepeTexture));
+    this.game.setPlayer(new Player(500f, 500f, 200f, 100f, pepeTexture));
   }
 
   private int loadTexture(int resourceId) {

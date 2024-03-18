@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Game {
   public ArrayList<TextureEntity> entities = new ArrayList<>();
-  public TextureEntity player;
+  public Player player;
 
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
@@ -21,7 +21,7 @@ public class Game {
     }
   }
 
-  public void setPlayer(TextureEntity player) {
+  public void setPlayer(Player player) {
     this.player = player;
     entities.add(player);
   }
