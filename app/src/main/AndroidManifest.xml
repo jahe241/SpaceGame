@@ -12,14 +12,9 @@
     android:supportsRtl="true"
     android:theme="@style/Theme.SpaceGame"
     tools:targetApi="31">
-
     <activity
       android:name=".GameActivity"
-      android:exported="false"
-      android:windowLayoutInDisplayCutoutMode="shortEdges"
-      android:theme="@style/Base.Theme.SpaceGame" />
-
-
+      android:exported="false" />
     <activity
       android:name=".MainActivity"
       android:exported="true">
