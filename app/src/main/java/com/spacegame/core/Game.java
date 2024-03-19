@@ -8,7 +8,8 @@ import java.util.List;
 
 public class Game extends Thread {
   volatile boolean running = false;
-  public List<TextureEntity> entities = Collections.synchronizedList(new ArrayList<>());
+  volatile boolean paused = false;
+  public final List<TextureEntity> entities = Collections.synchronizedList(new ArrayList<>());
   public Player player;
   public int textureAtlasPointer = -1;
 
@@ -17,11 +18,19 @@ public class Game extends Thread {
     Log.d("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
     long timePerFrame = 1000 / 60; // Time for each frame in milliseconds
     running = true;
-    this.setPlayer(
-        new Player(
-            500f, 500f, 200f, 100f, textureAtlasPointer, new float[] {0.5f, 0.5f, 0.5f, 1f}));
-
+    // Set up the game
+    setupGame();
+    // Game Loop
     while (running) {
+      synchronized (this) {
+        while (paused) {
+          try {
+            wait();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+      }
       long startTime = System.currentTimeMillis();
 
       update(timePerFrame / 1000.0f); // Convert to seconds
@@ -39,6 +48,31 @@ public class Game extends Thread {
     }
   }
 
+  private void setupGame() {
+    // Set up the game
+    this.setPlayer(
+        new Player(
+            500f, 500f, 200f, 100f, textureAtlasPointer, new float[] {0.5f, 0.5f, 0.5f, 1f}));
+    player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
+    // Pause "Button"
+    this.addEntity(new ColorEntity(50f, 50f, 100, 100, 0));
+  }
+
+  public void pauseGame() {
+    synchronized (this) {
+      Log.d("Game", "Game Thread paused: " + Thread.currentThread().getName());
+      paused = true;
+    }
+  }
+
+  public void resumeGame() {
+    synchronized (this) {
+      Log.d("Game", "Game Thread resumed: " + Thread.currentThread().getName());
+      paused = false;
+      notify();
+    }
+  }
+
   @Override
   public void interrupt() {
     running = false;
@@ -47,8 +81,13 @@ public class Game extends Thread {
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
-    for (TextureEntity textureEntity : entities) {
-      textureEntity.update(deltaTime);
+    synchronized (entities) {
+      for (TextureEntity textureEntity : entities) {
+        if (!(textureEntity instanceof Player) && !(textureEntity instanceof ColorEntity)) {
+          textureEntity.setRotationRad(textureEntity.getRotationRad() + 0.01f);
+        }
+        textureEntity.update(deltaTime);
+      }
     }
     // TODO: Physics / Interaction-Checks here
 
@@ -68,18 +107,32 @@ public class Game extends Thread {
   }
 
   public void addEntity(TextureEntity textureEntity) {
-    entities.add(textureEntity);
+    synchronized (entities) {
+      entities.add(textureEntity);
+    }
   }
 
   public void removeEntity(TextureEntity textureEntity) {
-    entities.remove(textureEntity);
+    synchronized (entities) {
+      entities.remove(textureEntity);
+    }
   }
 
   public void handleTouchEvent(MotionEvent event) {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       // Here we might check if the coordinates are over a button or something, otherwise implement
       // the controller
-      player.onTouch(event);
+      if (event.getX() < 100 && event.getY() < 100) {
+        // Pause the game
+        if (paused) {
+          resumeGame();
+        } else {
+          pauseGame();
+        }
+        return;
+      }
+      addEntity(new ColorEntity(event.getX(), event.getY(), 50f, 50f, textureAtlasPointer));
+      if (player != null) player.onTouch(event);
     }
   }
 }
