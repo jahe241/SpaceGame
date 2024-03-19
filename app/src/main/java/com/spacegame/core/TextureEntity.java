@@ -155,9 +155,9 @@ public class TextureEntity extends Quad {
     }
 
     if (this.rotationRad != this.lastRotationRad) {
-      Log.d("Entity", "Rotation in Radians: " + this.rotationRad);
-      Log.d("Entity", "Rotation in Degrees: " + Math.toDegrees(this.rotationRad));
-      Log.d("Entity", "Destination Rotation:" + Math.toDegrees(targetRotationRad));
+      //      Log.d("Entity", "Rotation in Radians: " + this.rotationRad);
+      //      Log.d("Entity", "Rotation in Degrees: " + Math.toDegrees(this.rotationRad));
+      //      Log.d("Entity", "Destination Rotation:" + Math.toDegrees(targetRotationRad));
       this.lastRotationRad = this.rotationRad;
     }
   }
