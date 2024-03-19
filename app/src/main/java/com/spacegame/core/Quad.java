@@ -13,6 +13,7 @@ abstract class Quad {
   int BYTES_PER_FLOAT = 4;
   float x; // current x position
   float y; // current y position
+  float z; // current z position
   short[] indices;
   ShortBuffer indexBuffer;
   float rotationRad = 0f; // storing it in radians reduces the need for frequent conversion
@@ -124,6 +125,18 @@ abstract class Quad {
           y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
           z,
         };
+  }
+
+  public float[] getPositionArray() {
+    return position;
+  }
+
+  public void setZ(float z) {
+    this.z = z;
+  }
+
+  public float getZ() {
+    return z;
   }
 
   public float getWidth() {
