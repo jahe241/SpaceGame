@@ -52,6 +52,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
   @Override
   public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+    Log.d("EngineRenderer", "Surface created on Thread: " + Thread.currentThread().getName());
     // Setting OpenGL Parameters to allow png transparency, we might change this up once we
     // implemented the textuire atlas
     glEnable(GL_BLEND);
@@ -103,8 +104,8 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       return;
     }
     Log.i("EngineRenderer", "Pepe texture loaded successfully!");
-    this.game.setPlayer(
-        new Player(500f, 500f, 200f, 100f, pepeTexture, new float[] {0.5f, 0.5f, 0.5f, 1f}));
+    this.game.textureAtlasPointer = pepeTexture;
+    this.game.start();
   }
 
   private int loadTexture(int resourceId) {
