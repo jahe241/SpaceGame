@@ -102,15 +102,14 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     this.game.start();
   }
 
+  /**
+   * Loads the texture atlas from a resource and creates a TextureAtlas object. The method first
+   * attempts to load a texture from the provided resource ID. If the texture loading is successful,
+   * it creates a new TextureAtlas object with the loaded texture and the provided sprite and atlas
+   * dimensions. The created TextureAtlas object is then stored in the textureAtlas field of the
+   * EngineRenderer class and the game object.
+   */
   private void loadTextures() {
-    // Load the textures
-    //    int pepeTexture = loadTexture(R.drawable.peepo);
-    //    if (pepeTexture == 0) {
-    //      Log.e("EngineRenderer", "Failed to load texture");
-    //      return;
-    //    }
-    //    Log.i("EngineRenderer", "Pepe texture loaded successfully!");
-    //    this.game.textureAtlasPointer = pepeTexture;
     int atlasPtr = loadTexture(R.drawable.atlas);
     if (atlasPtr == 0) {
       Log.e("EngineRenderer", "Failed to load texture");
@@ -128,6 +127,17 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     game.textureAtlas = this.textureAtlas;
   }
 
+  /**
+   * Loads a texture from a resource.
+   *
+   * <p>This method generates a new OpenGL texture object, then attempts to create a Bitmap from the
+   * provided resource ID. If the Bitmap creation is successful, the Bitmap is loaded into the
+   * texture object. The method then returns the OpenGL ID of the texture object. If any step fails,
+   * the method cleans up any created resources and returns 0.
+   *
+   * @param resourceId The resource ID of the texture to load.
+   * @return The OpenGL ID of the loaded texture, or 0 if the texture could not be loaded.
+   */
   private int loadTexture(int resourceId) {
     // Generate a new texture object and save id in textureObjectIds
     final int[] textureObjectIds = new int[1];
