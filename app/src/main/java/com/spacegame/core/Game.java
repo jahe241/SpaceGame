@@ -53,9 +53,7 @@ public class Game extends Thread {
 
   private void setupGame() {
     // Add the player character
-    this.setPlayer(
-        new Player(
-            this.textureAtlas, 8, 1, 500f, 1000f, 200f, 100f, new float[] {0.5f, 0.5f, 0.5f, 1f}));
+    this.setPlayer(new Player(this.textureAtlas, 8, 1, 500f, 1000f, 200f, 100f));
     player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
 
     // Pause "Button"

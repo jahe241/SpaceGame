@@ -39,7 +39,7 @@ public class Player extends Entity {
 
   @Override
   public void update(float delta) {
-    this.updateColor();
+    //    this.updateColor(); // Rainbow color effect
     // Update the entity's position
     this.updatePosition(delta);
     // Update the entity's vertex data
