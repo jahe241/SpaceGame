@@ -228,7 +228,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   @Override
   public void onDrawFrame(GL10 gl) {
     // Clear the rendering surface
-    gl.glClearColor(0.5f, 0.5f, 0.5f, 0f);
+    gl.glClearColor(0f, 0f, 0f, 0f);
     gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
     // Pass the projection matrix to the shader
