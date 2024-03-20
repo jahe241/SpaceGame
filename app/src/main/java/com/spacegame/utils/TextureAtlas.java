@@ -1,5 +1,8 @@
 package com.spacegame.utils;
 
+import android.util.Log;
+import androidx.annotation.NonNull;
+
 public class TextureAtlas {
   private final int textureId;
   private final int spriteWidth;
@@ -24,6 +27,8 @@ public class TextureAtlas {
     this.spriteHeight = spriteHeight;
     this.atlasWidth = atlasWidth;
     this.atlasHeight = atlasHeight;
+    Log.d("TextureAtlas", "Created: " + this);
+    Log.d("TextureAtlas", "coords:" + Constants.getAllCoords(this));
   }
 
   /**
@@ -37,14 +42,15 @@ public class TextureAtlas {
    * @return An array of floats representing the UV coordinates of the sprite in the texture atlas.
    */
   public float[] getUVs(int spriteX, int spriteY) {
-    assert spriteX < atlasWidth / spriteWidth;
-    assert spriteY < atlasHeight / spriteHeight;
+    Log.d("TextureAtlas", "Sprite: (" + spriteX + ", " + spriteY + ")");
+    assert spriteX - 1 <= atlasWidth / spriteWidth;
+    assert spriteY - 1 <= atlasHeight / spriteHeight;
 
     float u = (float) spriteX * spriteWidth / atlasWidth;
     float v = (float) spriteY * spriteHeight / atlasHeight;
     float u2 = u + (float) spriteWidth / atlasWidth;
     float v2 = v + (float) spriteHeight / atlasHeight;
-
+    Log.d("TextureAtlas", "UVs: " + u + " " + v + " " + u2 + " " + v2);
     return new float[] {u, v, u2, v2};
   }
 
@@ -75,5 +81,26 @@ public class TextureAtlas {
    */
   public int getGridHeight() {
     return atlasHeight / spriteHeight;
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    StringBuilder sb = new StringBuilder();
+    sb.append("TextureAtlas[")
+        .append(textureId)
+        .append("] ")
+        .append(spriteWidth)
+        .append("x")
+        .append(spriteHeight)
+        .append(" ")
+        .append(atlasWidth)
+        .append("x")
+        .append(atlasHeight)
+        .append(" | Grid: ")
+        .append(getGridWidth())
+        .append("x")
+        .append(getGridHeight());
+    return sb.toString();
   }
 }
