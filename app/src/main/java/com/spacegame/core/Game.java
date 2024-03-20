@@ -3,6 +3,7 @@ package com.spacegame.core;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.utils.TextureAtlas;
+import com.spacegame.utils.Constants;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -86,8 +87,13 @@ public class Game extends Thread {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
     synchronized (entities) {
+      // Remove the entities that are marked for deletion
+      entities.removeIf(Entity::getDiscard);
+
       for (Quad entity : entities) {
-        if (!(entity instanceof Player) && !(entity instanceof ColorEntity)) {
+        if (!(entity instanceof Player)
+            && !(entity instanceof ColorEntity)
+            && !(entity instanceof AnimatedEntity)) {
           entity.setRotationRad(entity.getRotationRad() + ThreadLocalRandom.current().nextFloat());
         }
         entity.update(deltaTime);
@@ -126,7 +132,16 @@ public class Game extends Thread {
   public void handleTouchEvent(MotionEvent event) {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       if (this.paused) return;
-      addEntity(new Entity(this.textureAtlas, 7, 1, event.getX(), event.getY(), 50f, 50f));
+      //    addEntity(new Entity(this.textureAtlas, 7, 1, event.getX(), event.getY(), 50f, 50f));
+      addEntity(
+          new AnimatedEntity(
+              this.textureAtlas,
+              Constants.animation_EXPLOSION,
+              event.getX(),
+              event.getY(),
+              250f,
+              250f,
+              0.03f)); // 30ms per frame (i hope)
       if (player != null) player.onTouch(event);
     }
   }
