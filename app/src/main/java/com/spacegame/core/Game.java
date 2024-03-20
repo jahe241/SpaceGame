@@ -54,7 +54,7 @@ public class Game extends Thread {
     this.setPlayer(
         new Player(
             500f, 500f, 200f, 100f, textureAtlasPointer, new float[] {0.5f, 0.5f, 0.5f, 1f}));
-    player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
+    player.setZ_index(1); // incredibly hacky way to make sure the player is drawn on top
     // Pause "Button"
     this.addEntity(new ColorEntity(50f, 50f, 100, 100, 0));
   }

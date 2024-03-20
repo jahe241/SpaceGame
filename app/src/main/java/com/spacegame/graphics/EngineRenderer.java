@@ -8,13 +8,10 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.Log;
-
 import com.spacegame.R;
-import com.spacegame.core.Player;
 import com.spacegame.core.Game;
 import com.spacegame.core.TextureEntity;
 import com.spacegame.utils.TextResourceReader;
-
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -219,7 +216,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
         Log.e("EngineRenderer", "Entity has no aux data:");
         continue;
       }
-      if (entity.getPositionData() == null) {
+      if (entity.getVertexPositionData() == null) {
         Log.e("EngineRenderer", "Entity has no position data:");
         continue;
       }
@@ -234,7 +231,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
         glBindTexture(GL_TEXTURE_2D, entity.getGl_texture_ptr());
       }
       // Set up vertex data
-      positionBuffer = createFloatBuffer(entity.getPositionData());
+      positionBuffer = createFloatBuffer(entity.getVertexPositionData());
       auxBuffer = createFloatBuffer(entity.getAuxData());
       indexBuffer = createShortBuffer(entity.getIndices());
 

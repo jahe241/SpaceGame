@@ -1,6 +1,7 @@
 package com.spacegame.core;
 
 import android.view.MotionEvent;
+import com.spacegame.utils.Vector2D;
 
 public class Player extends TextureEntity {
 
@@ -18,6 +19,9 @@ public class Player extends TextureEntity {
     float touchY = event.getY();
     // Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
 
-    this.setDestination(touchX, touchY);
+    Vector2D destination = new Vector2D(touchX, touchY);
+    Vector2D direction = this.position.to(destination).normalized();
+
+    this.setVelocity(direction.mult(this.getBaseSpeed()));
   }
 }

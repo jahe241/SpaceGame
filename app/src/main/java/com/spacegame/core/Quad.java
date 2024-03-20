@@ -1,8 +1,6 @@
 package com.spacegame.core;
 
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.nio.FloatBuffer;
+import com.spacegame.utils.Vector2D;
 import java.nio.ShortBuffer;
 
 abstract class Quad {
@@ -11,16 +9,14 @@ abstract class Quad {
   int FLOATS_PER_VERTEX = 6;
   int VERTEX_PER_QUAD = 4;
   int BYTES_PER_FLOAT = 4;
-  float x; // current x position
-  float y; // current y position
-  float z; // current z position
+  Vector2D position = new Vector2D(0, 0);
+  float z_index; // current z position
   short[] indices;
   ShortBuffer indexBuffer;
   float rotationRad = 0f; // storing it in radians reduces the need for frequent conversion
 
   // REWRITE
-  float[] position = {0, 0, 0}; // Quad positions (x, y, z), center of the quad
-  float positionData[] = { // Quad corners, dummy data - ignore for now, just for allocating
+  float[] vertexPositionData = { // Quad corners, dummy data - ignore for now, just for allocating
     // X    Y     Z
     -0.5f, -0.5f, 0.0f, // Bottom-left
     0.5f, -0.5f, 0.0f, // Bottom-right
@@ -29,13 +25,12 @@ abstract class Quad {
   };
 
   Quad(float x, float y, float width, float height) {
-    this.positionData[0] = this.x = x;
-    this.positionData[1] = this.y = y;
+    this.position = new Vector2D(x, y);
     this.width = width;
     this.height = height;
 
     // Set vertex data
-    this.updatePositionData();
+    this.updateVertexPositionData();
 
     // set the indices array FIXME: most likely not needed anymore
     this.indices =
@@ -48,46 +43,47 @@ abstract class Quad {
   /**
    * Updates the entity's positionData Array to reflect its current position, orientation, and size.
    */
-  void updatePositionData() {
+  void updateVertexPositionData() {
     // Calculate the sine and cosine of the rotation angle for efficient use in vertex rotation
     float cosTheta = (float) Math.cos(rotationRad);
     float sinTheta = (float) Math.sin(rotationRad);
-    float z = this.position[2];
-    positionData =
+    float x = position.getX();
+    float y = position.getY();
+    vertexPositionData =
         new float[] {
 
           // Bottom-left corner
           x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
           y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
-          z,
+          z_index,
 
           // Bottom-right corner
           x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
           y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
-          z,
+          z_index,
 
           // Top-left corner
           x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
           y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
-          z,
+          z_index,
 
           // Top-right corner
           x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
           y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
-          z,
+          z_index,
         };
   }
 
-  public float[] getPositionArray() {
+  public Vector2D getPosition() {
     return position;
   }
 
-  public void setZ(float z) {
-    this.z = z;
+  public void setZ_index(float z_index) {
+    this.z_index = z_index;
   }
 
-  public float getZ() {
-    return z;
+  public float getZ_index() {
+    return z_index;
   }
 
   public float getWidth() {
@@ -106,22 +102,6 @@ abstract class Quad {
     this.height = height;
   }
 
-  public float getX() {
-    return x;
-  }
-
-  public void setX(float x) {
-    this.x = x;
-  }
-
-  public float getY() {
-    return y;
-  }
-
-  public void setY(float y) {
-    this.y = y;
-  }
-
   public float getRotationRad() {
     return rotationRad;
   }
@@ -138,8 +118,8 @@ abstract class Quad {
     this.rotationRad = (float) Math.toRadians(rotationDeg);
   }
 
-  public float[] getPositionData() {
-    return positionData;
+  public float[] getVertexPositionData() {
+    return vertexPositionData;
   }
 
   public short[] getIndices() {
