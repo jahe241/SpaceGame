@@ -10,9 +10,10 @@ import android.opengl.GLUtils;
 import android.util.Log;
 
 import com.spacegame.R;
-import com.spacegame.core.Player;
+import com.spacegame.core.ColorEntity;
+import com.spacegame.core.GameInterface;
 import com.spacegame.core.Game;
-import com.spacegame.core.TextureEntity;
+import com.spacegame.core.Entity;
 import com.spacegame.utils.TextResourceReader;
 
 import java.nio.ByteBuffer;
@@ -39,27 +40,22 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   private long lastFrameTime = System.nanoTime(); // We have to initialize it here
   private final Context context;
   private final Game game;
+  private final GameInterface gameInterface;
 
   public float[] projectionMatrix = new float[16];
 
   public int program = 0;
 
-  public EngineRenderer(Context context, Game game) {
+  public EngineRenderer(Context context, Game game, GameInterface gameInterface) {
     super();
     this.game = game;
     this.context = context;
+    this.gameInterface = gameInterface;
   }
 
   @Override
   public void onSurfaceCreated(GL10 gl, EGLConfig config) {
     Log.d("EngineRenderer", "Surface created on Thread: " + Thread.currentThread().getName());
-    // Setting OpenGL Parameters to allow png transparency, we might change this up once we
-    // implemented the textuire atlas
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA); // Basically: 1 - source alpha
-
-    // Enable depth testing (Z Coordinates)
-    glEnable(GL10.GL_DEPTH_TEST);
 
     // Compile vertex shader code
     String vertexShaderSource =
@@ -101,6 +97,11 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
             + " "
             + EngineRenderer.gl_u_ProjectionMatrix_ptr);
 
+    loadTextures();
+    this.game.start();
+  }
+
+  private void loadTextures() {
     // Load the textures
     int pepeTexture = loadTexture(R.drawable.peepo);
     if (pepeTexture == 0) {
@@ -109,7 +110,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     }
     Log.i("EngineRenderer", "Pepe texture loaded successfully!");
     this.game.textureAtlasPointer = pepeTexture;
-    this.game.start();
   }
 
   private int loadTexture(int resourceId) {
@@ -150,13 +150,9 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     return textureObjectIds[0];
   }
 
-  private int[] loadTextures() {
-    return new int[1];
-  }
-
   @Override
   public void onSurfaceChanged(GL10 gl, int width, int height) {
-    // Set the OpenGL viewport to fill the entire surface.
+    // Set the OpenGL viewport to fill the entire surface
     gl.glViewport(0, 0, width, height);
 
     // Set the projection matrix
@@ -171,6 +167,13 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     Log.d("SurfaceView", "Width: " + width + " Height: " + height);
   }
 
+  /**
+   * Create a new float buffer and load the data into it sets the position of the buffer to 0 Buffer
+   * size is 4 (float size in bytes) * data.length
+   *
+   * @param data The data to load into the buffer
+   * @return The buffer with the data loaded into it
+   */
   private FloatBuffer createFloatBuffer(float[] data) {
     FloatBuffer buffer =
         ByteBuffer.allocateDirect(data.length * 4) /* Allocate a direct buffer to hold float data */
@@ -180,6 +183,13 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     return buffer;
   }
 
+  /**
+   * Create a new short buffer and load the data into it sets the position of the buffer to 0 Buffer
+   * size is 2 (short size in bytes) * data.length
+   *
+   * @param data The data to load into the buffer
+   * @return The buffer with the data loaded into it
+   */
   private ShortBuffer createShortBuffer(short[] data) {
     ShortBuffer buffer =
         ByteBuffer.allocateDirect(data.length * 2) /* Allocate a direct buffer to hold short data */
@@ -191,87 +201,167 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
   @Override
   public void onDrawFrame(GL10 gl) {
-    // calculate time between frames
-    long currentTime = System.nanoTime();
-    float deltaTime = (currentTime - lastFrameTime) / 1000000000.0f;
-    lastFrameTime = currentTime;
-    int lastTexture = -1;
-
     // Clear the rendering surface
-    gl.glClearColor(0.5f, 0.5f, 0.5f, 1f);
+    gl.glClearColor(0.5f, 0.5f, 0.5f, 0f);
     gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
     // Pass the projection matrix to the shader
     glUniformMatrix4fv(gl_u_ProjectionMatrix_ptr, 1, false, this.projectionMatrix, 0);
 
+    // TODO: PROOF OF CONCEPT: we'll have to group the according to their texture / color / overlay
+    // instead of drawing them in the order they were added we will make bigger batches
+    var entityList = this.game.getEntities();
+    // sort the entities by by Z value, so the ones with the highest Z value are drawn last (on top)
+    entityList.sort((a, b) -> Float.compare(a.getZ(), b.getZ()));
+    for (var entity : entityList) {
+      if (entity instanceof ColorEntity) {
+        drawEntities(gl, entity);
+      } else {
+        drawEntities(gl, entity);
+      }
+    }
+  }
+
+  private void drawEntities(GL10 gl, Entity entity) {
+    int lastTexture = -1;
     // test pointers TODO: move into constants section, once working
     int positionHandle = glGetAttribLocation(program, "a_Position");
     int auxHandle1 = glGetAttribLocation(program, "a_TexCoordFlag");
     int auxHandle2 = glGetAttribLocation(program, "a_Color");
-
-    // FIXME: Proof of Concept, will cause a overflow if we have too many entities
-    // TODO: PROOF OF CONCEPT: we'll have to group the according to their texture / color / overlay
-    for (TextureEntity entity : this.game.getEntities()) {
-      if (entity == null) {
-        continue;
-      }
-      if (entity.getAuxData() == null) {
-        Log.e("EngineRenderer", "Entity has no aux data:");
-        continue;
-      }
-      if (entity.getPositionData() == null) {
-        Log.e("EngineRenderer", "Entity has no position data:");
-        continue;
-      }
-      if (entity.getIndices() == null) {
-        Log.e("EngineRenderer", "Entity has no indices:");
-        continue;
-      }
-      // Bind the texture
-      if (lastTexture != entity.getGl_texture_ptr()) {
-        lastTexture = entity.getGl_texture_ptr();
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, entity.getGl_texture_ptr());
-      }
-      // Set up vertex data
-      positionBuffer = createFloatBuffer(entity.getPositionData());
-      auxBuffer = createFloatBuffer(entity.getAuxData());
-      indexBuffer = createShortBuffer(entity.getIndices());
-
-      // Bind the Aux data (color and stuff)
-      auxBuffer.position(0); // Start from the beginning of your auxBuffer
-      glVertexAttribPointer(
-          auxHandle1,
-          4,
-          GL_FLOAT,
-          false,
-          AUX_DATA_SIZE * 4,
-          auxBuffer); // 4 components per vertex for this attribute
-      glEnableVertexAttribArray(auxHandle1);
-
-      auxBuffer.position(4); // Skip the first four floats to reach the start of the color data
-      glVertexAttribPointer(
-          auxHandle2,
-          3,
-          GL_FLOAT,
-          false,
-          AUX_DATA_SIZE * 4,
-          auxBuffer); // 3 components per vertex for this attribute, adjust if using vec4
-      glEnableVertexAttribArray(auxHandle2);
-
-      // Bind position data
-      positionBuffer.position(0);
-      glVertexAttribPointer(
-          positionHandle,
-          POSITION_DATA_SIZE,
-          GL_FLOAT,
-          false,
-          POSITION_DATA_SIZE * 4,
-          positionBuffer);
-      glEnableVertexAttribArray(positionHandle);
-
-      // Bind the indeces?
-      glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
+    if (entity == null) {
+      return;
     }
+    if (entity.getAuxData() == null) {
+      Log.e("EngineRenderer", "Entity has no aux data:");
+      return;
+    }
+    if (entity.getPositionData() == null) {
+      Log.e("EngineRenderer", "Entity has no position data:");
+      return;
+    }
+    if (entity.getIndices() == null) {
+      Log.e("EngineRenderer", "Entity has no indices:");
+      return;
+    }
+
+    // Bind the texture
+    if (lastTexture != entity.getGl_texture_ptr()) {
+      lastTexture = entity.getGl_texture_ptr();
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, entity.getGl_texture_ptr());
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+      //        gl.glEnable(GL10.GL_DEPTH_TEST);
+      //        gl.glDepthFunc(GL10.GL_LESS);
+    }
+    // Set up vertex data
+    positionBuffer = createFloatBuffer(entity.getPositionData());
+    auxBuffer = createFloatBuffer(entity.getAuxData());
+    indexBuffer = createShortBuffer(entity.getIndices());
+
+    // Bind the Aux data (color and stuff)
+    auxBuffer.position(0); // Start from the beginning of your auxBuffer
+    glVertexAttribPointer(
+        auxHandle1,
+        4,
+        GL_FLOAT,
+        false,
+        AUX_DATA_SIZE * 4,
+        auxBuffer); // 4 components per vertex for this attribute
+    glEnableVertexAttribArray(auxHandle1);
+
+    auxBuffer.position(4); // Skip the first four floats to reach the start of the color data
+    glVertexAttribPointer(
+        auxHandle2,
+        3,
+        GL_FLOAT,
+        false,
+        AUX_DATA_SIZE * 4,
+        auxBuffer); // 3 components per vertex for this attribute, adjust if using vec4
+    glEnableVertexAttribArray(auxHandle2);
+
+    // Bind position data
+    positionBuffer.position(0);
+    glVertexAttribPointer(
+        positionHandle,
+        POSITION_DATA_SIZE,
+        GL_FLOAT,
+        false,
+        POSITION_DATA_SIZE * 4,
+        positionBuffer);
+    glEnableVertexAttribArray(positionHandle);
+
+    glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
+  }
+
+  private void drawColorEntities(GL10 gl, Entity entity) {
+    int lastTexture = -1;
+    // test pointers TODO: move into constants section, once working
+    int positionHandle = glGetAttribLocation(program, "a_Position");
+    int auxHandle1 = glGetAttribLocation(program, "a_TexCoordFlag");
+    int auxHandle2 = glGetAttribLocation(program, "a_Color");
+    if (entity == null) {
+      return;
+    }
+    if (entity.getAuxData() == null) {
+      Log.e("EngineRenderer", "Entity has no aux data:");
+      return;
+    }
+    if (entity.getPositionData() == null) {
+      Log.e("EngineRenderer", "Entity has no position data:");
+      return;
+    }
+    if (entity.getIndices() == null) {
+      Log.e("EngineRenderer", "Entity has no indices:");
+      return;
+    }
+
+    // Bind the texture
+    if (lastTexture != entity.getGl_texture_ptr()) {
+      lastTexture = entity.getGl_texture_ptr();
+      glBindTexture(GL_TEXTURE_2D, 0);
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+      //        gl.glEnable(GL10.GL_DEPTH_TEST);
+      //        gl.glDepthFunc(GL10.GL_LESS);
+    }
+    // Set up vertex data
+    positionBuffer = createFloatBuffer(entity.getPositionData());
+    auxBuffer = createFloatBuffer(entity.getAuxData());
+    indexBuffer = createShortBuffer(entity.getIndices());
+
+    // Bind the Aux data (color and stuff)
+    auxBuffer.position(0); // Start from the beginning of your auxBuffer
+    glVertexAttribPointer(
+        auxHandle1,
+        4,
+        GL_FLOAT,
+        false,
+        AUX_DATA_SIZE * 4,
+        auxBuffer); // 4 components per vertex for this attribute
+    glEnableVertexAttribArray(auxHandle1);
+
+    auxBuffer.position(4); // Skip the first four floats to reach the start of the color data
+    glVertexAttribPointer(
+        auxHandle2,
+        3,
+        GL_FLOAT,
+        false,
+        AUX_DATA_SIZE * 4,
+        auxBuffer); // 3 components per vertex for this attribute, adjust if using vec4
+    glEnableVertexAttribArray(auxHandle2);
+
+    // Bind position data
+    positionBuffer.position(0);
+    glVertexAttribPointer(
+        positionHandle,
+        POSITION_DATA_SIZE,
+        GL_FLOAT,
+        false,
+        POSITION_DATA_SIZE * 4,
+        positionBuffer);
+    glEnableVertexAttribArray(positionHandle);
+
+    glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
   }
 }
