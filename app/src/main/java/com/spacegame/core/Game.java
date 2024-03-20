@@ -2,6 +2,7 @@ package com.spacegame.core;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.utils.TextureAtlas;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +14,7 @@ public class Game extends Thread {
   public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
   public Player player;
   public int textureAtlasPointer = -1;
+  public TextureAtlas textureAtlas;
 
   @Override
   public void run() {
@@ -53,7 +55,7 @@ public class Game extends Thread {
     // Add the player character
     this.setPlayer(
         new Player(
-            500f, 500f, 200f, 100f, textureAtlasPointer, new float[] {0.5f, 0.5f, 0.5f, 1f}));
+            this.textureAtlas, 8, 1, 500f, 1000f, 200f, 100f, new float[] {0.5f, 0.5f, 0.5f, 1f}));
     player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
 
     // Pause "Button"
@@ -126,7 +128,7 @@ public class Game extends Thread {
   public void handleTouchEvent(MotionEvent event) {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       if (this.paused) return;
-      addEntity(new Entity(event.getX(), event.getY(), 50f, 50f, textureAtlasPointer));
+      addEntity(new Entity(this.textureAtlas, 7, 1, event.getX(), event.getY(), 50f, 50f));
       if (player != null) player.onTouch(event);
     }
   }

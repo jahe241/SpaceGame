@@ -16,6 +16,7 @@ import com.spacegame.core.Game;
 import com.spacegame.core.Entity;
 import com.spacegame.utils.TextResourceReader;
 
+import com.spacegame.utils.TextureAtlas;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -25,9 +26,12 @@ import javax.microedition.khronos.opengles.GL10;
 
 public class EngineRenderer implements GLSurfaceView.Renderer {
   // GL Pointers
+  public int program = 0;
   public static int gl_u_ProjectionMatrix_ptr;
   public static int gl_a_Position_ptr;
   public static int gl_a_TexCoordinate_ptr;
+
+  public float[] projectionMatrix = new float[16];
 
   // Render Buffers
   private FloatBuffer positionBuffer, auxBuffer;
@@ -41,10 +45,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   private final Context context;
   private final Game game;
   private final GameInterface gameInterface;
-
-  public float[] projectionMatrix = new float[16];
-
-  public int program = 0;
+  private TextureAtlas textureAtlas;
 
   public EngineRenderer(Context context, Game game, GameInterface gameInterface) {
     super();
@@ -103,13 +104,28 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
   private void loadTextures() {
     // Load the textures
-    int pepeTexture = loadTexture(R.drawable.peepo);
-    if (pepeTexture == 0) {
+    //    int pepeTexture = loadTexture(R.drawable.peepo);
+    //    if (pepeTexture == 0) {
+    //      Log.e("EngineRenderer", "Failed to load texture");
+    //      return;
+    //    }
+    //    Log.i("EngineRenderer", "Pepe texture loaded successfully!");
+    //    this.game.textureAtlasPointer = pepeTexture;
+    int atlasPtr = loadTexture(R.drawable.atlas);
+    if (atlasPtr == 0) {
       Log.e("EngineRenderer", "Failed to load texture");
       return;
     }
     Log.i("EngineRenderer", "Pepe texture loaded successfully!");
-    this.game.textureAtlasPointer = pepeTexture;
+
+    // Create the texture atlas
+    int spriteWidth = 192; // Replace with actual sprite width
+    int spriteHeight = 192; // Replace with actual sprite height
+    int atlasWidth = 1728; // Replace with actual atlas width
+    int atlasHeight = 384; // Replace with actual atlas height
+    this.textureAtlas =
+        new TextureAtlas(atlasPtr, spriteWidth, spriteHeight, atlasWidth, atlasHeight);
+    game.textureAtlas = this.textureAtlas;
   }
 
   private int loadTexture(int resourceId) {

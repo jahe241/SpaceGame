@@ -48,7 +48,7 @@ public class TextureAtlas {
    *
    * @return The OpenGL texture ID of the texture atlas.
    */
-  public int getTextureId() {
+  public int getTexturePtr() {
     return textureId;
   }
 

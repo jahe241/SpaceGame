@@ -1,9 +1,11 @@
 package com.spacegame.core;
 
+import com.spacegame.utils.TextureAtlas;
+
 public class ColorEntity extends Entity {
 
   public ColorEntity(float x, float y, float width, float height, float[] colorOverlay) {
-    super(x, y, width, height, -1, colorOverlay);
+    super(null, -1, -1, x, y, width, height, colorOverlay);
   }
 
   @Override

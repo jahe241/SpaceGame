@@ -1,6 +1,7 @@
 package com.spacegame.core;
 
 import android.util.Log;
+import com.spacegame.utils.TextureAtlas;
 import com.spacegame.utils.Vector2D;
 
 public class Entity extends Quad {
@@ -12,7 +13,9 @@ public class Entity extends Quad {
   private float lastRotationRad = 0f;
   protected boolean hasColorOverlay = false;
   protected boolean hasTexture = false;
-
+  TextureAtlas textureAtlas;
+  private int spriteX;
+  private int spriteY;
   protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f}; // RGBA
 
   // Rewrite Data:
@@ -20,17 +23,36 @@ public class Entity extends Quad {
       new float
           [28]; // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A for each vertex/corner
 
-  public Entity(float x, float y, float width, float height, int gl_texture_ptr) {
+  public Entity(
+      TextureAtlas textureAtlas,
+      int spriteX,
+      int spriteY,
+      float x,
+      float y,
+      float width,
+      float height) {
     super(x, y, width, height);
     this.destX = x;
     this.destY = y;
-    this.gl_texture_ptr = gl_texture_ptr;
+    if (textureAtlas != null) {
+      this.textureAtlas = textureAtlas;
+      this.gl_texture_ptr = textureAtlas.getTexturePtr();
+    }
+    this.spriteX = spriteX;
+    this.spriteY = spriteY;
     this.updateauxData();
   }
 
   public Entity(
-      float x, float y, float width, float height, int gl_texture_ptr, float[] colorOverlay) {
-    this(x, y, width, height, gl_texture_ptr);
+      TextureAtlas textureAtlas,
+      int spriteX,
+      int spriteY,
+      float x,
+      float y,
+      float width,
+      float height,
+      float[] colorOverlay) {
+    this(textureAtlas, spriteX, spriteY, x, y, width, height);
     this.colorOverlay = colorOverlay;
     this.hasColorOverlay = true;
     this.updateauxData();
@@ -38,6 +60,7 @@ public class Entity extends Quad {
 
   @Override
   protected void updateauxData() {
+    float[] uvs = textureAtlas.getUVs(this.spriteX, this.spriteY);
     // EXAMPLE:
     //    float auxData[] = {
     //      // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
@@ -51,23 +74,23 @@ public class Entity extends Quad {
           new float[] {
             // Flag = 0 for texture
             // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-            1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
+            uvs[0], uvs[1], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            uvs[2], uvs[1], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+            uvs[0], uvs[3], 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+            uvs[2], uvs[3], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
           };
     } else {
       this.auxData =
           new float[] {
             // Flag = 1 for texture + color overlay
             // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            0.0f, 0.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[0], uvs[1], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Solid red
-            1.0f, 0.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[2], uvs[1], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Textured white
-            0.0f, 1.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[0], uvs[3], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Solid green
-            1.0f, 1.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[2], uvs[3], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3] // Textured white
           };
     }

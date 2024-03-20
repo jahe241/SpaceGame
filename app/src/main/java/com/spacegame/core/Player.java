@@ -2,16 +2,31 @@ package com.spacegame.core;
 
 import android.view.MotionEvent;
 import com.spacegame.utils.ColorHelper;
+import com.spacegame.utils.TextureAtlas;
 
 public class Player extends Entity {
 
-  public Player(float x, float y, float width, float height, int gl_texture_ptr) {
-    super(x, y, width, height, gl_texture_ptr);
+  public Player(
+      TextureAtlas textureAtlas,
+      int spriteX,
+      int spriteY,
+      float x,
+      float y,
+      float width,
+      float height) {
+    super(textureAtlas, spriteX, spriteY, x, y, width, height);
   }
 
   public Player(
-      float x, float y, float width, float height, int gl_texture_ptr, float[] colorOverlay) {
-    super(x, y, width, height, gl_texture_ptr, colorOverlay);
+      TextureAtlas textureAtlas,
+      int spriteX,
+      int spriteY,
+      float x,
+      float y,
+      float width,
+      float height,
+      float[] colorOverlay) {
+    super(textureAtlas, spriteX, spriteY, x, y, width, height, colorOverlay);
   }
 
   public void onTouch(MotionEvent event) {
