@@ -10,7 +10,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class Game extends Thread {
   volatile boolean running = false;
   volatile boolean paused = false;
-  public final List<TextureEntity> entities = Collections.synchronizedList(new ArrayList<>());
+  public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
   public Player player;
   public int textureAtlasPointer = -1;
 
@@ -50,13 +50,16 @@ public class Game extends Thread {
   }
 
   private void setupGame() {
-    // Set up the game
+    // Add the player character
     this.setPlayer(
         new Player(
             500f, 500f, 200f, 100f, textureAtlasPointer, new float[] {0.5f, 0.5f, 0.5f, 1f}));
     player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
+
     // Pause "Button"
-    this.addEntity(new ColorEntity(50f, 50f, 100, 100, 0));
+    var pauseButton = new ColorEntity(100f, 100f, 200, 200, new float[] {1f, 0f, 0f, 1f});
+    pauseButton.setZ(10); // Draw on top of everything
+    this.addEntity(pauseButton);
   }
 
   public void pauseGame() {
@@ -91,11 +94,6 @@ public class Game extends Thread {
       }
     }
     // TODO: Physics / Interaction-Checks here
-
-    // Draw the entities
-    //    for (TextureEntity textureEntity : entities) {
-    //      textureEntity.draw();
-    //    }
   }
 
   public void setPlayer(Player player) {
@@ -103,23 +101,23 @@ public class Game extends Thread {
     entities.add(player);
   }
 
-  public TextureEntity getPlayer() {
+  public Entity getPlayer() {
     return player;
   }
 
-  public void addEntity(TextureEntity textureEntity) {
+  public void addEntity(Entity entity) {
     synchronized (entities) {
-      entities.add(textureEntity);
+      entities.add(entity);
     }
   }
 
-  public void removeEntity(TextureEntity textureEntity) {
+  public void removeEntity(Entity entity) {
     synchronized (entities) {
-      entities.remove(textureEntity);
+      entities.remove(entity);
     }
   }
 
-  public List<TextureEntity> getEntities() {
+  public List<Entity> getEntities() {
     synchronized (entities) {
       return new ArrayList<>(entities);
     }
@@ -127,19 +125,8 @@ public class Game extends Thread {
 
   public void handleTouchEvent(MotionEvent event) {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-      // Here we might check if the coordinates are over a button or something, otherwise implement
-      // the controller
-      if (event.getX() < 100 && event.getY() < 100) {
-        // Pause the game
-        if (paused) {
-          resumeGame();
-        } else {
-          pauseGame();
-        }
-        return;
-      }
       if (this.paused) return;
-      addEntity(new TextureEntity(event.getX(), event.getY(), 50f, 50f, textureAtlasPointer));
+      addEntity(new Entity(event.getX(), event.getY(), 50f, 50f, textureAtlasPointer));
       if (player != null) player.onTouch(event);
     }
   }
