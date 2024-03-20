@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Game extends Thread {
   volatile boolean running = false;
@@ -82,11 +83,11 @@ public class Game extends Thread {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
     synchronized (entities) {
-      for (TextureEntity textureEntity : entities) {
-        if (!(textureEntity instanceof Player) && !(textureEntity instanceof ColorEntity)) {
-          textureEntity.setRotationRad(textureEntity.getRotationRad() + 0.01f);
+      for (Quad entity : entities) {
+        if (!(entity instanceof Player) && !(entity instanceof ColorEntity)) {
+          entity.setRotationRad(entity.getRotationRad() + ThreadLocalRandom.current().nextFloat());
         }
-        textureEntity.update(deltaTime);
+        entity.update(deltaTime);
       }
     }
     // TODO: Physics / Interaction-Checks here
@@ -131,8 +132,8 @@ public class Game extends Thread {
         }
         return;
       }
-      addEntity(new ColorEntity(event.getX(), event.getY(), 50f, 50f, textureAtlasPointer));
-      if (player != null) player.onTouch(event);
+      addEntity(new TextureEntity(event.getX(), event.getY(), 50f, 50f, textureAtlasPointer));
+      if (player != null && !this.paused) player.onTouch(event);
     }
   }
 }

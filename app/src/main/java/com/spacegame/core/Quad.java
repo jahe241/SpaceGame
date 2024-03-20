@@ -196,4 +196,6 @@ abstract class Quad {
   }
 
   protected abstract void updateauxData();
+
+  abstract void update(float deltaTime);
 }
