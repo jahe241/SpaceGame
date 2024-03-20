@@ -8,7 +8,7 @@ import com.spacegame.core.Game;
 
 public class EngineGLSurfaceView extends GLSurfaceView {
 
-  private final Game game = new Game();
+  private final Game game;
 
   private final EngineRenderer renderer;
 
@@ -16,6 +16,9 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     super(context);
     this.setFocusableInTouchMode(true);
     this.requestFocus();
+
+    // Initialize the game and start it
+    this.game = new Game();
 
     // Initialize the renderer and set the OpenGL version to 2.0
     this.renderer = new EngineRenderer(context, game);
