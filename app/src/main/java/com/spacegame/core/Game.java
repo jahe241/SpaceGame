@@ -119,6 +119,12 @@ public class Game extends Thread {
     }
   }
 
+  public List<TextureEntity> getEntities() {
+    synchronized (entities) {
+      return new ArrayList<>(entities);
+    }
+  }
+
   public void handleTouchEvent(MotionEvent event) {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       // Here we might check if the coordinates are over a button or something, otherwise implement
@@ -132,8 +138,9 @@ public class Game extends Thread {
         }
         return;
       }
+      if (this.paused) return;
       addEntity(new TextureEntity(event.getX(), event.getY(), 50f, 50f, textureAtlasPointer));
-      if (player != null && !this.paused) player.onTouch(event);
+      if (player != null) player.onTouch(event);
     }
   }
 }

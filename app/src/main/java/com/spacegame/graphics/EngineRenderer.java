@@ -211,70 +211,69 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     // FIXME: Proof of Concept, will cause a overflow if we have too many entities
     // TODO: PROOF OF CONCEPT: we'll have to group the according to their texture / color / overlay
-    synchronized (this.game.entities) {
-      for (TextureEntity entity : this.game.entities) {
-        if (entity == null) {
-          continue;
-        }
-        if (entity.getAuxData() == null) {
-          Log.e("EngineRenderer", "Entity has no aux data:");
-          continue;
-        }
-        if (entity.getPositionData() == null) {
-          Log.e("EngineRenderer", "Entity has no position data:");
-          continue;
-        }
-        if (entity.getIndices() == null) {
-          Log.e("EngineRenderer", "Entity has no indices:");
-          continue;
-        }
-        // Bind the texture
-        if (lastTexture != entity.getGl_texture_ptr()) {
-          lastTexture = entity.getGl_texture_ptr();
-          glActiveTexture(GL_TEXTURE0);
-          glBindTexture(GL_TEXTURE_2D, entity.getGl_texture_ptr());
-        }
-        // Set up vertex data
-        positionBuffer = createFloatBuffer(entity.getPositionData());
-        auxBuffer = createFloatBuffer(entity.getAuxData());
-        indexBuffer = createShortBuffer(entity.getIndices());
-
-        // Bind the Aux data (color and stuff)
-        auxBuffer.position(0); // Start from the beginning of your auxBuffer
-        glVertexAttribPointer(
-            auxHandle1,
-            4,
-            GL_FLOAT,
-            false,
-            AUX_DATA_SIZE * 4,
-            auxBuffer); // 4 components per vertex for this attribute
-        glEnableVertexAttribArray(auxHandle1);
-
-        auxBuffer.position(4); // Skip the first four floats to reach the start of the color data
-        glVertexAttribPointer(
-            auxHandle2,
-            3,
-            GL_FLOAT,
-            false,
-            AUX_DATA_SIZE * 4,
-            auxBuffer); // 3 components per vertex for this attribute, adjust if using vec4
-        glEnableVertexAttribArray(auxHandle2);
-
-        // Bind position data
-        positionBuffer.position(0);
-        glVertexAttribPointer(
-            positionHandle,
-            POSITION_DATA_SIZE,
-            GL_FLOAT,
-            false,
-            POSITION_DATA_SIZE * 4,
-            positionBuffer);
-        glEnableVertexAttribArray(positionHandle);
-
-        // Bind the indeces?
-        glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
+    for (TextureEntity entity : this.game.getEntities()) {
+      if (entity == null) {
+        continue;
       }
+      if (entity.getAuxData() == null) {
+        Log.e("EngineRenderer", "Entity has no aux data:");
+        continue;
+      }
+      if (entity.getPositionData() == null) {
+        Log.e("EngineRenderer", "Entity has no position data:");
+        continue;
+      }
+      if (entity.getIndices() == null) {
+        Log.e("EngineRenderer", "Entity has no indices:");
+        continue;
+      }
+      // Bind the texture
+      if (lastTexture != entity.getGl_texture_ptr()) {
+        lastTexture = entity.getGl_texture_ptr();
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, entity.getGl_texture_ptr());
+      }
+      // Set up vertex data
+      positionBuffer = createFloatBuffer(entity.getPositionData());
+      auxBuffer = createFloatBuffer(entity.getAuxData());
+      indexBuffer = createShortBuffer(entity.getIndices());
+
+      // Bind the Aux data (color and stuff)
+      auxBuffer.position(0); // Start from the beginning of your auxBuffer
+      glVertexAttribPointer(
+          auxHandle1,
+          4,
+          GL_FLOAT,
+          false,
+          AUX_DATA_SIZE * 4,
+          auxBuffer); // 4 components per vertex for this attribute
+      glEnableVertexAttribArray(auxHandle1);
+
+      auxBuffer.position(4); // Skip the first four floats to reach the start of the color data
+      glVertexAttribPointer(
+          auxHandle2,
+          3,
+          GL_FLOAT,
+          false,
+          AUX_DATA_SIZE * 4,
+          auxBuffer); // 3 components per vertex for this attribute, adjust if using vec4
+      glEnableVertexAttribArray(auxHandle2);
+
+      // Bind position data
+      positionBuffer.position(0);
+      glVertexAttribPointer(
+          positionHandle,
+          POSITION_DATA_SIZE,
+          GL_FLOAT,
+          false,
+          POSITION_DATA_SIZE * 4,
+          positionBuffer);
+      glEnableVertexAttribArray(positionHandle);
+
+      // Bind the indeces?
+      glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
     }
+
     //    this.game.update(deltaTime);
   }
 }
