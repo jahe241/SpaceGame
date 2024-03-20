@@ -18,6 +18,8 @@ public class Entity extends Quad {
   private int spriteY;
   protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f}; // RGBA
 
+  private boolean discard = false; // Whether the entity should be by the game-loop
+
   // Rewrite Data:
   float[] auxData =
       new float
@@ -304,5 +306,23 @@ public class Entity extends Quad {
 
   public void setHasTexture(boolean hasTexture) {
     this.hasTexture = hasTexture;
+  }
+
+  public void setSpriteX(int spriteX) {
+    this.spriteX = spriteX;
+    this.updateauxData();
+  }
+
+  public void setSpriteY(int spriteY) {
+    this.spriteY = spriteY;
+    this.updateauxData();
+  }
+
+  public void setDiscard(boolean discard) {
+    this.discard = discard;
+  }
+
+  public boolean getDiscard() {
+    return this.discard;
   }
 }
