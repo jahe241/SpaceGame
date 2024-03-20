@@ -1,8 +1,26 @@
 package com.spacegame.core;
 
-public class ColorEntity extends TextureEntity {
+public class ColorEntity extends Entity {
 
-  public ColorEntity(float x, float y, float width, float height, int gl_texture_ptr) {
-    super(x, y, width, height, gl_texture_ptr);
+  public ColorEntity(float x, float y, float width, float height, float[] colorOverlay) {
+    super(x, y, width, height, -1, colorOverlay);
+  }
+
+  @Override
+  protected void updateauxData() {
+    // Update the color overlay data
+    this.auxData =
+        new float[] {
+          // Flag = 2 for solid color
+          // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
+          0.0f, 0.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
+              this.colorOverlay[3],
+          1.0f, 0.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
+              this.colorOverlay[3],
+          0.0f, 1.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
+              this.colorOverlay[3],
+          1.0f, 1.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
+              this.colorOverlay[3]
+        };
   }
 }

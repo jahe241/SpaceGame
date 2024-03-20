@@ -3,23 +3,24 @@ package com.spacegame.core;
 import android.util.Log;
 import com.spacegame.utils.Vector2D;
 
-public class TextureEntity extends Quad {
+public class Entity extends Quad {
 
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
   private float destX; // destination x position
   private float destY; // destination y position
-  private float speed = 1000f; // Speed in pixels per second (I guess, not sure, but it's fast)
+  private float speed = 2000f; // Speed in pixels per second (I guess, not sure, but it's fast)
   private float lastRotationRad = 0f;
   protected boolean hasColorOverlay = false;
+  protected boolean hasTexture = false;
 
   protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f}; // RGBA
 
   // Rewrite Data:
-  private float[] auxData =
+  float[] auxData =
       new float
           [28]; // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A for each vertex/corner
 
-  public TextureEntity(float x, float y, float width, float height, int gl_texture_ptr) {
+  public Entity(float x, float y, float width, float height, int gl_texture_ptr) {
     super(x, y, width, height);
     this.destX = x;
     this.destY = y;
@@ -27,10 +28,11 @@ public class TextureEntity extends Quad {
     this.updateauxData();
   }
 
-  public TextureEntity(
+  public Entity(
       float x, float y, float width, float height, int gl_texture_ptr, float[] colorOverlay) {
     this(x, y, width, height, gl_texture_ptr);
     this.colorOverlay = colorOverlay;
+    this.hasColorOverlay = true;
     this.updateauxData();
   }
 
@@ -110,7 +112,7 @@ public class TextureEntity extends Quad {
    *
    * @param deltaTime The time elapsed since the last update.
    */
-  private void updatePosition(float deltaTime) {
+  void updatePosition(float deltaTime) {
     float dx = this.destX - this.x;
     float dy = this.destY - this.y;
     float distance = Vector2D.calculateDistance(this.x, this.y, this.destX, this.destY);
@@ -120,7 +122,7 @@ public class TextureEntity extends Quad {
 
     // Define a small threshold distance, so the entity doesn't overshoot the destination
     // Needed because of floating point precision issues
-    float threshold = 10f;
+    float threshold = 30f;
 
     if (distance > threshold) {
       // Update position
@@ -266,5 +268,18 @@ public class TextureEntity extends Quad {
 
   public int getGl_texture_ptr() {
     return gl_texture_ptr;
+  }
+
+  public void setColorOverlay(float[] color) {
+    this.colorOverlay = color;
+    this.hasColorOverlay = true;
+  }
+
+  public void disableColorOverlay() {
+    this.hasColorOverlay = false;
+  }
+
+  public void setHasTexture(boolean hasTexture) {
+    this.hasTexture = hasTexture;
   }
 }
