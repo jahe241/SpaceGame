@@ -1,21 +1,21 @@
 package com.spacegame.utils;
 
 public class TextureAtlas {
-  private int textureId;
-  private int spriteWidth;
-  private int spriteHeight;
-  private int atlasWidth;
-  private int atlasHeight;
+  private final int textureId;
+  private final int spriteWidth;
+  private final int spriteHeight;
+  private final int atlasWidth;
+  private final int atlasHeight;
 
   /**
    * Constructor for TextureAtlas This class is used to store the texture id and the sprite width
    * and height it assumes that the atlas is a grid of sprites
    *
    * @param textureId the openGL texture id
-   * @param spriteWidth the sprite width
-   * @param spriteHeight the sprite height
-   * @param atlasWidth the atlas width
-   * @param atlasHeight the atlas height
+   * @param spriteWidth the sprite width in pixels
+   * @param spriteHeight the sprite height in pixels
+   * @param atlasWidth the atlas width in pixels
+   * @param atlasHeight the atlas height in pixels
    */
   public TextureAtlas(
       int textureId, int spriteWidth, int spriteHeight, int atlasWidth, int atlasHeight) {
@@ -30,11 +30,16 @@ public class TextureAtlas {
    * Returns the UV coordinates for a sprite in the texture atlas. The UV coordinates are normalized
    * values between 0 and 1 that represent the position of the sprite in the texture atlas.
    *
+   * <p>The TextureAtlas is 0-Indexed starting from the top left (0,0) to bottom right (max,max)
+   *
    * @param spriteX The x position of the sprite in the texture atlas grid.
    * @param spriteY The y position of the sprite in the texture atlas grid.
    * @return An array of floats representing the UV coordinates of the sprite in the texture atlas.
    */
   public float[] getUVs(int spriteX, int spriteY) {
+    assert spriteX < atlasWidth / spriteWidth;
+    assert spriteY < atlasHeight / spriteHeight;
+
     float u = (float) spriteX * spriteWidth / atlasWidth;
     float v = (float) spriteY * spriteHeight / atlasHeight;
     float u2 = u + (float) spriteWidth / atlasWidth;
@@ -53,8 +58,8 @@ public class TextureAtlas {
   }
 
   /**
-   * Returns the width of the texture atlas grid. = the number of sprites in the x direction. The
-   * width of the grid is calculated by dividing the width of the atlas by the width of a sprite.
+   * Returns the number of sprites in the X-Direction. The number is calculated by dividing the
+   * width of the atlas by the width of a sprite.
    *
    * @return The width of the texture atlas grid.
    */
@@ -63,8 +68,8 @@ public class TextureAtlas {
   }
 
   /**
-   * Returns the height of the texture atlas grid. = the number of sprites in the y direction. The
-   * height of the grid is calculated by dividing the height of the atlas by the height of a sprite.
+   * Returns the number of sprites in the Y-Direction. The number is calculated by dividing the
+   * height of the atlas by the height of a sprite.
    *
    * @return The height of the texture atlas grid.
    */
