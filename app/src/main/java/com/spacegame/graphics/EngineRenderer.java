@@ -273,7 +273,5 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       // Bind the indeces?
       glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
     }
-
-    //    this.game.update(deltaTime);
   }
 }

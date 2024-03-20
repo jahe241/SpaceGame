@@ -46,55 +46,6 @@ abstract class Quad {
   }
 
   /**
-   * Updates the entity's vertex data to reflect its current position, orientation, and size. This
-   * includes recalculating the vertices for the two triangles that make up the entity's rectangular
-   * shape based on its current position (x, y), size (width, height), and rotation. The method also
-   * sets texture coordinates for each vertex. These are static and do not change with the entity's
-   * transformation.
-   */
-  //  void updateVertexData() {
-  //    // Calculate the sine and cosine of the rotation angle for efficient use in vertex rotation
-  //    float cosTheta = (float) Math.cos(rotationRad);
-  //    float sinTheta = (float) Math.sin(rotationRad);
-  //
-  //    // Adjust vertex data based on current position, size, and rotation
-  //    float[] adjustedVertexData = {
-  //      // Bottom-left vertex
-  //      x - cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
-  //      y + sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
-  //      0f,
-  //      1f,
-  //      0f,
-  //
-  //      // Bottom-right vertex
-  //      x + cosTheta * width / 2 - sinTheta * height / 2, // Adjusted X
-  //      y - sinTheta * width / 2 - cosTheta * height / 2, // Adjusted Y
-  //      0f,
-  //      1f,
-  //      1f,
-  //
-  //      // Top-left vertex
-  //      x - cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
-  //      y + sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
-  //      0f,
-  //      1f,
-  //      0f,
-  //
-  //      // Top-right vertex
-  //      x + cosTheta * width / 2 + sinTheta * height / 2, // Adjusted X
-  //      y - sinTheta * width / 2 + cosTheta * height / 2, // Adjusted Y
-  //      0f,
-  //      1f,
-  //      1f,
-  //    };
-  //
-  //    // Reset the buffer to write the new vertex data
-  //    vertexData.clear();
-  //    vertexData.put(adjustedVertexData);
-  //    vertexData.position(0);
-  //  }
-
-  /**
    * Updates the entity's positionData Array to reflect its current position, orientation, and size.
    */
   void updatePositionData() {

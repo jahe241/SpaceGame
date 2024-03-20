@@ -49,10 +49,10 @@ public class TextureEntity extends Quad {
           new float[] {
             // Flag = 0 for texture
             // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            0.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            0.0f, 1.0f, 2.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-            1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f
+            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+            1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
           };
     } else {
       this.auxData =
@@ -63,7 +63,7 @@ public class TextureEntity extends Quad {
                 colorOverlay[3], // Solid red
             1.0f, 0.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Textured white
-            0.0f, 1.0f, 2.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            0.0f, 1.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Solid green
             1.0f, 1.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3] // Textured white
