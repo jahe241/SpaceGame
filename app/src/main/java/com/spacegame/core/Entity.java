@@ -371,6 +371,7 @@ public class Entity extends Quad {
   public void setColorOverlay(float[] color) {
     this.colorOverlay = color;
     this.hasColorOverlay = true;
+    this.updateauxData();
   }
 
   /**
@@ -407,5 +408,9 @@ public class Entity extends Quad {
    */
   public boolean getDiscard() {
     return this.discard;
+  }
+
+  public float[] getColorOverlay() {
+    return colorOverlay;
   }
 }
