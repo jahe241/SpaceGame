@@ -94,7 +94,7 @@
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
-            <enum type="AlgorithmSettings::AlgorithmId">Grid</enum>
+            <enum type="AlgorithmSettings::AlgorithmId">Basic</enum>
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
@@ -134,7 +134,7 @@
         <key>outputFormat</key>
         <enum type="SettingsBase::OutputFormat">RGBA8888</enum>
         <key>alphaHandling</key>
-        <enum type="SettingsBase::AlphaHandling">ClearTransparentPixels</enum>
+        <enum type="SettingsBase::AlphaHandling">KeepTransparentPixels</enum>
         <key>contentProtection</key>
         <struct type="ContentProtection">
             <key>key</key>
@@ -143,7 +143,7 @@
         <key>autoAliasEnabled</key>
         <false/>
         <key>trimSpriteNames</key>
-        <false/>
+        <true/>
         <key>prependSmartFolderName</key>
         <false/>
         <key>autodetectAnimations</key>
@@ -173,37 +173,22 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">../../Downloads/exp2_0/exp2_0-0.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-1.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-10.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-11.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-12.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-13.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-14.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-15.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-2.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-3.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-4.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-5.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-6.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-7.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-8.png</key>
-            <key type="filename">../../Downloads/exp2_0/exp2_0-9.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>3</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">../../Downloads/peepo.png</key>
+            <key type="filename">Loose Files/exp2_0-00.png</key>
+            <key type="filename">Loose Files/exp2_0-01.png</key>
+            <key type="filename">Loose Files/exp2_0-02.png</key>
+            <key type="filename">Loose Files/exp2_0-03.png</key>
+            <key type="filename">Loose Files/exp2_0-04.png</key>
+            <key type="filename">Loose Files/exp2_0-05.png</key>
+            <key type="filename">Loose Files/exp2_0-06.png</key>
+            <key type="filename">Loose Files/exp2_0-07.png</key>
+            <key type="filename">Loose Files/exp2_0-08.png</key>
+            <key type="filename">Loose Files/exp2_0-09.png</key>
+            <key type="filename">Loose Files/exp2_0-10.png</key>
+            <key type="filename">Loose Files/exp2_0-11.png</key>
+            <key type="filename">Loose Files/exp2_0-12.png</key>
+            <key type="filename">Loose Files/exp2_0-13.png</key>
+            <key type="filename">Loose Files/exp2_0-14.png</key>
+            <key type="filename">Loose Files/exp2_0-15.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -212,13 +197,28 @@
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Loose Files/peepo.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
                 <rect>13,21,25,42</rect>
                 <key>scale9Paddings</key>
                 <rect>13,21,25,42</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">titanpng.png</key>
+            <key type="filename">Loose Files/titan.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -240,24 +240,7 @@
             <struct type="SpriteSheet">
                 <key>files</key>
                 <array>
-                    <filename>../../Downloads/exp2_0/exp2_0-0.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-1.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-10.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-11.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-12.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-13.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-14.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-15.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-2.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-3.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-4.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-5.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-6.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-7.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-8.png</filename>
-                    <filename>../../Downloads/exp2_0/exp2_0-9.png</filename>
-                    <filename>../../Downloads/peepo.png</filename>
-                    <filename>titanpng.png</filename>
+                    <filename>Loose Files</filename>
                 </array>
             </struct>
         </map>
