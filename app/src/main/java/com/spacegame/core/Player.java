@@ -3,32 +3,25 @@ package com.spacegame.core;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.utils.ColorHelper;
-import com.spacegame.utils.TextureAtlas;
+import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Vector2D;
 
 public class Player extends Entity {
 
+  /**
+   * Constructor for the Player class. This constructor initializes a new Player object by calling
+   * the superclass constructor with the provided parameters.
+   *
+   * @param textureAtlas The TextureAtlas object that contains the sprite for this player.
+   * @param spriteName The name of the sprite in the texture atlas to use for this player.
+   * @param x The initial x-coordinate of the player.
+   * @param y The initial y-coordinate of the player.
+   * @param width The width of the player.
+   * @param height The height of the player.
+   */
   public Player(
-      TextureAtlas textureAtlas,
-      int spriteX,
-      int spriteY,
-      float x,
-      float y,
-      float width,
-      float height) {
-    super(textureAtlas, spriteX, spriteY, x, y, width, height);
-  }
-
-  public Player(
-      TextureAtlas textureAtlas,
-      int spriteX,
-      int spriteY,
-      float x,
-      float y,
-      float width,
-      float height,
-      float[] colorOverlay) {
-    super(textureAtlas, spriteX, spriteY, x, y, width, height, colorOverlay);
+      TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
+    super(textureAtlas, spriteName, x, y, width, height);
   }
 
   public void onTouch(MotionEvent event) {

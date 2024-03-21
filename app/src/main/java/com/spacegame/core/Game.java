@@ -2,7 +2,7 @@ package com.spacegame.core;
 
 import android.util.Log;
 import android.view.MotionEvent;
-import com.spacegame.utils.TextureAtlas;
+import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -54,8 +54,8 @@ public class Game extends Thread {
 
   private void setupGame() {
     // Add the player character
-    this.setPlayer(new Player(this.textureAtlas, 8, 1, 500f, 1000f, 200f, 100f));
-    player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
+    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, 500f, 1000f, 200f, 100f));
+    this.player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
 
     // Pause "Button"
     var pauseButton = new ColorEntity(100f, 100f, 200, 200, new float[] {1f, 0f, 0f, 1f});
@@ -133,15 +133,16 @@ public class Game extends Thread {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       if (this.paused) return;
       //    addEntity(new Entity(this.textureAtlas, 7, 1, event.getX(), event.getY(), 50f, 50f));
-      addEntity(
+      this.addEntity(
           new AnimatedEntity(
               this.textureAtlas,
               Constants.animation_EXPLOSION,
               event.getX(),
               event.getY(),
-              250f,
-              250f,
-              0.03f)); // 30ms per frame (i hope)
+              500f,
+              500f,
+              0.4f,
+              false));
       if (player != null) player.onTouch(event);
     }
   }

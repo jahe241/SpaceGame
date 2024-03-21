@@ -14,13 +14,14 @@ import com.spacegame.core.Entity;
 import com.spacegame.core.Game;
 import com.spacegame.core.GameInterface;
 import com.spacegame.utils.TextResourceReader;
-import com.spacegame.utils.TextureAtlas;
+import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
+import org.xmlpull.v1.XmlPullParserException;
 
 public class EngineRenderer implements GLSurfaceView.Renderer {
   // GL Pointers
@@ -95,8 +96,13 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
             + EngineRenderer.gl_a_TexCoordinate_ptr
             + " "
             + EngineRenderer.gl_u_ProjectionMatrix_ptr);
-
-    loadTextures();
+    try {
+      if (this.textureAtlas == null) {
+        loadTextures();
+      }
+    } catch (XmlPullParserException | IOException e) {
+      e.printStackTrace();
+    }
     this.game.start();
   }
 
@@ -107,7 +113,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
    * dimensions. The created TextureAtlas object is then stored in the textureAtlas field of the
    * EngineRenderer class and the game object.
    */
-  private void loadTextures() {
+  private void loadTextures() throws XmlPullParserException, IOException {
     int atlasPtr = loadTexture(R.drawable.atlas);
     if (atlasPtr == 0) {
       Log.e("EngineRenderer", "Failed to load texture");
@@ -115,13 +121,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     }
     Log.i("EngineRenderer", "Pepe texture loaded successfully!");
 
-    // Create the texture atlas
-    int spriteWidth = 192; // Replace with actual sprite width
-    int spriteHeight = 192; // Replace with actual sprite height
-    int atlasWidth = 1728; // Replace with actual atlas width
-    int atlasHeight = 384; // Replace with actual atlas height
-    this.textureAtlas =
-        new TextureAtlas(atlasPtr, spriteWidth, spriteHeight, atlasWidth, atlasHeight);
+    this.textureAtlas = new TextureAtlas(context, R.raw.atlas, atlasPtr);
     game.textureAtlas = this.textureAtlas;
   }
 
