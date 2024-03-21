@@ -5,15 +5,32 @@ import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import java.util.List;
 
+/**
+ * AnimatedEntity is a subclass of Entity that supports frame-based animation. It maintains a list
+ * of sprites that make up the animation, the current frame of the animation, the duration of each
+ * frame, the time elapsed since the last frame change, and a flag indicating whether the animation
+ * should loop or not.
+ */
 public class AnimatedEntity extends Entity {
-  // Animation fields
-  private List<Sprite>
-      animationFrames; // The indices of the sprites in the animation, must be divisible by 2!
-  private int animationStep; // The current frame of the animation
-  private float frameDuration; // The duration of each frame in seconds
-  private float timeSinceLastFrame; // The time elapsed since the last frame change
 
-  private boolean isLooping; // Whether the animation should loop or not
+  /** A list of Sprite objects that make up the frames of the animation. */
+  private List<Sprite> animationFrames;
+
+  /** The current frame of the animation. This is an index into the animationFrames list. */
+  private int animationStep;
+
+  /** The duration of each frame in the animation, in seconds. */
+  private float frameDuration;
+
+  /** The time elapsed since the last frame change, in seconds. */
+  private float timeSinceLastFrame;
+
+  /**
+   * A flag indicating whether the animation should loop or not. If true, the animation will start
+   * over from the beginning once it reaches the end. If false, the animation will stop once it
+   * reaches the end.
+   */
+  private boolean isLooping;
 
   /**
    * Constructor for the AnimatedEntity class. This constructor initializes a new AnimatedEntity

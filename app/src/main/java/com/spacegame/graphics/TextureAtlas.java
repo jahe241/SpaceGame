@@ -13,6 +13,14 @@ import java.util.Map;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 
+/**
+ * The TextureAtlas class represents a texture atlas for a game. A texture atlas is a large image
+ * containing many smaller sub-images, each of which is a texture for some part of a game object.
+ * The class maintains a map of sprite names to their respective Sprite objects, and another map for
+ * animation sprite sequences. It also provides methods to retrieve a sprite or an animation
+ * sequence by name, and to calculate the UV coordinates for a sprite. The class is initialized by
+ * parsing an XML resource that describes the texture atlas.
+ */
 public class TextureAtlas {
   private final Context context;
 
@@ -45,7 +53,7 @@ public class TextureAtlas {
       throws IOException, XmlPullParserException {
     this.context = context;
     this.textureId = textureId;
-    InputStream xmlStream = context.getResources().openRawResource(xmlResourceId);
+    InputStream xmlStream = this.context.getResources().openRawResource(xmlResourceId);
     XmlPullParser parser = Xml.newPullParser();
     parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
     parser.setInput(xmlStream, null);
