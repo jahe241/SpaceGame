@@ -1,62 +1,67 @@
 package com.spacegame.core;
 
 import android.util.Log;
-import com.spacegame.utils.TextureAtlas;
+import com.spacegame.graphics.Sprite;
+import com.spacegame.graphics.TextureAtlas;
+import java.util.List;
 
+/**
+ * AnimatedEntity is a subclass of Entity that supports frame-based animation. It maintains a list
+ * of sprites that make up the animation, the current frame of the animation, the duration of each
+ * frame, the time elapsed since the last frame change, and a flag indicating whether the animation
+ * should loop or not.
+ */
 public class AnimatedEntity extends Entity {
-  // Animation fields
-  private int[]
-      animationFrames; // The indices of the sprites in the animation, must be divisible by 2!
-  private int animationStep; // The current frame of the animation
-  private float frameDuration; // The duration of each frame in seconds
-  private float timeSinceLastFrame; // The time elapsed since the last frame change
+
+  /** A list of Sprite objects that make up the frames of the animation. */
+  private List<Sprite> animationFrames;
+
+  /** The current frame of the animation. This is an index into the animationFrames list. */
+  private int animationStep;
+
+  /** The duration of each frame in the animation, in seconds. */
+  private float frameDuration;
+
+  /** The time elapsed since the last frame change, in seconds. */
+  private float timeSinceLastFrame;
 
   /**
-   * Constructor for AnimatedEntity
-   *
-   * @param textureAtlas The texture atlas containing the sprites for the entity
-   * @param spriteX The x position of the first animation frame sprite in the texture atlas grid
-   * @param spriteY The y position of the first animation frame sprite in the texture atlas grid
-   * @param x The x position of the entity (center)
-   * @param y The y position of the entity (center)
-   * @param width The width of the entity
-   * @param height The height of the entity
+   * A flag indicating whether the animation should loop or not. If true, the animation will start
+   * over from the beginning once it reaches the end. If false, the animation will stop once it
+   * reaches the end.
    */
-  private AnimatedEntity(
-      TextureAtlas textureAtlas,
-      int spriteX,
-      int spriteY,
-      float x,
-      float y,
-      float width,
-      float height) {
-    super(textureAtlas, spriteX, spriteY, x, y, width, height);
-  }
+  private boolean isLooping;
 
   /**
-   * Constructor for AnimatedEntity
+   * Constructor for the AnimatedEntity class. This constructor initializes a new AnimatedEntity
+   * object by calling the superclass constructor with the provided parameters. It also initializes
+   * the animation frames, animation step, frame duration, and time since last frame.
    *
-   * @param textureAtlas The texture atlas containing the sprites for the entity
-   * @param animationFrames The indices of the sprites in the animation, must be divisible by 2!
-   * @param x The x position of the entity (center)
-   * @param y The y position of the entity (center)
-   * @param width The width of the entity
-   * @param height The height of the entity
+   * @param textureAtlas The TextureAtlas object that contains the sprites for this entity.
+   * @param animationName The name of the animation in the texture atlas to use for this entity.
+   * @param x The initial x-coordinate of the entity.
+   * @param y The initial y-coordinate of the entity.
+   * @param width The width of the entity.
+   * @param height The height of the entity.
+   * @param frameDuration The duration of each frame in seconds.
    */
   public AnimatedEntity(
       TextureAtlas textureAtlas,
-      int[] animationFrames,
+      String animationName,
       float x,
       float y,
       float width,
       float height,
-      float frameDuration) {
-    this(textureAtlas, animationFrames[0], animationFrames[1], x, y, width, height);
-    assert animationFrames.length % 2 == 0;
-    this.animationFrames = animationFrames;
+      float frameDuration,
+      boolean isLooping) {
+    super(textureAtlas, null, x, y, width, height);
+    this.animationFrames = textureAtlas.getAnimationSprites(animationName);
     this.animationStep = 0;
+    this.sprite = animationFrames.get(animationStep);
     this.frameDuration = frameDuration;
     this.timeSinceLastFrame = 0.0f;
+    this.isLooping = isLooping;
+    this.updateauxData();
   }
 
   @Override
@@ -80,23 +85,18 @@ public class AnimatedEntity extends Entity {
           this.frameDuration; // Decrease timeSinceLastFrame for the next frame
 
       // Check if the animation has reached the end
-      if (this.animationStep >= this.animationFrames.length / 2) {
-        this.setDiscard(true); // End the animation and possibly discard the entity
-        break; // Exit the loop if the animation ends
+      if (this.animationStep >= this.animationFrames.size()) {
+        if (this.isLooping) {
+          this.animationStep = 0; // Reset the animation if it is looping
+        } else {
+          this.setDiscard(true); // End the animation and possibly discard the entity
+          break; // Exit the loop if the animation ends
+        }
       } else {
         // Update the sprite to the current frame
-        int index = this.animationStep * 2; // Calculate the index for the current frame
-        this.setSpriteX(this.animationFrames[index]);
-        this.setSpriteY(this.animationFrames[index + 1]);
-        Log.d(
-            "AnimatedEntity",
-            "Advancing sprite to frame at index "
-                + index
-                + ": ("
-                + this.animationFrames[index]
-                + ", "
-                + this.animationFrames[index + 1]
-                + ")");
+        this.sprite = this.animationFrames.get(this.animationStep);
+        this.updateauxData();
+        Log.d("AnimatedEntity", "Advancing sprite to frame to index " + this.animationStep);
       }
     }
   }

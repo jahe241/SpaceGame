@@ -1,6 +1,7 @@
 package com.spacegame.core;
 
-import com.spacegame.utils.TextureAtlas;
+import com.spacegame.graphics.Sprite;
+import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Vector2D;
 
 public class Entity extends Quad {
@@ -54,11 +55,30 @@ public class Entity extends Quad {
    */
   protected boolean hasTexture = false;
 
-  TextureAtlas textureAtlas;
-  private int spriteX;
-  private int spriteY;
-  protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f}; // RGBA
+  /**
+   * The TextureAtlas object associated with the entity. This object contains the texture atlas used
+   * to render the entity's sprite.
+   */
+  TextureAtlas textureAtlas; // I'm not sure if we need to keep this here
 
+  /**
+   * The Sprite object associated with the entity. This object contains the size, position, and UV
+   * coordinates for the entity's sprite.
+   */
+  Sprite sprite;
+
+  /**
+   * The color overlay to apply to the entity's texture. This is an array of four floats
+   * representing the RGBA color values to apply to the texture. The values should be in the range
+   * [0, 1]. The default color overlay is white (1.0f, 1.0f, 1.0f, 1.0f).
+   */
+  protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f};
+
+  /**
+   * A flag indicating whether the entity should be discarded by the game loop. If set to true, the
+   * entity will be removed from the game loop in the next iteration. Default value is false,
+   * meaning the entity is active in the game loop.
+   */
   private boolean discard = false; // Whether the entity should be by the game-loop
 
   // Rewrite Data:
@@ -71,37 +91,37 @@ public class Entity extends Quad {
       new float
           [28]; // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A for each vertex/corner
 
+  /**
+   * Constructor for the Entity class. This constructor initializes a new Entity object by setting
+   * its position, size, texture atlas, and sprite. If the texture atlas is not null, it sets the
+   * texture atlas and OpenGL texture pointer of the entity. If both the texture atlas and sprite
+   * name are not null, it sets the sprite of the entity and updates its auxiliary data.
+   *
+   * @param textureAtlas The TextureAtlas object to use for the entity. This object contains the
+   *     texture atlas used to render the entity's sprite.
+   * @param spriteName The name of the sprite to use for the entity. The sprite is retrieved from
+   *     the provided texture atlas.
+   * @param x The initial x-coordinate of the entity.
+   * @param y The initial y-coordinate of the entity.
+   * @param width The width of the entity.
+   * @param height The height of the entity.
+   */
   public Entity(
-      TextureAtlas textureAtlas,
-      int spriteX,
-      int spriteY,
-      float x,
-      float y,
-      float width,
-      float height) {
+      TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(x, y, width, height);
     if (textureAtlas != null) {
       this.textureAtlas = textureAtlas;
       this.gl_texture_ptr = textureAtlas.getTexturePtr();
     }
-    this.spriteX = spriteX;
-    this.spriteY = spriteY;
-    this.updateauxData();
+    if (textureAtlas != null && spriteName != null) {
+      this.sprite = textureAtlas.getSprite(spriteName);
+      assert this.sprite != null;
+      this.updateauxData();
+    }
   }
 
-  public Entity(
-      TextureAtlas textureAtlas,
-      int spriteX,
-      int spriteY,
-      float x,
-      float y,
-      float width,
-      float height,
-      float[] colorOverlay) {
-    this(textureAtlas, spriteX, spriteY, x, y, width, height);
-    this.colorOverlay = colorOverlay;
-    this.hasColorOverlay = true;
-    this.updateauxData();
+  protected Entity() {
+    super(0, 0, 0, 0);
   }
 
   /**
@@ -111,38 +131,29 @@ public class Entity extends Quad {
    */
   @Override
   protected void updateauxData() {
-    float[] uvs = textureAtlas.getUVs(this.spriteX, this.spriteY);
-    // EXAMPLE:
-    //    float auxData[] = {
-    //      // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-    //        0.0f, 0.0f, 2.0f, 1.0f, 0.0f, 0.0f, 1.0f, // Solid red
-    //        1.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, // Textured white
-    //        0.0f, 1.0f, 2.0f, 0.0f, 1.0f, 0.0f, 1.0f, // Solid green
-    //        1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f  // Textured white
-    //    }
-    if (!hasColorOverlay) {
+    if (hasColorOverlay) {
       this.auxData =
           new float[] {
-            // Flag = 0 for texture
+            // Flag = 1 for texture * color overlay
             // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            uvs[0], uvs[1], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            uvs[2], uvs[1], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            uvs[0], uvs[3], 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-            uvs[2], uvs[3], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
+            this.sprite.uvs()[0], this.sprite.uvs()[1], 1.0f, colorOverlay[0], colorOverlay[1],
+                colorOverlay[2], colorOverlay[3],
+            this.sprite.uvs()[2], this.sprite.uvs()[1], 1.0f, colorOverlay[0], colorOverlay[1],
+                colorOverlay[2], colorOverlay[3],
+            this.sprite.uvs()[0], this.sprite.uvs()[3], 1.0f, colorOverlay[0], colorOverlay[1],
+                colorOverlay[2], colorOverlay[3],
+            this.sprite.uvs()[2], this.sprite.uvs()[3], 1.0f, colorOverlay[0], colorOverlay[1],
+                colorOverlay[2], colorOverlay[3]
           };
     } else {
       this.auxData =
           new float[] {
-            // Flag = 1 for texture + color overlay
-            // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            uvs[0], uvs[1], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
-                colorOverlay[3], // Solid red
-            uvs[2], uvs[1], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
-                colorOverlay[3], // Textured white
-            uvs[0], uvs[3], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
-                colorOverlay[3], // Solid green
-            uvs[2], uvs[3], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
-                colorOverlay[3] // Textured white
+            // Flag = 0.0 for texture
+            // Tex U, Tex V, Flag, Color R, Color G, Color B, Color Alpha
+            this.sprite.uvs()[0], this.sprite.uvs()[1], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            this.sprite.uvs()[2], this.sprite.uvs()[1], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+            this.sprite.uvs()[0], this.sprite.uvs()[3], 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+            this.sprite.uvs()[2], this.sprite.uvs()[3], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
           };
     }
   }
@@ -300,33 +311,100 @@ public class Entity extends Quad {
     return gl_texture_ptr;
   }
 
+  /**
+   * Sets the sprite of the entity based on the sprite name. The sprite is retrieved from the
+   * entity's texture atlas. After setting the sprite, the entity's auxiliary data is updated.
+   *
+   * @param spriteName The name of the sprite to set.
+   */
+  public void setSprite(String spriteName) {
+    this.sprite = textureAtlas.getSprite(spriteName);
+    assert this.sprite != null;
+    this.updateauxData();
+  }
+
+  /**
+   * Sets the sprite of the entity based on the sprite name and a given texture atlas. The sprite is
+   * retrieved from the given texture atlas. After setting the sprite and texture atlas, the
+   * entity's auxiliary data is updated.
+   *
+   * @param textureAtlas The texture atlas to retrieve the sprite from.
+   * @param spriteName The name of the sprite to set.
+   */
+  public void setSprite(TextureAtlas textureAtlas, String spriteName) {
+    this.textureAtlas = textureAtlas;
+    this.gl_texture_ptr = textureAtlas.getTexturePtr();
+    this.sprite = textureAtlas.getSprite(spriteName);
+    assert this.sprite != null;
+    this.updateauxData();
+  }
+
+  /**
+   * Sets the sprite of the entity directly. After setting the sprite, the entity's auxiliary data
+   * is updated.
+   *
+   * @param sprite The sprite to set.
+   */
+  private void setSprite(Sprite sprite) {
+    this.sprite = sprite;
+    this.updateauxData();
+  }
+
+  /**
+   * Sets the texture atlas of the entity. The OpenGL texture pointer is also updated based on the
+   * given texture atlas.
+   *
+   * @param textureAtlas The texture atlas to set.
+   */
+  public void setTextureAtlas(TextureAtlas textureAtlas) {
+    this.textureAtlas = textureAtlas;
+    this.gl_texture_ptr = textureAtlas.getTexturePtr();
+  }
+
+  /**
+   * Sets the color overlay of the entity. The color overlay is an array of four floats representing
+   * the RGBA color values. After setting the color overlay, the entity's hasColorOverlay flag is
+   * set to true.
+   *
+   * @param color The color overlay to set.
+   */
   public void setColorOverlay(float[] color) {
     this.colorOverlay = color;
     this.hasColorOverlay = true;
   }
 
+  /**
+   * Disables the color overlay of the entity. The entity's hasColorOverlay flag is set to false.
+   */
   public void disableColorOverlay() {
     this.hasColorOverlay = false;
   }
 
+  /**
+   * Sets the hasTexture flag of the entity. This flag indicates whether the entity has a texture.
+   *
+   * @param hasTexture The value to set the hasTexture flag to.
+   */
   public void setHasTexture(boolean hasTexture) {
     this.hasTexture = hasTexture;
   }
 
-  public void setSpriteX(int spriteX) {
-    this.spriteX = spriteX;
-    this.updateauxData();
-  }
-
-  public void setSpriteY(int spriteY) {
-    this.spriteY = spriteY;
-    this.updateauxData();
-  }
-
+  /**
+   * Sets the discard flag of the entity. If set to true, the entity will be removed from the game
+   * loop in the next iteration.
+   *
+   * @param discard The value to set the discard flag to.
+   */
   public void setDiscard(boolean discard) {
     this.discard = discard;
   }
 
+  /**
+   * Gets the discard flag of the entity. If the discard flag is true, the entity will be removed
+   * from the game loop in the next iteration.
+   *
+   * @return The value of the discard flag.
+   */
   public boolean getDiscard() {
     return this.discard;
   }
