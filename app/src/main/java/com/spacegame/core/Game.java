@@ -132,7 +132,6 @@ public class Game extends Thread {
   public void handleTouchEvent(MotionEvent event) {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       if (this.paused) return;
-      //    addEntity(new Entity(this.textureAtlas, 7, 1, event.getX(), event.getY(), 50f, 50f));
       this.addEntity(
           new AnimatedEntity(
               this.textureAtlas,
@@ -141,7 +140,7 @@ public class Game extends Thread {
               event.getY(),
               500f,
               500f,
-              0.4f,
+              0.03f, // Animation speed in seconds
               false));
       if (player != null) player.onTouch(event);
     }
