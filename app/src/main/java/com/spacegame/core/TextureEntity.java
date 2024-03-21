@@ -4,15 +4,61 @@ import com.spacegame.utils.Vector2D;
 
 public class TextureEntity extends Quad {
 
+  /** The pointer to the OpenGL texture that should be used to render this entity. */
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
-  private Vector2D velocity = new Vector2D(0, 0);
-  private float baseSpeed = 1000f; // Speed in pixels per second (I guess, not sure, but it's fast)
-  private float lastRotationRad = 0f;
+
+  /**
+   * The velocity of the entity. This is a vector that represents the direction at which the entity
+   * is moving.
+   */
+  Vector2D velocity = new Vector2D(0, 0);
+
+  /**
+   * The acceleration of the entity. This is used for simulating changing directions and speeding up
+   * the entity's movement. The acceleration should be used as pixels per second.
+   */
+  float acceleration = 50;
+
+  /**
+   * The direction of the entity. This is a unit vector that represents the direction in which the
+   * entity will move to.
+   */
+  Vector2D direction = new Vector2D(0, 0);
+
+  /** The current speed of the entity. This is the speed at which the entity is currently moving. */
+  float currentSpeed = 0f;
+
+  /**
+   * The base speed of the entity. This is the speed at which the entity moves when it is not
+   * affected by any external forces.
+   */
+  int baseSpeed = 1000;
+
+  /**
+   * The last rotation angle in radians. This is used to determine if the entity's rotation has
+   * changed since the last update and to snap to the target angle if close enough.
+   */
+  float lastRotationRad = 0f;
+
+  /**
+   * Whether the entity has a color overlay applied to its texture. If true, the entity's texture is
+   * rendered with the color overlay specified in the colorOverlay array.
+   */
   protected boolean hasColorOverlay = false;
 
+  /**
+   * The color overlay to apply to the entity's texture. This is an array of four floats
+   * representing the RGBA color values to apply to the texture. The values should be in the range
+   * [0, 1].
+   */
   protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f}; // RGBA
 
   // Rewrite Data:
+  /**
+   * The auxiliary data array for the entity. This array contains additional data for each vertex of
+   * the entity's quad. The data is stored in the following format: [Tex U, Tex V, Flag, Color R,
+   * Color G, Color B, Color A] for each vertex/corner of the quad.
+   */
   private float[] auxData =
       new float
           [28]; // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A for each vertex/corner
@@ -30,6 +76,11 @@ public class TextureEntity extends Quad {
     this.updateauxData();
   }
 
+  /**
+   * Updates the entity's auxiliary data array based on its color overlay and texture flag.
+   * Implementations should override this method to update the auxiliary data array with the
+   * appropriate values for the entity.
+   */
   @Override
   protected void updateauxData() {
     // EXAMPLE:
@@ -74,10 +125,15 @@ public class TextureEntity extends Quad {
    * @param deltaTime The time elapsed since the last update.
    */
   private void updatePosition(float deltaTime) {
+    // Update the velocity based on the acceleration
+    this.velocity = this.velocity.add(this.direction.mult(this.acceleration));
+    // Limit the velocity to the base speed
+    if (this.velocity.length() > this.baseSpeed) {
+      this.velocity = this.velocity.toSize(this.baseSpeed);
+    }
 
     // Calculate the nextFrameTargetPosition next frame
-    Vector2D direction = this.velocity.mult(deltaTime * this.baseSpeed);
-    Vector2D nextFrameTargetPosition = this.position.add(direction);
+    Vector2D nextFrameTargetPosition = this.position.add(this.velocity.mult(deltaTime));
 
     // Calculate target rotation angle towards the destination point
     float roationAngleRad = -this.position.calcAngle(nextFrameTargetPosition);
@@ -132,26 +188,85 @@ public class TextureEntity extends Quad {
     this.updateVertexPositionData();
   }
 
+  /**
+   * Sets the velocity of the entity.
+   *
+   * @param velocity
+   */
   public void setVelocity(Vector2D velocity) {
     this.velocity = velocity.normalized();
   }
 
-  public void applyVelocity(Vector2D velocity) {
-    this.velocity = this.velocity.add(velocity).normalized();
+  /**
+   * Gets the velocity of the entity.
+   *
+   * @return
+   */
+  public Vector2D getVelocity() {
+    return this.velocity;
   }
 
+  /**
+   * Applies a velocity vector to the entity based on the impact factor. The impact factor is used
+   * to scale the velocity vector before it is applied to the entity.
+   *
+   * @param velocity
+   * @param impact
+   */
+  public void applyVelocity(Vector2D velocity, float impact) {
+    this.velocity = this.velocity.add(velocity.mult(impact).normalized()).normalized();
+  }
+
+  /**
+   * Gets the direction of the entity.
+   *
+   * @param direction
+   */
+  public void setDirection(Vector2D direction) {
+    this.direction = direction.normalized();
+  }
+
+  /**
+   * Gets the direction of the entity.
+   *
+   * @return
+   */
+  public Vector2D getDirection() {
+    return this.direction;
+  }
+
+  /**
+   * Gets the base speed of the entity.
+   *
+   * @return
+   */
   public float getBaseSpeed() {
     return baseSpeed;
   }
 
-  public void setBaseSpeed(float baseSpeed) {
+  /**
+   * Sets the base speed of the entity.
+   *
+   * @param baseSpeed
+   */
+  public void setBaseSpeed(int baseSpeed) {
     this.baseSpeed = baseSpeed;
   }
 
+  /**
+   * Gets the auxiliary data array for the entity.
+   *
+   * @return
+   */
   public float[] getAuxData() {
     return auxData;
   }
 
+  /**
+   * Gets the OpenGL texture pointer for the entity.
+   *
+   * @return
+   */
   public int getGl_texture_ptr() {
     return gl_texture_ptr;
   }

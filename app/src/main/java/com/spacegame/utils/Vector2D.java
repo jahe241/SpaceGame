@@ -92,15 +92,36 @@ public class Vector2D {
    * @return the normalized vector of this vector
    */
   public Vector2D normalized() {
+    if (x == 0 && y == 0) return new Vector2D(0, 0);
     float length = (float) Math.sqrt(x * x + y * y);
     return new Vector2D(x / length, y / length);
   }
 
   /** Normalize this vector */
   public void normalize() {
+    if (x == 0 && y == 0) return;
     float length = (float) Math.sqrt(x * x + y * y);
     x = x / length;
     y = y / length;
+  }
+
+  /**
+   * Calculate the length of this vector
+   *
+   * @return the length of this vector
+   */
+  public float length() {
+    return (float) Math.sqrt(x * x + y * y);
+  }
+
+  /**
+   * Calculate the given Vector to a given size
+   *
+   * @param size
+   * @return
+   */
+  public Vector2D toSize(float size) {
+    return this.normalized().mult(size);
   }
 
   /**
