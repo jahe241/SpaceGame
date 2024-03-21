@@ -54,12 +54,13 @@ public class Game extends Thread {
 
   private void setupGame() {
     // Add the player character
-    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, 500f, 1000f, 200f, 100f));
+    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, 500f, 1000f, 500f, 200f));
     this.player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
+    //    this.player.setColorOverlay(new float[] {1f, 0f, 0f, 1f});
 
     // Pause "Button"
-    var pauseButton = new ColorEntity(100f, 100f, 200, 200, new float[] {1f, 0f, 0f, 1f});
-    pauseButton.setZ(10); // Draw on top of everything
+    var pauseButton = new ColorEntity(100f, 100f, 200, 200, new float[] {1f, 0f, 1f, 1f});
+    pauseButton.setZ(5); // Draw on top of everything
     this.addEntity(pauseButton);
   }
 
@@ -132,16 +133,17 @@ public class Game extends Thread {
   public void handleTouchEvent(MotionEvent event) {
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       if (this.paused) return;
-      this.addEntity(
+      var explosion =
           new AnimatedEntity(
               this.textureAtlas,
               Constants.animation_EXPLOSION,
               event.getX(),
               event.getY(),
-              500f,
-              500f,
+              192f,
+              192f,
               0.03f, // Animation speed in seconds
-              false));
+              false);
+      this.addEntity(explosion);
       if (player != null) player.onTouch(event);
     }
   }

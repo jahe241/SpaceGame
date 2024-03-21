@@ -182,10 +182,10 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     // Set the projection matrix
     if (width > height) {
       // Landscape
-      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -1f, 1f);
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -10f, 20f);
     } else {
       // Portrait or square
-      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -1f, 1f);
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -10f, 20f);
     }
     // Log the SurfaceView size
     Log.d("SurfaceView", "Width: " + width + " Height: " + height);
@@ -239,7 +239,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     entityList.sort((a, b) -> Float.compare(a.getZ(), b.getZ()));
     for (var entity : entityList) {
       if (entity instanceof ColorEntity) {
-        drawEntities(gl, entity);
+        drawColorEntities(gl, (ColorEntity) entity);
       } else {
         drawEntities(gl, entity);
       }
@@ -318,8 +318,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
   }
 
-  private void drawColorEntities(GL10 gl, Entity entity) {
-    int lastTexture = -1;
+  private void drawColorEntities(GL10 gl, ColorEntity entity) {
     // test pointers TODO: move into constants section, once working
     int positionHandle = glGetAttribLocation(program, "a_Position");
     int auxHandle1 = glGetAttribLocation(program, "a_TexCoordFlag");
@@ -339,16 +338,13 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       Log.e("EngineRenderer", "Entity has no indices:");
       return;
     }
+    // make sure the texture is unbound
+    glBindTexture(GL_TEXTURE_2D, 0);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    //        gl.glEnable(GL10.GL_DEPTH_TEST);
+    //        gl.glDepthFunc(GL10.GL_LESS);
 
-    // Bind the texture
-    if (lastTexture != entity.getGl_texture_ptr()) {
-      lastTexture = entity.getGl_texture_ptr();
-      glBindTexture(GL_TEXTURE_2D, 0);
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-      //        gl.glEnable(GL10.GL_DEPTH_TEST);
-      //        gl.glDepthFunc(GL10.GL_LESS);
-    }
     // Set up vertex data
     positionBuffer = createFloatBuffer(entity.getVertexPositionData());
     auxBuffer = createFloatBuffer(entity.getAuxData());
