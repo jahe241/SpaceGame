@@ -1,8 +1,11 @@
 package com.spacegame.core;
 
+
+import android.util.Log;
+import com.spacegame.utils.TextureAtlas;
 import com.spacegame.utils.Vector2D;
 
-public class TextureEntity extends Quad {
+public class Entity extends Quad {
 
   /** The pointer to the OpenGL texture that should be used to render this entity. */
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
@@ -51,7 +54,13 @@ public class TextureEntity extends Quad {
    * representing the RGBA color values to apply to the texture. The values should be in the range
    * [0, 1].
    */
+  protected boolean hasTexture = false;
+  TextureAtlas textureAtlas;
+  private int spriteX;
+  private int spriteY;
   protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f}; // RGBA
+
+  private boolean discard = false; // Whether the entity should be by the game-loop
 
   // Rewrite Data:
   /**
@@ -59,20 +68,42 @@ public class TextureEntity extends Quad {
    * the entity's quad. The data is stored in the following format: [Tex U, Tex V, Flag, Color R,
    * Color G, Color B, Color A] for each vertex/corner of the quad.
    */
-  private float[] auxData =
+  float[] auxData =
       new float
           [28]; // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A for each vertex/corner
 
-  public TextureEntity(float x, float y, float width, float height, int gl_texture_ptr) {
+  public Entity(
+      TextureAtlas textureAtlas,
+      int spriteX,
+      int spriteY,
+      float x,
+      float y,
+      float width,
+      float height) {
     super(x, y, width, height);
-    this.gl_texture_ptr = gl_texture_ptr;
+    this.destX = x;
+    this.destY = y;
+    if (textureAtlas != null) {
+      this.textureAtlas = textureAtlas;
+      this.gl_texture_ptr = textureAtlas.getTexturePtr();
+    }
+    this.spriteX = spriteX;
+    this.spriteY = spriteY;
     this.updateauxData();
   }
 
-  public TextureEntity(
-      float x, float y, float width, float height, int gl_texture_ptr, float[] colorOverlay) {
-    this(x, y, width, height, gl_texture_ptr);
+  public Entity(
+      TextureAtlas textureAtlas,
+      int spriteX,
+      int spriteY,
+      float x,
+      float y,
+      float width,
+      float height,
+      float[] colorOverlay) {
+    this(textureAtlas, spriteX, spriteY, x, y, width, height);
     this.colorOverlay = colorOverlay;
+    this.hasColorOverlay = true;
     this.updateauxData();
   }
 
@@ -83,6 +114,7 @@ public class TextureEntity extends Quad {
    */
   @Override
   protected void updateauxData() {
+    float[] uvs = textureAtlas.getUVs(this.spriteX, this.spriteY);
     // EXAMPLE:
     //    float auxData[] = {
     //      // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
@@ -96,23 +128,23 @@ public class TextureEntity extends Quad {
           new float[] {
             // Flag = 0 for texture
             // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            1.0f, 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-            1.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
+            uvs[0], uvs[1], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
+            uvs[2], uvs[1], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
+            uvs[0], uvs[3], 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
+            uvs[2], uvs[3], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
           };
     } else {
       this.auxData =
           new float[] {
             // Flag = 1 for texture + color overlay
             // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            0.0f, 0.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[0], uvs[1], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Solid red
-            1.0f, 0.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[2], uvs[1], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Textured white
-            0.0f, 1.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[0], uvs[3], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3], // Solid green
-            1.0f, 1.0f, 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
+            uvs[2], uvs[3], 1.0f, colorOverlay[0], colorOverlay[1], colorOverlay[2],
                 colorOverlay[3] // Textured white
           };
     }
@@ -140,7 +172,7 @@ public class TextureEntity extends Quad {
 
     // Define a small threshold distance, so the entity doesn't overshoot the destination
     // Needed because of floating point precision issues
-    float threshold = 10f;
+    float threshold = 30f;
 
     // Update position
     this.position = nextFrameTargetPosition;
@@ -269,5 +301,36 @@ public class TextureEntity extends Quad {
    */
   public int getGl_texture_ptr() {
     return gl_texture_ptr;
+  }
+
+  public void setColorOverlay(float[] color) {
+    this.colorOverlay = color;
+    this.hasColorOverlay = true;
+  }
+
+  public void disableColorOverlay() {
+    this.hasColorOverlay = false;
+  }
+
+  public void setHasTexture(boolean hasTexture) {
+    this.hasTexture = hasTexture;
+  }
+
+  public void setSpriteX(int spriteX) {
+    this.spriteX = spriteX;
+    this.updateauxData();
+  }
+
+  public void setSpriteY(int spriteY) {
+    this.spriteY = spriteY;
+    this.updateauxData();
+  }
+
+  public void setDiscard(boolean discard) {
+    this.discard = discard;
+  }
+
+  public boolean getDiscard() {
+    return this.discard;
   }
 }
