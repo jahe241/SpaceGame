@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:68e0442e38d0da4d01464345db33c3f9:7623cf4dd6f51c455f1a3532077fd239:cde709370900f12288f3449eded86f07$ -->
+<!--Format:
+n  => name of the sprite
+x  => sprite x pos in texture
+y  => sprite y pos in texture
+w  => sprite width (may be trimmed)
+h  => sprite height (may be trimmed)
+pX => x pos of the pivot point (relative to sprite width)
+pY => y pos of the pivot point (relative to sprite height)
+oX => sprite's x-corner offset (only available if trimmed)
+oY => sprite's y-corner offset (only available if trimmed)
+oW => sprite's original width (only available if trimmed)
+oH => sprite's original height (only available if trimmed)
+r => 'y' only set if sprite is rotated
+with polygon mode enabled:
+vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
+verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
+triangles  => sprite triangulation, 3 vertex indices per triangle
+-->
+<TextureAtlas imagePath="atlas.png" width="1728" height="384">
+  <sprite n="exp2_0-0.png" x="0" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-1.png" x="192" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-2.png" x="384" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-3.png" x="576" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-4.png" x="768" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-5.png" x="960" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-6.png" x="1152" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-7.png" x="1344" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-8.png" x="1536" y="0" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-9.png" x="0" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-10.png" x="192" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-11.png" x="384" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-12.png" x="576" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-13.png" x="768" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-14.png" x="960" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="exp2_0-15.png" x="1152" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+  <sprite n="peepo.png" x="1344" y="192" w="100" h="168" pX="0.5" pY="0.15" />
+  <sprite n="titanpng.png" x="1536" y="192" w="192" h="192" pX="0.5" pY="0.5" />
+</TextureAtlas>
