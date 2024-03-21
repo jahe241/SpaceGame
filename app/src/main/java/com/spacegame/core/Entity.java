@@ -1,7 +1,5 @@
 package com.spacegame.core;
 
-
-import android.util.Log;
 import com.spacegame.utils.TextureAtlas;
 import com.spacegame.utils.Vector2D;
 
@@ -55,6 +53,7 @@ public class Entity extends Quad {
    * [0, 1].
    */
   protected boolean hasTexture = false;
+
   TextureAtlas textureAtlas;
   private int spriteX;
   private int spriteY;
@@ -81,8 +80,6 @@ public class Entity extends Quad {
       float width,
       float height) {
     super(x, y, width, height);
-    this.destX = x;
-    this.destY = y;
     if (textureAtlas != null) {
       this.textureAtlas = textureAtlas;
       this.gl_texture_ptr = textureAtlas.getTexturePtr();
@@ -156,7 +153,7 @@ public class Entity extends Quad {
    *
    * @param deltaTime The time elapsed since the last update.
    */
-  private void updatePosition(float deltaTime) {
+  void updatePosition(float deltaTime) {
     // Update the velocity based on the acceleration
     this.velocity = this.velocity.add(this.direction.mult(this.acceleration));
     // Limit the velocity to the base speed

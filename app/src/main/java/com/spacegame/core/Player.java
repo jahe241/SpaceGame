@@ -2,9 +2,9 @@ package com.spacegame.core;
 
 import android.util.Log;
 import android.view.MotionEvent;
-import com.spacegame.utils.Vector2D;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.TextureAtlas;
+import com.spacegame.utils.Vector2D;
 
 public class Player extends Entity {
 
@@ -51,7 +51,7 @@ public class Player extends Entity {
     // Update the entity's position
     this.updatePosition(delta);
     // Update the entity's vertex data
-    this.updatePositionData();
+    this.updateVertexPositionData();
   }
 
   // this function dynamically changes the color of the player based on time delta

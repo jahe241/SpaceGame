@@ -78,11 +78,11 @@ abstract class Quad {
     return position;
   }
 
-  public void setZ_index(float z_index) {
+  public void setZ(float z_index) {
     this.z_index = z_index;
   }
 
-  public float getZ_index() {
+  public float getZ() {
     return z_index;
   }
 

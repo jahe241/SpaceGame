@@ -10,9 +10,9 @@ import android.opengl.GLUtils;
 import android.util.Log;
 import com.spacegame.R;
 import com.spacegame.core.ColorEntity;
-import com.spacegame.core.GameInterface;
-import com.spacegame.core.Game;
 import com.spacegame.core.Entity;
+import com.spacegame.core.Game;
+import com.spacegame.core.GameInterface;
 import com.spacegame.utils.TextResourceReader;
 import com.spacegame.utils.TextureAtlas;
 import java.nio.ByteBuffer;
@@ -259,7 +259,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       Log.e("EngineRenderer", "Entity has no aux data:");
       return;
     }
-    if (entity.getPositionData() == null) {
+    if (entity.getVertexPositionData() == null) {
       Log.e("EngineRenderer", "Entity has no position data:");
       return;
     }
@@ -279,7 +279,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       //        gl.glDepthFunc(GL10.GL_LESS);
     }
     // Set up vertex data
-    positionBuffer = createFloatBuffer(entity.getPositionData());
+    positionBuffer = createFloatBuffer(entity.getVertexPositionData());
     auxBuffer = createFloatBuffer(entity.getAuxData());
     indexBuffer = createShortBuffer(entity.getIndices());
 
@@ -331,7 +331,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       Log.e("EngineRenderer", "Entity has no aux data:");
       return;
     }
-    if (entity.getPositionData() == null) {
+    if (entity.getVertexPositionData() == null) {
       Log.e("EngineRenderer", "Entity has no position data:");
       return;
     }
@@ -350,7 +350,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       //        gl.glDepthFunc(GL10.GL_LESS);
     }
     // Set up vertex data
-    positionBuffer = createFloatBuffer(entity.getPositionData());
+    positionBuffer = createFloatBuffer(entity.getVertexPositionData());
     auxBuffer = createFloatBuffer(entity.getAuxData());
     indexBuffer = createShortBuffer(entity.getIndices());
 
