@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:ea4c9c1943ab8b3457307d5e430df650:5f0ff91c9ed6e11828fa2c88c2926958:cde709370900f12288f3449eded86f07$ -->
+<!-- $TexturePacker:SmartUpdate:068e37082bbaa7d2358e18bb763f029b:55162d5a54143b7286e76f6bc9c81832:cde709370900f12288f3449eded86f07$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -20,68 +20,1372 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 <TextureAtlas
   imagePath="atlas.png"
-  width="512"
-  height="320">
+  width="256"
+  height="700">
   <sprite
-    n="blue_projectile"
+    n="8x8text_whiteShadow-+"
     x="0"
     y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow--"
+    x="8"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-0"
+    x="16"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-1"
+    x="24"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-2"
+    x="32"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-3"
+    x="40"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-4"
+    x="48"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-5"
+    x="56"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-6"
+    x="64"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-7"
+    x="72"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-8"
+    x="80"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-9"
+    x="88"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-13"
+    x="96"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-14"
+    x="104"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-15"
+    x="112"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-16"
+    x="120"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-17"
+    x="128"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-18"
+    x="136"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-19"
+    x="144"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-20"
+    x="152"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-21"
+    x="160"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-22"
+    x="168"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-23"
+    x="176"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-24"
+    x="184"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-25"
+    x="192"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-26"
+    x="200"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-27"
+    x="208"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-28"
+    x="216"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-29"
+    x="224"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-30"
+    x="232"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-31"
+    x="240"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-32"
+    x="248"
+    y="0"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-33"
+    x="0"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-34"
+    x="8"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-35"
+    x="16"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-36"
+    x="24"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-37"
+    x="32"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-38"
+    x="40"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-39"
+    x="48"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-40"
+    x="56"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-41"
+    x="64"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-42"
+    x="72"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-43"
+    x="80"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-44"
+    x="88"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-45"
+    x="96"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-46"
+    x="104"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-47"
+    x="112"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-48"
+    x="120"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-49"
+    x="128"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-50"
+    x="136"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-51"
+    x="144"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-52"
+    x="152"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-53"
+    x="160"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-54"
+    x="168"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-55"
+    x="176"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-56"
+    x="184"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-57"
+    x="192"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-58"
+    x="200"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-59"
+    x="208"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-60"
+    x="216"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-61"
+    x="224"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-62"
+    x="232"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-63"
+    x="240"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-64"
+    x="248"
+    y="8"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-65"
+    x="0"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-66"
+    x="8"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-67"
+    x="16"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-68"
+    x="24"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-69"
+    x="32"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-70"
+    x="40"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-71"
+    x="48"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-72"
+    x="56"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-73"
+    x="64"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-74"
+    x="72"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-75"
+    x="80"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-76"
+    x="88"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-77"
+    x="96"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-78"
+    x="104"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-79"
+    x="112"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-80"
+    x="120"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-81"
+    x="128"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-82"
+    x="136"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-83"
+    x="144"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-84"
+    x="152"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-85"
+    x="160"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-86"
+    x="168"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-87"
+    x="176"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-88"
+    x="184"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-89"
+    x="192"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-90"
+    x="200"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-91"
+    x="208"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-92"
+    x="216"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-93"
+    x="224"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-94"
+    x="232"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-95"
+    x="240"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-96"
+    x="248"
+    y="16"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-97"
+    x="0"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-98"
+    x="8"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-99"
+    x="16"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-100"
+    x="24"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-101"
+    x="32"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-102"
+    x="40"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-103"
+    x="48"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-104"
+    x="56"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-105"
+    x="64"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-106"
+    x="72"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-107"
+    x="80"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-108"
+    x="88"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-109"
+    x="96"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-110"
+    x="104"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-111"
+    x="112"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-112"
+    x="120"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-113"
+    x="128"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-114"
+    x="136"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-115"
+    x="144"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-116"
+    x="152"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-117"
+    x="160"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-118"
+    x="168"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-119"
+    x="176"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-120"
+    x="184"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-121"
+    x="192"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-122"
+    x="200"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-123"
+    x="208"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-124"
+    x="216"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-125"
+    x="224"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-126"
+    x="232"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-127"
+    x="240"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-128"
+    x="248"
+    y="24"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-129"
+    x="0"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-130"
+    x="8"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-131"
+    x="16"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-132"
+    x="24"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-133"
+    x="32"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-134"
+    x="40"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-135"
+    x="48"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-136"
+    x="56"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-137"
+    x="64"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-138"
+    x="72"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-139"
+    x="80"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-140"
+    x="88"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-141"
+    x="96"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-142"
+    x="104"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-143"
+    x="112"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-144"
+    x="120"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-145"
+    x="128"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-146"
+    x="136"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-147"
+    x="144"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-148"
+    x="152"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-149"
+    x="160"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-150"
+    x="168"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-151"
+    x="176"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-152"
+    x="184"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-153"
+    x="192"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-154"
+    x="200"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-155"
+    x="208"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-156"
+    x="216"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-157"
+    x="224"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-158"
+    x="232"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-159"
+    x="240"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-160"
+    x="248"
+    y="32"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-161"
+    x="0"
+    y="40"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-162"
+    x="8"
+    y="40"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="8x8text_whiteShadow-~"
+    x="16"
+    y="40"
+    w="8"
+    h="8"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="blue_projectile"
+    x="24"
+    y="40"
     w="28"
     h="28"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-00"
-    x="60"
-    y="0"
+    x="52"
+    y="40"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-01"
-    x="124"
-    y="0"
+    x="116"
+    y="40"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-02"
-    x="188"
-    y="0"
+    x="180"
+    y="40"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-03"
-    x="252"
-    y="0"
+    x="0"
+    y="104"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-04"
-    x="316"
-    y="0"
+    x="64"
+    y="104"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-05"
-    x="380"
-    y="0"
+    x="128"
+    y="104"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-06"
-    x="444"
-    y="0"
+    x="192"
+    y="104"
     w="64"
     h="64"
     pX="0.5"
@@ -89,7 +1393,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="exp2_0-07"
     x="0"
-    y="64"
+    y="168"
     w="64"
     h="64"
     pX="0.5"
@@ -97,7 +1401,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="exp2_0-08"
     x="64"
-    y="64"
+    y="168"
     w="64"
     h="64"
     pX="0.5"
@@ -105,7 +1409,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="exp2_0-09"
     x="128"
-    y="64"
+    y="168"
     w="64"
     h="64"
     pX="0.5"
@@ -113,39 +1417,39 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="exp2_0-10"
     x="192"
-    y="64"
+    y="168"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-11"
-    x="256"
-    y="64"
+    x="0"
+    y="232"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-12"
-    x="320"
-    y="64"
+    x="64"
+    y="232"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-13"
-    x="384"
-    y="64"
+    x="128"
+    y="232"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-14"
-    x="448"
-    y="64"
+    x="192"
+    y="232"
     w="64"
     h="64"
     pX="0.5"
@@ -153,7 +1457,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="exp2_0-15"
     x="0"
-    y="128"
+    y="296"
     w="64"
     h="64"
     pX="0.5"
@@ -161,7 +1465,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="monk"
     x="64"
-    y="128"
+    y="296"
     w="67"
     h="67"
     pX="0.5"
@@ -169,31 +1473,31 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="peepo"
     x="131"
-    y="128"
+    y="296"
     w="50"
     h="84"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="titan"
-    x="309"
-    y="128"
+    x="0"
+    y="380"
     w="192"
     h="192"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="touch_input_2d"
-    x="181"
-    y="128"
+    x="0"
+    y="572"
     w="128"
     h="128"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="touch_input_cursor"
-    x="28"
-    y="0"
+    x="128"
+    y="572"
     w="32"
     h="32"
     pX="0.5"
