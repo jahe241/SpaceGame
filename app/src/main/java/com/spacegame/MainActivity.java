@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
   MediaPlayer mainMenu;
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    mainMenu = MediaPlayer.create(this, R.raw.megalovania);
+    mainMenu = MediaPlayer.create(this, R.raw.observingthestar);
     setFullscreen(getWindow());
     mainMenu.start();
     super.onCreate(savedInstanceState);
