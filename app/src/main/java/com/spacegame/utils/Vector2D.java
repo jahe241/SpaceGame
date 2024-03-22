@@ -1,5 +1,9 @@
 package com.spacegame.utils;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import java.util.Objects;
+
 /* Helper Class for frequently used Vector Oprations in 2D-Space */
 public class Vector2D {
   private float x;
@@ -179,5 +183,24 @@ public class Vector2D {
    */
   public static float calcLength(float x, float y) {
     return (float) Math.sqrt(x * x + y * y);
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Vector2D vector2D = (Vector2D) o;
+    return Float.compare(x, vector2D.x) == 0 && Float.compare(y, vector2D.y) == 0;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(x, y);
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return "(" + x + ", " + y + ")";
   }
 }
