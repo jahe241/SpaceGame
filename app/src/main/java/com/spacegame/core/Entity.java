@@ -79,7 +79,9 @@ public class Entity extends Quad {
    * entity will be removed from the game loop in the next iteration. Default value is false,
    * meaning the entity is active in the game loop.
    */
-  private boolean discard = false; // Whether the entity should be by the game-loop
+  boolean discard = false; // Whether the entity should be by the game-loop
+
+  boolean isVisible = true; // Whether the entity has a texture
 
   // Rewrite Data:
   /**
@@ -118,10 +120,6 @@ public class Entity extends Quad {
       assert this.sprite != null;
       this.updateauxData();
     }
-  }
-
-  protected Entity() {
-    super(0, 0, 0, 0);
   }
 
   /**
@@ -410,7 +408,44 @@ public class Entity extends Quad {
     return this.discard;
   }
 
+  /**
+   * Returns the color overlay of the entity. The color overlay is an array of four floats
+   * representing the RGBA color values.
+   *
+   * @return An array of four floats representing the RGBA color values of the entity's color
+   *     overlay.
+   */
   public float[] getColorOverlay() {
     return colorOverlay;
+  }
+
+  /**
+   * Sets the visibility of the entity. If set to true, the entity will be visible. If set to false,
+   * the entity will be hidden.
+   *
+   * @param visible A boolean value indicating whether the entity should be visible.
+   */
+  public void setVisible(boolean visible) {
+    this.isVisible = visible;
+  }
+
+  /**
+   * Returns the visibility of the entity. If the entity is visible, this method returns true. If
+   * the entity is hidden, this method returns false.
+   *
+   * @return A boolean value indicating whether the entity is visible.
+   */
+  public boolean isVisible() {
+    return this.isVisible;
+  }
+
+  /** Hides the entity. This method sets the visibility of the entity to false. */
+  public void hide() {
+    this.isVisible = false;
+  }
+
+  /** Shows the entity. This method sets the visibility of the entity to true. */
+  public void show() {
+    this.isVisible = true;
   }
 }
