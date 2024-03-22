@@ -46,6 +46,8 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   private final GameInterface gameInterface;
   private TextureAtlas textureAtlas;
 
+  private int drawCallsCurrentFrame = 0;
+
   public EngineRenderer(Context context, Game game, GameInterface gameInterface) {
     super();
     this.game = game;
@@ -226,6 +228,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
   @Override
   public void onDrawFrame(GL10 gl) {
+    drawCallsCurrentFrame = 0;
     // Clear the rendering surface
     gl.glClearColor(0f, 0f, 0f, 0f);
     gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
@@ -239,17 +242,25 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     // sort the entities by by Z value, so the ones with the highest Z value are drawn last (on top)
     entityList.sort((a, b) -> Float.compare(a.getZ(), b.getZ()));
     for (var entity : entityList) {
-      if (entity instanceof ColorEntity) {
+      if (entity instanceof ColorEntity colorEntity && colorEntity.isVisible()) {
         drawColorEntities(gl, (ColorEntity) entity);
+        drawCallsCurrentFrame++;
       } else {
-        drawEntities(gl, entity);
+        if (entity.isVisible()) {
+          drawEntities(gl, entity);
+          drawCallsCurrentFrame++;
+        }
       }
     }
     // Draw the interface elements
     var interfaceElements = this.gameInterface.getInterfaceElements();
     for (var element : interfaceElements) {
-      drawEntities(gl, (Entity) element);
+      if (element.isVisible()) {
+        drawEntities(gl, (Entity) element);
+        drawCallsCurrentFrame++;
+      }
     }
+    //    Log.d("EngineRenderer", "Draw Calls: " + drawCallsCurrentFrame);
   }
 
   private void drawEntities(GL10 gl, Entity entity) {
