@@ -14,8 +14,8 @@ public class SoundEngine {
   MediaPlayer explosion;
 
   public SoundEngine(Context context) {
-    mainMenu = MediaPlayer.create(context, R.raw.megalovania);
-    inGame = MediaPlayer.create(context, R.raw.megalovania);
+    mainMenu = MediaPlayer.create(context, R.raw.observingthestar);
+    inGame = MediaPlayer.create(context, R.raw.observingthestar);
     explosion = MediaPlayer.create(context, R.raw.rlaunch);
   }
 
