@@ -1,5 +1,6 @@
 package com.spacegame.sound;
 
+import android.content.Context;
 import android.media.*;
 import android.view.View;
 import android.os.Bundle;
@@ -7,11 +8,16 @@ import android.os.Bundle;
 import com.spacegame.MainActivity;
 import com.spacegame.R;
 
-public class SoundEngine extends MediaPlayer {
+public class SoundEngine {
   MediaPlayer mainMenu;
   MediaPlayer inGame;
+  MediaPlayer explosion;
 
-  public SoundEngine() {}
+  public SoundEngine(Context context) {
+    mainMenu = MediaPlayer.create(context, R.raw.megalovania);
+    inGame = MediaPlayer.create(context, R.raw.megalovania);
+    explosion = MediaPlayer.create(context, R.raw.rlaunch);
+  }
 
   public MediaPlayer getInGame() {
     return inGame;
@@ -21,7 +27,11 @@ public class SoundEngine extends MediaPlayer {
     return mainMenu;
   }
 
-  public static void start(MediaPlayer music) {
+  public MediaPlayer getExplosion() {
+    return explosion;
+  }
+
+  public void start(MediaPlayer music) {
     if (!music.isPlaying()) {
       music.start();
     }
@@ -31,7 +41,7 @@ public class SoundEngine extends MediaPlayer {
     return music.isPlaying();
   }
 
-  public static void stop(MediaPlayer music) {
+  public void stop(MediaPlayer music) {
     if (music.isPlaying()) {
       music.stop();
     }
@@ -43,14 +53,12 @@ public class SoundEngine extends MediaPlayer {
     }
   }
 
-  public void create(MainActivity activity) {
-    inGame = MediaPlayer.create(activity, R.raw.megalovania);
-  }
-
   public void release() {
     inGame.release();
     mainMenu.release();
+    explosion.release();
     inGame = null;
     mainMenu = null;
+    explosion = null;
   }
 }
