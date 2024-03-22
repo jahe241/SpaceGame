@@ -10,14 +10,41 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
+/**
+ * The Game class extends the Thread class and represents the main game loop. It contains
+ * information about the game's state, entities, and player.
+ */
 public class Game extends Thread {
+  /** The running state of the game. True if the game is running, false otherwise. */
   volatile boolean running = false;
+
+  /** The paused state of the game. True if the game is paused, false otherwise. */
   volatile boolean paused = false;
+
+  /** The list of entities in the game. */
   public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
+
+  /** The player entity. */
   public Player player;
+
+  /** The pointer to the texture atlas. */
   public int textureAtlasPointer = -1;
+
+  /** The texture atlas that contains the game's textures. */
   public TextureAtlas textureAtlas;
 
+  private GameState gameState = GameState.PLAYING;
+
+  public static enum GameState {
+    PLAYING,
+    PAUSED,
+    GAME_OVER
+  }
+
+  /**
+   * The main run method for the Game thread. It sets up the game and then enters a loop where it
+   * updates the game and sleeps for the remainder of the frame time.
+   */
   @Override
   public void run() {
     Log.d("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
@@ -53,38 +80,45 @@ public class Game extends Thread {
     }
   }
 
+  /** Sets up the game by adding the player character to the entities list. */
   private void setupGame() {
     // Add the player character
     this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, 500f, 1000f, 500f, 200f));
-    this.player.setZ(1); // incredibly hacky way to make sure the player is drawn on top
-    //    this.player.setColorOverlay(new float[] {1f, 0f, 0f, 1f});
-
-    // Pause "Button"
-    var pauseButton = new ColorEntity(100f, 100f, 200, 200, new float[] {1f, 0f, 1f, 1f});
-    pauseButton.setZ(5); // Draw on top of everything
-    this.addEntity(pauseButton);
+    this.player.setZ(
+        1); // incredibly hacky way to make sure the player is drawn on top TODO: Setup in Player
+    this.gameState = GameState.PLAYING;
   }
 
+  /** Pauses the game. */
   public void pauseGame() {
     synchronized (this) {
       Log.d("Game", "Game Thread paused: " + Thread.currentThread().getName());
-      paused = true;
+      paused = true; // TODO: Refactor to use gameState
+      gameState = GameState.PAUSED;
     }
   }
 
+  /** Resumes the game. */
   public void resumeGame() {
     synchronized (this) {
       Log.d("Game", "Game Thread resumed: " + Thread.currentThread().getName());
       paused = false;
+      gameState = GameState.PLAYING;
       notify();
     }
   }
 
+  /** Stops the game thread. */
   @Override
   public void interrupt() {
     running = false;
   }
 
+  /**
+   * Updates the position and vertex data of each entity in the entities list.
+   *
+   * @param deltaTime The time since the last frame in seconds.
+   */
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
@@ -96,7 +130,7 @@ public class Game extends Thread {
         if (!(entity instanceof Player)
             && !(entity instanceof ColorEntity)
             && !(entity instanceof AnimatedEntity)) {
-          entity.setRotationRad(entity.getRotationRad() + ThreadLocalRandom.current().nextFloat());
+          entity.setRotationRad(entity.getRotationRad() - 0.35f);
         }
         entity.update(deltaTime);
       }
@@ -104,36 +138,71 @@ public class Game extends Thread {
     // TODO: Physics / Interaction-Checks here
   }
 
+  /**
+   * Sets the player entity.
+   *
+   * @param player The new player entity.
+   */
   public void setPlayer(Player player) {
     this.player = player;
     entities.add(player);
   }
 
+  /**
+   * Returns the player entity.
+   *
+   * @return The player entity.
+   */
   public Entity getPlayer() {
     return player;
   }
 
+  /**
+   * Adds a new entity to the entities list.
+   *
+   * @param entity The new entity to add.
+   */
   public void addEntity(Entity entity) {
     synchronized (entities) {
       entities.add(entity);
     }
   }
 
+  /**
+   * Removes an entity from the entities list.
+   *
+   * @param entity The entity to remove.
+   */
   public void removeEntity(Entity entity) {
     synchronized (entities) {
       entities.remove(entity);
     }
   }
 
+  /**
+   * Returns a new list containing the entities in the entities list.
+   *
+   * @return A new list containing the entities in the entities list.
+   */
   public List<Entity> getEntities() {
     synchronized (entities) {
       return new ArrayList<>(entities);
     }
   }
 
+  /**
+   * Handles a touch event. If the game is not paused, it creates an explosion at the touch location
+   * and passes the touch event to the player.
+   *
+   * @param event The touch event to handle.
+   * @see MotionEvent
+   */
   public void handleTouchEvent(MotionEvent event) {
+    Log.d("Game", "Touch event at: " + event.getX() + ", " + event.getY());
+    Log.d("Game", "Touch Type: " + event.getActionMasked());
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       if (this.paused) return;
+      Log.d("Game", "Touch event at: " + event.getX() + ", " + event.getY());
       var explosion =
           new AnimatedEntity(
               this.textureAtlas,

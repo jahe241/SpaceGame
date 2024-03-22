@@ -345,7 +345,7 @@ public class Entity extends Quad {
    *
    * @param sprite The sprite to set.
    */
-  private void setSprite(Sprite sprite) {
+  protected void setSprite(Sprite sprite) {
     this.sprite = sprite;
     this.updateauxData();
   }

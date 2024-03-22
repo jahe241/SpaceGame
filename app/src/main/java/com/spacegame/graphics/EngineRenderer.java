@@ -103,6 +103,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     } catch (XmlPullParserException | IOException e) {
       e.printStackTrace();
     }
+    this.gameInterface.start();
     this.game.start();
   }
 
@@ -243,6 +244,11 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       } else {
         drawEntities(gl, entity);
       }
+    }
+    // Draw the interface elements
+    var interfaceElements = this.gameInterface.getInterfaceElements();
+    for (var element : interfaceElements) {
+      drawEntities(gl, (Entity) element);
     }
   }
 

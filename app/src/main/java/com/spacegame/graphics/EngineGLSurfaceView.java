@@ -35,7 +35,7 @@ public class EngineGLSurfaceView extends GLSurfaceView {
   @SuppressLint("ClickableViewAccessibility") // handle later
   @Override
   public boolean onTouchEvent(MotionEvent event) {
-    gameInterface.handleTouchEvent(event);
+    gameInterface.receiveTouchEvent(event);
     return true;
   }
 }
