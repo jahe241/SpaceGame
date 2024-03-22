@@ -5,6 +5,7 @@ import android.view.MotionEvent;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.Constants;
+import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -34,6 +35,18 @@ public class Game extends Thread {
   public TextureAtlas textureAtlas;
 
   private GameState gameState = GameState.PLAYING;
+
+  public void setPlayerDirection(Vector2D stickDirection) {
+    if (player != null) player.setDirection(stickDirection);
+    Log.d("Game", "Setting Player Direction: " + stickDirection);
+  }
+
+  public void resetGame() {
+    synchronized (entities) {
+      entities.clear();
+    }
+    setupGame();
+  }
 
   public static enum GameState {
     PLAYING,

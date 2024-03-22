@@ -20,8 +20,9 @@ public class GameInterface extends Thread {
   private final Context context;
 
   /** A list of SpriteButton objects that represent the interface elements of the game. */
-  private final List<SpriteButton> interfaceElements =
-      Collections.synchronizedList(new ArrayList<>());
+  private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
+
+  private GamePad gamePad;
 
   /** The width of the screen. */
   private float screenWidth;
@@ -51,19 +52,22 @@ public class GameInterface extends Thread {
   public void run() {
     setupInterface();
     Log.d("GameInterface", "Game Thread started on Thread: " + Thread.currentThread().getName());
-    long timePerFrame = 1000 / 60; // Time for each frame in milliseconds
-    long startTime = System.currentTimeMillis();
+    long timePerFrame =
+        1000 / 120; // Time for each frame in milliseconds we target 120fps for the gamepad
 
-    update(timePerFrame / 1000.0f); // Convert to seconds
+    while (true) {
+      long startTime = System.currentTimeMillis();
 
-    long endTime = System.currentTimeMillis();
-    long timeSpent = endTime - startTime;
+      long endTime = System.currentTimeMillis();
+      long timeSpent = endTime - startTime;
+      update(timePerFrame / 1000.0f); // Convert to seconds
 
-    if (timeSpent < timePerFrame) {
-      try {
-        Thread.sleep(timePerFrame - timeSpent);
-      } catch (InterruptedException e) {
-        e.printStackTrace();
+      if (timeSpent < timePerFrame) {
+        try {
+          Thread.sleep(timePerFrame - timeSpent);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     }
   }
@@ -99,6 +103,22 @@ public class GameInterface extends Thread {
             250f,
             ButtonType.TOGGLE_PAUSE,
             true));
+    addInterfaceElement(
+        new SpriteButton(
+            game.textureAtlas,
+            "8x8text_whiteShadow-58",
+            "8x8text_whiteShadow-58",
+            400,
+            400,
+            100f,
+            100f,
+            ButtonType.RESET_GAME,
+            true));
+    // Add the gamepad
+    this.gamePad = new GamePad(game.textureAtlas, screenWidth, screenHeight);
+    gamePad.setVisible(false);
+    addInterfaceElement(gamePad.getPadElements());
+    Log.d("GameInterface", "Setup Interface: " + interfaceElements);
   }
 
   /**
@@ -106,8 +126,8 @@ public class GameInterface extends Thread {
    *
    * @param element The new interface element to add.
    */
-  private void addInterfaceElement(SpriteButton element) {
-    interfaceElements.add(element);
+  private void addInterfaceElement(Entity... element) {
+    Collections.addAll(interfaceElements, element);
   }
 
   /**
@@ -117,18 +137,39 @@ public class GameInterface extends Thread {
    * @param event The touch event to handle.
    */
   public void receiveTouchEvent(MotionEvent event) {
+    Log.d("GameInterface", "Received Touch Event: " + event.getActionMasked());
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-
       // Check if the touch event is within the bounds of any of the interface elements
-      for (SpriteButton element : interfaceElements) {
-        if (element.isActive() && element.isTouchWithinButton(event.getX(), event.getY())) {
-          this.handleButtonEvent(element.click());
-          return;
+      for (Entity element : interfaceElements) {
+        if (element instanceof SpriteButton button) { // this is so fancy!
+          if (button.isActive() && button.isTouchWithinButton(event.getX(), event.getY())) {
+            this.handleButtonEvent(button.click());
+            return;
+          }
         }
       }
-
-      // If no interface element was clicked, pass the touch event to the game
-      game.handleTouchEvent(event);
+      // GamePad
+      if (game.running && gamePad.isVisible()) {
+        gamePad.updateStickPosition(event.getX(), event.getY());
+        this.game.setPlayerDirection(gamePad.getStickDirection());
+      } else if (game.running && !gamePad.isVisible()) {
+        Log.d("GameInterface", "Showing GamePad");
+        gamePad.showGamePad(event.getX(), event.getY());
+      }
+    }
+    if (event.getActionMasked() == MotionEvent.ACTION_UP) {
+      if (gamePad.isVisible()) {
+        Log.d("GameInterface", "Hiding GamePad");
+        gamePad.resetStickPosition();
+        gamePad.hideGamePad();
+        this.game.setPlayerDirection(gamePad.getStickDirection());
+      }
+    }
+    if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
+      if (gamePad.isVisible()) {
+        gamePad.updateStickPosition(event.getX(), event.getY());
+        this.game.setPlayerDirection(gamePad.getStickDirection());
+      }
     }
   }
 
@@ -148,6 +189,10 @@ public class GameInterface extends Thread {
         }
         break;
         // Check other Cases here
+      case RESET_GAME:
+        Log.d("GameInterface", "Resetting Game");
+        game.resetGame();
+        break;
     }
   }
 
@@ -155,8 +200,9 @@ public class GameInterface extends Thread {
    * Returns the list of interface elements.
    *
    * @return The list of interface elements.
+   * @see Entity
    */
-  public List<SpriteButton> getInterfaceElements() {
+  public List<Entity> getInterfaceElements() {
     return interfaceElements;
   }
 }
