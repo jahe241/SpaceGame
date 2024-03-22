@@ -132,6 +132,5 @@ abstract class Quad {
 
   public void setPosition(Vector2D newStickPosition) {
     this.position = newStickPosition;
-    this.updateVertexPositionData();
   }
 }
