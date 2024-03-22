@@ -34,7 +34,7 @@
         <key>dataFormat</key>
         <string>xml</string>
         <key>textureFileName</key>
-        <filename>atlas.png</filename>
+        <filename>../../app/src/main/res/drawable/atlas.png</filename>
         <key>flipPVR</key>
         <false/>
         <key>pvrQualityLevel</key>
@@ -124,7 +124,7 @@
             <key>data</key>
             <struct type="DataFile">
                 <key>name</key>
-                <filename>atlas.xml</filename>
+                <filename>../../app/src/main/res/raw/atlas.xml</filename>
             </struct>
         </map>
         <key>multiPackMode</key>
