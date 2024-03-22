@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:2bd8dcdb75bb993ce3deec93c2113911:bc34f59a302402012ca89c65cbdce622:cde709370900f12288f3449eded86f07$ -->
+<!-- $TexturePacker:SmartUpdate:e2badd47f83c4314d904f989a49b1336:bc34f59a302402012ca89c65cbdce622:cde709370900f12288f3449eded86f07$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -21,7 +21,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
 <TextureAtlas
   imagePath="atlas.png"
   width="256"
-  height="544">
+  height="532">
   <sprite
     n="blue_projectile"
     x="0"
@@ -162,13 +162,13 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     n="monk"
     x="64"
     y="256"
-    w="96"
-    h="96"
+    w="67"
+    h="67"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="peepo"
-    x="160"
+    x="131"
     y="256"
     w="50"
     h="84"
@@ -177,7 +177,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="titan"
     x="0"
-    y="352"
+    y="340"
     w="192"
     h="192"
     pX="0.5"
