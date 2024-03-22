@@ -6,5 +6,6 @@ package com.spacegame.core;
  */
 public enum ButtonType {
   /** Represents the pause button. When clicked, the game toggles its Pause-State. */
-  TOGGLE_PAUSE
+  TOGGLE_PAUSE,
+  RESET_GAME,
 }
