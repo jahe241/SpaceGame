@@ -6,6 +6,7 @@ import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimatedActor;
 import com.spacegame.entities.AnimatedEntity;
 import com.spacegame.entities.BaseEnemy;
+import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
@@ -118,6 +119,7 @@ public class Game extends Thread {
     this.player.setZ(
         1); // incredibly hacky way to make sure the player is drawn on top TODO: Setup in Player
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
+    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {0f, 0f, 1f, 1f}));
     this.gameState = GameState.PLAYING;
   }
 

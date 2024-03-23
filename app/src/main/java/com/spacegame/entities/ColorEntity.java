@@ -28,19 +28,22 @@ public class ColorEntity extends Entity {
 
   @Override
   protected void updateauxData() {
-    // Update the color overlay data
-    this.auxData =
-        new float[] {
-          // Flag = 2 for solid color
-          // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-          0.0f, 0.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
-              this.colorOverlay[3],
-          1.0f, 0.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
-              this.colorOverlay[3],
-          0.0f, 1.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
-              this.colorOverlay[3],
-          1.0f, 1.0f, 2.0f, this.colorOverlay[0], this.colorOverlay[1], this.colorOverlay[2],
-              this.colorOverlay[3]
-        };
+    // Check if the array is null
+    if (this.auxData == null) {
+      this.auxData = new float[28]; // Initialize with size 28 as there are 28 elements
+    }
+
+    // Set auxData values
+    for (int i = 0; i < 4; i++) {
+      this.auxData[i * AUX_DATA_STRIDE] = i % 2 == 0 ? 0.0f : 1.0f; // Tex U
+      this.auxData[i * AUX_DATA_STRIDE + 1] = i < 2 ? 0.0f : 1.0f; // Tex V
+
+      this.auxData[i * AUX_DATA_STRIDE + 2] = 2.0f; // Flag for solid color
+
+      this.auxData[i * AUX_DATA_STRIDE + 3] = this.colorOverlay[0]; // Color R
+      this.auxData[i * AUX_DATA_STRIDE + 4] = this.colorOverlay[1]; // Color G
+      this.auxData[i * AUX_DATA_STRIDE + 5] = this.colorOverlay[2]; // Color B
+      this.auxData[i * AUX_DATA_STRIDE + 6] = this.colorOverlay[3]; // Color A
+    }
   }
 }
