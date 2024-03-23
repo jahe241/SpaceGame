@@ -1,4 +1,4 @@
-package com.spacegame.core;
+package com.spacegame.entities;
 
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
@@ -174,12 +174,20 @@ public class Entity extends Quad {
         this.velocity = this.velocity.mult(1 - 1 / this.acceleration);
       }
     }
-
     // Limit the velocity to the base speed
     if (this.velocity.length() > this.baseSpeed) {
       this.velocity = this.velocity.toSize(this.baseSpeed);
     }
+    this.position = this.position.add(this.velocity.mult(deltaTime));
+  }
 
+  /**
+   * Calculates the entity's rotation based on its velocity and destination. The entity rotates
+   * smoothly towards its destination point.
+   *
+   * @param deltaTime
+   */
+  public void updateRotation(float deltaTime) {
     // Calculate the nextFrameTargetPosition next frame
     Vector2D nextFrameTargetPosition = this.position.add(this.velocity.mult(deltaTime));
 
@@ -189,12 +197,7 @@ public class Entity extends Quad {
     if (this.velocity.length() == 0) roationAngleRad = this.lastRotationRad;
     else roationAngleRad = -this.position.calcAngle(nextFrameTargetPosition);
 
-    // Define a small threshold distance, so the entity doesn't overshoot the destination
-    // Needed because of floating point precision issues
-    float threshold = 30f;
-
     // Update position
-    this.position = nextFrameTargetPosition;
 
     // Smooth rotation towards the target
     // Calculate the shortest angular distance between the current angle and the target angle
@@ -235,6 +238,8 @@ public class Entity extends Quad {
     // Log.d("Entity", "x: " + this.x + " y:" + this.y);
     // Update the entity's position
     this.updatePosition(delta);
+
+    this.updateRotation(delta);
     // Update the entity's vertex data
     this.updateVertexPositionData();
   }
@@ -245,7 +250,7 @@ public class Entity extends Quad {
    * @param velocity
    */
   public void setVelocity(Vector2D velocity) {
-    this.velocity = velocity.normalized();
+    this.velocity = velocity;
   }
 
   /**

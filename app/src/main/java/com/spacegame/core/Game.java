@@ -2,14 +2,18 @@ package com.spacegame.core;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.entities.Actor;
+import com.spacegame.entities.AnimatedActor;
+import com.spacegame.entities.AnimatedEntity;
+import com.spacegame.entities.BaseEnemy;
+import com.spacegame.entities.Entity;
+import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
-import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The Game class extends the Thread class and represents the main game loop. It contains
@@ -36,6 +40,18 @@ public class Game extends Thread {
 
   private GameState gameState = GameState.PLAYING;
 
+  /** Sceen height */
+  int height;
+
+  /** Screen width */
+  int width;
+
+  public Game(int height, int width) {
+    super();
+    this.height = height;
+    this.width = width;
+  }
+
   public void setPlayerDirection(Vector2D stickDirection) {
     if (player != null) player.setDirection(stickDirection);
     Log.d("Game", "Setting Player Direction: " + stickDirection);
@@ -48,7 +64,7 @@ public class Game extends Thread {
     setupGame();
   }
 
-  public static enum GameState {
+  public enum GameState {
     PLAYING,
     PAUSED,
     GAME_OVER
@@ -96,9 +112,12 @@ public class Game extends Thread {
   /** Sets up the game by adding the player character to the entities list. */
   private void setupGame() {
     // Add the player character
-    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, 500f, 1000f, 256f, 256f));
+    float playerX = this.width / 2f;
+    float playerY = this.height / 2f;
+    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 500f, 200f));
     this.player.setZ(
         1); // incredibly hacky way to make sure the player is drawn on top TODO: Setup in Player
+    addEntity(new BaseEnemy(this.textureAtlas, "monk", 500f, 500f, 500f, 200f));
     this.gameState = GameState.PLAYING;
   }
 
@@ -139,13 +158,15 @@ public class Game extends Thread {
       // Remove the entities that are marked for deletion
       entities.removeIf(Entity::getDiscard);
 
-      for (Quad entity : entities) {
-        if (!(entity instanceof Player)
-            && !(entity instanceof ColorEntity)
-            && !(entity instanceof AnimatedEntity)) {
-          entity.setRotationRad(entity.getRotationRad() - 0.35f);
-        }
+      Vector2D playerVelocity = this.getPlayerVelocity();
+
+      for (Entity entity : entities) {
         entity.update(deltaTime);
+        if (entity instanceof Actor actor) {
+          actor.setPlayerVelocity(playerVelocity);
+        } else if (entity instanceof AnimatedActor actor) {
+          actor.setPlayerVelocity(playerVelocity);
+        }
       }
     }
     // TODO: Physics / Interaction-Checks here
@@ -168,6 +189,16 @@ public class Game extends Thread {
    */
   public Entity getPlayer() {
     return player;
+  }
+
+  /**
+   * Returns the player's velocity.
+   *
+   * @return
+   */
+  public Vector2D getPlayerVelocity() {
+    if (this.player != null) return this.player.getVelocity();
+    else return new Vector2D(0, 0);
   }
 
   /**
