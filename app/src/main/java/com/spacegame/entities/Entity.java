@@ -129,30 +129,32 @@ public class Entity extends Quad {
    */
   @Override
   protected void updateauxData() {
-    if (hasColorOverlay) {
-      this.auxData =
-          new float[] {
-            // Flag = 1 for texture * color overlay
-            // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A
-            this.sprite.uvs()[0], this.sprite.uvs()[1], 1.0f, colorOverlay[0], colorOverlay[1],
-                colorOverlay[2], colorOverlay[3],
-            this.sprite.uvs()[2], this.sprite.uvs()[1], 1.0f, colorOverlay[0], colorOverlay[1],
-                colorOverlay[2], colorOverlay[3],
-            this.sprite.uvs()[0], this.sprite.uvs()[3], 1.0f, colorOverlay[0], colorOverlay[1],
-                colorOverlay[2], colorOverlay[3],
-            this.sprite.uvs()[2], this.sprite.uvs()[3], 1.0f, colorOverlay[0], colorOverlay[1],
-                colorOverlay[2], colorOverlay[3]
-          };
-    } else {
-      this.auxData =
-          new float[] {
-            // Flag = 0.0 for texture
-            // Tex U, Tex V, Flag, Color R, Color G, Color B, Color Alpha
-            this.sprite.uvs()[0], this.sprite.uvs()[1], 0.0f, 0.0f, 0.0f, 0.0f, 1.0f,
-            this.sprite.uvs()[2], this.sprite.uvs()[1], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f,
-            this.sprite.uvs()[0], this.sprite.uvs()[3], 0.0f, 0.0f, 1.0f, 0.0f, 1.0f,
-            this.sprite.uvs()[2], this.sprite.uvs()[3], 0.0f, 0.0f, 1.0f, 1.0f, 1.0f
-          };
+    // Check if the array is null
+    if (auxData == null) {
+      auxData = new float[28]; // Initialize with size 28 as there are 28 elements
+    }
+
+    // Get sprite UVs
+    float[] spriteUVs = this.sprite.uvs();
+
+    // Set auxData values
+    for (int i = 0; i < 4; i++) {
+      auxData[i * AUX_DATA_STRIDE] = spriteUVs[i % 2 == 0 ? 0 : 2]; // Tex U
+      auxData[i * AUX_DATA_STRIDE + 1] = spriteUVs[i < 2 ? 1 : 3]; // Tex V
+
+      auxData[i * AUX_DATA_STRIDE + 2] = hasColorOverlay ? 1.0f : 0.0f; // Flag
+
+      if (hasColorOverlay) {
+        auxData[i * AUX_DATA_STRIDE + 3] = colorOverlay[0]; // Color R
+        auxData[i * AUX_DATA_STRIDE + 4] = colorOverlay[1]; // Color G
+        auxData[i * AUX_DATA_STRIDE + 5] = colorOverlay[2]; // Color B
+        auxData[i * AUX_DATA_STRIDE + 6] = colorOverlay[3]; // Color A
+      } else {
+        auxData[i * AUX_DATA_STRIDE + 3] = 0.0f; // Color R
+        auxData[i * AUX_DATA_STRIDE + 4] = 0.0f; // Color G
+        auxData[i * AUX_DATA_STRIDE + 5] = 0.0f; // Color B
+        auxData[i * AUX_DATA_STRIDE + 6] = 1.0f; // Color A
+      }
     }
   }
 
