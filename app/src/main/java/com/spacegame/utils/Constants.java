@@ -11,6 +11,6 @@ public class Constants {
   public static String PLAYER = "pixel_ship_pepe";
 
   public static String[] GAMEPAD = {
-    "touch_input_2d_2white", "touch_input_cursor"
+    "touch_input_2d_white", "touch_input_cursor_white"
   }; // gamepad, stick
 }

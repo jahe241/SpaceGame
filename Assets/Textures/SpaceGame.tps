@@ -493,6 +493,7 @@
             <key type="filename">animations/exp2_0-14.png</key>
             <key type="filename">animations/exp2_0-15.png</key>
             <key type="filename">interface/touch_input_cursor.png</key>
+            <key type="filename">interface/touch_input_cursor_white.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -508,7 +509,7 @@
                 <false/>
             </struct>
             <key type="filename">interface/touch_input_2d.png</key>
-            <key type="filename">interface/touch_input_2d_2white.png</key>
+            <key type="filename">interface/touch_input_2d_white.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
