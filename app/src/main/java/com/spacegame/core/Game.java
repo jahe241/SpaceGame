@@ -2,13 +2,14 @@ package com.spacegame.core;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.entities.Actor;
+import com.spacegame.entities.AnimatedActor;
 import com.spacegame.entities.AnimatedEntity;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
-import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -147,9 +148,10 @@ public class Game extends Thread {
 
       for (Entity entity : entities) {
         entity.update(deltaTime);
-        if (entity instanceof BaseEnemy enemy) {
-          enemy.setPlayerVelocity(playerVelocity);
-          DebugLogger.log("Enemy", "Enemy Velocity: " + enemy.getVelocity());
+        if (entity instanceof Actor actor) {
+          actor.setPlayerVelocity(playerVelocity);
+        } else if (entity instanceof AnimatedActor actor) {
+          actor.setPlayerVelocity(playerVelocity);
         }
       }
     }
