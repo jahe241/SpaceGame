@@ -34,7 +34,7 @@ public class Entity extends Quad {
    * The base speed of the entity. This is the speed at which the entity moves when it is not
    * affected by any external forces.
    */
-  int baseSpeed = 1000;
+  float baseSpeed = 1000;
 
   /**
    * The last rotation angle in radians. This is used to determine if the entity's rotation has
@@ -165,6 +165,16 @@ public class Entity extends Quad {
   void updatePosition(float deltaTime) {
     // Update the velocity based on the acceleration
     this.velocity = this.velocity.add(this.direction.mult(this.acceleration));
+
+    // If direction is zero Vector then deaccelerate
+    if (this.direction.length() == 0) {
+      if (this.velocity.length() < this.acceleration * 2) {
+        this.velocity = new Vector2D(0, 0);
+      } else {
+        this.velocity = this.velocity.mult(1 - 1 / this.acceleration);
+      }
+    }
+
     // Limit the velocity to the base speed
     if (this.velocity.length() > this.baseSpeed) {
       this.velocity = this.velocity.toSize(this.baseSpeed);
@@ -174,7 +184,10 @@ public class Entity extends Quad {
     Vector2D nextFrameTargetPosition = this.position.add(this.velocity.mult(deltaTime));
 
     // Calculate target rotation angle towards the destination point
-    float roationAngleRad = -this.position.calcAngle(nextFrameTargetPosition);
+    // If velocity is zero, keep the last rotation angle
+    float roationAngleRad;
+    if (this.velocity.length() == 0) roationAngleRad = this.lastRotationRad;
+    else roationAngleRad = -this.position.calcAngle(nextFrameTargetPosition);
 
     // Define a small threshold distance, so the entity doesn't overshoot the destination
     // Needed because of floating point precision issues
