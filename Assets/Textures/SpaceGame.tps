@@ -416,36 +416,6 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Loose Files/exp2_0-00.png</key>
-            <key type="filename">Loose Files/exp2_0-01.png</key>
-            <key type="filename">Loose Files/exp2_0-02.png</key>
-            <key type="filename">Loose Files/exp2_0-03.png</key>
-            <key type="filename">Loose Files/exp2_0-04.png</key>
-            <key type="filename">Loose Files/exp2_0-05.png</key>
-            <key type="filename">Loose Files/exp2_0-06.png</key>
-            <key type="filename">Loose Files/exp2_0-07.png</key>
-            <key type="filename">Loose Files/exp2_0-08.png</key>
-            <key type="filename">Loose Files/exp2_0-09.png</key>
-            <key type="filename">Loose Files/exp2_0-10.png</key>
-            <key type="filename">Loose Files/exp2_0-11.png</key>
-            <key type="filename">Loose Files/exp2_0-12.png</key>
-            <key type="filename">Loose Files/exp2_0-13.png</key>
-            <key type="filename">Loose Files/exp2_0-14.png</key>
-            <key type="filename">Loose Files/exp2_0-15.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>1</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
             <key type="filename">Loose Files/monk.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -477,7 +447,6 @@
                 <false/>
             </struct>
             <key type="filename">Loose Files/pixel_ship_pepe.png</key>
-            <key type="filename">Loose Files/touch_input_2d.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -507,18 +476,50 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">Loose Files/touch_input_cursor.png</key>
+            <key type="filename">animations/exp2_0-00.png</key>
+            <key type="filename">animations/exp2_0-01.png</key>
+            <key type="filename">animations/exp2_0-02.png</key>
+            <key type="filename">animations/exp2_0-03.png</key>
+            <key type="filename">animations/exp2_0-04.png</key>
+            <key type="filename">animations/exp2_0-05.png</key>
+            <key type="filename">animations/exp2_0-06.png</key>
+            <key type="filename">animations/exp2_0-07.png</key>
+            <key type="filename">animations/exp2_0-08.png</key>
+            <key type="filename">animations/exp2_0-09.png</key>
+            <key type="filename">animations/exp2_0-10.png</key>
+            <key type="filename">animations/exp2_0-11.png</key>
+            <key type="filename">animations/exp2_0-12.png</key>
+            <key type="filename">animations/exp2_0-13.png</key>
+            <key type="filename">animations/exp2_0-14.png</key>
+            <key type="filename">animations/exp2_0-15.png</key>
+            <key type="filename">interface/touch_input_cursor.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>spriteScale</key>
-                <double>0.5</double>
+                <double>1</double>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">interface/touch_input_2d.png</key>
+            <key type="filename">interface/touch_input_2d_2white.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -532,6 +533,8 @@
                     <filename>Loose Files</filename>
                     <filename>Joystix_font</filename>
                     <filename>Actors</filename>
+                    <filename>animations</filename>
+                    <filename>interface</filename>
                 </array>
             </struct>
         </map>
