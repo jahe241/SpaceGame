@@ -43,8 +43,16 @@ public class Player extends Entity {
     //    this.updateColor(); // Rainbow color effect
     // Update the entity's position
     this.updatePosition(delta);
+    this.updateRotation(delta);
     // Update the entity's vertex data
     this.updateVertexPositionData();
+  }
+
+  @Override
+  void updatePosition(float delta) {
+    Vector2D oldPosition = new Vector2D(this.position);
+    super.updatePosition(delta);
+    this.setPosition(oldPosition);
   }
 
   // this function dynamically changes the color of the player based on time delta

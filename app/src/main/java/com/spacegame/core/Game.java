@@ -3,11 +3,12 @@ package com.spacegame.core;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.entities.AnimatedEntity;
-import com.spacegame.entities.ColorEntity;
+import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
+import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +51,7 @@ public class Game extends Thread {
     setupGame();
   }
 
-  public static enum GameState {
+  public enum GameState {
     PLAYING,
     PAUSED,
     GAME_OVER
@@ -101,6 +102,7 @@ public class Game extends Thread {
     this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, 500f, 1000f, 500f, 200f));
     this.player.setZ(
         1); // incredibly hacky way to make sure the player is drawn on top TODO: Setup in Player
+    addEntity(new BaseEnemy(this.textureAtlas, "monk", 500f, 500f, 500f, 200f));
     this.gameState = GameState.PLAYING;
   }
 
@@ -141,13 +143,14 @@ public class Game extends Thread {
       // Remove the entities that are marked for deletion
       entities.removeIf(Entity::getDiscard);
 
+      Vector2D playerVelocity = this.getPlayerVelocity();
+
       for (Entity entity : entities) {
-        if (!(entity instanceof Player)
-            && !(entity instanceof ColorEntity)
-            && !(entity instanceof AnimatedEntity)) {
-          entity.setRotationRad(entity.getRotationRad() - 0.35f);
-        }
         entity.update(deltaTime);
+        if (entity instanceof BaseEnemy enemy) {
+          enemy.setPlayerVelocity(playerVelocity);
+          DebugLogger.log("Enemy", "Enemy Velocity: " + enemy.getVelocity());
+        }
       }
     }
     // TODO: Physics / Interaction-Checks here
@@ -170,6 +173,16 @@ public class Game extends Thread {
    */
   public Entity getPlayer() {
     return player;
+  }
+
+  /**
+   * Returns the player's velocity.
+   *
+   * @return
+   */
+  public Vector2D getPlayerVelocity() {
+    if (this.player != null) return this.player.getVelocity();
+    else return new Vector2D(0, 0);
   }
 
   /**
