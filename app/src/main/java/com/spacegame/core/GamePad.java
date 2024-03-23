@@ -17,8 +17,8 @@ public class GamePad {
   public GamePad(TextureAtlas textureAtlas, float screenWidth, float screenHeight) {
     this.textureAtlas = textureAtlas;
     this.screenSize = new Vector2D(screenWidth, screenHeight);
-    this.pad = new Entity(textureAtlas, Constants.GAMEPAD[0], 500, 500, 400f, 400f);
-    this.stick = new Entity(textureAtlas, Constants.GAMEPAD[1], 500, 500, 200f, 200f);
+    this.pad = new Entity(textureAtlas, Constants.GAMEPAD[0], 500, 500, 256f, 256f);
+    this.stick = new Entity(textureAtlas, Constants.GAMEPAD[1], 500, 500, 64f, 64f);
     this.radius = this.pad.getWidth() / 2; // we might want to tweak this later
     this.pad.hide();
     this.stick.hide();
