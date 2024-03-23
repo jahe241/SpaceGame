@@ -106,8 +106,8 @@ public class GameInterface extends Thread {
     addInterfaceElement(
         new SpriteButton(
             game.textureAtlas,
-            "8x8text_whiteShadow-58",
-            "8x8text_whiteShadow-58",
+            "joystix_cC",
+            "joystix_c",
             400,
             400,
             100f,
