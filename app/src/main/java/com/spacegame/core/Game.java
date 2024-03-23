@@ -40,6 +40,18 @@ public class Game extends Thread {
 
   private GameState gameState = GameState.PLAYING;
 
+  /** Sceen height */
+  int height;
+
+  /** Screen width */
+  int width;
+
+  public Game(int height, int width) {
+    super();
+    this.height = height;
+    this.width = width;
+  }
+
   public void setPlayerDirection(Vector2D stickDirection) {
     if (player != null) player.setDirection(stickDirection);
     Log.d("Game", "Setting Player Direction: " + stickDirection);
@@ -100,7 +112,9 @@ public class Game extends Thread {
   /** Sets up the game by adding the player character to the entities list. */
   private void setupGame() {
     // Add the player character
-    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, 500f, 1000f, 500f, 200f));
+    float playerX = this.width / 2f;
+    float playerY = this.height / 2f;
+    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 500f, 200f));
     this.player.setZ(
         1); // incredibly hacky way to make sure the player is drawn on top TODO: Setup in Player
     addEntity(new BaseEnemy(this.textureAtlas, "monk", 500f, 500f, 500f, 200f));
