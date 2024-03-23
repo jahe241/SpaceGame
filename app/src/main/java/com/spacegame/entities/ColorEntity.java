@@ -1,4 +1,4 @@
-package com.spacegame.core;
+package com.spacegame.entities;
 
 /**
  * The ColorEntity class extends the Entity class and represents an entity with a solid color. This

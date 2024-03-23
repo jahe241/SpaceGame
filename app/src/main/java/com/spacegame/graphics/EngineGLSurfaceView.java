@@ -19,8 +19,11 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     this.setFocusableInTouchMode(true);
     this.requestFocus();
 
+    int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
+    int screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+
     // Initialize the game and start it
-    this.game = new Game();
+    this.game = new Game(screenHeight, screenWidth);
 
     // Initialize the renderer and set the OpenGL version to 2.0
     this.gameInterface = new GameInterface(context, game);
