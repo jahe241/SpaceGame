@@ -173,180 +173,111 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
-            <key type="filename">Font/8x8text_whiteShadow-+.png</key>
-            <key type="filename">Font/8x8text_whiteShadow--.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-0.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-1.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-100.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-101.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-102.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-103.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-104.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-105.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-106.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-107.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-108.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-109.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-110.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-111.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-112.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-113.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-114.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-115.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-116.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-117.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-118.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-119.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-120.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-121.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-122.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-123.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-124.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-125.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-126.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-127.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-128.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-129.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-13.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-130.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-131.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-132.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-133.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-134.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-135.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-136.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-137.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-138.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-139.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-14.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-140.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-141.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-142.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-143.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-144.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-145.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-146.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-147.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-148.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-149.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-15.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-150.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-151.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-152.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-153.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-154.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-155.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-156.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-157.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-158.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-159.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-16.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-160.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-161.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-162.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-17.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-18.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-19.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-2.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-20.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-21.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-22.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-23.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-24.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-25.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-26.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-27.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-28.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-29.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-3.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-30.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-31.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-32.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-33.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-34.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-35.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-36.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-37.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-38.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-39.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-4.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-40.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-41.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-42.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-43.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-44.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-45.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-46.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-47.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-48.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-49.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-5.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-50.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-51.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-52.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-53.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-54.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-55.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-56.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-57.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-58.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-59.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-6.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-60.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-61.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-62.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-63.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-64.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-65.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-66.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-67.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-68.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-69.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-7.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-70.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-71.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-72.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-73.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-74.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-75.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-76.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-77.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-78.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-79.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-8.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-80.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-81.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-82.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-83.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-84.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-85.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-86.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-87.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-88.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-89.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-9.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-90.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-91.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-92.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-93.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-94.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-95.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-96.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-97.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-98.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-99.png</key>
-            <key type="filename">Font/8x8text_whiteShadow-~.png</key>
+            <key type="filename">Joystix_font/joystix_0.png</key>
+            <key type="filename">Joystix_font/joystix_1.png</key>
+            <key type="filename">Joystix_font/joystix_2.png</key>
+            <key type="filename">Joystix_font/joystix_3.png</key>
+            <key type="filename">Joystix_font/joystix_4.png</key>
+            <key type="filename">Joystix_font/joystix_5.png</key>
+            <key type="filename">Joystix_font/joystix_6.png</key>
+            <key type="filename">Joystix_font/joystix_7.png</key>
+            <key type="filename">Joystix_font/joystix_8.png</key>
+            <key type="filename">Joystix_font/joystix_9.png</key>
+            <key type="filename">Joystix_font/joystix_a.png</key>
+            <key type="filename">Joystix_font/joystix_ampersand.png</key>
+            <key type="filename">Joystix_font/joystix_apostrophe.png</key>
+            <key type="filename">Joystix_font/joystix_asterisk.png</key>
+            <key type="filename">Joystix_font/joystix_at.png</key>
+            <key type="filename">Joystix_font/joystix_b.png</key>
+            <key type="filename">Joystix_font/joystix_backslash.png</key>
+            <key type="filename">Joystix_font/joystix_backtick.png</key>
+            <key type="filename">Joystix_font/joystix_c.png</key>
+            <key type="filename">Joystix_font/joystix_cA.png</key>
+            <key type="filename">Joystix_font/joystix_cB.png</key>
+            <key type="filename">Joystix_font/joystix_cC.png</key>
+            <key type="filename">Joystix_font/joystix_cD.png</key>
+            <key type="filename">Joystix_font/joystix_cE.png</key>
+            <key type="filename">Joystix_font/joystix_cF.png</key>
+            <key type="filename">Joystix_font/joystix_cG.png</key>
+            <key type="filename">Joystix_font/joystix_cH.png</key>
+            <key type="filename">Joystix_font/joystix_cI.png</key>
+            <key type="filename">Joystix_font/joystix_cJ.png</key>
+            <key type="filename">Joystix_font/joystix_cK.png</key>
+            <key type="filename">Joystix_font/joystix_cL.png</key>
+            <key type="filename">Joystix_font/joystix_cM.png</key>
+            <key type="filename">Joystix_font/joystix_cN.png</key>
+            <key type="filename">Joystix_font/joystix_cO.png</key>
+            <key type="filename">Joystix_font/joystix_cP.png</key>
+            <key type="filename">Joystix_font/joystix_cQ.png</key>
+            <key type="filename">Joystix_font/joystix_cR.png</key>
+            <key type="filename">Joystix_font/joystix_cS.png</key>
+            <key type="filename">Joystix_font/joystix_cT.png</key>
+            <key type="filename">Joystix_font/joystix_cU.png</key>
+            <key type="filename">Joystix_font/joystix_cV.png</key>
+            <key type="filename">Joystix_font/joystix_cW.png</key>
+            <key type="filename">Joystix_font/joystix_cX.png</key>
+            <key type="filename">Joystix_font/joystix_cY.png</key>
+            <key type="filename">Joystix_font/joystix_cZ.png</key>
+            <key type="filename">Joystix_font/joystix_caret.png</key>
+            <key type="filename">Joystix_font/joystix_colon.png</key>
+            <key type="filename">Joystix_font/joystix_comma.png</key>
+            <key type="filename">Joystix_font/joystix_d.png</key>
+            <key type="filename">Joystix_font/joystix_dollar.png</key>
+            <key type="filename">Joystix_font/joystix_e.png</key>
+            <key type="filename">Joystix_font/joystix_equals.png</key>
+            <key type="filename">Joystix_font/joystix_exclamation.png</key>
+            <key type="filename">Joystix_font/joystix_f.png</key>
+            <key type="filename">Joystix_font/joystix_g.png</key>
+            <key type="filename">Joystix_font/joystix_greater_than.png</key>
+            <key type="filename">Joystix_font/joystix_h.png</key>
+            <key type="filename">Joystix_font/joystix_hash.png</key>
+            <key type="filename">Joystix_font/joystix_i.png</key>
+            <key type="filename">Joystix_font/joystix_j.png</key>
+            <key type="filename">Joystix_font/joystix_k.png</key>
+            <key type="filename">Joystix_font/joystix_l.png</key>
+            <key type="filename">Joystix_font/joystix_left_curly_brace.png</key>
+            <key type="filename">Joystix_font/joystix_left_parenthesis.png</key>
+            <key type="filename">Joystix_font/joystix_left_square_bracket.png</key>
+            <key type="filename">Joystix_font/joystix_less_than.png</key>
+            <key type="filename">Joystix_font/joystix_m.png</key>
+            <key type="filename">Joystix_font/joystix_minus.png</key>
+            <key type="filename">Joystix_font/joystix_n.png</key>
+            <key type="filename">Joystix_font/joystix_o.png</key>
+            <key type="filename">Joystix_font/joystix_p.png</key>
+            <key type="filename">Joystix_font/joystix_percent.png</key>
+            <key type="filename">Joystix_font/joystix_period.png</key>
+            <key type="filename">Joystix_font/joystix_plus.png</key>
+            <key type="filename">Joystix_font/joystix_q.png</key>
+            <key type="filename">Joystix_font/joystix_question.png</key>
+            <key type="filename">Joystix_font/joystix_quote.png</key>
+            <key type="filename">Joystix_font/joystix_r.png</key>
+            <key type="filename">Joystix_font/joystix_right_curly_brace.png</key>
+            <key type="filename">Joystix_font/joystix_right_parenthesis.png</key>
+            <key type="filename">Joystix_font/joystix_right_square_bracket.png</key>
+            <key type="filename">Joystix_font/joystix_s.png</key>
+            <key type="filename">Joystix_font/joystix_semicolon.png</key>
+            <key type="filename">Joystix_font/joystix_slash.png</key>
+            <key type="filename">Joystix_font/joystix_t.png</key>
+            <key type="filename">Joystix_font/joystix_tilde.png</key>
+            <key type="filename">Joystix_font/joystix_u.png</key>
+            <key type="filename">Joystix_font/joystix_underscore.png</key>
+            <key type="filename">Joystix_font/joystix_v.png</key>
+            <key type="filename">Joystix_font/joystix_vertical_bar.png</key>
+            <key type="filename">Joystix_font/joystix_w.png</key>
+            <key type="filename">Joystix_font/joystix_x.png</key>
+            <key type="filename">Joystix_font/joystix_y.png</key>
+            <key type="filename">Joystix_font/joystix_z.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>spriteScale</key>
-                <double>2</double>
+                <double>1</double>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
-                <rect>2,2,4,4</rect>
+                <rect>8,8,16,16</rect>
                 <key>scale9Paddings</key>
-                <rect>2,2,4,4</rect>
+                <rect>8,8,16,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -426,12 +357,11 @@
                 <false/>
             </struct>
             <key type="filename">Loose Files/pixel_ship_pepe.png</key>
-            <key type="filename">Loose Files/touch_input_2d.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>spriteScale</key>
-                <double>0.5</double>
+                <double>1</double>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
@@ -453,6 +383,21 @@
                 <rect>48,48,96,96</rect>
                 <key>scale9Paddings</key>
                 <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Loose Files/touch_input_2d.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,64,128,128</rect>
+                <key>scale9Paddings</key>
+                <rect>64,64,128,128</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -479,7 +424,7 @@
                 <key>files</key>
                 <array>
                     <filename>Loose Files</filename>
-                    <filename>Font</filename>
+                    <filename>Joystix_font</filename>
                 </array>
             </struct>
         </map>
