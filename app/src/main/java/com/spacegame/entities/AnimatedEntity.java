@@ -1,4 +1,4 @@
-package com.spacegame.core;
+package com.spacegame.entities;
 
 import android.util.Log;
 import com.spacegame.graphics.Sprite;

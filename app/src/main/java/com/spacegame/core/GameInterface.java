@@ -3,6 +3,8 @@ package com.spacegame.core;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.entities.Entity;
+import com.spacegame.entities.SpriteButton;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -83,7 +85,7 @@ public class GameInterface extends Thread {
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
       interfaceElements.removeIf(Entity::getDiscard);
-      for (Quad entity : interfaceElements) {
+      for (Entity entity : interfaceElements) {
         entity.update(deltaTime);
       }
     }

@@ -1,4 +1,4 @@
-package com.spacegame.core;
+package com.spacegame.entities;
 
 import com.spacegame.utils.Vector2D;
 import java.nio.ShortBuffer;

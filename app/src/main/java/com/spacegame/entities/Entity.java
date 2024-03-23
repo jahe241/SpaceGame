@@ -1,4 +1,4 @@
-package com.spacegame.core;
+package com.spacegame.entities;
 
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;

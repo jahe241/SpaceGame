@@ -1,6 +1,7 @@
 package com.spacegame.core;
 
 import android.util.Log;
+import com.spacegame.entities.Entity;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;

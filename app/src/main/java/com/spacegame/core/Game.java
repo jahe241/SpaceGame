@@ -2,14 +2,16 @@ package com.spacegame.core;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.entities.AnimatedEntity;
+import com.spacegame.entities.ColorEntity;
+import com.spacegame.entities.Entity;
+import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
-import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The Game class extends the Thread class and represents the main game loop. It contains
@@ -139,7 +141,7 @@ public class Game extends Thread {
       // Remove the entities that are marked for deletion
       entities.removeIf(Entity::getDiscard);
 
-      for (Quad entity : entities) {
+      for (Entity entity : entities) {
         if (!(entity instanceof Player)
             && !(entity instanceof ColorEntity)
             && !(entity instanceof AnimatedEntity)) {

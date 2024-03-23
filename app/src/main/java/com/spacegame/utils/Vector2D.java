@@ -1,7 +1,6 @@
 package com.spacegame.utils;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import java.util.Objects;
 
 /* Helper Class for frequently used Vector Oprations in 2D-Space */
@@ -99,6 +98,15 @@ public class Vector2D {
     if (x == 0 && y == 0) return new Vector2D(0, 0);
     float length = (float) Math.sqrt(x * x + y * y);
     return new Vector2D(x / length, y / length);
+  }
+
+  /**
+   * Calculate the inverse of this vector
+   *
+   * @return
+   */
+  public Vector2D inversed() {
+    return new Vector2D(-x, -y);
   }
 
   /** Normalize this vector */

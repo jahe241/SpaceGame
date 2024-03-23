@@ -1,9 +1,9 @@
-package com.spacegame.core;
+package com.spacegame.entities;
 
 import android.util.Log;
 import android.view.MotionEvent;
-import com.spacegame.utils.ColorHelper;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Vector2D;
 
 public class Player extends Entity {
