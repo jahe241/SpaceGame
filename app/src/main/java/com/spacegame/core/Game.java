@@ -61,7 +61,7 @@ public class Game extends Thread {
   @Override
   public void run() {
     Log.d("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
-    long timePerFrame = 1000 / 60; // Time for each frame in milliseconds
+    long timePerFrame = 1000 / 120; // Time for each frame in milliseconds
     running = true;
     // Set up the game
     setupGame();

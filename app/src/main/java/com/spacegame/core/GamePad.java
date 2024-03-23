@@ -65,13 +65,13 @@ public class GamePad {
 
   public void showGamePad(float x, float y) {
     this.visible = true;
-    this.pad.show();
-    this.stick.show();
     var vec = new Vector2D(x, y);
     pad.setPosition(vec);
     stick.setPosition(vec);
-    pad.disableColorOverlay();
-    stick.disableColorOverlay();
+    this.pad.show();
+    this.stick.show();
+    this.pad.updateVertexPositionData();
+    this.stick.updateVertexPositionData();
     Log.d("GamePad", "Showing GamePad at: " + vec);
   }
 
