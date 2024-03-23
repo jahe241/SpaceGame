@@ -8,7 +8,9 @@ import java.util.List;
 public class Constants {
   // Might aswell keep them here, will be easier to change them later
   public static String animation_EXPLOSION = "exp2_0-";
-  public static String PLAYER = "titan";
+  public static String PLAYER = "pixel_ship_pepe";
 
-  public static String[] GAMEPAD = {"touch_input_2d", "touch_input_cursor"}; // gamepad, stick
+  public static String[] GAMEPAD = {
+    "touch_input_2d_white", "touch_input_cursor_white"
+  }; // gamepad, stick
 }

@@ -43,7 +43,7 @@ abstract class Quad {
   /**
    * Updates the entity's positionData Array to reflect its current position, orientation, and size.
    */
-  void updateVertexPositionData() {
+  public void updateVertexPositionData() {
     // Calculate the sine and cosine of the rotation angle for efficient use in vertex rotation
     float cosTheta = (float) Math.cos(rotationRad);
     float sinTheta = (float) Math.sin(rotationRad);

@@ -108,8 +108,8 @@ public class GameInterface extends Thread {
     addInterfaceElement(
         new SpriteButton(
             game.textureAtlas,
-            "8x8text_whiteShadow-58",
-            "8x8text_whiteShadow-58",
+            "joystix_cC",
+            "joystix_c",
             400,
             400,
             100f,
@@ -140,6 +140,7 @@ public class GameInterface extends Thread {
    */
   public void receiveTouchEvent(MotionEvent event) {
     Log.d("GameInterface", "Received Touch Event: " + event.getActionMasked());
+
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
       // Check if the touch event is within the bounds of any of the interface elements
       for (Entity element : interfaceElements) {
@@ -150,6 +151,7 @@ public class GameInterface extends Thread {
           }
         }
       }
+
       // GamePad
       if (game.running && gamePad.isVisible()) {
         gamePad.updateStickPosition(event.getX(), event.getY());
@@ -159,11 +161,12 @@ public class GameInterface extends Thread {
         gamePad.showGamePad(event.getX(), event.getY());
       }
     }
+
     if (event.getActionMasked() == MotionEvent.ACTION_UP) {
       if (gamePad.isVisible()) {
         Log.d("GameInterface", "Hiding GamePad");
-        gamePad.resetStickPosition();
         gamePad.hideGamePad();
+        gamePad.resetStickPosition();
         this.game.setPlayerDirection(gamePad.getStickDirection());
       }
     }
