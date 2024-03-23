@@ -173,6 +173,126 @@
         </struct>
         <key>individualSpriteSettings</key>
         <map type="IndividualSpriteSettingsMap">
+            <key type="filename">Actors/ship_black_01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,60,128,120</rect>
+                <key>scale9Paddings</key>
+                <rect>64,60,128,120</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Actors/ship_blue_01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>45,61,90,122</rect>
+                <key>scale9Paddings</key>
+                <rect>45,61,90,122</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Actors/ship_green_01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>59,61,117,122</rect>
+                <key>scale9Paddings</key>
+                <rect>59,61,117,122</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Actors/ship_grey_01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>85,42,169,83</rect>
+                <key>scale9Paddings</key>
+                <rect>85,42,169,83</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Actors/ship_red_01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>62,64,123,127</rect>
+                <key>scale9Paddings</key>
+                <rect>62,64,123,127</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Actors/ship_red_02.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>58,63,116,125</rect>
+                <key>scale9Paddings</key>
+                <rect>58,63,116,125</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Actors/ship_red_03.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>48,62,95,124</rect>
+                <key>scale9Paddings</key>
+                <rect>48,62,95,124</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">Actors/ship_spikey_01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>64,56,128,112</rect>
+                <key>scale9Paddings</key>
+                <rect>64,56,128,112</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">Joystix_font/joystix_0.png</key>
             <key type="filename">Joystix_font/joystix_1.png</key>
             <key type="filename">Joystix_font/joystix_2.png</key>
@@ -357,11 +477,12 @@
                 <false/>
             </struct>
             <key type="filename">Loose Files/pixel_ship_pepe.png</key>
+            <key type="filename">Loose Files/touch_input_2d.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
                 <key>spriteScale</key>
-                <double>1</double>
+                <double>0.5</double>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>
@@ -383,21 +504,6 @@
                 <rect>48,48,96,96</rect>
                 <key>scale9Paddings</key>
                 <rect>48,48,96,96</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">Loose Files/touch_input_2d.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>0.5</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>64,64,128,128</rect>
-                <key>scale9Paddings</key>
-                <rect>64,64,128,128</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -425,6 +531,7 @@
                 <array>
                     <filename>Loose Files</filename>
                     <filename>Joystix_font</filename>
+                    <filename>Actors</filename>
                 </array>
             </struct>
         </map>
