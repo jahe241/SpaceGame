@@ -1,6 +1,6 @@
 package com.spacegame.graphics;
 
-import static android.opengl.GLES20.*;
+import static android.opengl.GLES30.*;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -29,12 +29,16 @@ import org.xmlpull.v1.XmlPullParserException;
 
 public class EngineRenderer implements GLSurfaceView.Renderer {
   // Buffer Constants, adjust to change the size of the buffers
-  private static final int VERTICES_IN_BUFFER = 131072; // 32k quads, bit overkill TODO: adjust
+  private static final int VERTICES_IN_BUFFER = 524288; // 2^19 vertices = 2^17 quads
   private static final int BATCH_SIZE = VERTICES_IN_BUFFER / 4;
 
   // GL Pointers
   public int gl_program_ptr = 0;
+  // uniform pointers
   public static int gl_u_ProjectionMatrix_ptr;
+  public static int gl_u_ActiveVertices_ptr;
+
+  // attribute pointers (in/out) data that passes from vertex shader to fragment shader
   public static int gl_a_Position_ptr;
   public static int gl_a_TexCoordinate_ptr;
   public static int gl_a_Flag_ptr;
@@ -44,6 +48,10 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   // Render Buffers
   private FloatBuffer vertexBuffer;
   ShortBuffer indexBuffer;
+  // Zero array for padding, default float values are 0.0f, no ned to fill it
+  private final float[] ZERO_ARRAY = new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE];
+  private float[] concatenatedVertexArrays =
+      new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE];
 
   // Buffer IDs
   private int indexBufferId;
@@ -93,7 +101,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     // Get the uniform locations
     gl_u_ProjectionMatrix_ptr = glGetUniformLocation(this.gl_program_ptr, "u_ProjectionMatrix");
-
+    gl_u_ActiveVertices_ptr = glGetUniformLocation(this.gl_program_ptr, "u_ActiveVertices");
     Log.d(
         "EngineRenderer",
         "Shader Pointers: "
@@ -107,7 +115,9 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
             + " "
             + gl_a_Color_ptr
             + " "
-            + gl_u_ProjectionMatrix_ptr);
+            + gl_u_ProjectionMatrix_ptr
+            + " "
+            + gl_u_ActiveVertices_ptr);
 
     // Load texture atlas and initialize buffers
     try {
@@ -150,6 +160,8 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     // Unbind the buffers (technically not necessary, but good practice)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    Arrays.fill(ZERO_ARRAY, 0f);
 
     // Log the buffer sizes
     Log.d(
@@ -315,8 +327,9 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
    */
   private List<Entity> fetchEntities() {
     // fetch all visible entities, sorted by there Z-Value - streams are fun
-    return Stream.concat(
-            this.game.getEntities().stream(), this.gameInterface.getInterfaceElements().stream())
+    var gameEntities = this.game.getEntities();
+    var interfaceEntities = this.gameInterface.getInterfaceElements();
+    return Stream.concat(gameEntities.stream(), interfaceEntities.stream())
         .filter(Entity::isVisible)
         .sorted((a, b) -> Float.compare(a.getZ(), b.getZ()))
         .collect(Collectors.toList());
@@ -332,58 +345,69 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     // Pass the projection matrix to the shader
     glUniformMatrix4fv(gl_u_ProjectionMatrix_ptr, 1, false, this.projectionMatrix, 0);
 
-    var batch = fetchEntities();
+    var allEntities = fetchEntities();
 
     // Bind the texture atlas
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureAtlas.getTexturePtr());
 
-    renderBatchedEntities(batch);
+    renderEntityBatched(allEntities);
 
     // here we could unbind the texture atlas, but thats not necessary I think, since we only use
     // one texture
   }
 
   /**
-   * This method is used to render a batch of entities. The entities are provided as a list, and the
-   * method processes them in sub-batches of a size defined by the BATCH_SIZE constant. For each
-   * sub-batch, the method concatenates the vertex arrays of all entities, fills the rest of the
-   * array with zeros, and then renders the concatenated vertex arrays.
+   * Renders a batch of entities. The entities are processed in smaller batches to reduce memory
+   * usage and improve performance. Each batch is then rendered using a single draw call.
    *
-   * @param batch The list of entities to be rendered.
+   * @param allEntities List of all entities to be rendered.
    */
-  public void renderBatchedEntities(List<Entity> batch) {
-    // Split the list into sublists of size BATCH_SIZE
-    for (int i = 0; i < batch.size(); i += BATCH_SIZE) {
-      List<Entity> subBatch = batch.subList(i, Math.min(batch.size(), i + BATCH_SIZE));
+  public void renderEntityBatched(List<Entity> allEntities) {
+    // Iterate through all entities in fixed-size increments to create and render batches.
+    for (int batchStart = 0; batchStart < allEntities.size(); batchStart += BATCH_SIZE - 1) {
+      int currentBatchIndex = 0;
+      int batchEnd = Math.min(allEntities.size(), batchStart + BATCH_SIZE);
 
-      // Concatenate the vertex arrays of all entities in the sublist
-      float[] concatenatedVertexArrays = new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE];
-      int arrayIndex = 0;
-
-      for (Entity entity : subBatch) {
+      for (int j = batchStart; j < batchEnd; j++) {
+        Entity entity = allEntities.get(j);
         float[] entityVertexArray = entity.vbo().getVertexArray();
-        for (float v : entityVertexArray) {
-          concatenatedVertexArrays[arrayIndex++] = v;
-        }
+        System.arraycopy(
+            entityVertexArray,
+            0,
+            concatenatedVertexArrays,
+            currentBatchIndex,
+            entityVertexArray.length);
+        currentBatchIndex += entityVertexArray.length;
       }
-      // Fill the rest of the array with zeros
-      Arrays.fill(concatenatedVertexArrays, arrayIndex, concatenatedVertexArrays.length, 0f);
-      // Step 3: Render the concatenated vertex arrays
-      renderVertexArray(concatenatedVertexArrays);
+
+      // Calculate the number of active vertices
+      int activeVertexCount = currentBatchIndex / VertexBufferObject.STRIDE;
+
+      // Render the concatenated vertex arrays for this batch with the actual count of active
+      // vertices.
+      Log.d("EngineRenderer", "Rendering batch with " + activeVertexCount + " active vertices.");
+      renderVertexArray(concatenatedVertexArrays, activeVertexCount);
     }
   }
 
-  private void renderVertexArray(float[] batchArray) {
-    // Update the buffer with the new vertex data
+  private void renderVertexArray(float[] batchArray, int activeVertexCount) {
+
+    Log.d("EngineRenderer", "Received:  " + batchArray.length + " Array");
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
     vertexBuffer.clear();
     vertexBuffer.put(batchArray).position(0);
     glBufferSubData(
-        GL_ARRAY_BUFFER, 0, batchArray.length * Float.BYTES, FloatBuffer.wrap(batchArray));
+        GL_ARRAY_BUFFER,
+        0,
+        activeVertexCount * VertexBufferObject.STRIDE * Float.BYTES,
+        FloatBuffer.wrap(batchArray));
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+
+    // Pass the number of active vertices to the shader
+    glUniform1i(gl_u_ActiveVertices_ptr, activeVertexCount);
 
     // Set the vertex attribute pointers
     glEnableVertexAttribArray(gl_a_Position_ptr);
@@ -419,7 +443,12 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     // Bind the index buffer and draw the vertices as triangles using the index buffer
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-    glDrawElements(GL_TRIANGLES, EngineRenderer.BATCH_SIZE * 6, GL_UNSIGNED_SHORT, 0);
+    Log.d("EngineRenderer", "Drawing " + activeVertexCount + " vertices");
+
+    int indexCount = Math.min(activeVertexCount, BATCH_SIZE) * 6;
+
+    glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_SHORT, 0);
+
     drawCallsCurrentFrame++;
 
     // Disable the vertex array
