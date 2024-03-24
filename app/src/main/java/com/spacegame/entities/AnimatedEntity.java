@@ -94,7 +94,8 @@ public class AnimatedEntity extends Entity {
       } else {
         // Update the sprite to the current frame
         this.setSprite(this.animationFrames.get(this.animationStep));
-        Log.d("AnimatedEntity", "Advancing sprite to frame to index " + this.animationStep);
+        //        Log.d("AnimatedEntity", "Advancing sprite to frame to index " +
+        // this.animationStep);
       }
     }
   }
