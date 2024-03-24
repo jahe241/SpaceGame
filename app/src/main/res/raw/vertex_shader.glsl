@@ -11,8 +11,8 @@ varying float v_Flag;
 uniform mat4 u_ProjectionMatrix;
 
 void main() {
-    v_TexCoord = a_TexCoord; // Tex U and V
-    v_Flag = a_Flag; // Flag
-    v_Color = a_Color; // Color
+    v_TexCoord = a_TexCoord;
+    v_Flag = a_Flag;
+    v_Color = a_Color;
     gl_Position = u_ProjectionMatrix * vec4(a_Position, 1.0);
 }
