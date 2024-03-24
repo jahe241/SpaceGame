@@ -128,14 +128,19 @@ public class TextureAtlas {
    * @param spriteY The y-coordinate of the sprite in the texture atlas.
    * @param spriteWidth The width of the sprite in the texture atlas.
    * @param spriteHeight The height of the sprite in the texture atlas.
-   * @return The UV coordinates of the sprite.
+   * @return The UV coordinates of the sprite in the order: left, top, right, bottom
    */
   private float[] calcUVs(int spriteX, int spriteY, int spriteWidth, int spriteHeight) {
+    // Calculate the U coordinate for the left edge of the sprite
     float u1 = (float) spriteX / atlasWidth;
+    // Calculate the V coordinate for the top edge of the sprite
     float v1 = (float) spriteY / atlasHeight;
+    // Calculate the U coordinate for the right edge of the sprite
     float u2 = u1 + (float) spriteWidth / atlasWidth;
+    // Calculate the V coordinate for the bottom edge of the sprite
     float v2 = v1 + (float) spriteHeight / atlasHeight;
 
+    // Return the UV coordinates in the order: left, top, right, bottom
     return new float[] {u1, v1, u2, v2};
   }
 
