@@ -1,5 +1,7 @@
 package com.spacegame.entities;
 
+import android.util.Log;
+import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Vector2D;
@@ -83,16 +85,6 @@ public class Entity extends Quad {
 
   boolean isVisible = true; // Whether the entity has a texture
 
-  // Rewrite Data:
-  /**
-   * The auxiliary data array for the entity. This array contains additional data for each vertex of
-   * the entity's quad. The data is stored in the following format: [Tex U, Tex V, Flag, Color R,
-   * Color G, Color B, Color A] for each vertex/corner of the quad.
-   */
-  float[] auxData =
-      new float
-          [28]; // Tex U, Tex V, Flag, Color R, Color G, Color B, Color A for each vertex/corner
-
   /**
    * Constructor for the Entity class. This constructor initializes a new Entity object by setting
    * its position, size, texture atlas, and sprite. If the texture atlas is not null, it sets the
@@ -114,47 +106,12 @@ public class Entity extends Quad {
     if (textureAtlas != null) {
       this.textureAtlas = textureAtlas;
       this.gl_texture_ptr = textureAtlas.getTexturePtr();
+      this.vbo.setFlagTexture();
     }
     if (textureAtlas != null && spriteName != null) {
       this.sprite = textureAtlas.getSprite(spriteName);
       assert this.sprite != null;
-      this.updateauxData();
-    }
-  }
-
-  /**
-   * Updates the entity's auxiliary data array based on its color overlay and texture flag.
-   * Implementations should override this method to update the auxiliary data array with the
-   * appropriate values for the entity.
-   */
-  @Override
-  protected void updateauxData() {
-    // Check if the array is null
-    if (auxData == null) {
-      auxData = new float[28]; // Initialize with size 28 as there are 28 elements
-    }
-
-    // Get sprite UVs
-    float[] spriteUVs = this.sprite.uvs();
-
-    // Set auxData values
-    for (int i = 0; i < 4; i++) {
-      auxData[i * AUX_DATA_STRIDE] = spriteUVs[i % 2 == 0 ? 0 : 2]; // Tex U
-      auxData[i * AUX_DATA_STRIDE + 1] = spriteUVs[i < 2 ? 1 : 3]; // Tex V
-
-      auxData[i * AUX_DATA_STRIDE + 2] = hasColorOverlay ? 1.0f : 0.0f; // Flag
-
-      if (hasColorOverlay) {
-        auxData[i * AUX_DATA_STRIDE + 3] = colorOverlay[0]; // Color R
-        auxData[i * AUX_DATA_STRIDE + 4] = colorOverlay[1]; // Color G
-        auxData[i * AUX_DATA_STRIDE + 5] = colorOverlay[2]; // Color B
-        auxData[i * AUX_DATA_STRIDE + 6] = colorOverlay[3]; // Color A
-      } else {
-        auxData[i * AUX_DATA_STRIDE + 3] = 0.0f; // Color R
-        auxData[i * AUX_DATA_STRIDE + 4] = 0.0f; // Color G
-        auxData[i * AUX_DATA_STRIDE + 5] = 0.0f; // Color B
-        auxData[i * AUX_DATA_STRIDE + 6] = 1.0f; // Color A
-      }
+      this.vbo.updateTexture(this.sprite);
     }
   }
 
@@ -195,15 +152,15 @@ public class Entity extends Quad {
 
     // Calculate target rotation angle towards the destination point
     // If velocity is zero, keep the last rotation angle
-    float roationAngleRad;
-    if (this.velocity.length() == 0) roationAngleRad = this.lastRotationRad;
-    else roationAngleRad = -this.position.calcAngle(nextFrameTargetPosition);
+    float rotationAngleRad;
+    if (this.velocity.length() == 0) rotationAngleRad = this.lastRotationRad;
+    else rotationAngleRad = -this.position.calcAngle(nextFrameTargetPosition);
 
     // Update position
 
     // Smooth rotation towards the target
     // Calculate the shortest angular distance between the current angle and the target angle
-    float angleDifference = roationAngleRad - this.rotationRad;
+    float angleDifference = rotationAngleRad - this.rotationRad;
     // Log.d("Entity", "Angle Difference: " + Math.toDegrees(angleDifference));
     angleDifference -=
         (float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
@@ -225,7 +182,6 @@ public class Entity extends Quad {
     if (this.rotationRad != this.lastRotationRad) {
       //      Log.d("Entity", "Rotation in Radians: " + this.rotationRad);
       //      Log.d("Entity", "Rotation in Degrees: " + Math.toDegrees(this.rotationRad));
-      //      Log.d("Entity", "Destination Rotation:" + Math.toDegrees(targetRotationRad));
       this.lastRotationRad = this.rotationRad;
     }
   }
@@ -237,13 +193,9 @@ public class Entity extends Quad {
    * @param delta The time elapsed since the last update.
    */
   public void update(float delta) {
-    // Log.d("Entity", "x: " + this.x + " y:" + this.y);
-    // Update the entity's position
     this.updatePosition(delta);
-
     this.updateRotation(delta);
-    // Update the entity's vertex data
-    this.updateVertexPositionData();
+    this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
   }
 
   /**
@@ -312,15 +264,6 @@ public class Entity extends Quad {
   }
 
   /**
-   * Gets the auxiliary data array for the entity.
-   *
-   * @return
-   */
-  public float[] getAuxData() {
-    return auxData;
-  }
-
-  /**
    * Gets the OpenGL texture pointer for the entity.
    *
    * @return
@@ -338,7 +281,7 @@ public class Entity extends Quad {
   public void setSprite(String spriteName) {
     this.sprite = textureAtlas.getSprite(spriteName);
     assert this.sprite != null;
-    this.updateauxData();
+    this.vbo.updateTexture(this.sprite);
   }
 
   /**
@@ -354,7 +297,7 @@ public class Entity extends Quad {
     this.gl_texture_ptr = textureAtlas.getTexturePtr();
     this.sprite = textureAtlas.getSprite(spriteName);
     assert this.sprite != null;
-    this.updateauxData();
+    this.vbo.updateTexture(this.sprite);
   }
 
   /**
@@ -365,7 +308,7 @@ public class Entity extends Quad {
    */
   protected void setSprite(Sprite sprite) {
     this.sprite = sprite;
-    this.updateauxData();
+    this.vbo.updateTexture(this.sprite);
   }
 
   /**
@@ -389,7 +332,8 @@ public class Entity extends Quad {
   public void setColorOverlay(float[] color) {
     this.colorOverlay = color;
     this.hasColorOverlay = true;
-    this.updateauxData();
+    this.vbo.setColor(color);
+    this.vbo.setFlagColorOverlay();
   }
 
   /**
@@ -397,15 +341,7 @@ public class Entity extends Quad {
    */
   public void disableColorOverlay() {
     this.hasColorOverlay = false;
-  }
-
-  /**
-   * Sets the hasTexture flag of the entity. This flag indicates whether the entity has a texture.
-   *
-   * @param hasTexture The value to set the hasTexture flag to.
-   */
-  public void setHasTexture(boolean hasTexture) {
-    this.hasTexture = hasTexture;
+    this.vbo.setFlagTexture();
   }
 
   /**
@@ -467,5 +403,23 @@ public class Entity extends Quad {
   /** Shows the entity. This method sets the visibility of the entity to true. */
   public void show() {
     this.isVisible = true;
+  }
+
+  /**
+   * Updates the position of the vertex buffer object (VBO) associated with this entity. This method
+   * is typically called when the position or rotation of the entity changes. The updated position
+   * and rotation are used to recalculate the vertices of the VBO, which in turn affects how the
+   * entity is rendered on the screen.
+   */
+  public void updatePositionVertex() {
+    this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    String spriteName = this.sprite == null ? "null" : this.sprite.name();
+    spriteName += "(" + this.getClass() + ")";
+    return "E[" + spriteName + " " + this.position + ", " + this.width + ", " + this.height + "]";
   }
 }

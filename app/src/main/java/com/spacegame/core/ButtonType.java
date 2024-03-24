@@ -8,4 +8,5 @@ public enum ButtonType {
   /** Represents the pause button. When clicked, the game toggles its Pause-State. */
   TOGGLE_PAUSE,
   RESET_GAME,
+  DEBUG_BUTTON,
 }

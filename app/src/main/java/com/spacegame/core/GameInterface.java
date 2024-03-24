@@ -105,6 +105,7 @@ public class GameInterface extends Thread {
             250f,
             ButtonType.TOGGLE_PAUSE,
             true));
+    // Reset Button
     addInterfaceElement(
         new SpriteButton(
             game.textureAtlas,
@@ -115,6 +116,18 @@ public class GameInterface extends Thread {
             100f,
             100f,
             ButtonType.RESET_GAME,
+            true));
+    // Debug Button
+    addInterfaceElement(
+        new SpriteButton(
+            game.textureAtlas,
+            "joystix_cD",
+            "joystix_d",
+            screenWidth - 500,
+            screenHeight - 500,
+            250f,
+            250f,
+            ButtonType.DEBUG_BUTTON,
             true));
     // Add the gamepad
     this.gamePad = new GamePad(game.textureAtlas, screenWidth, screenHeight);
@@ -196,7 +209,11 @@ public class GameInterface extends Thread {
         // Check other Cases here
       case RESET_GAME:
         Log.d("GameInterface", "Resetting Game");
+        this.game.player.vbo().print();
         game.resetGame();
+        break;
+      case DEBUG_BUTTON:
+        this.game.spawnExplosions(64);
         break;
     }
   }
@@ -208,6 +225,8 @@ public class GameInterface extends Thread {
    * @see Entity
    */
   public List<Entity> getInterfaceElements() {
-    return interfaceElements;
+    synchronized (interfaceElements) {
+      return new ArrayList<>(interfaceElements);
+    }
   }
 }

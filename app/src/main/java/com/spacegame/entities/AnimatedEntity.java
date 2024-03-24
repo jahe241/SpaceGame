@@ -57,11 +57,10 @@ public class AnimatedEntity extends Entity {
     super(textureAtlas, null, x, y, width, height);
     this.animationFrames = textureAtlas.getAnimationSprites(animationName);
     this.animationStep = 0;
-    this.sprite = animationFrames.get(animationStep);
+    this.setSprite(animationFrames.get(animationStep)); // Set the initial sprite
     this.frameDuration = frameDuration;
     this.timeSinceLastFrame = 0.0f;
     this.isLooping = isLooping;
-    this.updateauxData();
   }
 
   @Override
@@ -94,9 +93,9 @@ public class AnimatedEntity extends Entity {
         }
       } else {
         // Update the sprite to the current frame
-        this.sprite = this.animationFrames.get(this.animationStep);
-        this.updateauxData();
-        Log.d("AnimatedEntity", "Advancing sprite to frame to index " + this.animationStep);
+        this.setSprite(this.animationFrames.get(this.animationStep));
+        //        Log.d("AnimatedEntity", "Advancing sprite to frame to index " +
+        // this.animationStep);
       }
     }
   }

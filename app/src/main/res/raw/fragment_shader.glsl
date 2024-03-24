@@ -1,21 +1,30 @@
+#version 300 es
 precision mediump float;
 
-varying vec2 v_TexCoord;
-varying vec4 v_Color;
-varying float v_Flag; // We will use this to decide rendering mode
+in vec2 v_TexCoord;
+in vec4 v_Color;
+in float v_Flag;
 
 uniform sampler2D u_Texture;
 
+out vec4 outColor;
+
 void main() {
-    vec4 texColor = texture2D(u_Texture, v_TexCoord);
-    if (v_Flag == 1.0) {
-        // If flag indicates texture + color, multiply texture color by vertex color
-        gl_FragColor = texColor * v_Color;
+    vec4 texColor = texture(u_Texture, v_TexCoord);
+
+    if (v_Flag != 2.0 && texColor.a < 0.1) {
+        discard;
+
+    } else if (v_Flag == 0.0) {
+        outColor = texColor;
+
+    } else if (v_Flag == 1.0) {
+        outColor = texColor * v_Color;
+
     } else if (v_Flag == 2.0) {
-        // If flag indicates solid color, use vertex color directly
-        gl_FragColor = v_Color;
+        outColor = v_Color;
+
     } else {
-        // Default or unspecified flag behavior (e.g., just texture)
-        gl_FragColor = texColor;
+        outColor = texColor;
     }
 }

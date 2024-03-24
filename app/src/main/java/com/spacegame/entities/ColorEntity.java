@@ -23,27 +23,7 @@ public class ColorEntity extends Entity {
     super(null, null, x, y, width, height);
     this.colorOverlay = colorOverlay;
     this.hasColorOverlay = true;
-    this.updateauxData();
-  }
-
-  @Override
-  protected void updateauxData() {
-    // Check if the array is null
-    if (this.auxData == null) {
-      this.auxData = new float[28]; // Initialize with size 28 as there are 28 elements
-    }
-
-    // Set auxData values
-    for (int i = 0; i < 4; i++) {
-      this.auxData[i * AUX_DATA_STRIDE] = i % 2 == 0 ? 0.0f : 1.0f; // Tex U
-      this.auxData[i * AUX_DATA_STRIDE + 1] = i < 2 ? 0.0f : 1.0f; // Tex V
-
-      this.auxData[i * AUX_DATA_STRIDE + 2] = 2.0f; // Flag for solid color
-
-      this.auxData[i * AUX_DATA_STRIDE + 3] = this.colorOverlay[0]; // Color R
-      this.auxData[i * AUX_DATA_STRIDE + 4] = this.colorOverlay[1]; // Color G
-      this.auxData[i * AUX_DATA_STRIDE + 5] = this.colorOverlay[2]; // Color B
-      this.auxData[i * AUX_DATA_STRIDE + 6] = this.colorOverlay[3]; // Color A
-    }
+    this.setColorOverlay(colorOverlay);
+    this.vbo.setFlagSolidColor();
   }
 }
