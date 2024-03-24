@@ -213,7 +213,7 @@ public class GameInterface extends Thread {
         game.resetGame();
         break;
       case DEBUG_BUTTON:
-        this.game.spawnExplosions(2048);
+        this.game.spawnExplosions(19000);
         break;
     }
   }
@@ -225,6 +225,8 @@ public class GameInterface extends Thread {
    * @see Entity
    */
   public List<Entity> getInterfaceElements() {
-    return interfaceElements;
+    synchronized (interfaceElements) {
+      return new ArrayList<>(interfaceElements);
+    }
   }
 }
