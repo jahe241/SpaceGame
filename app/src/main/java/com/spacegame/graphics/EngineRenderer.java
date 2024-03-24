@@ -38,7 +38,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   public float[] projectionMatrix = new float[16];
 
   // Render Buffers
-  private static final int VERTICES_IN_BUFFER = 32;
+  private static final int VERTICES_IN_BUFFER = 8192;
   private static final int BATCH_SIZE = VERTICES_IN_BUFFER / 4;
   private FloatBuffer vertexBuffer;
   private int indexBufferId;
@@ -294,13 +294,14 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     glUniformMatrix4fv(gl_u_ProjectionMatrix_ptr, 1, false, this.projectionMatrix, 0);
 
     var batch = fetchEntities();
-    //    renderBatchedEntities(gl, batch);
-    Log.d("EngineRenderer", "Batch size: " + batch.size());
-    for (Entity entity : batch) {
-      Log.d("EngineRenderer", "Drawing entity: " + entity);
-      Log.d("EngineRenderer", "Entity VBO: " + entity.vbo());
-      drawEntities(gl, entity);
-    }
+    renderBatchedEntities(gl, batch);
+
+    //    for (Entity entity : batch) {
+    //      Log.d("EngineRenderer", "Drawing entity: " + entity);
+    //      Log.d("EngineRenderer", "Entity VBO: " + entity.vbo());
+    //      drawEntities(gl, entity);
+    //    }
+    Log.d("EngineRenderer", "Draw calls: " + drawCallsCurrentFrame);
   }
 
   public void renderBatchedEntities(GL10 gl, List<Entity> batch) {
@@ -392,6 +393,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     int indicesCount = EngineRenderer.BATCH_SIZE * 6; // 6 indices per quad
     glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_SHORT, 0);
+    drawCallsCurrentFrame++;
 
     // Disable the vertex array
     glDisableVertexAttribArray(gl_a_Position_ptr);

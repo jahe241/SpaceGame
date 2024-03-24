@@ -60,16 +60,23 @@ public class VertexBufferObject {
     this.y = y;
     this.z = z;
 
-    // Iterate over the 4 corners of the quad
+    float halfWidth = width / 2;
+    float halfHeight = height / 2;
+
     for (int i = 0; i < 4; i++) {
-      // Adjust the X and Y coordinates based on the rotation and the width and height
-      vertexData[i * STRIDE + OFFSET_POSITION] =
-          x - cosTheta * width / 2 - sinTheta * height / 2; // Adjusted X
+      // Determine the original (unrotated) corner positions relative to the center
+      // These are based on the quadrant of the quad we're addressing.
+      float originalX = (i % 2 == 0 ? -halfWidth : halfWidth);
+      float originalY = (i < 2 ? -halfHeight : halfHeight);
 
-      vertexData[i * STRIDE + OFFSET_POSITION + 1] =
-          y + sinTheta * width / 2 - cosTheta * height / 2; // Adjusted Y
+      // Apply rotation matrix to the corner positions
+      float rotatedX = cosTheta * originalX - sinTheta * originalY;
+      float rotatedY = sinTheta * originalX + cosTheta * originalY;
 
-      vertexData[i * STRIDE + OFFSET_POSITION + 2] = z; // Z index
+      // Adjust the vertex positions based on the center of the quad
+      vertexData[i * STRIDE + OFFSET_POSITION] = x + rotatedX;
+      vertexData[i * STRIDE + OFFSET_POSITION + 1] = y + rotatedY;
+      vertexData[i * STRIDE + OFFSET_POSITION + 2] = z; // Z remains constant
     }
     return this;
   }
@@ -100,17 +107,23 @@ public class VertexBufferObject {
   }
 
   public VertexBufferObject setFlagTexture() {
-    vertexData[OFFSET_FLAG] = 0.0f;
+    for (int i = 0; i < 4; i++) {
+      vertexData[i * STRIDE + OFFSET_FLAG] = 0.0f;
+    }
     return this;
   }
 
   public VertexBufferObject setFlagColorOverlay() {
-    vertexData[OFFSET_FLAG] = 1.0f;
+    for (int i = 0; i < 4; i++) {
+      vertexData[i * STRIDE + OFFSET_FLAG] = 1.0f;
+    }
     return this;
   }
 
   public VertexBufferObject setFlagSolidColor() {
-    vertexData[OFFSET_FLAG] = 2.0f;
+    for (int i = 0; i < 4; i++) {
+      vertexData[i * STRIDE + OFFSET_FLAG] = 2.0f;
+    }
     return this;
   }
 
@@ -123,5 +136,16 @@ public class VertexBufferObject {
 
   public float[] getVertexArray() {
     return vertexData;
+  }
+
+  public void print() {
+    System.out.println("x,  y,   z,    u,    v,    flag,  R,    G,    B,     A");
+    for (int i = 0; i < vertexData.length; i++) {
+      System.out.print(vertexData[i] + " ");
+      if ((i + 1) % STRIDE == 0) {
+        System.out.println();
+      }
+    }
+    System.out.println();
   }
 }
