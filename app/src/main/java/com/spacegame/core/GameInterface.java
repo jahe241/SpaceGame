@@ -213,7 +213,7 @@ public class GameInterface extends Thread {
         game.resetGame();
         break;
       case DEBUG_BUTTON:
-        this.game.spawnExplosions(19000);
+        this.game.spawnExplosions(64);
         break;
     }
   }

@@ -15,7 +15,7 @@ import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * The Game class extends the Thread class and represents the main game loop. It contains
@@ -119,9 +119,9 @@ public class Game extends Thread {
     this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 256f, 256f));
     this.player.setZ(
         1); // incredibly hacky way to make sure the player is drawn on top TODO: Setup in Player
-    this.player.setColorOverlay(new float[] {1f, 0f, 0f, 1f});
+    this.player.setColorOverlay(new float[] {1f, 0f, 1f, 1f});
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
-    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {0f, 0f, 1f, 1f}));
+    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.gameState = GameState.PLAYING;
   }
 
@@ -260,14 +260,14 @@ public class Game extends Thread {
               192f,
               192f,
               0.03f, // Animation speed in seconds
-              false);
+              true);
       this.addEntity(explosion);
       if (player != null) player.onTouch(event);
     }
   }
 
   public void spawnExplosions(int numExplosions) {
-    Random random = new Random();
+    ThreadLocalRandom random = ThreadLocalRandom.current();
     for (int i = 0; i < numExplosions; i++) {
       float x = random.nextFloat() * this.width;
       float y = random.nextFloat() * this.height;
@@ -280,7 +280,7 @@ public class Game extends Thread {
               192f,
               192f,
               0.03f, // Animation speed in seconds
-              false);
+              true);
       explosion.setZ(-1);
       this.addEntity(explosion);
     }

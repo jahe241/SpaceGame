@@ -5,6 +5,7 @@ import static android.opengl.GLES30.*;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.opengl.GLES20;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.Log;
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import com.spacegame.R;
 import com.spacegame.core.Game;
 import com.spacegame.core.GameInterface;
+import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.utils.TextResourceReader;
 import java.io.IOException;
@@ -386,7 +388,8 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
       // Render the concatenated vertex arrays for this batch with the actual count of active
       // vertices.
-      Log.d("EngineRenderer", "Rendering batch with " + activeVertexCount + " active vertices.");
+      //      Log.d("EngineRenderer", "Rendering batch with " + activeVertexCount + " active
+      // vertices.");
       renderVertexArray(concatenatedVertexArrays, activeVertexCount);
     }
   }
@@ -443,7 +446,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     // Bind the index buffer and draw the vertices as triangles using the index buffer
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-    Log.d("EngineRenderer", "Drawing " + activeVertexCount + " vertices");
+    //    Log.d("EngineRenderer", "Drawing " + activeVertexCount + " vertices");
 
     int indexCount = Math.min(activeVertexCount, BATCH_SIZE) * 6;
 
