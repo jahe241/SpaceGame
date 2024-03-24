@@ -1,5 +1,6 @@
 package com.spacegame.entities;
 
+import android.util.Log;
 import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
@@ -181,7 +182,6 @@ public class Entity extends Quad {
     if (this.rotationRad != this.lastRotationRad) {
       //      Log.d("Entity", "Rotation in Radians: " + this.rotationRad);
       //      Log.d("Entity", "Rotation in Degrees: " + Math.toDegrees(this.rotationRad));
-      //      Log.d("Entity", "Destination Rotation:" + Math.toDegrees(targetRotationRad));
       this.lastRotationRad = this.rotationRad;
     }
   }
@@ -405,6 +405,12 @@ public class Entity extends Quad {
     this.isVisible = true;
   }
 
+  /**
+   * Updates the position of the vertex buffer object (VBO) associated with this entity. This method
+   * is typically called when the position or rotation of the entity changes. The updated position
+   * and rotation are used to recalculate the vertices of the VBO, which in turn affects how the
+   * entity is rendered on the screen.
+   */
   public void updatePositionVertex() {
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
   }

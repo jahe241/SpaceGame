@@ -45,10 +45,6 @@ public class VertexBufferObject {
   }
 
   public VertexBufferObject updateVBOPosition(float x, float y, float z, float rotationRad) {
-    // https://en.wikipedia.org/wiki/Rotation_matrix
-    // [ cos(theta)  -sin(theta) ]
-    // [ sin(theta)   cos(theta) ]
-
     // If the rotation has changed, we need to recalculate the cos and sin values
     if (rotationRad != lastRotationRad) {
       cosTheta = (float) Math.cos(rotationRad);
@@ -56,28 +52,33 @@ public class VertexBufferObject {
       lastRotationRad = rotationRad;
     }
 
+    // Store the new position values, just for the ease of use for the resize function
     this.x = x;
     this.y = y;
     this.z = z;
 
     float halfWidth = width / 2;
     float halfHeight = height / 2;
+    // Bottom-left corner
+    vertexData[OFFSET_POSITION] = x - cosTheta * halfWidth - sinTheta * halfHeight;
+    vertexData[OFFSET_POSITION + 1] = y + sinTheta * halfWidth - cosTheta * halfHeight;
+    vertexData[OFFSET_POSITION + 2] = z;
 
-    for (int i = 0; i < 4; i++) {
-      // Determine the original (unrotated) corner positions relative to the center
-      // These are based on the quadrant of the quad we're addressing.
-      float originalX = (i % 2 == 0 ? -halfWidth : halfWidth);
-      float originalY = (i < 2 ? -halfHeight : halfHeight);
+    // Bottom-right corner
+    vertexData[STRIDE + OFFSET_POSITION] = x + cosTheta * halfWidth - sinTheta * halfHeight;
+    vertexData[STRIDE + OFFSET_POSITION + 1] = y - sinTheta * halfWidth - cosTheta * halfHeight;
+    vertexData[STRIDE + OFFSET_POSITION + 2] = z;
 
-      // Apply rotation matrix to the corner positions
-      float rotatedX = cosTheta * originalX - sinTheta * originalY;
-      float rotatedY = sinTheta * originalX + cosTheta * originalY;
+    // Top-left corner
+    vertexData[2 * STRIDE + OFFSET_POSITION] = x - cosTheta * halfWidth + sinTheta * halfHeight;
+    vertexData[2 * STRIDE + OFFSET_POSITION + 1] = y + sinTheta * halfWidth + cosTheta * halfHeight;
+    vertexData[2 * STRIDE + OFFSET_POSITION + 2] = z;
 
-      // Adjust the vertex positions based on the center of the quad
-      vertexData[i * STRIDE + OFFSET_POSITION] = x + rotatedX;
-      vertexData[i * STRIDE + OFFSET_POSITION + 1] = y + rotatedY;
-      vertexData[i * STRIDE + OFFSET_POSITION + 2] = z; // Z remains constant
-    }
+    // Top-right corner
+    vertexData[3 * STRIDE + OFFSET_POSITION] = x + cosTheta * halfWidth + sinTheta * halfHeight;
+    vertexData[3 * STRIDE + OFFSET_POSITION + 1] = y - sinTheta * halfWidth + cosTheta * halfHeight;
+    vertexData[3 * STRIDE + OFFSET_POSITION + 2] = z;
+
     return this;
   }
 
