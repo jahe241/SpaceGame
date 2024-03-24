@@ -122,8 +122,8 @@ public class GamePad {
     stick.setPosition(vec);
     this.pad.show();
     this.stick.show();
-    this.pad.updateVertexPositionData(); // technically its can be updated twice per frame
-    this.stick.updateVertexPositionData(); // but otherwise might ghost a bit
+    this.pad.updatePositionVertex(); // technically it can be updated twice per frame
+    this.stick.updatePositionVertex(); // but otherwise might ghost a bit
     Log.d("GamePad", "Showing GamePad at: " + vec);
   }
 

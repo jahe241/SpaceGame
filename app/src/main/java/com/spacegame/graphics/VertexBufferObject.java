@@ -16,6 +16,7 @@ public class VertexBufferObject {
   public static final int OFFSET_TEXTURE = 3;
   public static final int OFFSET_FLAG = 5; // not needed?
   public static final int OFFSET_COLOR = 6;
+  private static final int POSITION_DATA_SIZE = 3;
 
   private final float[] vertexData;
 
@@ -80,9 +81,9 @@ public class VertexBufferObject {
   public VertexBufferObject updateTexture(float[] uvs) {
     for (int i = 0; i < 4; i++) {
       // Store the U coordinate for the current vertex
-      vertexData[i * STRIDE + OFFSET_TEXTURE] = uvs[i * 2];
+      vertexData[i * STRIDE + OFFSET_TEXTURE] = uvs[i % 2 == 0 ? 0 : 2];
       // Store the V coordinate for the current vertex
-      vertexData[i * STRIDE + OFFSET_TEXTURE + 1] = uvs[i * 2 + 1];
+      vertexData[i * STRIDE + OFFSET_TEXTURE + 1] = uvs[i < 2 ? 1 : 3];
     }
     return this;
   }

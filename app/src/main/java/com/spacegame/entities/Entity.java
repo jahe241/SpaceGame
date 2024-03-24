@@ -403,4 +403,8 @@ public class Entity extends Quad {
   public void show() {
     this.isVisible = true;
   }
+
+  public void updatePositionVertex() {
+    this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+  }
 }

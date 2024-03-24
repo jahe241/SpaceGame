@@ -1,17 +1,18 @@
 #version 100
-attribute vec4 a_TexCoordFlag; // Contains Tex U, Tex V, Flag, and first color component (usually R)
-attribute vec3 a_Color; // Contains remaining Color components (G, B, A)
+attribute vec3 a_Position; // Contains x, y, z
+attribute vec2 a_TexCoord; // Contains u, v
+attribute float a_Flag; // Contains flag
+attribute vec4 a_Color; // Contains R, G, B, A
 
 varying vec2 v_TexCoord;
 varying vec4 v_Color;
 varying float v_Flag;
 
 uniform mat4 u_ProjectionMatrix;
-attribute vec4 a_Position;
 
 void main() {
-    v_TexCoord = a_TexCoordFlag.xy; // Tex U and V
-    v_Flag = a_TexCoordFlag.z; // Flag
-    v_Color = vec4(a_TexCoordFlag.w, a_Color.x, a_Color.y, a_Color.z); // Correctly combines all color components
-    gl_Position = u_ProjectionMatrix * a_Position;
+    v_TexCoord = a_TexCoord; // Tex U and V
+    v_Flag = a_Flag; // Flag
+    v_Color = a_Color; // Color
+    gl_Position = u_ProjectionMatrix * vec4(a_Position, 1.0);
 }
