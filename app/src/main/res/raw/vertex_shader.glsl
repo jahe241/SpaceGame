@@ -1,3 +1,4 @@
+#version 100
 attribute vec4 a_TexCoordFlag; // Contains Tex U, Tex V, Flag, and first color component (usually R)
 attribute vec3 a_Color; // Contains remaining Color components (G, B, A)
 
