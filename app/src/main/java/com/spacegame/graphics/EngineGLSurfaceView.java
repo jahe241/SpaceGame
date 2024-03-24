@@ -25,10 +25,10 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     // Initialize the game and start it
     this.game = new Game(screenHeight, screenWidth);
 
-    // Initialize the renderer and set the OpenGL version to 2.0
+    // Initialize the renderer and set the OpenGL version to 3.0
     this.gameInterface = new GameInterface(context, game);
     this.renderer = new EngineRenderer(context, game, gameInterface);
-    this.setEGLContextClientVersion(2);
+    this.setEGLContextClientVersion(3);
     this.setRenderer(renderer);
     // Enable touch events
     this.setFocusableInTouchMode(true);
