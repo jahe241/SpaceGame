@@ -1,5 +1,6 @@
 package com.spacegame.entities;
 
+import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Vector2D;
@@ -406,5 +407,13 @@ public class Entity extends Quad {
 
   public void updatePositionVertex() {
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    String spriteName = this.sprite == null ? "null" : this.sprite.name();
+    spriteName += "(" + this.getClass() + ")";
+    return "E[" + spriteName + " " + this.position + ", " + this.width + ", " + this.height + "]";
   }
 }

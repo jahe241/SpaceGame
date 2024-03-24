@@ -23,7 +23,6 @@ import java.nio.ShortBuffer;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
@@ -92,7 +91,8 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     glUseProgram(this.program);
     // Get the pointers to the shader variables
     EngineRenderer.gl_a_Position_ptr = glGetAttribLocation(this.program, "a_Position");
-    EngineRenderer.gl_a_TexCoordinate_ptr = glGetAttribLocation(this.program, "a_TexCoordinate");
+    //    EngineRenderer.gl_a_TexCoordinate_ptr = glGetAttribLocation(this.program,
+    // "a_TexCoordinate");
     EngineRenderer.gl_u_ProjectionMatrix_ptr =
         glGetUniformLocation(this.program, "u_ProjectionMatrix");
 
@@ -117,62 +117,27 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   }
 
   private void initializeBuffers() {
-    // Number of floats needed for the vertex data
-    int totalVertexFloats = VERTICES_IN_BUFFER * VertexBufferObject.STRIDE;
-
-    // Create a new float buffer for the vertex data
-    FloatBuffer vertexDataBuffer = createFloatBuffer(new float[totalVertexFloats]);
-
-    // Precompute the indices for quads based on the number of vertices
-    short[] indices = makeIndexArray(EngineRenderer.BATCH_SIZE);
-    ShortBuffer indexDataBuffer = createShortBuffer(indices);
-
-    // Generate new buffer objects for both vertex and index buffers
+    // Create buffers for vertex and index data
     int[] buffers = new int[2];
     glGenBuffers(2, buffers, 0);
-    vertexBufferId = buffers[0]; // First buffer is for vertices
-    indexBufferId = buffers[1]; // Second buffer is for indices
+    vertexBufferId = buffers[0];
+    indexBufferId = buffers[1];
 
-    // Bind and upload data to the vertex buffer
+    // Prepare and upload vertex data
+    vertexBuffer = createFloatBuffer(new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE]);
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
     glBufferData(
-        GL_ARRAY_BUFFER, vertexDataBuffer.capacity() * 4, vertexDataBuffer, GL_STATIC_DRAW);
+        GL_ARRAY_BUFFER, vertexBuffer.capacity() * Float.BYTES, vertexBuffer, GL_STATIC_DRAW);
 
-    // Bind and upload data to the index buffer
+    // Prepare and upload index data
+    indexBuffer = createShortBuffer(makeIndexArray(EngineRenderer.BATCH_SIZE));
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
     glBufferData(
-        GL_ELEMENT_ARRAY_BUFFER, indexDataBuffer.capacity() * 2, indexDataBuffer, GL_STATIC_DRAW);
+        GL_ELEMENT_ARRAY_BUFFER, indexBuffer.capacity() * Short.BYTES, indexBuffer, GL_STATIC_DRAW);
 
-    // Unbind buffers to avoid unintentional modifications (optional, but recommended for clarity)
+    // Unbind buffers (optional, but recommended for safety)
     glBindBuffer(GL_ARRAY_BUFFER, 0);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
-    createVertexBuffer();
-    createIndexBuffer();
-  }
-
-  public void createVertexBuffer() {
-    // Create a new float buffer for the aux data
-    vertexBuffer = createFloatBuffer(new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE]);
-  }
-
-  // dynamically create a index buffer and precompute the indices for a quad, based on the number of
-  // vertices
-  private void createIndexBuffer() {
-    // Create a new short buffer for the index data
-    short[] indices = makeIndexArray(EngineRenderer.BATCH_SIZE);
-    // Generate a new buffer object
-    int[] buffers = new int[1];
-    glGenBuffers(1, buffers, 0);
-    indexBufferId = buffers[0];
-
-    // Bind the buffer object
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-
-    // Create a new short buffer for the index data
-    ShortBuffer ib = createShortBuffer(indices);
-    this.indexBuffer = ib;
-    // send the index data to the GPU
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, ib.capacity() * 2, ib, GL_STATIC_DRAW);
   }
 
   @NonNull
@@ -186,7 +151,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       indices[i * 6 + 4] = (short) (i * 4 + 1);
       indices[i * 6 + 5] = (short) (i * 4 + 3);
     }
-    System.out.println("Indices: " + Arrays.toString(indices));
     return indices;
   }
 
@@ -283,7 +247,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
    * @return The buffer with the data loaded into it
    */
   private FloatBuffer createFloatBuffer(float[] data) {
-    System.out.println("Making buffer for " + data.length + " floats");
     FloatBuffer buffer =
         ByteBuffer.allocateDirect(data.length * 4) /* Allocate a direct buffer to hold float data */
             .order(ByteOrder.nativeOrder())
@@ -300,7 +263,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
    * @return The buffer with the data loaded into it
    */
   private ShortBuffer createShortBuffer(short[] data) {
-    System.out.println("Making buffer for " + data.length + " shorts");
     ShortBuffer buffer =
         ByteBuffer.allocateDirect(data.length * 2) /* Allocate a direct buffer to hold short data */
             .order(ByteOrder.nativeOrder())
@@ -325,14 +287,20 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   public void onDrawFrame(GL10 gl) {
     drawCallsCurrentFrame = 0;
     // Clear the rendering surface
-    gl.glClearColor(0f, 0f, 0f, 0f);
+    gl.glClearColor(0f, 0f, 0f, 1f);
     gl.glClear(GL10.GL_COLOR_BUFFER_BIT | GL10.GL_DEPTH_BUFFER_BIT);
 
     // Pass the projection matrix to the shader
     glUniformMatrix4fv(gl_u_ProjectionMatrix_ptr, 1, false, this.projectionMatrix, 0);
 
     var batch = fetchEntities();
-    renderBatchedEntities(gl, batch);
+    //    renderBatchedEntities(gl, batch);
+    Log.d("EngineRenderer", "Batch size: " + batch.size());
+    for (Entity entity : batch) {
+      Log.d("EngineRenderer", "Drawing entity: " + entity);
+      Log.d("EngineRenderer", "Entity VBO: " + entity.vbo());
+      drawEntities(gl, entity);
+    }
   }
 
   public void renderBatchedEntities(GL10 gl, List<Entity> batch) {
@@ -352,14 +320,12 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       }
       // Fill the rest of the array with zeros
       Arrays.fill(concatenatedVertexArrays, arrayIndex, concatenatedVertexArrays.length, 0f);
-      System.out.println();
       // Step 3: Render the concatenated vertex arrays
       renderVertexArray(gl, concatenatedVertexArrays);
     }
   }
 
   private void renderVertexArray(GL10 gl, float[] batchArray) {
-    System.out.println(Arrays.toString(batchArray));
     // Reset the buffer's position to the beginning
     // Bind the VBO before setting up attribute pointers
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
@@ -375,36 +341,26 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     int gl_a_TexCoordinate_ptr = glGetAttribLocation(program, "a_TexCoord");
     int gl_a_Flag_ptr = glGetAttribLocation(program, "a_Flag");
     int gl_a_Color_ptr = glGetAttribLocation(program, "a_Color");
-    System.out.println(
-        "GL Pointers: "
-            + ""
-            + gl_a_Position_ptr
-            + " "
-            + gl_a_TexCoordinate_ptr
-            + " "
-            + gl_a_Flag_ptr
-            + " "
-            + gl_a_Color_ptr);
 
     // Enable the attribute arrays
     final int floatSize = 4; // Size of a float in bytes
     // Enable the vertex attribute arrays
-    glEnableVertexAttribArray(gl_a_Position_ptr);
-    glEnableVertexAttribArray(gl_a_TexCoordinate_ptr);
-    glEnableVertexAttribArray(gl_a_Flag_ptr);
     glEnableVertexAttribArray(gl_a_Color_ptr);
 
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, textureAtlas.getTexturePtr());
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
+
     glEnable(GL_BLEND);
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glDisable(GL_CULL_FACE);
 
     // Set the vertex attribute pointers
+    glEnableVertexAttribArray(gl_a_Position_ptr);
     glVertexAttribPointer(
         gl_a_Position_ptr, 3, GL_FLOAT, false, VertexBufferObject.STRIDE * floatSize, 0);
-    System.out.println("glVertexAttribPointer Position:" + glGetError());
 
+    glEnableVertexAttribArray(gl_a_TexCoordinate_ptr);
     glVertexAttribPointer(
         gl_a_TexCoordinate_ptr,
         2,
@@ -412,8 +368,8 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
         false,
         VertexBufferObject.STRIDE * floatSize,
         floatSize * VertexBufferObject.OFFSET_TEXTURE);
-    System.out.println("glVertexAttribPointer TexCoord:" + glGetError());
 
+    glEnableVertexAttribArray(gl_a_Flag_ptr);
     glVertexAttribPointer(
         gl_a_Flag_ptr,
         1,
@@ -421,8 +377,8 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
         false,
         VertexBufferObject.STRIDE * floatSize,
         floatSize * VertexBufferObject.OFFSET_FLAG);
-    System.out.println("glVertexAttribPointer Flag:" + glGetError());
 
+    glEnableVertexAttribArray(gl_a_Color_ptr);
     glVertexAttribPointer(
         gl_a_Color_ptr,
         4,
@@ -430,16 +386,13 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
         false,
         VertexBufferObject.STRIDE * floatSize,
         floatSize * VertexBufferObject.OFFSET_COLOR);
-    System.out.println("glVertexAttribPointer Color:" + glGetError());
 
     // Bind the index buffer
-    System.out.println("Drawing: ");
     // Draw the vertices as triangles using the index buffer
 
     int indicesCount = EngineRenderer.BATCH_SIZE * 6; // 6 indices per quad
     glDrawElements(GL_TRIANGLES, indicesCount, GL_UNSIGNED_SHORT, 0);
 
-    System.out.println("glDrawElements:" + glGetError());
     // Disable the vertex array
     glDisableVertexAttribArray(gl_a_Position_ptr);
     glDisableVertexAttribArray(gl_a_TexCoordinate_ptr);
@@ -448,75 +401,63 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   }
 
   private void drawEntities(GL10 gl, Entity entity) {
-    //    int lastTexture = -1;
-    //    // test pointers TODO: move into constants section, once working
-    //    int positionHandle = glGetAttribLocation(program, "a_Position");
-    //    int auxHandle1 = glGetAttribLocation(program, "a_TexCoordFlag");
-    //    int auxHandle2 = glGetAttribLocation(program, "a_Color");
-    //    if (entity == null) {
-    //      return;
-    //    }
-    //    if (entity.getAuxData() == null) {
-    //      Log.e("EngineRenderer", "Entity has no aux data:");
-    //      return;
-    //    }
-    //    if (entity.getVertexPositionData() == null) {
-    //      Log.e("EngineRenderer", "Entity has no position data:");
-    //      return;
-    //    }
-    //    if (entity.getIndices() == null) {
-    //      Log.e("EngineRenderer", "Entity has no indices:");
-    //      return;
-    //    }
-    //
-    //    // Bind the texture
-    //    if (lastTexture != entity.getGl_texture_ptr()) {
-    //      lastTexture = entity.getGl_texture_ptr();
-    //      glActiveTexture(GL_TEXTURE0);
-    //      glBindTexture(GL_TEXTURE_2D, entity.getGl_texture_ptr());
-    //      glEnable(GL_BLEND);
-    //      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-    //      //        gl.glEnable(GL10.GL_DEPTH_TEST);
-    //      //        gl.glDepthFunc(GL10.GL_LESS);
-    //    }
-    //    // Set up vertex data
-    //    positionBuffer = createFloatBuffer(entity.getVertexPositionData());
-    //    auxBuffer = createFloatBuffer(entity.getAuxData());
-    //    indexBuffer = createShortBuffer(entity.getIndices());
-    //
-    //    // Bind the Aux data (color and stuff)
-    //    auxBuffer.position(0); // Start from the beginning of your auxBuffer
-    //    glVertexAttribPointer(
-    //        auxHandle1,
-    //        4,
-    //        GL_FLOAT,
-    //        false,
-    //        AUX_DATA_SIZE * 4,
-    //        auxBuffer); // 4 components per vertex for this attribute
-    //    glEnableVertexAttribArray(auxHandle1);
-    //
-    //    auxBuffer.position(4); // Skip the first four floats to reach the start of the color data
-    //    glVertexAttribPointer(
-    //        auxHandle2,
-    //        3,
-    //        GL_FLOAT,
-    //        false,
-    //        AUX_DATA_SIZE * 4,
-    //        auxBuffer); // 3 components per vertex for this attribute, adjust if using vec4
-    //    glEnableVertexAttribArray(auxHandle2);
-    //
-    //    // Bind position data
-    //    positionBuffer.position(0);
-    //    glVertexAttribPointer(
-    //        positionHandle,
-    //        POSITION_DATA_SIZE,
-    //        GL_FLOAT,
-    //        false,
-    //        POSITION_DATA_SIZE * 4,
-    //        positionBuffer);
-    //    glEnableVertexAttribArray(positionHandle);
-    //
-    //    glDrawElements(GL_TRIANGLES, entity.getIndices().length, GL_UNSIGNED_SHORT, indexBuffer);
+    int lastTexture = -1;
+    int gl_a_TexCoordinate_ptr = glGetAttribLocation(program, "a_TexCoord");
+    int gl_a_Flag_ptr = glGetAttribLocation(program, "a_Flag");
+    int gl_a_Color_ptr = glGetAttribLocation(program, "a_Color");
+
+    // Bind the texture
+    if (lastTexture != entity.getGl_texture_ptr()) {
+      lastTexture = entity.getGl_texture_ptr();
+      glActiveTexture(GL_TEXTURE0);
+      glBindTexture(GL_TEXTURE_2D, lastTexture);
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    }
+
+    // Set up vertex data
+    FloatBuffer vb = createFloatBuffer(entity.vbo().getVertexArray());
+    ShortBuffer ib =
+        createShortBuffer(makeIndexArray(1)); // Ensure this correctly generates your index buffer
+    for (int i = 0; i < 6; i++) {
+      System.out.print(ib.get(i) + " ");
+    }
+    System.out.println();
+
+    System.out.println(vb.get(0) + " " + vb.get(1) + " " + vb.get(2) + " " + vb.get(3) + " ");
+    // Position data
+    glEnableVertexAttribArray(gl_a_Position_ptr);
+    vb.position(
+        VertexBufferObject.OFFSET_POSITION); // Offset in terms of elements (floats), not bytes
+    glVertexAttribPointer(
+        gl_a_Position_ptr, 3, GL_FLOAT, false, VertexBufferObject.STRIDE * Float.BYTES, vb);
+
+    // Texture data
+    glEnableVertexAttribArray(gl_a_TexCoordinate_ptr);
+    vb.position(VertexBufferObject.OFFSET_TEXTURE); // Correct positioning in terms of elements
+    glVertexAttribPointer(
+        gl_a_TexCoordinate_ptr, 2, GL_FLOAT, false, VertexBufferObject.STRIDE * Float.BYTES, vb);
+
+    // Flag data
+    glEnableVertexAttribArray(gl_a_Flag_ptr);
+    vb.position(VertexBufferObject.OFFSET_FLAG); // Likewise, correct offset
+    glVertexAttribPointer(
+        gl_a_Flag_ptr, 1, GL_FLOAT, false, VertexBufferObject.STRIDE * Float.BYTES, vb);
+
+    // Color data
+    glEnableVertexAttribArray(gl_a_Color_ptr);
+    vb.position(VertexBufferObject.OFFSET_COLOR); // And again, correct offset
+    glVertexAttribPointer(
+        gl_a_Color_ptr, 4, GL_FLOAT, false, VertexBufferObject.STRIDE * Float.BYTES, vb);
+
+    // Draw the elements
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, ib);
+
+    // Cleanup: Disable the vertex attribute arrays
+    glDisableVertexAttribArray(gl_a_Position_ptr);
+    glDisableVertexAttribArray(gl_a_TexCoordinate_ptr);
+    glDisableVertexAttribArray(gl_a_Flag_ptr);
+    glDisableVertexAttribArray(gl_a_Color_ptr);
   }
 
   private void drawColorEntities(GL10 gl, ColorEntity entity) {
