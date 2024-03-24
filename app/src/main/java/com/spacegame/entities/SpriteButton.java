@@ -88,15 +88,14 @@ public class SpriteButton extends Entity {
   }
 
   /**
-   * Updates the button's sprite and position.
+   * Updates the position.
    *
    * @param delta The time since the last frame in seconds.
    */
   @Override
   public void update(float delta) {
     this.updatePosition(delta);
-    this.updateVertexPositionData();
-    this.updateauxData();
+    this.vbo.updateVBOPosition(this.position, this.z_index, rotationRad);
   }
 
   /**
