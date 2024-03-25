@@ -3,6 +3,7 @@ package com.spacegame.core;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.SpriteButton;
 import java.util.ArrayList;
@@ -111,22 +112,41 @@ public class GameInterface extends Thread {
             game.textureAtlas,
             "joystix_cC",
             "joystix_c",
-            400,
-            400,
-            100f,
-            100f,
+            screenWidth - 600,
+            screenHeight - 200,
+            200f,
+            200f,
             ButtonType.RESET_GAME,
             true));
+    var r_background =
+        new ColorEntity(
+            screenWidth - 600,
+            screenHeight - 200,
+            200f,
+            200f,
+            new float[] {1.0f, 0.0f, 0.0f, 1.0f});
+    r_background.setZ(-1);
+    // Add the background for the Debug button
+    addInterfaceElement(r_background);
+    var c_background =
+        new ColorEntity(
+            screenWidth - 350,
+            screenHeight - 200,
+            200f,
+            200f,
+            new float[] {0.0f, 0.0f, 1.0f, 1.0f});
+    c_background.setZ(-1);
+    addInterfaceElement(c_background);
     // Debug Button
     addInterfaceElement(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_cD",
-            "joystix_d",
-            screenWidth - 500,
-            screenHeight - 500,
-            250f,
-            250f,
+            "joystix_cB",
+            "joystix_b",
+            screenWidth - 350,
+            screenHeight - 200,
+            200f,
+            200f,
             ButtonType.DEBUG_BUTTON,
             true));
     // Add the gamepad
