@@ -249,4 +249,16 @@ public class GameInterface extends Thread {
       return new ArrayList<>(interfaceElements);
     }
   }
+
+  public List<Entity> getVisibleEntities() {
+    synchronized (interfaceElements) {
+      List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
+      for (Entity entity : interfaceElements) {
+        if (entity.isVisible()) {
+          visibleEntities.add(entity);
+        }
+      }
+      return visibleEntities;
+    }
+  }
 }
