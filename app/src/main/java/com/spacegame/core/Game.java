@@ -117,9 +117,6 @@ public class Game extends Thread {
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
     this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 256f, 256f));
-    this.player.setZ(
-        1); // incredibly hacky way to make sure the player is drawn on top TODO: Setup in Player
-    this.player.setColorOverlay(new float[] {1f, 0f, 1f, 1f});
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.gameState = GameState.PLAYING;
@@ -299,6 +296,11 @@ public class Game extends Thread {
               0.03f, // Animation speed in seconds
               true);
       explosion.setZ(-1);
+      explosion.setVelocity(new Vector2D(random.nextFloat() * 100, random.nextFloat() * 100));
+      explosion.setColorOverlay(
+          new float[] {
+            random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat()
+          });
       this.addEntity(explosion);
     }
   }
