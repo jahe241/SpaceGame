@@ -239,6 +239,23 @@ public class Game extends Thread {
   }
 
   /**
+   * Returns a new list containing the visible entities in the entities list.
+   *
+   * @return A new list containing the visible entities in the entities list.
+   */
+  public List<Entity> getVisibleEntities() {
+    synchronized (entities) {
+      List<Entity> visibleEntities = new ArrayList<>(entities.size());
+      for (Entity entity : entities) {
+        if (entity.isVisible()) {
+          visibleEntities.add(entity);
+        }
+      }
+      return visibleEntities;
+    }
+  }
+
+  /**
    * Handles a touch event. If the game is not paused, it creates an explosion at the touch location
    * and passes the touch event to the player.
    *
