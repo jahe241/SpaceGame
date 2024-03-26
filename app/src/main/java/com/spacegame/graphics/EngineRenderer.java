@@ -375,7 +375,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     for (int batchStart = 0; batchStart < allEntities.size(); batchStart += BATCH_SIZE) {
       int concatenatedVertexArrayIndex = 0;
       int batchEnd = Math.min(allEntities.size(), batchStart + BATCH_SIZE);
-      Log.d("EngineRenderer", "Rendering Batch: " + batchStart + " to " + batchEnd);
+      //      Log.d("EngineRenderer", "Rendering Batch: " + batchStart + " to " + batchEnd);
       for (int j = batchStart; j < batchEnd; j++) {
         Entity entity = allEntities.get(j);
         float[] entityVertexArray = entity.vbo().getVertexArray();
