@@ -77,6 +77,7 @@ def slice_font(font_path, font_size, image_size, output_dir):
 
         # Save the image as a separate PNG in the output directory
         image.save(os.path.join(output_dir, f"joystix_{filename_char}.png"))
+        print(f"Saved {char} as joystix_{filename_char}.png")
 
 
 # Usage
