@@ -306,7 +306,7 @@ public class Entity extends Quad {
    *
    * @param sprite The sprite to set.
    */
-  protected void setSprite(Sprite sprite) {
+  public void setSprite(Sprite sprite) {
     this.sprite = sprite;
     this.vbo.updateTexture(this.sprite);
   }
