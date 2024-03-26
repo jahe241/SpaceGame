@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
 import com.spacegame.core.ui.SpriteContainer;
+import com.spacegame.core.ui.SpriteLabel;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.core.ui.SpriteButton;
@@ -141,6 +142,11 @@ public class GameInterface extends Thread {
     this.gamePad = new GamePad(game.textureAtlas, screenWidth, screenHeight);
     gamePad.setVisible(false);
     addInterfaceContainer(gamePad);
+
+    // Add the score label
+    addInterfaceContainer(
+        new SpriteLabel("SCORE", 50, 50, 64 * 2, ColorHelper.OLIVE, game.textureAtlas));
+
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
   }
 
