@@ -1,6 +1,8 @@
-package com.spacegame.entities;
+package com.spacegame.core.ui;
 
 import com.spacegame.core.ButtonType;
+import com.spacegame.entities.ColorEntity;
+import com.spacegame.entities.Entity;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 
@@ -8,12 +10,14 @@ import com.spacegame.graphics.TextureAtlas;
  * The SpriteButton class extends the Entity class and represents a button in the game. It contains
  * information about the button's position, size, state, and type.
  */
-public class SpriteButton extends Entity {
+public class SpriteButton extends Entity implements SpriteContainer {
   /** The sprite to display when the button is pressed. */
   Sprite spriteDown;
 
   /** The sprite to display when the button is not pressed. */
   Sprite spriteUp;
+
+  ColorEntity background;
 
   /** The x-coordinate of the button's center. */
   float x;
@@ -59,15 +63,16 @@ public class SpriteButton extends Entity {
       float width,
       float height,
       ButtonType pause,
-      boolean isActive) {
+      boolean isActive,
+      float[] backgroundColor) {
     super(textureAtlas, name, x, y, width, height);
-    this.textureAtlas = textureAtlas;
-    this.spriteUp = this.sprite = textureAtlas.getSprite(name);
+    this.background = new ColorEntity(x, y, width, height, backgroundColor);
+    this.spriteUp = textureAtlas.getSprite(name);
     this.spriteDown = textureAtlas.getSprite(nameDown);
     this.x = x;
     this.y = y;
-    this.width = width;
-    this.height = height;
+    this.width = this.spriteUp.w();
+    this.height = this.spriteUp.h();
     this.buttonType = pause;
     this.isActive = isActive;
   }
@@ -80,22 +85,11 @@ public class SpriteButton extends Entity {
   public float[] getButtonCoords() {
     // could be optimized by reading values from the vertex data
     float[] coords = new float[4];
-    coords[0] = this.x - this.width / 2;
-    coords[1] = this.y + this.height / 2;
-    coords[2] = this.x + this.width / 2;
-    coords[3] = this.y - this.height / 2;
+    coords[0] = this.x - this.background.getWidth() / 2;
+    coords[1] = this.y + this.background.getHeight() / 2;
+    coords[2] = this.x + this.background.getWidth() / 2;
+    coords[3] = this.y - this.background.getHeight() / 2;
     return coords;
-  }
-
-  /**
-   * Updates the position.
-   *
-   * @param delta The time since the last frame in seconds.
-   */
-  @Override
-  public void update(float delta) {
-    this.updatePosition(delta);
-    this.vbo.updateVBOPosition(this.position, this.z_index, rotationRad);
   }
 
   /**
@@ -118,7 +112,8 @@ public class SpriteButton extends Entity {
    */
   public ButtonType click() {
     this.isDown = !this.isDown; // elegant, huh?
-    setSprite(this.isDown ? this.spriteDown : this.spriteUp);
+    this.setSprite(this.isDown ? this.spriteDown : this.spriteUp);
+    this.scale(this.spriteUp.w(), this.spriteUp.h());
     return this.buttonType;
   }
 
@@ -129,5 +124,16 @@ public class SpriteButton extends Entity {
    */
   public boolean isActive() {
     return this.isActive;
+  }
+
+  @Override
+  public Entity[] getElements() {
+    return new Entity[] {this, this.background};
+  }
+
+  @Override
+  public void setVisible(boolean visible) {
+    this.isActive = visible;
+    this.background.setVisible(visible);
   }
 }

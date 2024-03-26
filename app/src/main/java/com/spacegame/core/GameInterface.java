@@ -3,9 +3,12 @@ package com.spacegame.core;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.core.ui.GamePad;
+import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
-import com.spacegame.entities.SpriteButton;
+import com.spacegame.core.ui.SpriteButton;
+import com.spacegame.utils.ColorHelper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -95,7 +98,7 @@ public class GameInterface extends Thread {
   /** Sets up the interface by adding the pause button to the interface elements list. */
   private void setupInterface() {
     // Add the pause button
-    addInterfaceElement(
+    addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
             "peepo",
@@ -105,9 +108,10 @@ public class GameInterface extends Thread {
             250f,
             250f,
             ButtonType.TOGGLE_PAUSE,
-            true));
+            true,
+            ColorHelper.TRANSPARENT));
     // Reset Button
-    addInterfaceElement(
+    addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
             "joystix_cC",
@@ -117,28 +121,10 @@ public class GameInterface extends Thread {
             200f,
             200f,
             ButtonType.RESET_GAME,
-            true));
-    var r_background =
-        new ColorEntity(
-            screenWidth - 600,
-            screenHeight - 200,
-            200f,
-            200f,
-            new float[] {1.0f, 0.0f, 0.0f, 1.0f});
-    r_background.setZ(-1);
-    // Add the background for the Debug button
-    addInterfaceElement(r_background);
-    var c_background =
-        new ColorEntity(
-            screenWidth - 350,
-            screenHeight - 200,
-            200f,
-            200f,
-            new float[] {0.0f, 0.0f, 1.0f, 1.0f});
-    c_background.setZ(-1);
-    addInterfaceElement(c_background);
+            true,
+            ColorHelper.GREEN));
     // Debug Button
-    addInterfaceElement(
+    addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
             "joystix_cB",
@@ -148,11 +134,13 @@ public class GameInterface extends Thread {
             200f,
             200f,
             ButtonType.DEBUG_BUTTON,
-            true));
+            true,
+            ColorHelper.ORANGE));
+
     // Add the gamepad
     this.gamePad = new GamePad(game.textureAtlas, screenWidth, screenHeight);
     gamePad.setVisible(false);
-    addInterfaceElement(gamePad.getPadElements());
+    addInterfaceContainer(gamePad);
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
   }
 
@@ -163,6 +151,12 @@ public class GameInterface extends Thread {
    */
   private void addInterfaceElement(Entity... element) {
     Collections.addAll(interfaceElements, element);
+  }
+
+  private void addInterfaceContainer(SpriteContainer... container) {
+    for (SpriteContainer c : container) {
+      Collections.addAll(interfaceElements, c.getElements());
+    }
   }
 
   /**
