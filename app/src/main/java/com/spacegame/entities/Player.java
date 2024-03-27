@@ -74,6 +74,9 @@ public class Player extends Entity {
     Vector2D middleToPlayer = screenMiddle.to(this.position);
     if (middleToPlayer.length() >= MOVEMENT_RADIUS) {
       this.position = screenMiddle.add(middleToPlayer.toSize(MOVEMENT_RADIUS));
+      this.isInMovementZone = false;
+    } else {
+      this.isInMovementZone = true;
     }
   }
 
