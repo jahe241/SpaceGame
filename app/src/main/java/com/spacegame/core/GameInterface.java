@@ -120,7 +120,7 @@ public class GameInterface extends Thread {
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_cC",
+            "joystix_c",
             "joystix_c",
             screenWidth - 600,
             screenHeight - 200,
@@ -133,7 +133,7 @@ public class GameInterface extends Thread {
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_cB",
+            "joystix_b",
             "joystix_b",
             screenWidth - 350,
             screenHeight - 200,

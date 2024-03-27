@@ -75,6 +75,8 @@ public class SpriteButton extends Entity implements SpriteContainer {
     this.height = this.spriteUp.h();
     this.buttonType = pause;
     this.isActive = isActive;
+    this.setZ(10);
+    this.background.setZ(9);
   }
 
   /**

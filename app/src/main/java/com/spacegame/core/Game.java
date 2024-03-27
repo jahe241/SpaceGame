@@ -59,6 +59,10 @@ public class Game extends Thread {
     Log.d("Game", "Setting Player Direction: " + stickDirection);
   }
 
+  public Vector2D getScreenDimensions() {
+    return new Vector2D(this.width, this.height);
+  }
+
   public void resetGame() {
     synchronized (entities) {
       entities.clear();
@@ -116,7 +120,9 @@ public class Game extends Thread {
     // Add the player character
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
-    this.setPlayer(new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 256f, 256f));
+    Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 192f, 192f);
+    player.setGame(this);
+    this.setPlayer(player);
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.gameState = GameState.PLAYING;
@@ -285,8 +291,8 @@ public class Game extends Thread {
     for (int i = 0; i < numExplosions; i++) {
       float x = random.nextFloat() * this.width;
       float y = random.nextFloat() * this.height;
-      AnimatedEntity explosion =
-          new AnimatedEntity(
+      AnimatedActor explosion =
+          new AnimatedActor(
               this.textureAtlas,
               Constants.animation_EXPLOSION,
               x,
@@ -294,13 +300,17 @@ public class Game extends Thread {
               192f,
               192f,
               0.03f, // Animation speed in seconds
-              true);
-      explosion.setZ(-1);
-      explosion.setVelocity(new Vector2D(random.nextFloat() * 100, random.nextFloat() * 100));
-      explosion.setColorOverlay(
+              false);
+      explosion.setZ(0);
+      String randomEnemy = Constants.ENEMIES[random.nextInt(Constants.ENEMIES.length)];
+      var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
+      randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
+      randomDude.setZ(-1);
+      randomDude.setColorOverlay(
           new float[] {
             random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat()
           });
+      this.addEntity(randomDude);
       this.addEntity(explosion);
     }
   }

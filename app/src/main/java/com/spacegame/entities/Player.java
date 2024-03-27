@@ -2,11 +2,17 @@ package com.spacegame.entities;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Vector2D;
 
 public class Player extends Entity {
+  private Game game;
+
+  private final float MOVEMENT_RADIUS = 150f;
+
+  private boolean isInMovementZone = true;
 
   /**
    * Constructor for the Player class. This constructor initializes a new Player object by calling
@@ -23,6 +29,7 @@ public class Player extends Entity {
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
+    this.rotationSpeed = 50f;
   }
 
   public void onTouch(MotionEvent event) {
@@ -48,7 +55,7 @@ public class Player extends Entity {
   void updatePosition(float delta) {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
-    this.setPosition(oldPosition);
+    this.position = oldPosition;
   }
 
   // this function dynamically changes the color of the player based on time delta
@@ -59,5 +66,9 @@ public class Player extends Entity {
     colorOverlay[1] = rainbowColor[1];
     colorOverlay[2] = rainbowColor[2];
     this.setColorOverlay(colorOverlay);
+  }
+
+  public void setGame(Game game) {
+    this.game = game;
   }
 }

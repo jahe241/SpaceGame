@@ -1,6 +1,5 @@
 package com.spacegame.entities;
 
-import android.util.Log;
 import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
@@ -37,6 +36,8 @@ public class Entity extends Quad {
    * affected by any external forces.
    */
   float baseSpeed = 1000;
+
+  float rotationSpeed = 20f; // This can be adjusted for quicker or slower rotations
 
   /**
    * The last rotation angle in radians. This is used to determine if the entity's rotation has
@@ -167,7 +168,6 @@ public class Entity extends Quad {
 
     // Adjust rotation speed based on the distance and angle difference to ensure smooth turning
     // The rotation speed could be adjusted to make the turn smoother or more immediate
-    float rotationSpeed = 20f; // This can be adjusted for quicker or slower rotations
     this.rotationRad +=
         Math.signum(angleDifference)
             * Math.min(rotationSpeed * deltaTime, Math.abs(angleDifference));
@@ -421,5 +421,9 @@ public class Entity extends Quad {
     String spriteName = this.sprite == null ? "null" : this.sprite.name();
     spriteName += "(" + this.getClass() + ")";
     return "E[" + spriteName + " " + this.position + ", " + this.width + ", " + this.height + "]";
+  }
+
+  public Sprite getSprite() {
+    return sprite;
   }
 }
