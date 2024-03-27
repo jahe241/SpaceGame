@@ -2,11 +2,15 @@ package com.spacegame.entities;
 
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Vector2D;
 
 public class Player extends Entity {
+  private Game game;
+
+  private boolean isInMovementZone = true;
 
   /**
    * Constructor for the Player class. This constructor initializes a new Player object by calling
@@ -48,7 +52,8 @@ public class Player extends Entity {
   void updatePosition(float delta) {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
-    this.setPosition(oldPosition);
+    this.isInMovementZone();
+    if (!this.isInMovementZone) this.position = oldPosition;
   }
 
   // this function dynamically changes the color of the player based on time delta
@@ -59,5 +64,26 @@ public class Player extends Entity {
     colorOverlay[1] = rainbowColor[1];
     colorOverlay[2] = rainbowColor[2];
     this.setColorOverlay(colorOverlay);
+  }
+
+  private void isInMovementZone() {
+    Vector2D screenDimensions = this.game.getScreenDimensions();
+    Vector2D screenMiddle = screenDimensions.mult(0.5f);
+    if (this.position.getX() < screenMiddle.getX() - this.width
+        || this.position.getX() > screenMiddle.getX() + this.width
+        || this.position.getY() < screenMiddle.getY() - this.height
+        || this.position.getY() > screenMiddle.getY() + this.height) {
+      this.isInMovementZone = false;
+    } else {
+      this.isInMovementZone = true;
+    }
+  }
+
+  public boolean getInMovementZone() {
+    return this.isInMovementZone;
+  }
+
+  public void setGame(Game game) {
+    this.game = game;
   }
 }
