@@ -2,25 +2,29 @@ package com.spacegame.sound;
 
 import android.content.Context;
 import android.media.*;
-import android.view.View;
-import android.os.Bundle;
 
-import com.spacegame.MainActivity;
 import com.spacegame.R;
 
 public class SoundEngine {
-  MediaPlayer mainMenu;
-  MediaPlayer inGame;
-  MediaPlayer explosion;
+  private static SoundEngine instance = null;
+  private MediaPlayer mainMenu;
+  private MediaPlayer gameMusic;
+  private MediaPlayer explosion;
 
   public SoundEngine(Context context) {
-    mainMenu = MediaPlayer.create(context, R.raw.observingthestar);
-    inGame = MediaPlayer.create(context, R.raw.observingthestar);
+    mainMenu = MediaPlayer.create(context, R.raw.themesong);
+    gameMusic = MediaPlayer.create(context, R.raw.orbitalcolossus);
     explosion = MediaPlayer.create(context, R.raw.rlaunch);
   }
 
-  public MediaPlayer getInGame() {
-    return inGame;
+  public void prepare() {
+    mainMenu.prepareAsync();
+    gameMusic.prepareAsync();
+    explosion.prepareAsync();
+  }
+
+  public MediaPlayer getGameMusic() {
+    return gameMusic;
   }
 
   public MediaPlayer getMainMenu() {
@@ -44,6 +48,7 @@ public class SoundEngine {
   public void stop(MediaPlayer music) {
     if (music.isPlaying()) {
       music.stop();
+      music.prepareAsync();
     }
   }
 
@@ -54,10 +59,10 @@ public class SoundEngine {
   }
 
   public void release() {
-    inGame.release();
+    gameMusic.release();
     mainMenu.release();
     explosion.release();
-    inGame = null;
+    gameMusic = null;
     mainMenu = null;
     explosion = null;
   }
