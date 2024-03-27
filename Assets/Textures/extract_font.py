@@ -70,7 +70,8 @@ def slice_font(font_path, font_size, image_size, output_dir):
         d.text((x, y), char, font=font, fill=(255, 255, 255, 255))
 
         # Check if the character is uppercase and prepend 'c' to the filename
-        filename_char = "c" + char if char.isupper() else char
+        # filename_char = "c" + char if char.isupper() else char
+        filename_char = char
 
         # Check if the character is problematic and replace it if necessary
         filename_char = problematic_chars.get(filename_char, filename_char)
@@ -81,4 +82,4 @@ def slice_font(font_path, font_size, image_size, output_dir):
 
 
 # Usage
-slice_font("joystix monospace.otf", 32, (32, 32), "output")
+slice_font("joystix monospace.otf", 64, (64, 64), "output")
