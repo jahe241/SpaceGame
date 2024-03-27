@@ -10,6 +10,8 @@ import com.spacegame.utils.Vector2D;
 public class Player extends Entity {
   private Game game;
 
+  private final float MOVEMENT_RADIUS = 150f;
+
   private boolean isInMovementZone = true;
 
   /**
@@ -52,7 +54,7 @@ public class Player extends Entity {
   void updatePosition(float delta) {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
-    this.isInMovementZone();
+    this.calcPositionInMovementZone();
     if (!this.isInMovementZone) this.position = oldPosition;
   }
 
@@ -66,16 +68,12 @@ public class Player extends Entity {
     this.setColorOverlay(colorOverlay);
   }
 
-  private void isInMovementZone() {
+  private void calcPositionInMovementZone() {
     Vector2D screenDimensions = this.game.getScreenDimensions();
     Vector2D screenMiddle = screenDimensions.mult(0.5f);
-    if (this.position.getX() < screenMiddle.getX() - this.width
-        || this.position.getX() > screenMiddle.getX() + this.width
-        || this.position.getY() < screenMiddle.getY() - this.height
-        || this.position.getY() > screenMiddle.getY() + this.height) {
-      this.isInMovementZone = false;
-    } else {
-      this.isInMovementZone = true;
+    Vector2D middleToPlayer = screenMiddle.to(this.position);
+    if (middleToPlayer.length() >= MOVEMENT_RADIUS) {
+      this.position = screenMiddle.add(middleToPlayer.toSize(MOVEMENT_RADIUS));
     }
   }
 
