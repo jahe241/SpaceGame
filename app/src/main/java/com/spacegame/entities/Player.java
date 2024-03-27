@@ -29,6 +29,7 @@ public class Player extends Entity {
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
+    this.rotationSpeed = 50f;
   }
 
   public void onTouch(MotionEvent event) {
@@ -54,8 +55,7 @@ public class Player extends Entity {
   void updatePosition(float delta) {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
-    this.calcPositionInMovementZone();
-    if (!this.isInMovementZone) this.position = oldPosition;
+    this.position = oldPosition;
   }
 
   // this function dynamically changes the color of the player based on time delta
@@ -66,22 +66,6 @@ public class Player extends Entity {
     colorOverlay[1] = rainbowColor[1];
     colorOverlay[2] = rainbowColor[2];
     this.setColorOverlay(colorOverlay);
-  }
-
-  private void calcPositionInMovementZone() {
-    Vector2D screenDimensions = this.game.getScreenDimensions();
-    Vector2D screenMiddle = screenDimensions.mult(0.5f);
-    Vector2D middleToPlayer = screenMiddle.to(this.position);
-    if (middleToPlayer.length() >= MOVEMENT_RADIUS) {
-      this.position = screenMiddle.add(middleToPlayer.toSize(MOVEMENT_RADIUS));
-      this.isInMovementZone = false;
-    } else {
-      this.isInMovementZone = true;
-    }
-  }
-
-  public boolean getInMovementZone() {
-    return this.isInMovementZone;
   }
 
   public void setGame(Game game) {

@@ -204,7 +204,7 @@ public class Game extends Thread {
    * @return
    */
   public Vector2D getPlayerVelocity() {
-    if (this.player != null && !this.player.getInMovementZone()) return this.player.getVelocity();
+    if (this.player != null) return this.player.getVelocity();
     else return new Vector2D(0, 0);
   }
 
