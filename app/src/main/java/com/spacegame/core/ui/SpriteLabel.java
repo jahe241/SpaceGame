@@ -48,7 +48,7 @@ public class SpriteLabel implements SpriteContainer {
       Entity character =
           new Entity(
               textureAtlas,
-              "joystix_c" + text.charAt(i),
+              "joystix_" + text.toLowerCase().charAt(i),
               baseX + (fontSize - TEXT_SPACING) * i,
               y + baseOffset - 16,
               fontSize,
