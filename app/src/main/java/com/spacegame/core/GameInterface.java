@@ -3,8 +3,13 @@ package com.spacegame.core;
 import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
+import com.spacegame.core.ui.GamePad;
+import com.spacegame.core.ui.SpriteContainer;
+import com.spacegame.core.ui.SpriteLabel;
+import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
-import com.spacegame.entities.SpriteButton;
+import com.spacegame.core.ui.SpriteButton;
+import com.spacegame.utils.ColorHelper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -94,7 +99,7 @@ public class GameInterface extends Thread {
   /** Sets up the interface by adding the pause button to the interface elements list. */
   private void setupInterface() {
     // Add the pause button
-    addInterfaceElement(
+    addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
             "peepo",
@@ -104,35 +109,44 @@ public class GameInterface extends Thread {
             250f,
             250f,
             ButtonType.TOGGLE_PAUSE,
-            true));
+            true,
+            ColorHelper.TRANSPARENT));
     // Reset Button
-    addInterfaceElement(
+    addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
             "joystix_cC",
             "joystix_c",
-            400,
-            400,
-            100f,
-            100f,
+            screenWidth - 600,
+            screenHeight - 200,
+            200f,
+            200f,
             ButtonType.RESET_GAME,
-            true));
+            true,
+            ColorHelper.GREEN));
     // Debug Button
-    addInterfaceElement(
+    addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_cD",
-            "joystix_d",
-            screenWidth - 500,
-            screenHeight - 500,
-            250f,
-            250f,
+            "joystix_cB",
+            "joystix_b",
+            screenWidth - 350,
+            screenHeight - 200,
+            200f,
+            200f,
             ButtonType.DEBUG_BUTTON,
-            true));
+            true,
+            ColorHelper.ORANGE));
+
     // Add the gamepad
     this.gamePad = new GamePad(game.textureAtlas, screenWidth, screenHeight);
     gamePad.setVisible(false);
-    addInterfaceElement(gamePad.getPadElements());
+    addInterfaceContainer(gamePad);
+
+    // Add the score label
+    addInterfaceContainer(
+        new SpriteLabel("SCORE", 50, 50, 64 * 2, ColorHelper.OLIVE, game.textureAtlas));
+
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
   }
 
@@ -143,6 +157,12 @@ public class GameInterface extends Thread {
    */
   private void addInterfaceElement(Entity... element) {
     Collections.addAll(interfaceElements, element);
+  }
+
+  private void addInterfaceContainer(SpriteContainer... container) {
+    for (SpriteContainer c : container) {
+      Collections.addAll(interfaceElements, c.getElements());
+    }
   }
 
   /**
@@ -227,6 +247,18 @@ public class GameInterface extends Thread {
   public List<Entity> getInterfaceElements() {
     synchronized (interfaceElements) {
       return new ArrayList<>(interfaceElements);
+    }
+  }
+
+  public List<Entity> getVisibleEntities() {
+    synchronized (interfaceElements) {
+      List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
+      for (Entity entity : interfaceElements) {
+        if (entity.isVisible()) {
+          visibleEntities.add(entity);
+        }
+      }
+      return visibleEntities;
     }
   }
 }

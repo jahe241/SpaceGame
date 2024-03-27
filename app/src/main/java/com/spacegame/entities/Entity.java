@@ -67,7 +67,7 @@ public class Entity extends Quad {
    * The Sprite object associated with the entity. This object contains the size, position, and UV
    * coordinates for the entity's sprite.
    */
-  Sprite sprite;
+  protected Sprite sprite;
 
   /**
    * The color overlay to apply to the entity's texture. This is an array of four floats
@@ -306,7 +306,7 @@ public class Entity extends Quad {
    *
    * @param sprite The sprite to set.
    */
-  protected void setSprite(Sprite sprite) {
+  public void setSprite(Sprite sprite) {
     this.sprite = sprite;
     this.vbo.updateTexture(this.sprite);
   }

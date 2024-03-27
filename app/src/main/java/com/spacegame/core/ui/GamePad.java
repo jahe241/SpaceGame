@@ -1,6 +1,7 @@
-package com.spacegame.core;
+package com.spacegame.core.ui;
 
 import android.util.Log;
+import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.entities.Entity;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
@@ -10,7 +11,7 @@ import com.spacegame.utils.Vector2D;
  * The GamePad class represents the gamepad in the game. It contains methods to handle the gamepad's
  * visibility, position, and direction.
  */
-public class GamePad {
+public class GamePad implements SpriteContainer {
   // The pad entity of the gamepad
   Entity pad;
   // The stick entity of the gamepad
@@ -39,6 +40,8 @@ public class GamePad {
     this.pad = new Entity(textureAtlas, Constants.GAMEPAD[0], 500, 500, 256f, 256f);
     this.stick = new Entity(textureAtlas, Constants.GAMEPAD[1], 500, 500, 64f, 64f);
     this.radius = this.pad.getWidth() / 2; // we might want to tweak this later
+    this.pad.setZ(9);
+    this.stick.setZ(10);
     this.pad.hide();
     this.stick.hide();
   }
@@ -48,7 +51,8 @@ public class GamePad {
    *
    * @return An array containing the pad and stick entities of the gamepad.
    */
-  public Entity[] getPadElements() {
+  @Override
+  public Entity[] getElements() {
     return new Entity[] {pad, stick};
   }
 
@@ -57,6 +61,7 @@ public class GamePad {
    *
    * @param visible The new visibility status of the gamepad.
    */
+  @Override
   public void setVisible(boolean visible) {
     this.visible = visible;
   }

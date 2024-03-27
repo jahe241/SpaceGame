@@ -22,6 +22,7 @@ public class Player extends Entity {
   public Player(
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
+    this.setZ(1);
   }
 
   public void onTouch(MotionEvent event) {

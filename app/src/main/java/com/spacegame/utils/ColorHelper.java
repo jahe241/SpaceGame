@@ -5,6 +5,29 @@ package com.spacegame.utils;
  */
 public class ColorHelper {
 
+  public static final float[] WHITE = {1, 1, 1, 1};
+  public static final float[] BLACK = {0, 0, 0, 1};
+  public static final float[] RED = {1, 0, 0, 1};
+  public static final float[] GREEN = {0, 1, 0, 1};
+  public static final float[] BLUE = {0, 0, 1, 1};
+  public static final float[] YELLOW = {1, 1, 0, 1};
+  public static final float[] CYAN = {0, 1, 1, 1};
+  public static final float[] MAGENTA = {1, 0, 1, 1};
+  public static final float[] ORANGE = {1, 0.5f, 0, 1};
+  public static final float[] PURPLE = {0.5f, 0, 0.5f, 1};
+  public static final float[] PINK = {1, 0.5f, 0.5f, 1};
+  public static final float[] LIME = {0.5f, 1, 0, 1};
+  public static final float[] TEAL = {0, 0.5f, 0.5f, 1};
+  public static final float[] BROWN = {0.5f, 0.25f, 0, 1};
+  public static final float[] MAROON = {0.5f, 0, 0, 1};
+  public static final float[] OLIVE = {0.5f, 0.5f, 0, 1};
+  public static final float[] NAVY = {0, 0, 0.5f, 1};
+  public static final float[] GRAY = {0.5f, 0.5f, 0.5f, 1};
+  public static final float[] SILVER = {0.75f, 0.75f, 0.75f, 1};
+  public static final float[] DARK_GRAY = {0.25f, 0.25f, 0.25f, 1};
+  public static final float[] LIGHT_GRAY = {0.75f, 0.75f, 0.75f, 1};
+  public static final float[] TRANSPARENT = {0, 0, 0, 0};
+
   /**
    * Converts a hex color string to an array of floats in the OpenGL color format
    *

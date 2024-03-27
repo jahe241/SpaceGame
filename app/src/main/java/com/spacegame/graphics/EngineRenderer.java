@@ -5,7 +5,7 @@ import static android.opengl.GLES30.*;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.opengl.GLES20;
+import android.opengl.GLES30;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.Log;
@@ -13,7 +13,6 @@ import androidx.annotation.NonNull;
 import com.spacegame.R;
 import com.spacegame.core.Game;
 import com.spacegame.core.GameInterface;
-import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.utils.TextResourceReader;
 import java.io.IOException;
@@ -21,18 +20,17 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 import java.nio.ShortBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
 import org.xmlpull.v1.XmlPullParserException;
 
 public class EngineRenderer implements GLSurfaceView.Renderer {
   // Buffer Constants, adjust to change the size of the buffers
-  private static final int VERTICES_IN_BUFFER = 524288; // 2^19 vertices = 2^17 quads
-  private static final int BATCH_SIZE = VERTICES_IN_BUFFER / 4;
+  private static final int BATCH_SIZE = 30000;
+  private static final int VERTICES_IN_BUFFER = BATCH_SIZE * 4;
 
   // GL Pointers
   public int gl_program_ptr = 0;
@@ -52,8 +50,11 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   ShortBuffer indexBuffer;
   // Zero array for padding, default float values are 0.0f, no ned to fill it
   private final float[] ZERO_ARRAY = new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE];
-  private float[] concatenatedVertexArrays =
+  private final float[] concatenatedVertexArrays =
       new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE];
+  private final List<Entity> allEntities =
+      new ArrayList<>(
+          BATCH_SIZE); // defining here, to re-use it TODO: alot ALOT of memory allocation
 
   // Buffer IDs
   private int indexBufferId;
@@ -120,6 +121,10 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
             + gl_u_ProjectionMatrix_ptr
             + " "
             + gl_u_ActiveVertices_ptr);
+    // Set GL Flags
+    glEnable(GLES30.GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load texture atlas and initialize buffers
     try {
@@ -329,12 +334,11 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
    */
   private List<Entity> fetchEntities() {
     // fetch all visible entities, sorted by there Z-Value - streams are fun
-    var gameEntities = this.game.getEntities();
-    var interfaceEntities = this.gameInterface.getInterfaceElements();
-    return Stream.concat(gameEntities.stream(), interfaceEntities.stream())
-        .filter(Entity::isVisible)
-        .sorted((a, b) -> Float.compare(a.getZ(), b.getZ()))
-        .collect(Collectors.toList());
+    allEntities.clear();
+    allEntities.addAll(game.getVisibleEntities());
+    allEntities.addAll(gameInterface.getVisibleEntities());
+    allEntities.sort((e1, e2) -> Float.compare(e1.getZ(), e2.getZ()));
+    return allEntities;
   }
 
   @Override
@@ -366,48 +370,43 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
    * @param allEntities List of all entities to be rendered.
    */
   public void renderEntityBatched(List<Entity> allEntities) {
+    //    Log.d("EngineRenderer", "Received: " + allEntities.size() + " Entities");
     // Iterate through all entities in fixed-size increments to create and render batches.
-    for (int batchStart = 0; batchStart < allEntities.size(); batchStart += BATCH_SIZE - 1) {
-      int currentBatchIndex = 0;
+    for (int batchStart = 0; batchStart < allEntities.size(); batchStart += BATCH_SIZE) {
+      int concatenatedVertexArrayIndex = 0;
       int batchEnd = Math.min(allEntities.size(), batchStart + BATCH_SIZE);
-
+      //      Log.d("EngineRenderer", "Rendering Batch: " + batchStart + " to " + batchEnd);
       for (int j = batchStart; j < batchEnd; j++) {
         Entity entity = allEntities.get(j);
         float[] entityVertexArray = entity.vbo().getVertexArray();
+
         System.arraycopy(
             entityVertexArray,
             0,
             concatenatedVertexArrays,
-            currentBatchIndex,
+            concatenatedVertexArrayIndex,
             entityVertexArray.length);
-        currentBatchIndex += entityVertexArray.length;
+
+        concatenatedVertexArrayIndex += entityVertexArray.length; // + 10 * 4
       }
 
       // Calculate the number of active vertices
-      int activeVertexCount = currentBatchIndex / VertexBufferObject.STRIDE;
+      //      int activeVertexCount = currentVertexArrayIndex / VertexBufferObject.STRIDE;
+      int activeVertexCount = concatenatedVertexArrayIndex / VertexBufferObject.STRIDE;
 
-      // Render the concatenated vertex arrays for this batch with the actual count of active
-      // vertices.
-      //      Log.d("EngineRenderer", "Rendering batch with " + activeVertexCount + " active
-      // vertices.");
-      renderVertexArray(concatenatedVertexArrays, activeVertexCount);
+      renderNextBatch(concatenatedVertexArrays, activeVertexCount);
     }
   }
 
-  private void renderVertexArray(float[] batchArray, int activeVertexCount) {
-
-    Log.d("EngineRenderer", "Received:  " + batchArray.length + " Array");
+  private void renderNextBatch(float[] batchArray, int activeVertexCount) {
+    //    Log.d("EngineRenderer", "Rendering:  " + activeVertexCount + " Vertices");
     glBindBuffer(GL_ARRAY_BUFFER, vertexBufferId);
-    vertexBuffer.clear();
-    vertexBuffer.put(batchArray).position(0);
+
     glBufferSubData(
         GL_ARRAY_BUFFER,
         0,
         activeVertexCount * VertexBufferObject.STRIDE * Float.BYTES,
         FloatBuffer.wrap(batchArray));
-
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
     // Pass the number of active vertices to the shader
     glUniform1i(gl_u_ActiveVertices_ptr, activeVertexCount);
@@ -446,7 +445,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     // Bind the index buffer and draw the vertices as triangles using the index buffer
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBufferId);
-    //    Log.d("EngineRenderer", "Drawing " + activeVertexCount + " vertices");
 
     int indexCount = Math.min(activeVertexCount, BATCH_SIZE) * 6;
 
