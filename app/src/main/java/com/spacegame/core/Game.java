@@ -302,14 +302,14 @@ public class Game extends Thread {
               0.03f, // Animation speed in seconds
               false);
       explosion.setZ(0);
-      explosion.setColorOverlay(
-          new float[] {
-            random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat()
-          });
       String randomEnemy = Constants.ENEMIES[random.nextInt(Constants.ENEMIES.length)];
       var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
       randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
-      randomDude.setZ(0);
+      randomDude.setZ(-1);
+      randomDude.setColorOverlay(
+          new float[] {
+            random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat()
+          });
       this.addEntity(randomDude);
       this.addEntity(explosion);
     }
