@@ -3,11 +3,13 @@ package com.spacegame.graphics;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.opengl.GLSurfaceView;
+import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.core.Game;
 import com.spacegame.core.GameInterface;
 import android.graphics.Point;
 import android.view.Display;
+import android.view.SurfaceHolder;
 import android.view.WindowManager;
 
 public class EngineGLSurfaceView extends GLSurfaceView {
@@ -58,4 +60,25 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     height = size.y;
     size = null;
   }
+
+  @Override
+  public void onPause() {
+    super.onPause();
+    gameInterface.onPause();
+  }
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    gameInterface.onResume();
+  }
+
+  @Override
+  public void surfaceDestroyed(SurfaceHolder holder) {
+    super.surfaceDestroyed(holder);
+    gameInterface.onDestroy();
+    Log.d("EngineGLSurfaceView", "Surface destroyed");
+  }
+
+
 }

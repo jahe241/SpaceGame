@@ -9,6 +9,7 @@ import com.spacegame.core.ui.SpriteLabel;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.core.ui.SpriteButton;
+import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.ColorHelper;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,6 +38,8 @@ public class GameInterface extends Thread {
   /** The height of the screen. */
   private float screenHeight;
 
+  private SoundEngine soundEngine;
+
   /**
    * Constructor for the GameInterface class. This constructor initializes a new GameInterface
    * object by setting its game instance and application context.
@@ -49,6 +52,8 @@ public class GameInterface extends Thread {
     this.context = context;
     this.screenWidth = context.getResources().getDisplayMetrics().widthPixels;
     this.screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+    this.soundEngine = new SoundEngine(context);
+    soundEngine.start(soundEngine.getGameMusic());
   }
 
   /**
@@ -222,8 +227,10 @@ public class GameInterface extends Thread {
       case TOGGLE_PAUSE:
         if (game.paused) {
           game.resumeGame();
+          soundEngine.start(soundEngine.getGameMusic());
         } else {
           game.pauseGame();
+          soundEngine.pause(soundEngine.getGameMusic());
         }
         break;
         // Check other Cases here
@@ -261,4 +268,18 @@ public class GameInterface extends Thread {
       return visibleEntities;
     }
   }
+
+  public void onPause() {
+    soundEngine.pause(soundEngine.getGameMusic());
+  }
+
+  public void onResume() {
+    soundEngine.start(soundEngine.getGameMusic());
+  }
+
+  public void onDestroy() {
+    soundEngine.stop(soundEngine.getGameMusic());
+    soundEngine.release();
+  }
+
 }
