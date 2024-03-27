@@ -422,4 +422,8 @@ public class Entity extends Quad {
     spriteName += "(" + this.getClass() + ")";
     return "E[" + spriteName + " " + this.position + ", " + this.width + ", " + this.height + "]";
   }
+
+  public Sprite getSprite() {
+    return sprite;
+  }
 }

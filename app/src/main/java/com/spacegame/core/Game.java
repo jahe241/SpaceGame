@@ -120,7 +120,7 @@ public class Game extends Thread {
     // Add the player character
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
-    Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 256f, 256f);
+    Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 192f, 192f);
     player.setGame(this);
     this.setPlayer(player);
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
@@ -291,8 +291,8 @@ public class Game extends Thread {
     for (int i = 0; i < numExplosions; i++) {
       float x = random.nextFloat() * this.width;
       float y = random.nextFloat() * this.height;
-      AnimatedEntity explosion =
-          new AnimatedEntity(
+      AnimatedActor explosion =
+          new AnimatedActor(
               this.textureAtlas,
               Constants.animation_EXPLOSION,
               x,
@@ -300,13 +300,17 @@ public class Game extends Thread {
               192f,
               192f,
               0.03f, // Animation speed in seconds
-              true);
-      explosion.setZ(-1);
-      explosion.setVelocity(new Vector2D(random.nextFloat() * 100, random.nextFloat() * 100));
+              false);
+      explosion.setZ(0);
       explosion.setColorOverlay(
           new float[] {
             random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat()
           });
+      String randomEnemy = Constants.ENEMIES[random.nextInt(Constants.ENEMIES.length)];
+      var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
+      randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
+      randomDude.setZ(0);
+      this.addEntity(randomDude);
       this.addEntity(explosion);
     }
   }
