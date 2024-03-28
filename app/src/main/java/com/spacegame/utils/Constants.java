@@ -10,6 +10,8 @@ public class Constants {
   public static String animation_EXPLOSION = "exp2_0-";
   public static String PLAYER = "pixel_ship_pepe";
 
+  public static String FONT_PREFIX = "joystix_";
+
   public static String[] GAMEPAD = {
     "touch_input_2d_white", "touch_input_cursor_white"
   }; // gamepad, stick
