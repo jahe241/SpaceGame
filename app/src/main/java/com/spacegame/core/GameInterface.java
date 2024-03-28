@@ -6,7 +6,6 @@ import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
 import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.core.ui.SpriteLabel;
-import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.sound.SoundEngine;
@@ -39,6 +38,8 @@ public class GameInterface extends Thread {
   private float screenHeight;
 
   private SoundEngine soundEngine;
+
+  InterfaceState state = InterfaceState.PLAYING;
 
   /**
    * Constructor for the GameInterface class. This constructor initializes a new GameInterface
@@ -191,10 +192,10 @@ public class GameInterface extends Thread {
       }
 
       // GamePad
-      if (game.running && gamePad.isVisible()) {
+      if (this.state == InterfaceState.PLAYING && gamePad.isVisible()) {
         gamePad.updateStickPosition(event.getX(), event.getY());
         this.game.setPlayerDirection(gamePad.getStickDirection());
-      } else if (game.running && !gamePad.isVisible()) {
+      } else if (this.state == InterfaceState.PLAYING && !gamePad.isVisible()) {
         Log.d("GameInterface", "Showing GamePad");
         gamePad.showGamePad(event.getX(), event.getY());
       }
@@ -225,11 +226,13 @@ public class GameInterface extends Thread {
   private void handleButtonEvent(ButtonType type) {
     switch (type) {
       case TOGGLE_PAUSE:
-        if (game.paused) {
+        if (game.state == GameState.PAUSED) {
           game.resumeGame();
+          this.state = InterfaceState.PLAYING;
           soundEngine.start(soundEngine.getGameMusic());
         } else {
           game.pauseGame();
+          this.state = InterfaceState.PAUSE_MENU;
           soundEngine.pause(soundEngine.getGameMusic());
         }
         break;
@@ -240,7 +243,7 @@ public class GameInterface extends Thread {
         game.resetGame();
         break;
       case DEBUG_BUTTON:
-        this.game.spawnExplosions(64);
+        this.game.spawnRandomEnemy(64);
         break;
     }
   }
@@ -281,5 +284,4 @@ public class GameInterface extends Thread {
     soundEngine.stop(soundEngine.getGameMusic());
     soundEngine.release();
   }
-
 }
