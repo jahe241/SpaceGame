@@ -45,6 +45,8 @@ public class Game extends Thread {
   /** Screen width */
   int width;
 
+  int score = 0;
+
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
   public Game(int height, int width) {
@@ -116,8 +118,8 @@ public class Game extends Thread {
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 192f, 192f);
     player.setGame(this);
     this.setPlayer(player);
-    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
-    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
+    //    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
+    //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
   }
 
@@ -330,5 +332,14 @@ public class Game extends Thread {
       }
     }
     return false;
+  }
+
+  public int setScore(int score) {
+    this.score = score;
+    return this.score;
+  }
+
+  public int getScore() {
+    return this.score;
   }
 }

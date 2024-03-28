@@ -39,6 +39,8 @@ public class GameInterface extends Thread {
 
   private SoundEngine soundEngine;
 
+  private SpriteLabel scoreLabel;
+
   InterfaceState state = InterfaceState.PLAYING;
 
   /**
@@ -48,11 +50,11 @@ public class GameInterface extends Thread {
    * @param context The application context.
    * @param game The game instance that this interface interacts with.
    */
-  public GameInterface(Context context, Game game) {
+  public GameInterface(Context context, Game game, float screenWidth, float screenHeight) {
     this.game = game;
     this.context = context;
-    this.screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-    this.screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+    this.screenWidth = screenWidth;
+    this.screenHeight = screenHeight;
     this.soundEngine = new SoundEngine(context);
     soundEngine.start(soundEngine.getGameMusic());
   }
@@ -93,6 +95,8 @@ public class GameInterface extends Thread {
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
+    this.scoreLabel.setText("SCORE: " + game.getScore());
+
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
       interfaceElements.removeIf(Entity::getDiscard);
@@ -123,8 +127,8 @@ public class GameInterface extends Thread {
             game.textureAtlas,
             "joystix_c",
             "joystix_c",
-            screenWidth - 600,
-            screenHeight - 200,
+            screenWidth - 360,
+            screenHeight - 100,
             200f,
             200f,
             ButtonType.RESET_GAME,
@@ -136,8 +140,8 @@ public class GameInterface extends Thread {
             game.textureAtlas,
             "joystix_b",
             "joystix_b",
-            screenWidth - 350,
-            screenHeight - 200,
+            screenWidth - 110,
+            screenHeight - 100,
             200f,
             200f,
             ButtonType.DEBUG_BUTTON,
@@ -150,8 +154,9 @@ public class GameInterface extends Thread {
     addInterfaceContainer(gamePad);
 
     // Add the score label
-    addInterfaceContainer(
-        new SpriteLabel("SCORE", 50, 50, 64 * 2, ColorHelper.OLIVE, game.textureAtlas));
+    this.scoreLabel =
+        new SpriteLabel("SCORE: 9999", 50, 50, 64 * 2, ColorHelper.NAVY, game.textureAtlas);
+    addInterfaceContainer(scoreLabel);
 
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
   }
@@ -244,6 +249,7 @@ public class GameInterface extends Thread {
         break;
       case DEBUG_BUTTON:
         this.game.spawnRandomEnemy(64);
+        this.game.setScore(this.game.getScore() + 10);
         break;
     }
   }
