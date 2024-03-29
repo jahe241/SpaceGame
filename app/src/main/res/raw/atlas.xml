@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:020891ec2c5d217664b6bca4606ae7da:87e4b501251ff8de3a8bae9d33feaf8c:cde709370900f12288f3449eded86f07$ -->
+<!-- $TexturePacker:SmartUpdate:7f2f816f5fd31c1703701fef36fee7d2:834c577cd20d812551ae2d28692abe85:cde709370900f12288f3449eded86f07$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -20,11 +20,11 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
 <TextureAtlas
   imagePath="atlas.png"
-  width="512"
-  height="1068">
+  width="466"
+  height="1244">
   <sprite
     n="blue_projectile"
-    x="32"
+    x="38"
     y="0"
     w="28"
     h="28"
@@ -32,7 +32,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     pY="0.5" />
   <sprite
     n="exp2_0-00"
-    x="94"
+    x="141"
     y="0"
     w="64"
     h="64"
@@ -40,7 +40,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     pY="0.5" />
   <sprite
     n="exp2_0-01"
-    x="158"
+    x="208"
     y="0"
     w="64"
     h="64"
@@ -48,7 +48,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     pY="0.5" />
   <sprite
     n="exp2_0-02"
-    x="222"
+    x="275"
     y="0"
     w="64"
     h="64"
@@ -56,7 +56,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     pY="0.5" />
   <sprite
     n="exp2_0-03"
-    x="286"
+    x="342"
     y="0"
     w="64"
     h="64"
@@ -64,336 +64,336 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     pY="0.5" />
   <sprite
     n="exp2_0-04"
-    x="350"
-    y="0"
+    x="0"
+    y="67"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-05"
-    x="414"
-    y="0"
+    x="67"
+    y="67"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-06"
-    x="0"
-    y="64"
+    x="134"
+    y="67"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-07"
-    x="64"
-    y="64"
+    x="201"
+    y="67"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-08"
-    x="128"
-    y="64"
+    x="268"
+    y="67"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-09"
-    x="192"
-    y="64"
+    x="335"
+    y="67"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-10"
-    x="256"
-    y="64"
+    x="402"
+    y="67"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-11"
-    x="320"
-    y="64"
+    x="0"
+    y="134"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-12"
-    x="384"
-    y="64"
+    x="67"
+    y="134"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-13"
-    x="448"
-    y="64"
+    x="134"
+    y="134"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-14"
-    x="0"
-    y="128"
+    x="201"
+    y="134"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="exp2_0-15"
-    x="64"
-    y="128"
+    x="268"
+    y="134"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_0"
-    x="128"
-    y="128"
+    x="335"
+    y="134"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_1"
-    x="192"
-    y="128"
+    x="402"
+    y="134"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_2"
-    x="256"
-    y="128"
+    x="0"
+    y="201"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_3"
-    x="320"
-    y="128"
+    x="67"
+    y="201"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_4"
-    x="384"
-    y="128"
+    x="134"
+    y="201"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_5"
-    x="448"
-    y="128"
+    x="201"
+    y="201"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_6"
-    x="0"
-    y="192"
+    x="268"
+    y="201"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_7"
-    x="64"
-    y="192"
+    x="335"
+    y="201"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_8"
-    x="128"
-    y="192"
+    x="402"
+    y="201"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_9"
-    x="192"
-    y="192"
+    x="0"
+    y="268"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_a"
-    x="256"
-    y="192"
+    x="67"
+    y="268"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_ampersand"
-    x="320"
-    y="192"
+    x="134"
+    y="268"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_apostrophe"
-    x="384"
-    y="192"
+    x="201"
+    y="268"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_asterisk"
-    x="448"
-    y="192"
+    x="268"
+    y="268"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_at"
-    x="0"
-    y="256"
+    x="335"
+    y="268"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_b"
-    x="64"
-    y="256"
+    x="402"
+    y="268"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_backslash"
-    x="128"
-    y="256"
+    x="0"
+    y="335"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_backtick"
-    x="192"
-    y="256"
+    x="67"
+    y="335"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_c"
-    x="256"
-    y="256"
+    x="134"
+    y="335"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_caret"
-    x="320"
-    y="256"
+    x="201"
+    y="335"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_colon"
-    x="384"
-    y="256"
+    x="268"
+    y="335"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_comma"
-    x="448"
-    y="256"
+    x="335"
+    y="335"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_d"
-    x="0"
-    y="320"
+    x="402"
+    y="335"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_dollar"
-    x="64"
-    y="320"
+    x="0"
+    y="402"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_e"
-    x="128"
-    y="320"
+    x="67"
+    y="402"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_equals"
-    x="192"
-    y="320"
+    x="134"
+    y="402"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_exclamation"
-    x="256"
-    y="320"
+    x="201"
+    y="402"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_f"
-    x="320"
-    y="320"
+    x="268"
+    y="402"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_g"
-    x="384"
-    y="320"
+    x="335"
+    y="402"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_greater_than"
-    x="448"
-    y="320"
+    x="402"
+    y="402"
     w="64"
     h="64"
     pX="0.5"
@@ -401,334 +401,334 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="joystix_h"
     x="0"
-    y="384"
+    y="469"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_hash"
-    x="64"
-    y="384"
+    x="67"
+    y="469"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_i"
-    x="128"
-    y="384"
+    x="134"
+    y="469"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_j"
-    x="192"
-    y="384"
+    x="201"
+    y="469"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_k"
-    x="256"
-    y="384"
+    x="268"
+    y="469"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_l"
-    x="320"
-    y="384"
+    x="335"
+    y="469"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_left_curly_brace"
-    x="384"
-    y="384"
+    x="402"
+    y="469"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_left_parenthesis"
-    x="448"
-    y="384"
+    x="0"
+    y="536"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_left_square_bracket"
-    x="0"
-    y="448"
+    x="67"
+    y="536"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_less_than"
-    x="64"
-    y="448"
+    x="134"
+    y="536"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_m"
-    x="128"
-    y="448"
+    x="201"
+    y="536"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_minus"
-    x="192"
-    y="448"
+    x="268"
+    y="536"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_n"
-    x="256"
-    y="448"
+    x="335"
+    y="536"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_o"
-    x="320"
-    y="448"
+    x="402"
+    y="536"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_p"
-    x="384"
-    y="448"
+    x="0"
+    y="603"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_percent"
-    x="448"
-    y="448"
+    x="67"
+    y="603"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_period"
-    x="0"
-    y="512"
+    x="134"
+    y="603"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_plus"
-    x="64"
-    y="512"
+    x="201"
+    y="603"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_q"
-    x="128"
-    y="512"
+    x="268"
+    y="603"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_question"
-    x="192"
-    y="512"
+    x="335"
+    y="603"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_quote"
-    x="256"
-    y="512"
+    x="402"
+    y="603"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_r"
-    x="320"
-    y="512"
+    x="0"
+    y="670"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_right_curly_brace"
-    x="384"
-    y="512"
+    x="67"
+    y="670"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_right_parenthesis"
-    x="448"
-    y="512"
+    x="134"
+    y="670"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_right_square_bracket"
-    x="0"
-    y="576"
+    x="201"
+    y="670"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_s"
-    x="64"
-    y="576"
+    x="268"
+    y="670"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_semicolon"
-    x="128"
-    y="576"
+    x="335"
+    y="670"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_slash"
-    x="192"
-    y="576"
+    x="402"
+    y="670"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_t"
-    x="256"
-    y="576"
+    x="0"
+    y="737"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_tilde"
-    x="320"
-    y="576"
+    x="67"
+    y="737"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_u"
-    x="384"
-    y="576"
+    x="134"
+    y="737"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_underscore"
-    x="448"
-    y="576"
+    x="201"
+    y="737"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_v"
-    x="0"
-    y="640"
+    x="268"
+    y="737"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_vertical_bar"
-    x="64"
-    y="640"
+    x="335"
+    y="737"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_w"
-    x="128"
-    y="640"
+    x="402"
+    y="737"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_x"
-    x="192"
-    y="640"
+    x="0"
+    y="804"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_y"
-    x="256"
-    y="640"
+    x="67"
+    y="804"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="joystix_z"
-    x="320"
-    y="640"
+    x="134"
+    y="804"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="monk"
-    x="0"
-    y="704"
+    x="335"
+    y="804"
     w="67"
     h="67"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="peepo"
-    x="236"
-    y="704"
+    x="172"
+    y="874"
     w="50"
     h="84"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="pixel_ship_pepe"
-    x="116"
-    y="940"
+    x="119"
+    y="1116"
     w="128"
     h="128"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="scifi_inventory01"
-    x="60"
+    x="104"
     y="0"
     w="34"
     h="34"
@@ -737,39 +737,39 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="ship_black_01"
     x="0"
-    y="816"
+    y="989"
     w="128"
     h="120"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="ship_blue_01"
-    x="128"
-    y="816"
+    x="131"
+    y="989"
     w="90"
     h="122"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="ship_green_01"
-    x="218"
-    y="816"
+    x="224"
+    y="989"
     w="117"
     h="122"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="ship_grey_01"
-    x="67"
-    y="704"
+    x="0"
+    y="874"
     w="169"
     h="83"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="ship_red_01"
-    x="244"
-    y="940"
+    x="250"
+    y="1116"
     w="124"
     h="128"
     pX="0.5"
@@ -777,47 +777,55 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
   <sprite
     n="ship_red_02"
     x="0"
-    y="940"
+    y="1116"
     w="116"
     h="125"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="ship_red_03"
-    x="335"
-    y="816"
+    x="344"
+    y="989"
     w="96"
     h="124"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="ship_spikey_01"
-    x="382"
-    y="704"
+    x="324"
+    y="874"
     w="128"
     h="112"
     pX="0.5"
     pY="0.5" />
   <sprite
+    n="tex"
+    x="69"
+    y="0"
+    w="32"
+    h="32"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
     n="titan"
-    x="286"
-    y="704"
+    x="225"
+    y="874"
     w="96"
     h="96"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="touch_input_2d"
-    x="384"
-    y="640"
+    x="201"
+    y="804"
     w="64"
     h="64"
     pX="0.5"
     pY="0.5" />
   <sprite
     n="touch_input_2d_white"
-    x="448"
-    y="640"
+    x="268"
+    y="804"
     w="64"
     h="64"
     pX="0.5"
@@ -832,7 +840,7 @@ triangles  => sprite triangulation, 3 vertex indices per triangle
     pY="0.5" />
   <sprite
     n="touch_input_cursor_white"
-    x="16"
+    x="19"
     y="0"
     w="16"
     h="16"

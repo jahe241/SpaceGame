@@ -64,7 +64,7 @@
             </struct>
         </struct>
         <key>shapePadding</key>
-        <uint>0</uint>
+        <uint>3</uint>
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
@@ -361,6 +361,7 @@
             <key type="filename">Joystix_font/joystix_x.png</key>
             <key type="filename">Joystix_font/joystix_y.png</key>
             <key type="filename">Joystix_font/joystix_z.png</key>
+            <key type="filename">interface/tex.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
