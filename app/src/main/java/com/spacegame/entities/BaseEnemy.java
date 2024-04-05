@@ -1,6 +1,8 @@
 package com.spacegame.entities;
 
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.utils.ColorHelper;
+
 import java.util.List;
 
 public class BaseEnemy extends Actor {
@@ -23,6 +25,7 @@ public class BaseEnemy extends Actor {
   public BaseEnemy(
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
+    this.vbo = this.vbo.setFlagSolidColor().setColor(ColorHelper.GREEN);
   }
 
   @Override
