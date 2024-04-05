@@ -16,13 +16,16 @@ void main() {
         discard;
 
     } else if (v_Flag == 0.0) {
+        // texture color
         outColor = texColor;
 
     } else if (v_Flag == 1.0) {
+        // texture color * vertex color (color overlay)
         outColor = texColor * v_Color;
 
     } else if (v_Flag == 2.0) {
-        outColor = v_Color;
+        // solid color
+        outColor = vec4(v_Color.rgb * v_Color.a, v_Color.a);
 
     } else {
         outColor = texColor;

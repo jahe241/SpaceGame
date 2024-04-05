@@ -25,9 +25,6 @@ public class Game extends Thread {
   /** The running state of the game. True if the game is running, false otherwise. */
   volatile boolean running = false;
 
-  /** The paused state of the game. True if the game is paused, false otherwise. */
-  volatile boolean paused = false;
-
   /** The list of entities in the game. */
   public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
 
@@ -40,13 +37,17 @@ public class Game extends Thread {
   /** The texture atlas that contains the game's textures. */
   public TextureAtlas textureAtlas;
 
-  private GameState gameState = GameState.PLAYING;
+  volatile GameState state = GameState.PLAYING;
 
   /** Sceen height */
   int height;
 
   /** Screen width */
   int width;
+
+  int score = 0;
+
+  ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
   public Game(int height, int width) {
     super();
@@ -70,12 +71,6 @@ public class Game extends Thread {
     setupGame();
   }
 
-  public enum GameState {
-    PLAYING,
-    PAUSED,
-    GAME_OVER
-  }
-
   /**
    * The main run method for the Game thread. It sets up the game and then enters a loop where it
    * updates the game and sleeps for the remainder of the frame time.
@@ -90,7 +85,7 @@ public class Game extends Thread {
     // Game Loop
     while (running) {
       synchronized (this) {
-        while (paused) {
+        while (this.state == GameState.PAUSED) {
           try {
             wait();
           } catch (InterruptedException e) {
@@ -123,17 +118,16 @@ public class Game extends Thread {
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 192f, 192f);
     player.setGame(this);
     this.setPlayer(player);
-    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
-    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
-    this.gameState = GameState.PLAYING;
+    //    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
+    //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
+    this.state = GameState.PLAYING;
   }
 
   /** Pauses the game. */
   public void pauseGame() {
     synchronized (this) {
       Log.d("Game", "Game Thread paused: " + Thread.currentThread().getName());
-      paused = true; // TODO: Refactor to use gameState
-      gameState = GameState.PAUSED;
+      this.state = GameState.PAUSED;
     }
   }
 
@@ -141,8 +135,7 @@ public class Game extends Thread {
   public void resumeGame() {
     synchronized (this) {
       Log.d("Game", "Game Thread resumed: " + Thread.currentThread().getName());
-      paused = false;
-      gameState = GameState.PLAYING;
+      this.state = GameState.PLAYING;
       notify();
     }
   }
@@ -269,7 +262,7 @@ public class Game extends Thread {
     Log.d("Game", "Touch event at: " + event.getX() + ", " + event.getY());
     Log.d("Game", "Touch Type: " + event.getActionMasked());
     if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-      if (this.paused) return;
+      if (this.state == GameState.PAUSED) return;
       Log.d("Game", "Touch event at: " + event.getX() + ", " + event.getY());
       var explosion =
           new AnimatedEntity(
@@ -286,32 +279,67 @@ public class Game extends Thread {
     }
   }
 
-  public void spawnExplosions(int numExplosions) {
-    ThreadLocalRandom random = ThreadLocalRandom.current();
-    for (int i = 0; i < numExplosions; i++) {
-      float x = random.nextFloat() * this.width;
-      float y = random.nextFloat() * this.height;
-      AnimatedActor explosion =
-          new AnimatedActor(
-              this.textureAtlas,
-              Constants.animation_EXPLOSION,
-              x,
-              y,
-              192f,
-              192f,
-              0.03f, // Animation speed in seconds
-              false);
-      explosion.setZ(0);
-      String randomEnemy = Constants.ENEMIES[random.nextInt(Constants.ENEMIES.length)];
-      var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
-      randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
-      randomDude.setZ(-1);
-      randomDude.setColorOverlay(
-          new float[] {
-            random.nextFloat(), random.nextFloat(), random.nextFloat(), random.nextFloat()
-          });
-      this.addEntity(randomDude);
-      this.addEntity(explosion);
+  public void spawnRandomEnemy(int numEnemies) {
+    final int maxRetries = 10; // Define your maximum number of retries here
+    for (int i = 0; i < numEnemies; i++) {
+      float x = rng.nextFloat() * this.width;
+      float y = rng.nextFloat() * this.height;
+      int retryCount = 0;
+      while (isPositionOccupied(x, y)) {
+        if (++retryCount == maxRetries) {
+          System.out.println("Warning: Maximum number of retries reached when spawning enemy.");
+          break;
+        }
+        x = rng.nextFloat() * this.width;
+        y = rng.nextFloat() * this.height;
+      }
+      if (retryCount < maxRetries) {
+        spawnRandomEntity(x, y);
+      }
     }
+  }
+
+  private void spawnRandomEntity(float x, float y) {
+    AnimatedActor explosion =
+        new AnimatedActor(
+            this.textureAtlas,
+            Constants.animation_EXPLOSION,
+            x,
+            y,
+            192f,
+            192f,
+            0.03f, // Animation speed in seconds
+            false);
+    explosion.setZ(0);
+    String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
+    var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
+    randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
+    randomDude.setZ(-1);
+    randomDude.setColorOverlay(
+        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), rng.nextFloat()});
+    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
+    this.addEntity(randomDude);
+    this.addEntity(explosion);
+  }
+
+  private boolean isPositionOccupied(float x, float y) {
+    synchronized (entities) {
+      for (Entity entity : entities) {
+        if (Math.abs(entity.getX() - x) < entity.getWidth()
+            && Math.abs(entity.getY() - y) < entity.getHeight()) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  public int setScore(int score) {
+    this.score = score;
+    return this.score;
+  }
+
+  public int getScore() {
+    return this.score;
   }
 }

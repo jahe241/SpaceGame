@@ -142,4 +142,12 @@ abstract class Quad {
    * @param deltaTime The time difference since the last update.
    */
   abstract void update(float deltaTime);
+
+  public void setX(float x) {
+    this.position.setX(x);
+  }
+
+  public void setY(float y) {
+    this.position.setY(y);
+  }
 }
