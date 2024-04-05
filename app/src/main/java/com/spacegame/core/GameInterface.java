@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
 import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.core.ui.SpriteLabel;
+import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.sound.SoundEngine;
@@ -159,6 +160,26 @@ public class GameInterface extends Thread {
     addInterfaceContainer(scoreLabel);
 
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
+
+    // Test Area
+    //    addInterfaceElement(
+    //        new Entity(
+    //            game.textureAtlas,
+    //            "scifi_inventory01",
+    //            screenWidth / 2,
+    //            screenHeight / 2,
+    //            screenWidth / 2,
+    //            screenHeight / 2));
+    //    var shape =
+    //        new Entity(
+    //            this.game.textureAtlas,
+    //            "tex",
+    //            screenWidth / 2,
+    //            screenHeight / 2,
+    //            screenWidth / 2,
+    //            screenHeight / 2);
+    //    shape.setColorOverlay(ColorHelper.RED);
+    //    addInterfaceElement(shape);
   }
 
   /**
