@@ -432,7 +432,7 @@ public class Entity extends Quad {
    * @return
    */
   public boolean isColliding(Entity other) {
-    // FIXME: Check if if collidabel flag is toggled
+    // FIXME: Check if if collidable flag is toggled
     // if (!this.collidable || !other.collidable) return false;
     Vector2D[] axes = new Vector2D[4];
     Vector2D[] thisVertices = this.vbo.getVerticesPositions();
@@ -457,9 +457,9 @@ public class Entity extends Quad {
         minThis = Math.min(minThis, projectionThis);
         maxThis = Math.max(maxThis, projectionThis);
 
-        float projectionOther = axis.scalarProduct(thisVertices[i]);
-        minThis = Math.min(minThis, projectionOther);
-        maxThis = Math.max(maxThis, projectionOther);
+        float projectionOther = axis.scalarProduct(otherVertices[i]);
+        minOther = Math.min(minOther, projectionOther);
+        maxOther = Math.max(maxOther, projectionOther);
       }
 
       // Check for overlap

@@ -6,10 +6,10 @@ import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimatedActor;
 import com.spacegame.entities.AnimatedEntity;
 import com.spacegame.entities.BaseEnemy;
-import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
@@ -118,7 +118,7 @@ public class Game extends Thread {
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 192f, 192f);
     player.setGame(this);
     this.setPlayer(player);
-    //    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
+    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
   }
@@ -165,7 +165,12 @@ public class Game extends Thread {
 
         List<Entity> otherEntities = new ArrayList<>(entities);
         otherEntities.remove(entity);
-        entity.collidesWithAny(otherEntities);
+        if (entity.collidesWithAny(otherEntities)) {
+          entity.onCollision();
+          entity.setColorOverlay(ColorHelper.RED);
+        } else {
+          entity.disableColorOverlay();
+        }
 
         if (entity instanceof Actor actor) {
           actor.setPlayerVelocity(playerVelocity);

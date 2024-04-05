@@ -1,8 +1,6 @@
 package com.spacegame.graphics;
 
-import android.util.Log;
 import com.spacegame.utils.Vector2D;
-import java.util.Arrays;
 
 public class VertexBufferObject {
   /**
@@ -252,7 +250,6 @@ public class VertexBufferObject {
     for (int i = 0; i < 4; i++) {
       ret[i] = new Vector2D(this.vertexData[i * STRIDE], this.vertexData[i * STRIDE + 1]);
     }
-    Log.d("Vertex", Arrays.toString(ret));
     return ret;
   }
 
