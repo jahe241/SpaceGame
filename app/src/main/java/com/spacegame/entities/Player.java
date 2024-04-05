@@ -6,6 +6,7 @@ import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Vector2D;
+import java.util.List;
 
 public class Player extends Entity {
   private Game game;
@@ -56,6 +57,15 @@ public class Player extends Entity {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
     this.position = oldPosition;
+  }
+
+  @Override
+  public boolean collidesWithAny(List<Entity> others) {
+    for (Entity e : others) {
+      if (!(e instanceof BaseEnemy)) continue;
+      if (super.isColliding(e)) return true;
+    }
+    return false;
   }
 
   // this function dynamically changes the color of the player based on time delta

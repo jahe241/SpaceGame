@@ -30,6 +30,7 @@ public class Actor extends Entity {
   public Actor(
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
+    this.collidable = true;
   }
 
   @Override

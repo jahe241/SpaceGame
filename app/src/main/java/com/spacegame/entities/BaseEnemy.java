@@ -1,6 +1,7 @@
 package com.spacegame.entities;
 
 import com.spacegame.graphics.TextureAtlas;
+import java.util.List;
 
 public class BaseEnemy extends Actor {
 
@@ -22,5 +23,14 @@ public class BaseEnemy extends Actor {
   public BaseEnemy(
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
+  }
+
+  @Override
+  public boolean collidesWithAny(List<Entity> others) {
+    for (Entity e : others) {
+      if (!(e instanceof Player)) continue;
+      if (this.isColliding(e)) return true;
+    }
+    return false;
   }
 }

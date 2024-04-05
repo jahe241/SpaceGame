@@ -169,6 +169,11 @@ public class Game extends Thread {
 
       for (Entity entity : entities) {
         entity.update(deltaTime);
+
+        List<Entity> otherEntities = new ArrayList<>(entities);
+        otherEntities.remove(entity);
+        entity.collidesWithAny(otherEntities);
+
         if (entity instanceof Actor actor) {
           actor.setPlayerVelocity(playerVelocity);
         } else if (entity instanceof AnimatedActor actor) {

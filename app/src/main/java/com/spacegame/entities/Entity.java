@@ -1,11 +1,19 @@
 package com.spacegame.entities;
 
+import android.util.Log;
 import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Vector2D;
+import java.util.List;
 
 public class Entity extends Quad {
+
+  /**
+   * Wether this entity is collidable. If true, the entity will be checked for collisions with other
+   * entities.
+   */
+  public boolean collidable = false;
 
   /** The pointer to the OpenGL texture that should be used to render this entity. */
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
@@ -413,6 +421,75 @@ public class Entity extends Quad {
    */
   public void updatePositionVertex() {
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+  }
+
+  /**
+   * Checks if the entity is colliding with another entity. This method checks for collisions based
+   * on the Separating Axis Theorem (SAT), because we have rotations to count for. If the entities
+   * are colliding, the method returns true.
+   *
+   * @param other
+   * @return
+   */
+  public boolean isColliding(Entity other) {
+    // FIXME: Check if if collidabel flag is toggled
+    // if (!this.collidable || !other.collidable) return false;
+    Vector2D[] axes = new Vector2D[4];
+    Vector2D[] thisVertices = this.vbo.getVerticesPositions();
+    Vector2D[] otherVertices = other.vbo.getVerticesPositions();
+
+    // Find the axes
+    for (int i = 0; i < 4; i++) {
+      Vector2D edge = thisVertices[i].sub(thisVertices[(i + 1) % 4]);
+      axes[i] = new Vector2D(-edge.getY(), edge.getX()).normalized();
+    }
+
+    // Check overlap for each axis
+    for (Vector2D axis : axes) {
+      float minThis = axis.scalarProduct(thisVertices[0]);
+      float maxThis = minThis;
+      float minOther = axis.scalarProduct(otherVertices[0]);
+      float maxOther = minOther;
+
+      // Project verticies onto the axis and find the min and max projection
+      for (int i = 1; i < 4; i++) {
+        float projectionThis = axis.scalarProduct(thisVertices[i]);
+        minThis = Math.min(minThis, projectionThis);
+        maxThis = Math.max(maxThis, projectionThis);
+
+        float projectionOther = axis.scalarProduct(thisVertices[i]);
+        minThis = Math.min(minThis, projectionOther);
+        maxThis = Math.max(maxThis, projectionOther);
+      }
+
+      // Check for overlap
+      if (maxThis < minOther || maxOther < minThis) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Check if this entity collides with any of the given list
+   *
+   * @param others
+   * @return
+   */
+  public boolean collidesWithAny(List<Entity> others) {
+    for (Entity o : others) {
+      if (this.isColliding(o)) return true;
+    }
+    Log.d("Collision", "No Collision");
+    return false;
+  }
+
+  /**
+   * Called when the entity collides with another entity. This method can be overridden by
+   * subclasses to implement custom collision behavior.
+   */
+  public void onCollision() {
+    Log.d("Collision", "Collision happened!");
   }
 
   @NonNull

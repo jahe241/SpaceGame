@@ -1,6 +1,8 @@
 package com.spacegame.graphics;
 
+import android.util.Log;
 import com.spacegame.utils.Vector2D;
+import java.util.Arrays;
 
 public class VertexBufferObject {
   /**
@@ -238,6 +240,20 @@ public class VertexBufferObject {
    */
   public float[] getVertexArray() {
     return vertexData;
+  }
+
+  /**
+   * Returns the position of the vertices for this Object
+   *
+   * @return
+   */
+  public Vector2D[] getVerticesPositions() {
+    Vector2D[] ret = new Vector2D[4];
+    for (int i = 0; i < 4; i++) {
+      ret[i] = new Vector2D(this.vertexData[i * STRIDE], this.vertexData[i * STRIDE + 1]);
+    }
+    Log.d("Vertex", Arrays.toString(ret));
+    return ret;
   }
 
   /**
