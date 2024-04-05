@@ -6,6 +6,7 @@ import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
 import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.core.ui.SpriteLabel;
+import com.spacegame.core.ui.SpritePopup;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.core.ui.SpriteButton;
@@ -41,6 +42,12 @@ public class GameInterface extends Thread {
   private SoundEngine soundEngine;
 
   private SpriteLabel scoreLabel;
+
+  private SpritePopup pauseMenu;
+
+  private SpritePopup gameOverMenu;
+
+  private SpritePopup upgradeMenu;
 
   InterfaceState state = InterfaceState.PLAYING;
 
@@ -96,7 +103,7 @@ public class GameInterface extends Thread {
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
-    this.scoreLabel.setText("SCORE: " + game.getScore());
+    //    this.scoreLabel.setText("SCORE: " + game.getScore());
 
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
@@ -156,30 +163,35 @@ public class GameInterface extends Thread {
 
     // Add the score label
     this.scoreLabel =
-        new SpriteLabel("SCORE: 9999", 50, 50, 64 * 2, ColorHelper.NAVY, game.textureAtlas);
-    addInterfaceContainer(scoreLabel);
+        new SpriteLabel(
+            "SCORE: 9999", 50, screenHeight * .3f, 128, ColorHelper.TRANSPARENT, game.textureAtlas);
+    //    addInterfaceContainer(scoreLabel);
 
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
 
-    // Test Area
-    //    addInterfaceElement(
-    //        new Entity(
-    //            game.textureAtlas,
-    //            "scifi_inventory01",
-    //            screenWidth / 2,
-    //            screenHeight / 2,
-    //            screenWidth / 2,
-    //            screenHeight / 2));
-    //    var shape =
-    //        new Entity(
-    //            this.game.textureAtlas,
-    //            "tex",
-    //            screenWidth / 2,
-    //            screenHeight / 2,
-    //            screenWidth / 2,
-    //            screenHeight / 2);
-    //    shape.setColorOverlay(ColorHelper.RED);
-    //    addInterfaceElement(shape);
+    this.pauseMenu =
+        new SpritePopup(
+            new ColorEntity(
+                screenWidth / 2, // Center of the screen
+                screenHeight / 2,
+                screenWidth * .9f,
+                screenHeight * .7f,
+                ColorHelper.PINK));
+    this.pauseMenu.addButton(
+        new SpriteButton(
+            game.textureAtlas,
+            "joystix_q",
+            "joystix_q",
+            screenWidth / 2, // Center of the screen
+            screenHeight / 2,
+            200f,
+            200f,
+            ButtonType.TOGGLE_PAUSE,
+            true,
+            ColorHelper.TRANSPARENT));
+    this.pauseMenu.addLabel(this.scoreLabel);
+    this.pauseMenu.hide();
+    addInterfaceContainer(this.pauseMenu);
   }
 
   /**
@@ -255,10 +267,13 @@ public class GameInterface extends Thread {
         if (game.state == GameState.PAUSED) {
           game.resumeGame();
           this.state = InterfaceState.PLAYING;
+          this.pauseMenu.hide();
           soundEngine.start(soundEngine.getGameMusic());
         } else {
           game.pauseGame();
+          this.scoreLabel.setText("SCORE: " + game.getScore());
           this.state = InterfaceState.PAUSE_MENU;
+          this.pauseMenu.show();
           soundEngine.pause(soundEngine.getGameMusic());
         }
         break;

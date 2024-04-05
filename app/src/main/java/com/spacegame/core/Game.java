@@ -300,25 +300,25 @@ public class Game extends Thread {
   }
 
   private void spawnRandomEntity(float x, float y) {
+    String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
+    var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
+    randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
+    randomDude.setZ(-1);
+    randomDude.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
+    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
+    this.addEntity(randomDude);
     AnimatedActor explosion =
         new AnimatedActor(
             this.textureAtlas,
             Constants.animation_EXPLOSION,
             x,
             y,
-            192f,
-            192f,
+            randomDude.getWidth(),
+            randomDude.getHeight(),
             0.03f, // Animation speed in seconds
             false);
     explosion.setZ(0);
-    String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
-    var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
-    randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
-    randomDude.setZ(-1);
-    randomDude.setColorOverlay(
-        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), rng.nextFloat()});
-    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
-    this.addEntity(randomDude);
+    explosion.setRotationRad(randomDude.getRotationRad());
     this.addEntity(explosion);
   }
 

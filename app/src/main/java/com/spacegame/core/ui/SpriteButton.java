@@ -115,7 +115,7 @@ public class SpriteButton extends Entity implements SpriteContainer {
   public ButtonType click() {
     this.isDown = !this.isDown; // elegant, huh?
     this.setSprite(this.isDown ? this.spriteDown : this.spriteUp);
-    this.scale(this.spriteUp.w(), this.spriteUp.h());
+    //    this.scale(this.spriteUp.w(), this.spriteUp.h());
     return this.buttonType;
   }
 
@@ -135,6 +135,7 @@ public class SpriteButton extends Entity implements SpriteContainer {
 
   @Override
   public void setVisible(boolean visible) {
+    super.setVisible(visible);
     this.isActive = visible;
     this.background.setVisible(visible);
   }

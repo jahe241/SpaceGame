@@ -283,10 +283,10 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     // Set the projection matrix
     if (width > height) {
       // Landscape
-      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -10f, 20f);
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -20f, 30f);
     } else {
       // Portrait or square
-      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -10f, 20f);
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -20f, 30f);
     }
     // Log the SurfaceView size
     Log.d("SurfaceView", "Width: " + width + " Height: " + height);

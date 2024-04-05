@@ -20,6 +20,10 @@ public class SpriteLabel implements SpriteContainer {
   private int charCount;
   private int length;
 
+  private boolean isVisible = true;
+
+  private float z = 10f;
+
   private TextureAtlas textureAtlas;
 
   private static final Map<Character, String> problematicChars = new HashMap<>();
@@ -104,8 +108,30 @@ public class SpriteLabel implements SpriteContainer {
         character.setSprite(parseCharacterName(text.toLowerCase().charAt(i)));
         character.setX(baseX);
         character.setY(y + baseOffset - 16);
-        character.setZ(10f);
-        character.setVisible(true);
+        character.setZ(this.z);
+        character.setVisible(this.isVisible);
+      }
+      baseX += (fontSize - TEXT_SPACING);
+    }
+
+    // Hide remaining entities if new text is shorter
+    for (int i = text.length(); i < characters.size(); i++) {
+      characters.get(i).setVisible(false);
+    }
+  }
+
+  public void updateText(String text) {
+    float baseOffset = fontSize / 2;
+    float baseX = x + baseOffset;
+
+    for (int i = 0; i < text.length() && i < characters.size(); i++) {
+      char currentChar = text.charAt(i);
+      if (currentChar != ' ') {
+        Entity character = characters.get(i);
+        character.setSprite(parseCharacterName(text.toLowerCase().charAt(i)));
+        character.setX(baseX);
+        character.setY(y + baseOffset - 16);
+        character.setZ(this.z);
       }
       baseX += (fontSize - TEXT_SPACING);
     }
@@ -138,9 +164,18 @@ public class SpriteLabel implements SpriteContainer {
 
   @Override
   public void setVisible(boolean visible) {
+    this.isVisible = visible;
     for (var character : characters) {
       character.setVisible(visible);
     }
     background.setVisible(visible);
+  }
+
+  public void setZ(float z) {
+    this.z = z;
+    for (var character : characters) {
+      character.setZ(z);
+    }
+    background.setZ(z - 1);
   }
 }
