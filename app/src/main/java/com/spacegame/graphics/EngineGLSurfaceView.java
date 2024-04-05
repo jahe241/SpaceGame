@@ -35,7 +35,7 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     this.game = new Game(this.height, this.width);
 
     // Initialize the renderer and set the OpenGL version to 3.0
-    this.gameInterface = new GameInterface(context, game);
+    this.gameInterface = new GameInterface(context, game, this.width, this.height);
     this.renderer = new EngineRenderer(context, game, gameInterface);
     this.setEGLContextClientVersion(3);
     this.setRenderer(renderer);
@@ -79,6 +79,4 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     gameInterface.onDestroy();
     Log.d("EngineGLSurfaceView", "Surface destroyed");
   }
-
-
 }

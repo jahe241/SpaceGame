@@ -64,7 +64,7 @@
             </struct>
         </struct>
         <key>shapePadding</key>
-        <uint>4</uint>
+        <uint>3</uint>
         <key>jpgQuality</key>
         <uint>80</uint>
         <key>pngOptimizationLevel</key>
@@ -74,7 +74,7 @@
         <key>textureSubPath</key>
         <string></string>
         <key>textureFormat</key>
-        <enum type="SettingsBase::TextureFormat">png8</enum>
+        <enum type="SettingsBase::TextureFormat">png</enum>
         <key>borderPadding</key>
         <uint>0</uint>
         <key>maxTextureSize</key>
@@ -151,7 +151,7 @@
         <key>globalSpriteSettings</key>
         <struct type="SpriteSettings">
             <key>scale</key>
-            <double>2</double>
+            <double>1</double>
             <key>scaleMode</key>
             <enum type="ScaleMode">Smooth</enum>
             <key>extrude</key>
@@ -361,6 +361,7 @@
             <key type="filename">Joystix_font/joystix_x.png</key>
             <key type="filename">Joystix_font/joystix_y.png</key>
             <key type="filename">Joystix_font/joystix_z.png</key>
+            <key type="filename">interface/tex.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -477,6 +478,21 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">interface/scifi_inventory01.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>9,9,17,17</rect>
+                <key>scale9Paddings</key>
+                <rect>9,9,17,17</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>

@@ -84,7 +84,7 @@ public class GamePad implements SpriteContainer {
   public void updateStickPosition(float touchX, float touchY) {
     Vector2D touchPosition = new Vector2D(touchX, touchY);
     Vector2D padPosition = pad.getPosition();
-    Log.d("GamePad", "Touch Position: " + touchPosition + " Pad Position: " + padPosition);
+    //    Log.d("GamePad", "Touch Position: " + touchPosition + " Pad Position: " + padPosition);
     Vector2D direction = touchPosition.sub(padPosition);
     float distance = direction.length();
 

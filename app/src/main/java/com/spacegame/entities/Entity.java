@@ -503,4 +503,12 @@ public class Entity extends Quad {
   public Sprite getSprite() {
     return sprite;
   }
+
+  public float getX() {
+    return this.position.getX();
+  }
+
+  public float getY() {
+    return this.position.getY();
+  }
 }

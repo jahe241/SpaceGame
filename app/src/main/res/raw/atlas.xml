@@ -1,6 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:7013d75df4449b3da741960ea77b3703:b582b198717f86947851ad931bc2f547:cde709370900f12288f3449eded86f07$ -->
+<?xml version="1.0" encoding="UTF-8"?><!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
+<!-- $TexturePacker:SmartUpdate:7f2f816f5fd31c1703701fef36fee7d2:834c577cd20d812551ae2d28692abe85:cde709370900f12288f3449eded86f07$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,106 +18,832 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="atlas.png" width="1844" height="1292">
-    <sprite n="blue_projectile" x="72" y="0" w="56" h="56" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-00" x="132" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-01" x="264" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-02" x="396" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-03" x="528" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-04" x="660" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-05" x="792" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-06" x="924" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-07" x="1056" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-08" x="1188" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-09" x="1320" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-10" x="1452" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-11" x="1584" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-12" x="1716" y="0" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-13" x="0" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-14" x="132" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="exp2_0-15" x="264" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_0" x="396" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_1" x="528" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_2" x="660" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_3" x="792" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_4" x="924" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_5" x="1056" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_6" x="1188" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_7" x="1320" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_8" x="1452" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_9" x="1584" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_a" x="1716" y="132" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_ampersand" x="0" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_apostrophe" x="132" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_asterisk" x="264" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_at" x="396" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_b" x="528" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_backslash" x="660" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_backtick" x="792" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_c" x="924" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_caret" x="1056" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_colon" x="1188" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_comma" x="1320" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_d" x="1452" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_dollar" x="1584" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_e" x="1716" y="264" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_equals" x="0" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_exclamation" x="132" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_f" x="264" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_g" x="396" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_greater_than" x="528" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_h" x="660" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_hash" x="792" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_i" x="924" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_j" x="1056" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_k" x="1188" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_l" x="1320" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_left_curly_brace" x="1452" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_left_parenthesis" x="1584" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_left_square_bracket" x="1716" y="396" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_less_than" x="0" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_m" x="132" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_minus" x="264" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_n" x="396" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_o" x="528" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_p" x="660" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_percent" x="792" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_period" x="924" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_plus" x="1056" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_q" x="1188" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_question" x="1320" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_quote" x="1452" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_r" x="1584" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_right_curly_brace" x="1716" y="528" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_right_parenthesis" x="0" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_right_square_bracket" x="132" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_s" x="264" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_semicolon" x="396" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_slash" x="528" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_t" x="660" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_tilde" x="792" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_u" x="924" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_underscore" x="1056" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_v" x="1188" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_vertical_bar" x="1320" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_w" x="1452" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_x" x="1584" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_y" x="1716" y="660" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="joystix_z" x="0" y="792" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="monk" x="396" y="792" w="134" h="134" pX="0.5" pY="0.5"/>
-    <sprite n="peepo" x="876" y="792" w="100" h="168" pX="0.5" pY="0.5"/>
-    <sprite n="pixel_ship_pepe" x="1104" y="1036" w="256" h="256" pX="0.5" pY="0.5"/>
-    <sprite n="ship_black_01" x="1436" y="792" w="256" h="240" pX="0.5" pY="0.5"/>
-    <sprite n="ship_blue_01" x="0" y="1036" w="180" h="244" pX="0.5" pY="0.5"/>
-    <sprite n="ship_green_01" x="184" y="1036" w="234" h="244" pX="0.5" pY="0.5"/>
-    <sprite n="ship_grey_01" x="534" y="792" w="338" h="166" pX="0.5" pY="0.5"/>
-    <sprite n="ship_red_01" x="853" y="1036" w="247" h="255" pX="0.5" pY="0.5"/>
-    <sprite n="ship_red_02" x="617" y="1036" w="232" h="250" pX="0.5" pY="0.5"/>
-    <sprite n="ship_red_03" x="422" y="1036" w="191" h="248" pX="0.5" pY="0.5"/>
-    <sprite n="ship_spikey_01" x="1176" y="792" w="256" h="224" pX="0.5" pY="0.5"/>
-    <sprite n="titan" x="980" y="792" w="192" h="192" pX="0.5" pY="0.5"/>
-    <sprite n="touch_input_2d" x="132" y="792" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="touch_input_2d_white" x="264" y="792" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="touch_input_cursor" x="0" y="0" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="touch_input_cursor_white" x="36" y="0" w="32" h="32" pX="0.5" pY="0.5"/>
+<TextureAtlas
+  imagePath="atlas.png"
+  width="466"
+  height="1244">
+  <sprite
+    n="blue_projectile"
+    x="38"
+    y="0"
+    w="28"
+    h="28"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-00"
+    x="141"
+    y="0"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-01"
+    x="208"
+    y="0"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-02"
+    x="275"
+    y="0"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-03"
+    x="342"
+    y="0"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-04"
+    x="0"
+    y="67"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-05"
+    x="67"
+    y="67"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-06"
+    x="134"
+    y="67"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-07"
+    x="201"
+    y="67"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-08"
+    x="268"
+    y="67"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-09"
+    x="335"
+    y="67"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-10"
+    x="402"
+    y="67"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-11"
+    x="0"
+    y="134"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-12"
+    x="67"
+    y="134"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-13"
+    x="134"
+    y="134"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-14"
+    x="201"
+    y="134"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="exp2_0-15"
+    x="268"
+    y="134"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_0"
+    x="335"
+    y="134"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_1"
+    x="402"
+    y="134"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_2"
+    x="0"
+    y="201"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_3"
+    x="67"
+    y="201"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_4"
+    x="134"
+    y="201"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_5"
+    x="201"
+    y="201"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_6"
+    x="268"
+    y="201"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_7"
+    x="335"
+    y="201"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_8"
+    x="402"
+    y="201"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_9"
+    x="0"
+    y="268"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_a"
+    x="67"
+    y="268"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_ampersand"
+    x="134"
+    y="268"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_apostrophe"
+    x="201"
+    y="268"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_asterisk"
+    x="268"
+    y="268"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_at"
+    x="335"
+    y="268"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_b"
+    x="402"
+    y="268"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_backslash"
+    x="0"
+    y="335"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_backtick"
+    x="67"
+    y="335"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_c"
+    x="134"
+    y="335"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_caret"
+    x="201"
+    y="335"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_colon"
+    x="268"
+    y="335"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_comma"
+    x="335"
+    y="335"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_d"
+    x="402"
+    y="335"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_dollar"
+    x="0"
+    y="402"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_e"
+    x="67"
+    y="402"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_equals"
+    x="134"
+    y="402"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_exclamation"
+    x="201"
+    y="402"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_f"
+    x="268"
+    y="402"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_g"
+    x="335"
+    y="402"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_greater_than"
+    x="402"
+    y="402"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_h"
+    x="0"
+    y="469"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_hash"
+    x="67"
+    y="469"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_i"
+    x="134"
+    y="469"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_j"
+    x="201"
+    y="469"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_k"
+    x="268"
+    y="469"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_l"
+    x="335"
+    y="469"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_left_curly_brace"
+    x="402"
+    y="469"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_left_parenthesis"
+    x="0"
+    y="536"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_left_square_bracket"
+    x="67"
+    y="536"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_less_than"
+    x="134"
+    y="536"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_m"
+    x="201"
+    y="536"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_minus"
+    x="268"
+    y="536"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_n"
+    x="335"
+    y="536"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_o"
+    x="402"
+    y="536"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_p"
+    x="0"
+    y="603"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_percent"
+    x="67"
+    y="603"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_period"
+    x="134"
+    y="603"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_plus"
+    x="201"
+    y="603"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_q"
+    x="268"
+    y="603"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_question"
+    x="335"
+    y="603"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_quote"
+    x="402"
+    y="603"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_r"
+    x="0"
+    y="670"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_right_curly_brace"
+    x="67"
+    y="670"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_right_parenthesis"
+    x="134"
+    y="670"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_right_square_bracket"
+    x="201"
+    y="670"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_s"
+    x="268"
+    y="670"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_semicolon"
+    x="335"
+    y="670"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_slash"
+    x="402"
+    y="670"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_t"
+    x="0"
+    y="737"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_tilde"
+    x="67"
+    y="737"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_u"
+    x="134"
+    y="737"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_underscore"
+    x="201"
+    y="737"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_v"
+    x="268"
+    y="737"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_vertical_bar"
+    x="335"
+    y="737"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_w"
+    x="402"
+    y="737"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_x"
+    x="0"
+    y="804"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_y"
+    x="67"
+    y="804"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="joystix_z"
+    x="134"
+    y="804"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="monk"
+    x="335"
+    y="804"
+    w="67"
+    h="67"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="peepo"
+    x="172"
+    y="874"
+    w="50"
+    h="84"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="pixel_ship_pepe"
+    x="119"
+    y="1116"
+    w="128"
+    h="128"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="scifi_inventory01"
+    x="104"
+    y="0"
+    w="34"
+    h="34"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_black_01"
+    x="0"
+    y="989"
+    w="128"
+    h="120"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_blue_01"
+    x="131"
+    y="989"
+    w="90"
+    h="122"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_green_01"
+    x="224"
+    y="989"
+    w="117"
+    h="122"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_grey_01"
+    x="0"
+    y="874"
+    w="169"
+    h="83"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_red_01"
+    x="250"
+    y="1116"
+    w="124"
+    h="128"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_red_02"
+    x="0"
+    y="1116"
+    w="116"
+    h="125"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_red_03"
+    x="344"
+    y="989"
+    w="96"
+    h="124"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="ship_spikey_01"
+    x="324"
+    y="874"
+    w="128"
+    h="112"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="tex"
+    x="69"
+    y="0"
+    w="32"
+    h="32"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="titan"
+    x="225"
+    y="874"
+    w="96"
+    h="96"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="touch_input_2d"
+    x="201"
+    y="804"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="touch_input_2d_white"
+    x="268"
+    y="804"
+    w="64"
+    h="64"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="touch_input_cursor"
+    x="0"
+    y="0"
+    w="16"
+    h="16"
+    pX="0.5"
+    pY="0.5" />
+  <sprite
+    n="touch_input_cursor_white"
+    x="19"
+    y="0"
+    w="16"
+    h="16"
+    pX="0.5"
+    pY="0.5" />
 </TextureAtlas>

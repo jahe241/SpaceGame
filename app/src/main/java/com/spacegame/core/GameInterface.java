@@ -40,6 +40,10 @@ public class GameInterface extends Thread {
 
   private SoundEngine soundEngine;
 
+  private SpriteLabel scoreLabel;
+
+  InterfaceState state = InterfaceState.PLAYING;
+
   /**
    * Constructor for the GameInterface class. This constructor initializes a new GameInterface
    * object by setting its game instance and application context.
@@ -47,11 +51,11 @@ public class GameInterface extends Thread {
    * @param context The application context.
    * @param game The game instance that this interface interacts with.
    */
-  public GameInterface(Context context, Game game) {
+  public GameInterface(Context context, Game game, float screenWidth, float screenHeight) {
     this.game = game;
     this.context = context;
-    this.screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-    this.screenHeight = context.getResources().getDisplayMetrics().heightPixels;
+    this.screenWidth = screenWidth;
+    this.screenHeight = screenHeight;
     this.soundEngine = new SoundEngine(context);
     soundEngine.start(soundEngine.getGameMusic());
   }
@@ -92,6 +96,8 @@ public class GameInterface extends Thread {
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
+    this.scoreLabel.setText("SCORE: " + game.getScore());
+
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
       interfaceElements.removeIf(Entity::getDiscard);
@@ -122,8 +128,8 @@ public class GameInterface extends Thread {
             game.textureAtlas,
             "joystix_c",
             "joystix_c",
-            screenWidth - 600,
-            screenHeight - 200,
+            screenWidth - 360,
+            screenHeight - 100,
             200f,
             200f,
             ButtonType.RESET_GAME,
@@ -135,8 +141,8 @@ public class GameInterface extends Thread {
             game.textureAtlas,
             "joystix_b",
             "joystix_b",
-            screenWidth - 350,
-            screenHeight - 200,
+            screenWidth - 110,
+            screenHeight - 100,
             200f,
             200f,
             ButtonType.DEBUG_BUTTON,
@@ -149,10 +155,31 @@ public class GameInterface extends Thread {
     addInterfaceContainer(gamePad);
 
     // Add the score label
-    addInterfaceContainer(
-        new SpriteLabel("SCORE", 50, 50, 64 * 2, ColorHelper.OLIVE, game.textureAtlas));
+    this.scoreLabel =
+        new SpriteLabel("SCORE: 9999", 50, 50, 64 * 2, ColorHelper.NAVY, game.textureAtlas);
+    addInterfaceContainer(scoreLabel);
 
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
+
+    // Test Area
+    //    addInterfaceElement(
+    //        new Entity(
+    //            game.textureAtlas,
+    //            "scifi_inventory01",
+    //            screenWidth / 2,
+    //            screenHeight / 2,
+    //            screenWidth / 2,
+    //            screenHeight / 2));
+    //    var shape =
+    //        new Entity(
+    //            this.game.textureAtlas,
+    //            "tex",
+    //            screenWidth / 2,
+    //            screenHeight / 2,
+    //            screenWidth / 2,
+    //            screenHeight / 2);
+    //    shape.setColorOverlay(ColorHelper.RED);
+    //    addInterfaceElement(shape);
   }
 
   /**
@@ -191,10 +218,10 @@ public class GameInterface extends Thread {
       }
 
       // GamePad
-      if (game.running && gamePad.isVisible()) {
+      if (this.state == InterfaceState.PLAYING && gamePad.isVisible()) {
         gamePad.updateStickPosition(event.getX(), event.getY());
         this.game.setPlayerDirection(gamePad.getStickDirection());
-      } else if (game.running && !gamePad.isVisible()) {
+      } else if (this.state == InterfaceState.PLAYING && !gamePad.isVisible()) {
         Log.d("GameInterface", "Showing GamePad");
         gamePad.showGamePad(event.getX(), event.getY());
       }
@@ -225,11 +252,13 @@ public class GameInterface extends Thread {
   private void handleButtonEvent(ButtonType type) {
     switch (type) {
       case TOGGLE_PAUSE:
-        if (game.paused) {
+        if (game.state == GameState.PAUSED) {
           game.resumeGame();
+          this.state = InterfaceState.PLAYING;
           soundEngine.start(soundEngine.getGameMusic());
         } else {
           game.pauseGame();
+          this.state = InterfaceState.PAUSE_MENU;
           soundEngine.pause(soundEngine.getGameMusic());
         }
         break;
@@ -240,7 +269,8 @@ public class GameInterface extends Thread {
         game.resetGame();
         break;
       case DEBUG_BUTTON:
-        this.game.spawnExplosions(64);
+        this.game.spawnRandomEnemy(64);
+        this.game.setScore(this.game.getScore() + 10);
         break;
     }
   }
@@ -281,5 +311,4 @@ public class GameInterface extends Thread {
     soundEngine.stop(soundEngine.getGameMusic());
     soundEngine.release();
   }
-
 }
