@@ -9,7 +9,6 @@ import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
-import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
@@ -168,13 +167,7 @@ public class Game extends Thread {
         otherEntities.remove(entity);
         if (entity.collidesWithAny(otherEntities)) {
           entity.onCollision();
-          if (entity instanceof Player) entity.vbo().setColor(ColorHelper.BLUE);
-          if (entity instanceof BaseEnemy) entity.vbo().setColor(ColorHelper.BROWN);
-        } else {
-          if (entity instanceof Player) entity.vbo().setColor(ColorHelper.RED);
-          if (entity instanceof BaseEnemy) entity.vbo().setColor(ColorHelper.GREEN);
         }
-
         if (entity instanceof Actor actor) {
           actor.setPlayerVelocity(playerVelocity);
         } else if (entity instanceof AnimatedActor actor) {

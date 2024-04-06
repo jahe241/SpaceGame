@@ -245,7 +245,7 @@ public class VertexBufferObject {
   }
 
   /**
-   * Returns the position of the vertices for this Object
+   * Returns only the 2D position of the vertices for this Object
    *
    * @return
    */

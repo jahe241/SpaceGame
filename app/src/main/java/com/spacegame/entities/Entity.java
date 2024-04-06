@@ -4,6 +4,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.List;
 
@@ -14,6 +15,8 @@ public class Entity extends Quad {
    * entities.
    */
   public boolean collidable = false;
+
+  public boolean colliding = false;
 
   /** The pointer to the OpenGL texture that should be used to render this entity. */
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
@@ -426,49 +429,57 @@ public class Entity extends Quad {
   /**
    * Checks if the entity is colliding with another entity. This method checks for collisions based
    * on the Separating Axis Theorem (SAT), because we have rotations to count for. If the entities
-   * are colliding, the method returns true.
+   * are colliding, the method returns true, false otherwise.
    *
-   * @param other
-   * @return
+   * @param other The other entity to check collision with
+   * @return Whether the two Entities are colliding
    */
   public boolean isColliding(Entity other) {
-    // FIXME: Check if if collidable flag is toggled
-    // if (!this.collidable || !other.collidable) return false;
-    Vector2D[] axes = new Vector2D[8];
+    if (!this.collidable || !other.collidable) return false;
+    Vector2D[] normals = new Vector2D[8];
+    // Get all vertex positions from both shapes
     Vector2D[] thisVertices = this.vbo.getVerticesPositions();
     Vector2D[] otherVertices = other.vbo.getVerticesPositions();
 
-    // Find the axes
+    // Find the normals for both shapes (currently only quads)
     for (int i = 0; i < 4; i++) {
       Vector2D thisEdge = thisVertices[i].sub(thisVertices[(i + 1) % 4]);
-      axes[i] = new Vector2D(-thisEdge.getY(), thisEdge.getX()).normalized();
+      normals[i] = new Vector2D(-thisEdge.getY(), thisEdge.getX()).normalized();
       Vector2D otherEdge = otherVertices[i].sub(otherVertices[(i + 1) % 4]);
-      axes[i + 4] = otherEdge;
+      normals[i + 4] = new Vector2D(-otherEdge.getY(), otherEdge.getX()).normalized();
     }
 
-    // Check overlap for each axis
-    for (Vector2D axis : axes) {
-      float minThis = axis.scalarProduct(thisVertices[0]);
+    // Check for overlap for each normal
+    for (Vector2D normal : normals) {
+      // Init min and max for both shapes
+      // This will be needed to check for an overlap
+      float minThis = normal.scalarProduct(thisVertices[0]);
       float maxThis = minThis;
-      float minOther = axis.scalarProduct(otherVertices[0]);
+      float minOther = normal.scalarProduct(otherVertices[0]);
       float maxOther = minOther;
 
-      // Project verticies onto the axis and find the min and max projection
+      // Project vertices onto the normals and find the min and max projection
+      // Here we project 2D Vectors onto a 1D Line and find the min and max value for each shape
+      // With this we can check for gaps on this 1D Line, if there is one, the entities are not
+      // colliding
       for (int i = 1; i < 4; i++) {
-        float projectionThis = axis.scalarProduct(thisVertices[i]);
+        float projectionThis = normal.scalarProduct(thisVertices[i]);
         minThis = Math.min(minThis, projectionThis);
         maxThis = Math.max(maxThis, projectionThis);
 
-        float projectionOther = axis.scalarProduct(otherVertices[i]);
+        float projectionOther = normal.scalarProduct(otherVertices[i]);
         minOther = Math.min(minOther, projectionOther);
         maxOther = Math.max(maxOther, projectionOther);
       }
 
       // Check for overlap
+      // If this is true, then an gap is found and the shapes are not colliding
       if (maxThis < minOther || maxOther < minThis) {
         return false;
       }
     }
+    // If there is no gap found for any normal of both shapes
+    // Then the shapes have to collide
     return true;
   }
 
@@ -491,8 +502,14 @@ public class Entity extends Quad {
    * subclasses to implement custom collision behavior.
    */
   public void onCollision() {
-    Log.d("Collision", "Collision happened!");
+    DebugLogger.log("Collision", "Collision happened!");
   }
+
+  /**
+   * Called the first frame the Entity is no longer colliding. Only called when the entity was
+   * colliding the frame before
+   */
+  public void onCollisionEnd() {}
 
   @NonNull
   @Override

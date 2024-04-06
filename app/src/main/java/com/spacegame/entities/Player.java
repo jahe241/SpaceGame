@@ -31,7 +31,6 @@ public class Player extends Entity {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
     this.rotationSpeed = 50f;
-    this.vbo = this.vbo.setFlagSolidColor().setColor(ColorHelper.RED);
   }
 
   public void onTouch(MotionEvent event) {
