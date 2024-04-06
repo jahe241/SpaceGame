@@ -109,6 +109,10 @@ public class VertexBufferObject {
 
     float halfWidth = width / 2;
     float halfHeight = height / 2;
+
+    // TODO: Can we change TL corner with TR corner, Indices will have to be updated too, but would
+    // make it easier for collision
+
     // Bottom-left corner
     vertexData[OFFSET_POSITION] = x - cosTheta * halfWidth - sinTheta * halfHeight;
     vertexData[OFFSET_POSITION + 1] = y + sinTheta * halfWidth - cosTheta * halfHeight;
@@ -250,6 +254,12 @@ public class VertexBufferObject {
     for (int i = 0; i < 4; i++) {
       ret[i] = new Vector2D(this.vertexData[i * STRIDE], this.vertexData[i * STRIDE + 1]);
     }
+
+    // Need to swap last 2 positions, due to SAT for collision needing the Positions in a different
+    // order
+    Vector2D temp = ret[2];
+    ret[2] = ret[3];
+    ret[3] = temp;
     return ret;
   }
 

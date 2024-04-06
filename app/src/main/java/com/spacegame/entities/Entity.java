@@ -434,14 +434,16 @@ public class Entity extends Quad {
   public boolean isColliding(Entity other) {
     // FIXME: Check if if collidable flag is toggled
     // if (!this.collidable || !other.collidable) return false;
-    Vector2D[] axes = new Vector2D[4];
+    Vector2D[] axes = new Vector2D[8];
     Vector2D[] thisVertices = this.vbo.getVerticesPositions();
     Vector2D[] otherVertices = other.vbo.getVerticesPositions();
 
     // Find the axes
     for (int i = 0; i < 4; i++) {
-      Vector2D edge = thisVertices[i].sub(thisVertices[(i + 1) % 4]);
-      axes[i] = new Vector2D(-edge.getY(), edge.getX()).normalized();
+      Vector2D thisEdge = thisVertices[i].sub(thisVertices[(i + 1) % 4]);
+      axes[i] = new Vector2D(-thisEdge.getY(), thisEdge.getX()).normalized();
+      Vector2D otherEdge = otherVertices[i].sub(otherVertices[(i + 1) % 4]);
+      axes[i + 4] = otherEdge;
     }
 
     // Check overlap for each axis
