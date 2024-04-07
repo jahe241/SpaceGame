@@ -10,6 +10,7 @@ import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
+import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +26,7 @@ public class Game extends Thread {
   volatile boolean running = false;
 
   /** The list of entities in the game. */
-  public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
+  public List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
 
   /** The player entity. */
   public Player player;
@@ -49,7 +50,7 @@ public class Game extends Thread {
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
   public Game(int height, int width) {
-    super();
+    super("Game Thread");
     this.height = height;
     this.width = width;
   }
@@ -76,12 +77,13 @@ public class Game extends Thread {
    */
   @Override
   public void run() {
-    Log.d("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
+    DebugLogger.log("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
     long timePerFrame = 1000 / 120; // Time for each frame in milliseconds
     running = true;
     // Set up the game
     setupGame();
     // Game Loop
+
     while (running) {
       synchronized (this) {
         while (this.state == GameState.PAUSED) {
@@ -93,11 +95,11 @@ public class Game extends Thread {
         }
       }
       long startTime = System.currentTimeMillis();
-
       update(timePerFrame / 1000.0f); // Convert to seconds
-
       long endTime = System.currentTimeMillis();
       long timeSpent = endTime - startTime;
+
+      DebugLogger.log("FPS", "Tick Rate: " + timeSpent);
 
       if (timeSpent < timePerFrame) {
         try {
@@ -153,26 +155,31 @@ public class Game extends Thread {
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
+    List<Entity> entityClone;
     synchronized (entities) {
+      entityClone = new ArrayList<>(this.entities);
       // Remove the entities that are marked for deletion
-      entities.removeIf(Entity::getDiscard);
+    }
+    entityClone.removeIf(Entity::getDiscard);
 
-      Vector2D playerVelocity = this.getPlayerVelocity();
+    Vector2D playerVelocity = this.getPlayerVelocity();
 
-      for (Entity entity : entities) {
-        entity.update(deltaTime);
+    for (Entity entity : entityClone) {
+      entity.update(deltaTime);
 
-        // Colision checks
-        List<Entity> otherEntities = new ArrayList<>(entities);
-        otherEntities.remove(entity);
-        entity.collidesWithAny(otherEntities);
-        // Set player velocity
-        if (entity instanceof Actor actor) {
-          actor.setPlayerVelocity(playerVelocity);
-        } else if (entity instanceof AnimatedActor actor) {
-          actor.setPlayerVelocity(playerVelocity);
-        }
+      // Colision checks
+      List<Entity> otherEntities = new ArrayList<>(entityClone);
+      otherEntities.remove(entity);
+      entity.collidesWithAny(otherEntities);
+      // Set player velocity
+      if (entity instanceof Actor actor) {
+        actor.setPlayerVelocity(playerVelocity);
+      } else if (entity instanceof AnimatedActor actor) {
+        actor.setPlayerVelocity(playerVelocity);
       }
+    }
+    synchronized (entities) {
+      this.entities = entityClone;
     }
     // TODO: Physics / Interaction-Checks here
   }

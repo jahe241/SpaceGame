@@ -22,7 +22,7 @@ public class Entity extends Quad {
    * frame. This way we can determine if a collision is entered or left or if the collision already
    * happened last frame
    */
-  public boolean colliding = false;
+  private boolean colliding = false;
 
   /** The own collision mask for this entity. Needs to be set, for collision checking */
   public CollisionMask collisionMask = null;
@@ -452,7 +452,7 @@ public class Entity extends Quad {
     if (!this.collidable || !other.collidable) return false;
     if (!this.collidesWith.contains(other.collisionMask)) return false;
     Vector2D[] normals = new Vector2D[8];
-    // Get all vertex positions from both shapes
+    // Get all vertex positions (the corners of the quad) from both shapes
     Vector2D[] thisVertices = this.vbo.getVerticesPositions();
     Vector2D[] otherVertices = other.vbo.getVerticesPositions();
 
@@ -475,8 +475,8 @@ public class Entity extends Quad {
 
       // Project vertices onto the normals and find the min and max projection
       // Here we project 2D Vectors onto a 1D Line and find the min and max value for each shape
-      // With this we can check for gaps on this 1D Line, if there is one, the entities are not
-      // colliding
+      // With this we can check for gaps on this 1D Line, if there is one on at least one normal,
+      // the entities are not colliding
       for (int i = 1; i < 4; i++) {
         float projectionThis = normal.scalarProduct(thisVertices[i]);
         minThis = Math.min(minThis, projectionThis);
