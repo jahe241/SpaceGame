@@ -1,6 +1,5 @@
 package com.spacegame.entities;
 
-import android.util.Log;
 import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
@@ -506,14 +505,16 @@ public class Entity extends Quad {
    */
   public boolean collidesWithAny(List<Entity> others) {
     if (!this.collidable) return false;
-    for (Entity o : others) {
+    for (int i = 0; i < others.size(); i++) {
+      Entity o = others.get(i);
+      if (o == null) break;
+
       if (this.isColliding(o)) {
         if (!this.colliding) onCollision(o);
         this.colliding = true;
         return true;
       }
     }
-    Log.d("Collision", "No Collision");
     if (this.colliding) onCollisionEnd();
     this.colliding = false;
     return false;

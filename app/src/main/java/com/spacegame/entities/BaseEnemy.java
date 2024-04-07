@@ -1,7 +1,6 @@
 package com.spacegame.entities;
 
 import com.spacegame.graphics.TextureAtlas;
-import com.spacegame.utils.ColorHelper;
 import java.util.ArrayList;
 
 public class BaseEnemy extends Actor {
@@ -34,7 +33,7 @@ public class BaseEnemy extends Actor {
 
   @Override
   public void onCollision(Entity other) {
-    this.setColorOverlay(ColorHelper.DARK_GRAY);
+    this.setDiscard(true);
   }
 
   @Override

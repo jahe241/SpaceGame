@@ -26,7 +26,7 @@ public class Game extends Thread {
   volatile boolean running = false;
 
   /** The list of entities in the game. */
-  public List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
+  public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
 
   /** The player entity. */
   public Player player;
@@ -82,8 +82,10 @@ public class Game extends Thread {
     running = true;
     // Set up the game
     setupGame();
-    // Game Loop
 
+    long lastFrameTime = System.nanoTime();
+
+    // Game Loop
     while (running) {
       synchronized (this) {
         while (this.state == GameState.PAUSED) {
@@ -94,16 +96,15 @@ public class Game extends Thread {
           }
         }
       }
-      long startTime = System.currentTimeMillis();
-      update(timePerFrame / 1000.0f); // Convert to seconds
-      long endTime = System.currentTimeMillis();
-      long timeSpent = endTime - startTime;
+      long startTime = System.nanoTime();
+      float elapsed = (startTime - lastFrameTime) / 1_000_000f;
 
-      DebugLogger.log("FPS", "Tick Rate: " + timeSpent);
+      update(elapsed / 1000.0f); // Convert to seconds
 
-      if (timeSpent < timePerFrame) {
+      lastFrameTime = startTime;
+      if (elapsed < timePerFrame) {
         try {
-          Thread.sleep(timePerFrame - timeSpent);
+          Thread.sleep((long) (timePerFrame - elapsed));
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -155,21 +156,19 @@ public class Game extends Thread {
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
-    List<Entity> entityClone;
-    synchronized (entities) {
-      entityClone = new ArrayList<>(this.entities);
-      // Remove the entities that are marked for deletion
-    }
-    entityClone.removeIf(Entity::getDiscard);
+    // Remove the entities that are marked for deletion
+    entities.removeIf(Entity::getDiscard);
 
     Vector2D playerVelocity = this.getPlayerVelocity();
 
-    for (Entity entity : entityClone) {
+    List<Entity> otherEntities = new ArrayList<>(entities);
+
+    for (int i = 0; i < entities.size(); i++) {
+      Entity entity = entities.get(i);
+      if (entity == null) break;
       entity.update(deltaTime);
 
       // Colision checks
-      List<Entity> otherEntities = new ArrayList<>(entityClone);
-      otherEntities.remove(entity);
       entity.collidesWithAny(otherEntities);
       // Set player velocity
       if (entity instanceof Actor actor) {
@@ -177,9 +176,6 @@ public class Game extends Thread {
       } else if (entity instanceof AnimatedActor actor) {
         actor.setPlayerVelocity(playerVelocity);
       }
-    }
-    synchronized (entities) {
-      this.entities = entityClone;
     }
     // TODO: Physics / Interaction-Checks here
   }
