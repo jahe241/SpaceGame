@@ -6,6 +6,7 @@ import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Entity extends Quad {
@@ -16,7 +17,20 @@ public class Entity extends Quad {
    */
   public boolean collidable = false;
 
+  /**
+   * If the entity is currently colliding. Used to check whether the entity was colliding last
+   * frame. This way we can determine if a collision is entered or left or if the collision already
+   * happened last frame
+   */
   public boolean colliding = false;
+
+  /** The own collision mask for this entity. Needs to be set, for collision checking */
+  public CollisionMask collisionMask = null;
+
+  /**
+   * All other collision masks this entity can collide with. Needs to be set for collision checking
+   */
+  public ArrayList<CollisionMask> collidesWith = new ArrayList<>();
 
   /** The pointer to the OpenGL texture that should be used to render this entity. */
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
@@ -436,6 +450,7 @@ public class Entity extends Quad {
    */
   public boolean isColliding(Entity other) {
     if (!this.collidable || !other.collidable) return false;
+    if (!this.collidesWith.contains(other.collisionMask)) return false;
     Vector2D[] normals = new Vector2D[8];
     // Get all vertex positions from both shapes
     Vector2D[] thisVertices = this.vbo.getVerticesPositions();
@@ -490,10 +505,17 @@ public class Entity extends Quad {
    * @return
    */
   public boolean collidesWithAny(List<Entity> others) {
+    if (!this.collidable) return false;
     for (Entity o : others) {
-      if (this.isColliding(o)) return true;
+      if (this.isColliding(o)) {
+        if (!this.colliding) onCollision(o);
+        this.colliding = true;
+        return true;
+      }
     }
     Log.d("Collision", "No Collision");
+    if (this.colliding) onCollisionEnd();
+    this.colliding = false;
     return false;
   }
 
@@ -501,7 +523,7 @@ public class Entity extends Quad {
    * Called when the entity collides with another entity. This method can be overridden by
    * subclasses to implement custom collision behavior.
    */
-  public void onCollision() {
+  public void onCollision(Entity other) {
     DebugLogger.log("Collision", "Collision happened!");
   }
 

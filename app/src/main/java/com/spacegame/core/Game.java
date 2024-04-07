@@ -165,9 +165,8 @@ public class Game extends Thread {
         // Colision checks
         List<Entity> otherEntities = new ArrayList<>(entities);
         otherEntities.remove(entity);
-        if (entity.collidesWithAny(otherEntities)) {
-          entity.onCollision();
-        }
+        entity.collidesWithAny(otherEntities);
+        // Set player velocity
         if (entity instanceof Actor actor) {
           actor.setPlayerVelocity(playerVelocity);
         } else if (entity instanceof AnimatedActor actor) {
