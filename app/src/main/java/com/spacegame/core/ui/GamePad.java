@@ -37,8 +37,9 @@ public class GamePad implements SpriteContainer {
   public GamePad(TextureAtlas textureAtlas, float screenWidth, float screenHeight) {
     this.textureAtlas = textureAtlas;
     this.screenSize = new Vector2D(screenWidth, screenHeight);
-    this.pad = new Entity(textureAtlas, Constants.GAMEPAD[0], 500, 500, 256f, 256f);
-    this.stick = new Entity(textureAtlas, Constants.GAMEPAD[1], 500, 500, 64f, 64f);
+    float size = Math.min(screenWidth, screenHeight) * 0.05f;
+    this.pad = new Entity(textureAtlas, Constants.GAMEPAD[0], 500, 500, size * 4, size * 4);
+    this.stick = new Entity(textureAtlas, Constants.GAMEPAD[1], 500, 500, size, size);
     this.radius = this.pad.getWidth() / 2; // we might want to tweak this later
     this.pad.setZ(9);
     this.stick.setZ(10);

@@ -46,6 +46,8 @@ public class Game extends Thread {
   /** Screen width */
   int width;
 
+  float scaleFactor;
+
   int score = 0;
 
   public final PausableStopwatch timer = new PausableStopwatch();
@@ -122,6 +124,7 @@ public class Game extends Thread {
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
     float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
+    this.scaleFactor = size / Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     player.setGame(this);
     this.setPlayer(player);
@@ -323,14 +326,15 @@ public class Game extends Thread {
     randomDude.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
     randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
     this.addEntity(randomDude);
+    float explosionSize = Math.max(randomDude.getWidth(), randomDude.getHeight()) * 1.8f;
     AnimatedActor explosion =
         new AnimatedActor(
             this.textureAtlas,
             Constants.animation_EXPLOSION,
             x,
             y,
-            randomDude.getWidth(),
-            randomDude.getHeight(),
+            explosionSize,
+            explosionSize,
             0.03f, // Animation speed in seconds
             false);
     explosion.setZ(0);
