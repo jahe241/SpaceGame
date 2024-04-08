@@ -6,11 +6,11 @@ import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimatedActor;
 import com.spacegame.entities.AnimatedEntity;
 import com.spacegame.entities.BaseEnemy;
-import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
+import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +50,7 @@ public class Game extends Thread {
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
   public Game(int height, int width) {
-    super();
+    super("Game Thread");
     this.height = height;
     this.width = width;
   }
@@ -77,11 +77,14 @@ public class Game extends Thread {
    */
   @Override
   public void run() {
-    Log.d("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
+    DebugLogger.log("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
     long timePerFrame = 1000 / 120; // Time for each frame in milliseconds
     running = true;
     // Set up the game
     setupGame();
+
+    long lastFrameTime = System.nanoTime();
+
     // Game Loop
     while (running) {
       synchronized (this) {
@@ -93,16 +96,15 @@ public class Game extends Thread {
           }
         }
       }
-      long startTime = System.currentTimeMillis();
+      long startTime = System.nanoTime();
+      float elapsed = (startTime - lastFrameTime) / 1_000_000f;
 
-      update(timePerFrame / 1000.0f); // Convert to seconds
+      update(elapsed / 1000.0f); // Convert to seconds
 
-      long endTime = System.currentTimeMillis();
-      long timeSpent = endTime - startTime;
-
-      if (timeSpent < timePerFrame) {
+      lastFrameTime = startTime;
+      if (elapsed < timePerFrame) {
         try {
-          Thread.sleep(timePerFrame - timeSpent);
+          Thread.sleep((long) (timePerFrame - elapsed));
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -118,7 +120,7 @@ public class Game extends Thread {
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 192f, 192f);
     player.setGame(this);
     this.setPlayer(player);
-    //    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
+    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
   }
@@ -154,19 +156,25 @@ public class Game extends Thread {
   public void update(float deltaTime) {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
-    synchronized (entities) {
-      // Remove the entities that are marked for deletion
-      entities.removeIf(Entity::getDiscard);
+    // Remove the entities that are marked for deletion
+    entities.removeIf(Entity::getDiscard);
 
-      Vector2D playerVelocity = this.getPlayerVelocity();
+    Vector2D playerVelocity = this.getPlayerVelocity();
 
-      for (Entity entity : entities) {
-        entity.update(deltaTime);
-        if (entity instanceof Actor actor) {
-          actor.setPlayerVelocity(playerVelocity);
-        } else if (entity instanceof AnimatedActor actor) {
-          actor.setPlayerVelocity(playerVelocity);
-        }
+    List<Entity> otherEntities = new ArrayList<>(entities);
+
+    for (int i = 0; i < entities.size(); i++) {
+      Entity entity = entities.get(i);
+      if (entity == null) break;
+      entity.update(deltaTime);
+
+      // Colision checks
+      entity.collidesWithAny(otherEntities);
+      // Set player velocity
+      if (entity instanceof Actor actor) {
+        actor.setPlayerVelocity(playerVelocity);
+      } else if (entity instanceof AnimatedActor actor) {
+        actor.setPlayerVelocity(playerVelocity);
       }
     }
     // TODO: Physics / Interaction-Checks here
@@ -316,7 +324,7 @@ public class Game extends Thread {
     randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
     randomDude.setZ(-1);
     randomDude.setColorOverlay(
-        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), rng.nextFloat()});
+        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
     randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
     this.addEntity(randomDude);
     this.addEntity(explosion);
