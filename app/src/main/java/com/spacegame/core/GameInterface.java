@@ -12,6 +12,7 @@ import com.spacegame.entities.Entity;
 import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.ColorHelper;
+import com.spacegame.utils.DebugLogger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -74,20 +75,19 @@ public class GameInterface extends Thread {
   @Override
   public void run() {
     setupInterface();
-    Log.d("GameInterface", "Game Thread started on Thread: " + Thread.currentThread().getName());
-    long timePerFrame =
-        1000 / 120; // Time for each frame in milliseconds we target 120fps for the gamepad
-
+    DebugLogger.log("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
+    long timePerFrame = 1000 / 120; // Time for each frame in milliseconds
+    long lastFrameTime = System.nanoTime();
     while (true) {
-      long startTime = System.currentTimeMillis();
+      long startTime = System.nanoTime();
+      float elapsed = (startTime - lastFrameTime) / 1_000_000f;
 
-      long endTime = System.currentTimeMillis();
-      long timeSpent = endTime - startTime;
-      update(timePerFrame / 1000.0f); // Convert to seconds
+      update(elapsed / 1000.0f); // Convert to seconds
 
-      if (timeSpent < timePerFrame) {
+      lastFrameTime = startTime;
+      if (elapsed < timePerFrame) {
         try {
-          Thread.sleep(timePerFrame - timeSpent);
+          Thread.sleep((long) (timePerFrame - elapsed));
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
