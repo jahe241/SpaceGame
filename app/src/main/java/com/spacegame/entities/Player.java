@@ -6,6 +6,7 @@ import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Vector2D;
+import java.util.ArrayList;
 
 public class Player extends Entity {
   private Game game;
@@ -30,6 +31,13 @@ public class Player extends Entity {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
     this.rotationSpeed = 50f;
+
+    // Collision stuff
+    this.collidable = true;
+    this.collisionMask = CollisionMask.PLAYER;
+    ArrayList<CollisionMask> temp = new ArrayList<>();
+    temp.add(CollisionMask.ENEMY);
+    this.collidesWith = temp;
   }
 
   public void onTouch(MotionEvent event) {
@@ -56,6 +64,16 @@ public class Player extends Entity {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
     this.position = oldPosition;
+  }
+
+  @Override
+  public void onCollision(Entity other) {
+    this.setColorOverlay(ColorHelper.BLUE);
+  }
+
+  @Override
+  public void onCollisionEnd() {
+    this.disableColorOverlay();
   }
 
   // this function dynamically changes the color of the player based on time delta

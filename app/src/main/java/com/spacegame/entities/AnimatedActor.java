@@ -35,6 +35,7 @@ public class AnimatedActor extends AnimatedEntity {
       float frameDuration,
       boolean isLooping) {
     super(textureAtlas, animationName, x, y, width, height, frameDuration, isLooping);
+    this.collidable = true;
   }
 
   @Override

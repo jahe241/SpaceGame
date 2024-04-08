@@ -3,9 +3,33 @@ package com.spacegame.entities;
 import androidx.annotation.NonNull;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Entity extends Quad {
+
+  /**
+   * Wether this entity is collidable. If true, the entity will be checked for collisions with other
+   * entities.
+   */
+  public boolean collidable = false;
+
+  /**
+   * If the entity is currently colliding. Used to check whether the entity was colliding last
+   * frame. This way we can determine if a collision is entered or left or if the collision already
+   * happened last frame
+   */
+  private boolean colliding = false;
+
+  /** The own collision mask for this entity. Needs to be set, for collision checking */
+  public CollisionMask collisionMask = null;
+
+  /**
+   * All other collision masks this entity can collide with. Needs to be set for collision checking
+   */
+  public ArrayList<CollisionMask> collidesWith = new ArrayList<>();
 
   /** The pointer to the OpenGL texture that should be used to render this entity. */
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
@@ -414,6 +438,101 @@ public class Entity extends Quad {
   public void updatePositionVertex() {
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
   }
+
+  /**
+   * Checks if the entity is colliding with another entity. This method checks for collisions based
+   * on the Separating Axis Theorem (SAT), because we have rotations to count for. If the entities
+   * are colliding, the method returns true, false otherwise.
+   *
+   * @param other The other entity to check collision with
+   * @return Whether the two Entities are colliding
+   */
+  public boolean isColliding(Entity other) {
+    if (!this.collidable || !other.collidable) return false;
+    if (!this.collidesWith.contains(other.collisionMask)) return false;
+    Vector2D[] normals = new Vector2D[8];
+    // Get all vertex positions (the corners of the quad) from both shapes
+    Vector2D[] thisVertices = this.vbo.getVerticesPositions();
+    Vector2D[] otherVertices = other.vbo.getVerticesPositions();
+
+    // Find the normals for both shapes (currently only quads)
+    for (int i = 0; i < 4; i++) {
+      Vector2D thisEdge = thisVertices[i].sub(thisVertices[(i + 1) % 4]);
+      normals[i] = new Vector2D(-thisEdge.getY(), thisEdge.getX()).normalized();
+      Vector2D otherEdge = otherVertices[i].sub(otherVertices[(i + 1) % 4]);
+      normals[i + 4] = new Vector2D(-otherEdge.getY(), otherEdge.getX()).normalized();
+    }
+
+    // Check for overlap for each normal
+    for (Vector2D normal : normals) {
+      // Init min and max for both shapes
+      // This will be needed to check for an overlap
+      float minThis = normal.scalarProduct(thisVertices[0]);
+      float maxThis = minThis;
+      float minOther = normal.scalarProduct(otherVertices[0]);
+      float maxOther = minOther;
+
+      // Project vertices onto the normals and find the min and max projection
+      // Here we project 2D Vectors onto a 1D Line and find the min and max value for each shape
+      // With this we can check for gaps on this 1D Line, if there is one on at least one normal,
+      // the entities are not colliding
+      for (int i = 1; i < 4; i++) {
+        float projectionThis = normal.scalarProduct(thisVertices[i]);
+        minThis = Math.min(minThis, projectionThis);
+        maxThis = Math.max(maxThis, projectionThis);
+
+        float projectionOther = normal.scalarProduct(otherVertices[i]);
+        minOther = Math.min(minOther, projectionOther);
+        maxOther = Math.max(maxOther, projectionOther);
+      }
+
+      // Check for overlap
+      // If this is true, then an gap is found and the shapes are not colliding
+      if (maxThis < minOther || maxOther < minThis) {
+        return false;
+      }
+    }
+    // If there is no gap found for any normal of both shapes
+    // Then the shapes have to collide
+    return true;
+  }
+
+  /**
+   * Check if this entity collides with any of the given list
+   *
+   * @param others
+   * @return
+   */
+  public boolean collidesWithAny(List<Entity> others) {
+    if (!this.collidable) return false;
+    for (int i = 0; i < others.size(); i++) {
+      Entity o = others.get(i);
+      if (o == null) break;
+
+      if (this.isColliding(o)) {
+        if (!this.colliding) onCollision(o);
+        this.colliding = true;
+        return true;
+      }
+    }
+    if (this.colliding) onCollisionEnd();
+    this.colliding = false;
+    return false;
+  }
+
+  /**
+   * Called when the entity collides with another entity. This method can be overridden by
+   * subclasses to implement custom collision behavior.
+   */
+  public void onCollision(Entity other) {
+    DebugLogger.log("Collision", "Collision happened!");
+  }
+
+  /**
+   * Called the first frame the Entity is no longer colliding. Only called when the entity was
+   * colliding the frame before
+   */
+  public void onCollisionEnd() {}
 
   @NonNull
   @Override

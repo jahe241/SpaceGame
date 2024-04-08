@@ -1,6 +1,7 @@
 package com.spacegame.entities;
 
 import com.spacegame.graphics.TextureAtlas;
+import java.util.ArrayList;
 
 public class BaseEnemy extends Actor {
 
@@ -22,5 +23,21 @@ public class BaseEnemy extends Actor {
   public BaseEnemy(
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
+    // Collision stuff
+    this.collidable = true;
+    this.collisionMask = CollisionMask.ENEMY;
+    ArrayList<CollisionMask> temp = new ArrayList<>();
+    temp.add(CollisionMask.PLAYER);
+    this.collidesWith = temp;
+  }
+
+  @Override
+  public void onCollision(Entity other) {
+    this.setDiscard(true);
+  }
+
+  @Override
+  public void onCollisionEnd() {
+    this.disableColorOverlay();
   }
 }
