@@ -324,7 +324,7 @@ public class Game extends Thread {
     randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
     randomDude.setZ(-1);
     randomDude.setColorOverlay(
-        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), rng.nextFloat()});
+        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
     randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
     this.addEntity(randomDude);
     this.addEntity(explosion);
