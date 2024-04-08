@@ -3,7 +3,9 @@ package com.spacegame.core.ui;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Constants;
+import com.spacegame.utils.DebugLogger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,7 +84,7 @@ public class SpriteLabel implements SpriteContainer {
         new ColorEntity(
             x + backgroundWidth / 2, y + baseOffset, backgroundWidth, fontSize, backgroundColor);
     background.setZ(9f);
-    initializeCharacters(text.length());
+    //    initializeCharacters(text.length());
     setText(text);
     this.length = text.length();
   }
@@ -97,49 +99,62 @@ public class SpriteLabel implements SpriteContainer {
     }
   }
 
-  public void setText(String text) {
+  private void updateCharacters(String text) {
+    DebugLogger.log("Textrender", "Updating characters for text: " + text);
     float baseOffset = fontSize / 2;
     float baseX = x + baseOffset;
 
-    for (int i = 0; i < text.length() && i < characters.size(); i++) {
-      char currentChar = text.charAt(i);
-      if (currentChar != ' ') {
-        Entity character = characters.get(i);
-        character.setSprite(parseCharacterName(text.toLowerCase().charAt(i)));
-        character.setX(baseX);
-        character.setY(y + baseOffset - 16);
-        character.setZ(this.z);
-        character.setVisible(this.isVisible);
+    // Adapt characters list size if text length has changed
+    if (text.length() > characters.size()) {
+      // Add new entities for additional characters
+      for (int i = characters.size(); i < text.length(); i++) {
+        DebugLogger.log("Textrender", "Adding character at index: " + i);
+        characters.add(
+            new Entity(
+                this.textureAtlas,
+                Constants.FONT_PREFIX + "0",
+                baseX,
+                y + baseOffset - 16,
+                fontSize,
+                fontSize));
       }
-      baseX += (fontSize - TEXT_SPACING);
+    } else if (text.length() < characters.size()) {
+      // Hide excess entities
+      for (int i = text.length(); i < characters.size(); i++) {
+        var character = characters.get(i);
+        character.setVisible(false);
+        character.setColorOverlay(ColorHelper.TRANSPARENT);
+        DebugLogger.log("Textrender", "[Adapting Size] Hiding character at index: " + i);
+      }
     }
 
-    // Hide remaining entities if new text is shorter
-    for (int i = text.length(); i < characters.size(); i++) {
-      characters.get(i).setVisible(false);
+    for (int i = 0; i < text.length(); i++) {
+      char currentChar = text.charAt(i);
+      Entity character = characters.get(i);
+
+      if (currentChar != ' ') {
+        character.setSprite(parseCharacterName(text.toLowerCase().charAt(i)));
+        character.setVisible(this.isVisible);
+        character.disableColorOverlay();
+      } else {
+        // Use a placeholder for spaces that are always invisible
+        //        character.setSprite(Constants.FONT_PREFIX + "0");
+        DebugLogger.log("Textrender", "[Space] Hiding character at index: " + i);
+        character.setVisible(false);
+        character.setColorOverlay(ColorHelper.TRANSPARENT);
+      }
+
+      character.setX(baseX);
+      character.setY(y + baseOffset - 16);
+      character.setZ(this.z);
+
+      baseX += (fontSize - TEXT_SPACING);
     }
   }
 
-  public void updateText(String text) {
-    float baseOffset = fontSize / 2;
-    float baseX = x + baseOffset;
-
-    for (int i = 0; i < text.length() && i < characters.size(); i++) {
-      char currentChar = text.charAt(i);
-      if (currentChar != ' ') {
-        Entity character = characters.get(i);
-        character.setSprite(parseCharacterName(text.toLowerCase().charAt(i)));
-        character.setX(baseX);
-        character.setY(y + baseOffset - 16);
-        character.setZ(this.z);
-      }
-      baseX += (fontSize - TEXT_SPACING);
-    }
-
-    // Hide remaining entities if new text is shorter
-    for (int i = text.length(); i < characters.size(); i++) {
-      characters.get(i).setVisible(false);
-    }
+  public void setText(String text) {
+    updateCharacters(text);
+    this.length = text.length();
   }
 
   private String parseCharacterName(char c) {

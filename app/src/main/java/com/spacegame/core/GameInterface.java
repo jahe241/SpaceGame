@@ -177,6 +177,7 @@ public class GameInterface extends Thread {
                 screenWidth * .9f,
                 screenHeight * .7f,
                 ColorHelper.PINK));
+
     this.pauseMenu.addButton(
         new SpriteButton(
             game.textureAtlas,
@@ -272,6 +273,8 @@ public class GameInterface extends Thread {
         } else {
           game.pauseGame();
           this.scoreLabel.setText("SCORE: " + game.getScore());
+          this.scoreLabel.setText("1: ");
+
           this.state = InterfaceState.PAUSE_MENU;
           this.pauseMenu.show();
           soundEngine.pause(soundEngine.getGameMusic());
@@ -307,6 +310,7 @@ public class GameInterface extends Thread {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
       for (Entity entity : interfaceElements) {
         if (entity.isVisible()) {
+          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
           visibleEntities.add(entity);
         }
       }
