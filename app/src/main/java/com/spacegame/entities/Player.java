@@ -11,10 +11,6 @@ import java.util.ArrayList;
 public class Player extends Entity {
   private Game game;
 
-  private final float MOVEMENT_RADIUS = 150f;
-
-  private boolean isInMovementZone = true;
-
   /**
    * Constructor for the Player class. This constructor initializes a new Player object by calling
    * the superclass constructor with the provided parameters.

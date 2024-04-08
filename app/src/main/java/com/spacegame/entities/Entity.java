@@ -147,22 +147,20 @@ public class Entity extends Quad {
    * @param deltaTime The time elapsed since the last update.
    */
   void updatePosition(float deltaTime) {
-    // Update the velocity based on the acceleration
-    this.velocity = this.velocity.add(this.direction.mult(this.acceleration));
-
+    // Update the current speed based on the acceleration
+    // If direction length is 0 decelerate
     // If direction is zero Vector then deaccelerate
-    if (this.direction.length() == 0) {
-      if (this.velocity.length() < this.acceleration * 2) {
-        this.velocity = new Vector2D(0, 0);
-      } else {
-        this.velocity = this.velocity.mult(1 - 1 / this.acceleration);
-      }
+    if (this.getDirection().length() == 0) {
+      this.setVelocity(
+          this.getVelocity().toSize(this.getVelocity().length() - this.getAcceleration()));
+    } else {
+      this.setVelocity(this.getVelocity().add(this.getDirection().mult(this.getAcceleration())));
     }
     // Limit the velocity to the base speed
-    if (this.velocity.length() > this.baseSpeed) {
-      this.velocity = this.velocity.toSize(this.baseSpeed);
+    if (this.getVelocity().length() > this.getBaseSpeed()) {
+      this.setVelocity(this.getVelocity().toSize(this.getBaseSpeed()));
     }
-    this.position = this.position.add(this.velocity.mult(deltaTime));
+    this.setPosition(this.getPosition().add(this.getVelocity().mult(deltaTime)));
   }
 
   /**
@@ -223,12 +221,125 @@ public class Entity extends Quad {
   }
 
   /**
+   * Updates the position of the vertex buffer object (VBO) associated with this entity. This method
+   * is typically called when the position or rotation of the entity changes. The updated position
+   * and rotation are used to recalculate the vertices of the VBO, which in turn affects how the
+   * entity is rendered on the screen.
+   */
+  public void updatePositionVertex() {
+    this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+  }
+
+  /**
+   * Checks if the entity is colliding with another entity. This method checks for collisions based
+   * on the Separating Axis Theorem (SAT), because we have rotations to count for. If the entities
+   * are colliding, the method returns true, false otherwise.
+   *
+   * @param other The other entity to check collision with
+   * @return Whether the two Entities are colliding
+   */
+  public boolean isColliding(Entity other) {
+    if (!this.collidable || !other.collidable) return false;
+    if (!this.collidesWith.contains(other.collisionMask)) return false;
+    Vector2D[] normals = new Vector2D[8];
+    // Get all vertex positions (the corners of the quad) from both shapes
+    Vector2D[] thisVertices = this.vbo.getVerticesPositions();
+    Vector2D[] otherVertices = other.vbo.getVerticesPositions();
+
+    // Find the normals for both shapes (currently only quads)
+    for (int i = 0; i < 4; i++) {
+      Vector2D thisEdge = thisVertices[i].sub(thisVertices[(i + 1) % 4]);
+      normals[i] = new Vector2D(-thisEdge.getY(), thisEdge.getX()).normalized();
+      Vector2D otherEdge = otherVertices[i].sub(otherVertices[(i + 1) % 4]);
+      normals[i + 4] = new Vector2D(-otherEdge.getY(), otherEdge.getX()).normalized();
+    }
+
+    // Check for overlap for each normal
+    for (Vector2D normal : normals) {
+      // Init min and max for both shapes
+      // This will be needed to check for an overlap
+      float minThis = normal.scalarProduct(thisVertices[0]);
+      float maxThis = minThis;
+      float minOther = normal.scalarProduct(otherVertices[0]);
+      float maxOther = minOther;
+
+      // Project vertices onto the normals and find the min and max projection
+      // Here we project 2D Vectors onto a 1D Line and find the min and max value for each shape
+      // With this we can check for gaps on this 1D Line, if there is one on at least one normal,
+      // the entities are not colliding
+      for (int i = 1; i < 4; i++) {
+        float projectionThis = normal.scalarProduct(thisVertices[i]);
+        minThis = Math.min(minThis, projectionThis);
+        maxThis = Math.max(maxThis, projectionThis);
+
+        float projectionOther = normal.scalarProduct(otherVertices[i]);
+        minOther = Math.min(minOther, projectionOther);
+        maxOther = Math.max(maxOther, projectionOther);
+      }
+
+      // Check for overlap
+      // If this is true, then an gap is found and the shapes are not colliding
+      if (maxThis < minOther || maxOther < minThis) {
+        return false;
+      }
+    }
+    // If there is no gap found for any normal of both shapes
+    // Then the shapes have to collide
+    return true;
+  }
+
+  /**
+   * Check if this entity collides with any of the given list
+   *
+   * @param others
+   * @return
+   */
+  public boolean collidesWithAny(List<Entity> others) {
+    if (!this.collidable) return false;
+    for (int i = 0; i < others.size(); i++) {
+      Entity o = others.get(i);
+      if (o == null) break;
+
+      if (this.isColliding(o)) {
+        if (!this.colliding) onCollision(o);
+        this.colliding = true;
+        return true;
+      }
+    }
+    if (this.colliding) onCollisionEnd();
+    this.colliding = false;
+    return false;
+  }
+
+  /**
+   * Called when the entity collides with another entity. This method can be overridden by
+   * subclasses to implement custom collision behavior.
+   */
+  public void onCollision(Entity other) {
+    DebugLogger.log("Collision", "Collision happened!");
+  }
+
+  /**
+   * Called the first frame the Entity is no longer colliding. Only called when the entity was
+   * colliding the frame before
+   */
+  public void onCollisionEnd() {}
+
+  @NonNull
+  @Override
+  public String toString() {
+    String spriteName = this.sprite == null ? "null" : this.sprite.name();
+    spriteName += "(" + this.getClass() + ")";
+    return "E[" + spriteName + " " + this.position + ", " + this.width + ", " + this.height + "]";
+  }
+
+  /**
    * Sets the velocity of the entity.
    *
    * @param velocity
    */
   public void setVelocity(Vector2D velocity) {
-    this.velocity = velocity;
+    this.velocity = velocity.normalized();
   }
 
   /**
@@ -285,6 +396,43 @@ public class Entity extends Quad {
    */
   public void setBaseSpeed(int baseSpeed) {
     this.baseSpeed = baseSpeed;
+  }
+
+  /**
+   * Getter for acceleration
+   *
+   * @return
+   */
+  public float getAcceleration() {
+    return this.acceleration;
+  }
+
+  /**
+   * Setter for acceleration
+   *
+   * @param acceleration
+   */
+  public void setAcceleration(float acceleration) {
+    this.acceleration = acceleration;
+  }
+
+  /**
+   * Gets the current speed of the entity
+   *
+   * @return
+   */
+  public float getCurrentSpeed() {
+    return this.currentSpeed;
+  }
+
+  /**
+   * Setter for currentSpeed
+   *
+   * @param speed
+   */
+  public void setCurrentSpeed(float speed) {
+    if (speed <= this.getAcceleration() * 2) this.currentSpeed = 0f;
+    else this.currentSpeed = speed;
   }
 
   /**
@@ -427,119 +575,6 @@ public class Entity extends Quad {
   /** Shows the entity. This method sets the visibility of the entity to true. */
   public void show() {
     this.isVisible = true;
-  }
-
-  /**
-   * Updates the position of the vertex buffer object (VBO) associated with this entity. This method
-   * is typically called when the position or rotation of the entity changes. The updated position
-   * and rotation are used to recalculate the vertices of the VBO, which in turn affects how the
-   * entity is rendered on the screen.
-   */
-  public void updatePositionVertex() {
-    this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
-  }
-
-  /**
-   * Checks if the entity is colliding with another entity. This method checks for collisions based
-   * on the Separating Axis Theorem (SAT), because we have rotations to count for. If the entities
-   * are colliding, the method returns true, false otherwise.
-   *
-   * @param other The other entity to check collision with
-   * @return Whether the two Entities are colliding
-   */
-  public boolean isColliding(Entity other) {
-    if (!this.collidable || !other.collidable) return false;
-    if (!this.collidesWith.contains(other.collisionMask)) return false;
-    Vector2D[] normals = new Vector2D[8];
-    // Get all vertex positions (the corners of the quad) from both shapes
-    Vector2D[] thisVertices = this.vbo.getVerticesPositions();
-    Vector2D[] otherVertices = other.vbo.getVerticesPositions();
-
-    // Find the normals for both shapes (currently only quads)
-    for (int i = 0; i < 4; i++) {
-      Vector2D thisEdge = thisVertices[i].sub(thisVertices[(i + 1) % 4]);
-      normals[i] = new Vector2D(-thisEdge.getY(), thisEdge.getX()).normalized();
-      Vector2D otherEdge = otherVertices[i].sub(otherVertices[(i + 1) % 4]);
-      normals[i + 4] = new Vector2D(-otherEdge.getY(), otherEdge.getX()).normalized();
-    }
-
-    // Check for overlap for each normal
-    for (Vector2D normal : normals) {
-      // Init min and max for both shapes
-      // This will be needed to check for an overlap
-      float minThis = normal.scalarProduct(thisVertices[0]);
-      float maxThis = minThis;
-      float minOther = normal.scalarProduct(otherVertices[0]);
-      float maxOther = minOther;
-
-      // Project vertices onto the normals and find the min and max projection
-      // Here we project 2D Vectors onto a 1D Line and find the min and max value for each shape
-      // With this we can check for gaps on this 1D Line, if there is one on at least one normal,
-      // the entities are not colliding
-      for (int i = 1; i < 4; i++) {
-        float projectionThis = normal.scalarProduct(thisVertices[i]);
-        minThis = Math.min(minThis, projectionThis);
-        maxThis = Math.max(maxThis, projectionThis);
-
-        float projectionOther = normal.scalarProduct(otherVertices[i]);
-        minOther = Math.min(minOther, projectionOther);
-        maxOther = Math.max(maxOther, projectionOther);
-      }
-
-      // Check for overlap
-      // If this is true, then an gap is found and the shapes are not colliding
-      if (maxThis < minOther || maxOther < minThis) {
-        return false;
-      }
-    }
-    // If there is no gap found for any normal of both shapes
-    // Then the shapes have to collide
-    return true;
-  }
-
-  /**
-   * Check if this entity collides with any of the given list
-   *
-   * @param others
-   * @return
-   */
-  public boolean collidesWithAny(List<Entity> others) {
-    if (!this.collidable) return false;
-    for (int i = 0; i < others.size(); i++) {
-      Entity o = others.get(i);
-      if (o == null) break;
-
-      if (this.isColliding(o)) {
-        if (!this.colliding) onCollision(o);
-        this.colliding = true;
-        return true;
-      }
-    }
-    if (this.colliding) onCollisionEnd();
-    this.colliding = false;
-    return false;
-  }
-
-  /**
-   * Called when the entity collides with another entity. This method can be overridden by
-   * subclasses to implement custom collision behavior.
-   */
-  public void onCollision(Entity other) {
-    DebugLogger.log("Collision", "Collision happened!");
-  }
-
-  /**
-   * Called the first frame the Entity is no longer colliding. Only called when the entity was
-   * colliding the frame before
-   */
-  public void onCollisionEnd() {}
-
-  @NonNull
-  @Override
-  public String toString() {
-    String spriteName = this.sprite == null ? "null" : this.sprite.name();
-    spriteName += "(" + this.getClass() + ")";
-    return "E[" + spriteName + " " + this.position + ", " + this.width + ", " + this.height + "]";
   }
 
   public Sprite getSprite() {
