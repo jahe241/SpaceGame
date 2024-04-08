@@ -128,8 +128,8 @@ public class GameInterface extends Thread {
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "peepo",
-            "monk",
+            "peepo_playing",
+            "peepo_paused",
             screenWidth - (screenWidth * 0.2f),
             screenHeight - (screenHeight * 0.9f),
             adaptiveSizeUnit * 3,
@@ -182,7 +182,8 @@ public class GameInterface extends Thread {
     this.timeLabel =
         new SpriteLabel(
             "00:00",
-            (screenWidth * .5f) - (adaptiveSizeUnit * 5),
+            (screenWidth * .5f)
+                - ((adaptiveSizeUnit * 5) * .5f), // +5 characterSize, to center the text
             (screenHeight * .99f) - adaptiveSizeUnit,
             adaptiveSizeUnit,
             ColorHelper.TRANSPARENT,

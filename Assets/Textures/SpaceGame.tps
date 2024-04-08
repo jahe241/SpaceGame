@@ -468,6 +468,8 @@
             <key type="filename">animations/exp2_0-13.png</key>
             <key type="filename">animations/exp2_0-14.png</key>
             <key type="filename">animations/exp2_0-15.png</key>
+            <key type="filename">interface/peepo_paused.png</key>
+            <key type="filename">interface/peepo_playing.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
