@@ -32,6 +32,8 @@ public class GameInterface extends Thread {
   /** A list of SpriteButton objects that represent the interface elements of the game. */
   private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
 
+  private final List<SpriteContainer> variableContainers = new ArrayList<>();
+
   private GamePad gamePad;
 
   /** The width of the screen. */
@@ -44,6 +46,8 @@ public class GameInterface extends Thread {
 
   private SpriteLabel scoreLabel;
 
+  private SpriteLabel timeLabel;
+
   private SpritePopup pauseMenu;
 
   private SpritePopup gameOverMenu;
@@ -51,6 +55,8 @@ public class GameInterface extends Thread {
   private SpritePopup upgradeMenu;
 
   InterfaceState state = InterfaceState.PLAYING;
+
+  private int adaptiveSizeUnit;
 
   /**
    * Constructor for the GameInterface class. This constructor initializes a new GameInterface
@@ -64,6 +70,9 @@ public class GameInterface extends Thread {
     this.context = context;
     this.screenWidth = screenWidth;
     this.screenHeight = screenHeight;
+    this.adaptiveSizeUnit =
+        (int) (screenWidth * 0.05f); // The font size is 2.5% of the screen height
+    DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
     soundEngine.start(soundEngine.getGameMusic());
   }
@@ -101,9 +110,8 @@ public class GameInterface extends Thread {
    * @param deltaTime The time since the last frame in seconds.
    */
   public void update(float deltaTime) {
-    // Calls the update method for each entity: Updates Position and adjusts the vertex data based
-    // on the new position
     //    this.scoreLabel.setText("SCORE: " + game.getScore());
+    this.timeLabel.setText(game.timer.getFormattedElapsedTime());
 
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
@@ -124,8 +132,8 @@ public class GameInterface extends Thread {
             "monk",
             screenWidth - (screenWidth * 0.2f),
             screenHeight - (screenHeight * 0.9f),
-            250f,
-            250f,
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
             ButtonType.TOGGLE_PAUSE,
             true,
             ColorHelper.TRANSPARENT));
@@ -133,25 +141,25 @@ public class GameInterface extends Thread {
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_c",
-            "joystix_c",
-            screenWidth - 360,
-            screenHeight - 100,
-            200f,
-            200f,
+            "joystix_r",
+            "joystix_r",
+            (screenWidth * .9f),
+            (screenHeight * .95f),
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
             ButtonType.RESET_GAME,
             true,
-            ColorHelper.GREEN));
+            ColorHelper.RED));
     // Debug Button
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_b",
-            "joystix_b",
-            screenWidth - 110,
-            screenHeight - 100,
-            200f,
-            200f,
+            "joystix_d",
+            "joystix_d",
+            (screenWidth * .9f),
+            (screenHeight * .95f) - adaptiveSizeUnit * 4,
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
             ButtonType.DEBUG_BUTTON,
             true,
             ColorHelper.ORANGE));
@@ -164,9 +172,23 @@ public class GameInterface extends Thread {
     // Add the score label
     this.scoreLabel =
         new SpriteLabel(
-            "SCORE: 9999", 50, screenHeight * .3f, 128, ColorHelper.TRANSPARENT, game.textureAtlas);
-    //    addInterfaceContainer(scoreLabel);
+            "SCORE: 9999",
+            50,
+            screenHeight * .3f,
+            this.adaptiveSizeUnit * 2,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas);
 
+    this.timeLabel =
+        new SpriteLabel(
+            "00:00",
+            (screenWidth * .5f) - (adaptiveSizeUnit * 5),
+            (screenHeight * .99f) - adaptiveSizeUnit,
+            adaptiveSizeUnit,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas);
+    addInterfaceContainer(timeLabel);
+    variableContainers.add(timeLabel);
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
 
     this.pauseMenu =
@@ -273,7 +295,6 @@ public class GameInterface extends Thread {
         } else {
           game.pauseGame();
           this.scoreLabel.setText("SCORE: " + game.getScore());
-          this.scoreLabel.setText("1: ");
 
           this.state = InterfaceState.PAUSE_MENU;
           this.pauseMenu.show();
@@ -310,7 +331,7 @@ public class GameInterface extends Thread {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
       for (Entity entity : interfaceElements) {
         if (entity.isVisible()) {
-          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
+          //          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
           visibleEntities.add(entity);
         }
       }

@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class SpriteLabel implements SpriteContainer {
 
-  public static final int TEXT_SPACING = 30;
+  private float ADDITIONAL_CHAR_SPACE = 0;
   private final List<Entity> characters = new ArrayList<>();
   private final Entity background;
   private float x; // top left, starting position
@@ -29,6 +29,8 @@ public class SpriteLabel implements SpriteContainer {
   private TextureAtlas textureAtlas;
 
   private static final Map<Character, String> problematicChars = new HashMap<>();
+
+  private boolean needsUpdate = false;
 
   static {
     problematicChars.put('&', "ampersand");
@@ -72,6 +74,7 @@ public class SpriteLabel implements SpriteContainer {
       float fontSize,
       float[] backgroundColor,
       TextureAtlas textureAtlas) {
+    this.ADDITIONAL_CHAR_SPACE = -(fontSize * .25f);
     this.textureAtlas = textureAtlas;
     this.x = x;
     this.y = y;
@@ -79,36 +82,22 @@ public class SpriteLabel implements SpriteContainer {
     this.charCount = text.length();
     // Calculate the offset since the text is centered, and the x, y is the top left corner
     var baseOffset = fontSize / 2;
-    var backgroundWidth = (fontSize - TEXT_SPACING) * charCount + TEXT_SPACING;
+    var backgroundWidth = (fontSize - ADDITIONAL_CHAR_SPACE) * charCount + ADDITIONAL_CHAR_SPACE;
     background =
         new ColorEntity(
             x + backgroundWidth / 2, y + baseOffset, backgroundWidth, fontSize, backgroundColor);
     background.setZ(9f);
-    //    initializeCharacters(text.length());
     setText(text);
     this.length = text.length();
   }
 
-  private void initializeCharacters(int length) {
-    if (this.characters.isEmpty()) {
-      for (int i = 0; i < length; i++) {
-        characters.add(
-            new Entity(
-                this.textureAtlas, Constants.FONT_PREFIX + "0", -100, -100, fontSize, fontSize));
-      }
-    }
-  }
-
   private void updateCharacters(String text) {
-    DebugLogger.log("Textrender", "Updating characters for text: " + text);
+    //    DebugLogger.log("Textrender", "Updating characters for text: " + text);
     float baseOffset = fontSize / 2;
     float baseX = x + baseOffset;
 
-    // Adapt characters list size if text length has changed
     if (text.length() > characters.size()) {
-      // Add new entities for additional characters
       for (int i = characters.size(); i < text.length(); i++) {
-        DebugLogger.log("Textrender", "Adding character at index: " + i);
         characters.add(
             new Entity(
                 this.textureAtlas,
@@ -124,7 +113,6 @@ public class SpriteLabel implements SpriteContainer {
         var character = characters.get(i);
         character.setVisible(false);
         character.setColorOverlay(ColorHelper.TRANSPARENT);
-        DebugLogger.log("Textrender", "[Adapting Size] Hiding character at index: " + i);
       }
     }
 
@@ -137,9 +125,6 @@ public class SpriteLabel implements SpriteContainer {
         character.setVisible(this.isVisible);
         character.disableColorOverlay();
       } else {
-        // Use a placeholder for spaces that are always invisible
-        //        character.setSprite(Constants.FONT_PREFIX + "0");
-        DebugLogger.log("Textrender", "[Space] Hiding character at index: " + i);
         character.setVisible(false);
         character.setColorOverlay(ColorHelper.TRANSPARENT);
       }
@@ -148,7 +133,7 @@ public class SpriteLabel implements SpriteContainer {
       character.setY(y + baseOffset - 16);
       character.setZ(this.z);
 
-      baseX += (fontSize - TEXT_SPACING);
+      baseX += (fontSize + ADDITIONAL_CHAR_SPACE);
     }
   }
 
@@ -192,5 +177,9 @@ public class SpriteLabel implements SpriteContainer {
       character.setZ(z);
     }
     background.setZ(z - 1);
+  }
+
+  public boolean isNeedsUpdate() {
+    return needsUpdate;
   }
 }
