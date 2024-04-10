@@ -33,6 +33,17 @@ public class Actor extends Entity {
     this.collidable = true;
   }
 
+  public Actor(
+      TextureAtlas textureAtlas,
+      float x,
+      float y,
+      float width,
+      float height,
+      AnimationOptions anim) {
+    super(textureAtlas, x, y, width, height, anim);
+    this.collidable = true;
+  }
+
   @Override
   public void updatePosition(float delta) {
     this.velocity = this.velocity.add(this.direction.mult(this.acceleration));

@@ -10,6 +10,8 @@ import java.util.List;
 
 public class Entity extends Quad {
 
+  Animation anim;
+
   /**
    * Wether this entity is collidable. If true, the entity will be checked for collisions with other
    * entities.
@@ -142,6 +144,22 @@ public class Entity extends Quad {
     }
   }
 
+  public Entity(
+      TextureAtlas textureAtlas,
+      float x,
+      float y,
+      float width,
+      float height,
+      AnimationOptions anim) {
+    super(x, y, width, height);
+    assert anim != null;
+    this.sprite = textureAtlas.getAnimationSprites(anim.animationTextureName).get(0);
+    assert this.sprite != null;
+    this.vbo.updateTexture(this.sprite);
+
+    this.anim = new Animation(this, textureAtlas, anim);
+  }
+
   /**
    * Updates the entity's position, orientation, and vertex data based on the time elapsed since the
    * last update.
@@ -152,6 +170,7 @@ public class Entity extends Quad {
     this.updatePosition(delta);
     this.updateRotation(delta);
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+    if (this.anim != null) anim.update(delta);
   }
 
   /**
