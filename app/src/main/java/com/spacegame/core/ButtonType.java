@@ -9,4 +9,5 @@ public enum ButtonType {
   TOGGLE_PAUSE,
   RESET_GAME,
   DEBUG_BUTTON,
+  CHEAT_BUTTON,
 }

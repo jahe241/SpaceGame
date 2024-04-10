@@ -49,6 +49,8 @@ public class Game extends Thread {
   int width;
 
   float scaleFactor;
+
+  float adaptiveScaleFactor;
   int score = 0;
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
@@ -81,7 +83,7 @@ public class Game extends Thread {
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
     float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
-    this.scaleFactor = size / Math.min(this.width, this.height);
+    this.adaptiveScaleFactor = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     player.setGame(this);
     this.setPlayer(player);
@@ -358,7 +360,7 @@ public class Game extends Thread {
             y,
             explosionSize,
             explosionSize,
-            0.06f, // Animation speed in seconds
+            0.04f, // Animation speed in seconds
             false);
     explosion.setZ(0);
     explosion.setRotationRad(randomDude.getRotationRad());
