@@ -1,6 +1,7 @@
 package com.spacegame.core.ui;
 
 import com.spacegame.core.ButtonType;
+import com.spacegame.core.InterfaceState;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.graphics.Sprite;
@@ -36,6 +37,13 @@ public class SpriteButton extends Entity implements SpriteContainer {
 
   /** The active state of the button. True if the button is active, false otherwise. */
   boolean isActive;
+
+  /**
+   * The state during which the button is active. This variable is used to control the active state
+   * of the button based on the current interface state. For example, if activeDuringState is set to
+   * InterfaceState.PLAYING, the button will be active only when the interface state is PLAYING.
+   */
+  InterfaceState activeDuringState;
 
   /** The type of the button. */
   ButtonType buttonType;
@@ -113,9 +121,8 @@ public class SpriteButton extends Entity implements SpriteContainer {
    * @see ButtonType
    */
   public ButtonType click() {
-    this.isDown = !this.isDown; // elegant, huh?
+    this.isDown = !this.isDown;
     this.setSprite(this.isDown ? this.spriteDown : this.spriteUp);
-    //    this.scale(this.spriteUp.w(), this.spriteUp.h());
     return this.buttonType;
   }
 
@@ -138,5 +145,14 @@ public class SpriteButton extends Entity implements SpriteContainer {
     super.setVisible(visible);
     this.isActive = visible;
     this.background.setVisible(visible);
+  }
+
+  public SpriteContainer setActiveDuringState(InterfaceState state) {
+    this.activeDuringState = state;
+    return this;
+  }
+
+  public InterfaceState getActiveState() {
+    return this.activeDuringState;
   }
 }

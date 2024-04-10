@@ -82,6 +82,13 @@ abstract class Quad {
     return this;
   }
 
+  public Quad scale(float factor) {
+    this.width *= factor;
+    this.height *= factor;
+    vbo.scale(this.width, this.height);
+    return this;
+  }
+
   /**
    * Returns the current height of the Quad.
    *
