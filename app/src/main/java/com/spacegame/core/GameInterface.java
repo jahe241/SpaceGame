@@ -33,7 +33,7 @@ public class GameInterface extends Thread {
   private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
 
   private final List<SpriteContainer> variableContainers = new ArrayList<>();
-
+  InterfaceState state = InterfaceState.PLAYING;
   private GamePad gamePad;
 
   /** The width of the screen. */
@@ -43,19 +43,11 @@ public class GameInterface extends Thread {
   private float screenHeight;
 
   private SoundEngine soundEngine;
-
   private SpriteLabel scoreLabel;
-
   private SpriteLabel timeLabel;
-
   private SpritePopup pauseMenu;
-
   private SpritePopup gameOverMenu;
-
   private SpritePopup upgradeMenu;
-
-  InterfaceState state = InterfaceState.PLAYING;
-
   private int adaptiveSizeUnit;
 
   /**
