@@ -168,9 +168,9 @@ public class Game extends Thread {
       entity.update(deltaTime);
 
       // Colision checks
-      entity.collidesWithAny(otherEntities);
       // Set player velocity
       if (entity instanceof Actor actor) {
+        actor.collidesWithAny(otherEntities);
         actor.setPlayerVelocity(playerVelocity);
       }
     }

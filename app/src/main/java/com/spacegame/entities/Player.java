@@ -8,7 +8,7 @@ import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 
-public class Player extends Entity {
+public class Player extends Actor {
   private Game game;
 
   /**
@@ -58,7 +58,7 @@ public class Player extends Entity {
   }
 
   @Override
-  void updatePosition(float delta) {
+  public void updatePosition(float delta) {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
     this.position = oldPosition;
@@ -86,5 +86,10 @@ public class Player extends Entity {
 
   public void setGame(Game game) {
     this.game = game;
+  }
+
+  @Override
+  public Vector2D getVelocity() {
+    return new Vector2D(this.velocity);
   }
 }
