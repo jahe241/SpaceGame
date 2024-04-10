@@ -51,7 +51,7 @@ public class SpriteButton extends Entity implements SpriteContainer {
    * @param y The y-coordinate of the button's center.
    * @param width The width of the button.
    * @param height The height of the button.
-   * @param pause The type of the button.
+   * @param buttonType The type of the button.
    * @param isActive The active state of the button.
    */
   public SpriteButton(
@@ -62,7 +62,7 @@ public class SpriteButton extends Entity implements SpriteContainer {
       float y,
       float width,
       float height,
-      ButtonType pause,
+      ButtonType buttonType,
       boolean isActive,
       float[] backgroundColor) {
     super(textureAtlas, name, x, y, width, height);
@@ -71,9 +71,9 @@ public class SpriteButton extends Entity implements SpriteContainer {
     this.spriteDown = textureAtlas.getSprite(nameDown);
     this.x = x;
     this.y = y;
-    this.width = this.spriteUp.w();
-    this.height = this.spriteUp.h();
-    this.buttonType = pause;
+    this.width = width;
+    this.height = height;
+    this.buttonType = buttonType;
     this.isActive = isActive;
     this.setZ(10);
     this.background.setZ(9);
@@ -115,7 +115,7 @@ public class SpriteButton extends Entity implements SpriteContainer {
   public ButtonType click() {
     this.isDown = !this.isDown; // elegant, huh?
     this.setSprite(this.isDown ? this.spriteDown : this.spriteUp);
-    this.scale(this.spriteUp.w(), this.spriteUp.h());
+    //    this.scale(this.spriteUp.w(), this.spriteUp.h());
     return this.buttonType;
   }
 
@@ -135,6 +135,7 @@ public class SpriteButton extends Entity implements SpriteContainer {
 
   @Override
   public void setVisible(boolean visible) {
+    super.setVisible(visible);
     this.isActive = visible;
     this.background.setVisible(visible);
   }

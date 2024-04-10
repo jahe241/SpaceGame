@@ -26,7 +26,7 @@ public class ColorHelper {
   public static final float[] SILVER = {0.75f, 0.75f, 0.75f, 1};
   public static final float[] DARK_GRAY = {0.25f, 0.25f, 0.25f, 1};
   public static final float[] LIGHT_GRAY = {0.75f, 0.75f, 0.75f, 1};
-  public static final float[] TRANSPARENT = {0, 0, 0, 0};
+  public static final float[] TRANSPARENT = {0f, 0f, 0f, 0f};
 
   /**
    * Converts a hex color string to an array of floats in the OpenGL color format

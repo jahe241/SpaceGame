@@ -11,6 +11,7 @@ import com.spacegame.entities.Player;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.DebugLogger;
+import com.spacegame.utils.PausableStopwatch;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -45,7 +46,11 @@ public class Game extends Thread {
   /** Screen width */
   int width;
 
+  float scaleFactor;
+
   int score = 0;
+
+  public final PausableStopwatch timer = new PausableStopwatch();
 
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
@@ -67,6 +72,7 @@ public class Game extends Thread {
   public void resetGame() {
     synchronized (entities) {
       entities.clear();
+      this.timer.reset();
     }
     setupGame();
   }
@@ -117,18 +123,22 @@ public class Game extends Thread {
     // Add the player character
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
-    Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, 192f, 192f);
+    float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
+    this.scaleFactor = size / Math.min(this.width, this.height);
+    Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     player.setGame(this);
     this.setPlayer(player);
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
+    this.timer.start();
   }
 
   /** Pauses the game. */
   public void pauseGame() {
     synchronized (this) {
       Log.d("Game", "Game Thread paused: " + Thread.currentThread().getName());
+      this.timer.pause();
       this.state = GameState.PAUSED;
     }
   }
@@ -138,6 +148,7 @@ public class Game extends Thread {
     synchronized (this) {
       Log.d("Game", "Game Thread resumed: " + Thread.currentThread().getName());
       this.state = GameState.PLAYING;
+      this.timer.resume();
       notify();
     }
   }
@@ -308,25 +319,26 @@ public class Game extends Thread {
   }
 
   private void spawnRandomEntity(float x, float y) {
+    String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
+    var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
+    randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
+    randomDude.setZ(-1);
+    randomDude.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
+    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
+    this.addEntity(randomDude);
+    float explosionSize = Math.max(randomDude.getWidth(), randomDude.getHeight()) * 1.8f;
     AnimatedActor explosion =
         new AnimatedActor(
             this.textureAtlas,
             Constants.animation_EXPLOSION,
             x,
             y,
-            192f,
-            192f,
+            explosionSize,
+            explosionSize,
             0.03f, // Animation speed in seconds
             false);
     explosion.setZ(0);
-    String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
-    var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
-    randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
-    randomDude.setZ(-1);
-    randomDude.setColorOverlay(
-        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
-    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
-    this.addEntity(randomDude);
+    explosion.setRotationRad(randomDude.getRotationRad());
     this.addEntity(explosion);
   }
 

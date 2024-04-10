@@ -6,11 +6,13 @@ import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
 import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.core.ui.SpriteLabel;
+import com.spacegame.core.ui.SpritePopup;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.ColorHelper;
+import com.spacegame.utils.DebugLogger;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,6 +32,8 @@ public class GameInterface extends Thread {
   /** A list of SpriteButton objects that represent the interface elements of the game. */
   private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
 
+  private final List<SpriteContainer> variableContainers = new ArrayList<>();
+  InterfaceState state = InterfaceState.PLAYING;
   private GamePad gamePad;
 
   /** The width of the screen. */
@@ -39,10 +43,12 @@ public class GameInterface extends Thread {
   private float screenHeight;
 
   private SoundEngine soundEngine;
-
   private SpriteLabel scoreLabel;
-
-  InterfaceState state = InterfaceState.PLAYING;
+  private SpriteLabel timeLabel;
+  private SpritePopup pauseMenu;
+  private SpritePopup gameOverMenu;
+  private SpritePopup upgradeMenu;
+  private int adaptiveSizeUnit;
 
   /**
    * Constructor for the GameInterface class. This constructor initializes a new GameInterface
@@ -56,6 +62,9 @@ public class GameInterface extends Thread {
     this.context = context;
     this.screenWidth = screenWidth;
     this.screenHeight = screenHeight;
+    this.adaptiveSizeUnit =
+        (int) (screenWidth * 0.05f); // The font size is 2.5% of the screen height
+    DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
     soundEngine.start(soundEngine.getGameMusic());
   }
@@ -67,20 +76,19 @@ public class GameInterface extends Thread {
   @Override
   public void run() {
     setupInterface();
-    Log.d("GameInterface", "Game Thread started on Thread: " + Thread.currentThread().getName());
-    long timePerFrame =
-        1000 / 120; // Time for each frame in milliseconds we target 120fps for the gamepad
-
+    DebugLogger.log("Game", "Game Thread started on Thread: " + Thread.currentThread().getName());
+    long timePerFrame = 1000 / 120; // Time for each frame in milliseconds
+    long lastFrameTime = System.nanoTime();
     while (true) {
-      long startTime = System.currentTimeMillis();
+      long startTime = System.nanoTime();
+      float elapsed = (startTime - lastFrameTime) / 1_000_000f;
 
-      long endTime = System.currentTimeMillis();
-      long timeSpent = endTime - startTime;
-      update(timePerFrame / 1000.0f); // Convert to seconds
+      update(elapsed / 1000.0f); // Convert to seconds
 
-      if (timeSpent < timePerFrame) {
+      lastFrameTime = startTime;
+      if (elapsed < timePerFrame) {
         try {
-          Thread.sleep(timePerFrame - timeSpent);
+          Thread.sleep((long) (timePerFrame - elapsed));
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
@@ -94,9 +102,8 @@ public class GameInterface extends Thread {
    * @param deltaTime The time since the last frame in seconds.
    */
   public void update(float deltaTime) {
-    // Calls the update method for each entity: Updates Position and adjusts the vertex data based
-    // on the new position
-    this.scoreLabel.setText("SCORE: " + game.getScore());
+    //    this.scoreLabel.setText("SCORE: " + game.getScore());
+    this.timeLabel.setText(game.timer.getFormattedElapsedTime());
 
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
@@ -113,12 +120,12 @@ public class GameInterface extends Thread {
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "peepo",
-            "monk",
+            "peepo_playing",
+            "peepo_paused",
             screenWidth - (screenWidth * 0.2f),
             screenHeight - (screenHeight * 0.9f),
-            250f,
-            250f,
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
             ButtonType.TOGGLE_PAUSE,
             true,
             ColorHelper.TRANSPARENT));
@@ -126,25 +133,25 @@ public class GameInterface extends Thread {
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_c",
-            "joystix_c",
-            screenWidth - 360,
-            screenHeight - 100,
-            200f,
-            200f,
+            "joystix_r",
+            "joystix_r",
+            (screenWidth * .9f),
+            (screenHeight * .95f),
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
             ButtonType.RESET_GAME,
             true,
-            ColorHelper.GREEN));
+            ColorHelper.RED));
     // Debug Button
     addInterfaceContainer(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_b",
-            "joystix_b",
-            screenWidth - 110,
-            screenHeight - 100,
-            200f,
-            200f,
+            "joystix_d",
+            "joystix_d",
+            (screenWidth * .9f),
+            (screenHeight * .95f) - adaptiveSizeUnit * 4,
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
             ButtonType.DEBUG_BUTTON,
             true,
             ColorHelper.ORANGE));
@@ -156,30 +163,51 @@ public class GameInterface extends Thread {
 
     // Add the score label
     this.scoreLabel =
-        new SpriteLabel("SCORE: 9999", 50, 50, 64 * 2, ColorHelper.NAVY, game.textureAtlas);
-    addInterfaceContainer(scoreLabel);
+        new SpriteLabel(
+            "SCORE: 9999",
+            50,
+            screenHeight * .3f,
+            this.adaptiveSizeUnit * 2,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas);
 
+    this.timeLabel =
+        new SpriteLabel(
+            "00:00",
+            (screenWidth * .5f)
+                - ((adaptiveSizeUnit * 5) * .5f), // +5 characterSize, to center the text
+            (screenHeight * .99f) - adaptiveSizeUnit,
+            adaptiveSizeUnit,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas);
+    addInterfaceContainer(timeLabel);
+    variableContainers.add(timeLabel);
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
 
-    // Test Area
-    //    addInterfaceElement(
-    //        new Entity(
-    //            game.textureAtlas,
-    //            "scifi_inventory01",
-    //            screenWidth / 2,
-    //            screenHeight / 2,
-    //            screenWidth / 2,
-    //            screenHeight / 2));
-    //    var shape =
-    //        new Entity(
-    //            this.game.textureAtlas,
-    //            "tex",
-    //            screenWidth / 2,
-    //            screenHeight / 2,
-    //            screenWidth / 2,
-    //            screenHeight / 2);
-    //    shape.setColorOverlay(ColorHelper.RED);
-    //    addInterfaceElement(shape);
+    this.pauseMenu =
+        new SpritePopup(
+            new ColorEntity(
+                screenWidth / 2, // Center of the screen
+                screenHeight / 2,
+                screenWidth * .9f,
+                screenHeight * .7f,
+                ColorHelper.PINK));
+
+    this.pauseMenu.addButton(
+        new SpriteButton(
+            game.textureAtlas,
+            "joystix_q",
+            "joystix_q",
+            screenWidth / 2, // Center of the screen
+            screenHeight / 2,
+            200f,
+            200f,
+            ButtonType.TOGGLE_PAUSE,
+            true,
+            ColorHelper.TRANSPARENT));
+    this.pauseMenu.addLabel(this.scoreLabel);
+    this.pauseMenu.hide();
+    addInterfaceContainer(this.pauseMenu);
   }
 
   /**
@@ -255,10 +283,14 @@ public class GameInterface extends Thread {
         if (game.state == GameState.PAUSED) {
           game.resumeGame();
           this.state = InterfaceState.PLAYING;
+          this.pauseMenu.hide();
           soundEngine.start(soundEngine.getGameMusic());
         } else {
           game.pauseGame();
+          this.scoreLabel.setText("SCORE: " + game.getScore());
+
           this.state = InterfaceState.PAUSE_MENU;
+          this.pauseMenu.show();
           soundEngine.pause(soundEngine.getGameMusic());
         }
         break;
@@ -292,6 +324,7 @@ public class GameInterface extends Thread {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
       for (Entity entity : interfaceElements) {
         if (entity.isVisible()) {
+          //          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
           visibleEntities.add(entity);
         }
       }
