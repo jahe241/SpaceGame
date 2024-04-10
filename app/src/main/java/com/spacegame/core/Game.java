@@ -158,7 +158,16 @@ public class Game extends Thread {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
     // Remove the entities that are marked for deletion
-    entities.removeIf(Entity::getDiscard);
+    //    entities.removeIf(Entity::getDiscard);
+    for (int i = 0; i < entities.size(); i++) {
+      Entity entity = entities.get(i);
+      if (entity.getDiscard()) {
+        if (entity instanceof BaseEnemy actor) {
+          this.addScore(1);
+        }
+        entities.remove(i);
+      }
+    }
 
     Vector2D playerVelocity = this.getPlayerVelocity();
 
@@ -179,6 +188,10 @@ public class Game extends Thread {
       }
     }
     // TODO: Physics / Interaction-Checks here
+  }
+
+  private void addScore(int i) {
+    this.score += i;
   }
 
   /**
@@ -345,7 +358,7 @@ public class Game extends Thread {
             y,
             explosionSize,
             explosionSize,
-            0.03f, // Animation speed in seconds
+            0.06f, // Animation speed in seconds
             false);
     explosion.setZ(0);
     explosion.setRotationRad(randomDude.getRotationRad());
