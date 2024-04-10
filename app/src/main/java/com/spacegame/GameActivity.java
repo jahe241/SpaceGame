@@ -3,7 +3,6 @@ package com.spacegame;
 import static com.spacegame.utils.WindowManager.setFullscreen;
 
 import android.os.Bundle;
-
 import androidx.appcompat.app.AppCompatActivity;
 import com.spacegame.graphics.EngineGLSurfaceView;
 
@@ -22,13 +21,13 @@ public class GameActivity extends AppCompatActivity {
   }
 
   @Override
-  protected void onResume() {
-    super.onResume();
-    setFullscreen(getWindow());
+  public void onPause() {
+    super.onPause(); // Always call the superclass method first
   }
 
   @Override
-  public void onPause() {
-    super.onPause(); // Always call the superclass method first
+  protected void onResume() {
+    super.onResume();
+    setFullscreen(getWindow());
   }
 }

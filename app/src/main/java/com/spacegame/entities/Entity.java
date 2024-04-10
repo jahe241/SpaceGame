@@ -10,20 +10,11 @@ import java.util.List;
 
 public class Entity extends Quad {
 
-  float decelerationFactor = 0.98f;
-
   /**
    * Wether this entity is collidable. If true, the entity will be checked for collisions with other
    * entities.
    */
   public boolean collidable = false;
-
-  /**
-   * If the entity is currently colliding. Used to check whether the entity was colliding last
-   * frame. This way we can determine if a collision is entered or left or if the collision already
-   * happened last frame
-   */
-  private boolean colliding = false;
 
   /** The own collision mask for this entity. Needs to be set, for collision checking */
   public CollisionMask collisionMask = null;
@@ -32,6 +23,34 @@ public class Entity extends Quad {
    * All other collision masks this entity can collide with. Needs to be set for collision checking
    */
   public ArrayList<CollisionMask> collidesWith = new ArrayList<>();
+
+  /**
+   * Whether the entity has a color overlay applied to its texture. If true, the entity's texture is
+   * rendered with the color overlay specified in the colorOverlay array.
+   */
+  protected boolean hasColorOverlay = false;
+
+  /**
+   * The color overlay to apply to the entity's texture. This is an array of four floats
+   * representing the RGBA color values to apply to the texture. The values should be in the range
+   * [0, 1].
+   */
+  protected boolean hasTexture = false;
+
+  /**
+   * The Sprite object associated with the entity. This object contains the size, position, and UV
+   * coordinates for the entity's sprite.
+   */
+  protected Sprite sprite;
+
+  /**
+   * The color overlay to apply to the entity's texture. This is an array of four floats
+   * representing the RGBA color values to apply to the texture. The values should be in the range
+   * [0, 1]. The default color overlay is white (1.0f, 1.0f, 1.0f, 1.0f).
+   */
+  protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f};
+
+  float decelerationFactor = 0.98f;
 
   /** The pointer to the OpenGL texture that should be used to render this entity. */
   int gl_texture_ptr; // I don't really want to keep this here, but it's the easiest way to get it
@@ -72,36 +91,10 @@ public class Entity extends Quad {
   float lastRotationRad = 0f;
 
   /**
-   * Whether the entity has a color overlay applied to its texture. If true, the entity's texture is
-   * rendered with the color overlay specified in the colorOverlay array.
-   */
-  protected boolean hasColorOverlay = false;
-
-  /**
-   * The color overlay to apply to the entity's texture. This is an array of four floats
-   * representing the RGBA color values to apply to the texture. The values should be in the range
-   * [0, 1].
-   */
-  protected boolean hasTexture = false;
-
-  /**
    * The TextureAtlas object associated with the entity. This object contains the texture atlas used
    * to render the entity's sprite.
    */
   TextureAtlas textureAtlas; // I'm not sure if we need to keep this here
-
-  /**
-   * The Sprite object associated with the entity. This object contains the size, position, and UV
-   * coordinates for the entity's sprite.
-   */
-  protected Sprite sprite;
-
-  /**
-   * The color overlay to apply to the entity's texture. This is an array of four floats
-   * representing the RGBA color values to apply to the texture. The values should be in the range
-   * [0, 1]. The default color overlay is white (1.0f, 1.0f, 1.0f, 1.0f).
-   */
-  protected float[] colorOverlay = {1.0f, 1.0f, 1.0f, 1.0f};
 
   /**
    * A flag indicating whether the entity should be discarded by the game loop. If set to true, the
@@ -111,6 +104,13 @@ public class Entity extends Quad {
   boolean discard = false; // Whether the entity should be by the game-loop
 
   boolean isVisible = true; // Whether the entity has a texture
+
+  /**
+   * If the entity is currently colliding. Used to check whether the entity was colliding last
+   * frame. This way we can determine if a collision is entered or left or if the collision already
+   * happened last frame
+   */
+  private boolean colliding = false;
 
   /**
    * Constructor for the Entity class. This constructor initializes a new Entity object by setting
@@ -140,6 +140,18 @@ public class Entity extends Quad {
       assert this.sprite != null;
       this.vbo.updateTexture(this.sprite);
     }
+  }
+
+  /**
+   * Updates the entity's position, orientation, and vertex data based on the time elapsed since the
+   * last update.
+   *
+   * @param delta The time elapsed since the last update.
+   */
+  public void update(float delta) {
+    this.updatePosition(delta);
+    this.updateRotation(delta);
+    this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
   }
 
   /**
@@ -213,15 +225,73 @@ public class Entity extends Quad {
   }
 
   /**
-   * Updates the entity's position, orientation, and vertex data based on the time elapsed since the
-   * last update.
+   * Gets the velocity of the entity.
    *
-   * @param delta The time elapsed since the last update.
+   * @return
    */
-  public void update(float delta) {
-    this.updatePosition(delta);
-    this.updateRotation(delta);
-    this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+  public Vector2D getVelocity() {
+    return this.velocity;
+  }
+
+  /**
+   * Sets the velocity of the entity.
+   *
+   * @param velocity
+   */
+  public void setVelocity(Vector2D velocity) {
+    this.velocity = velocity;
+  }
+
+  /**
+   * Gets the direction of the entity.
+   *
+   * @return
+   */
+  public Vector2D getDirection() {
+    return this.direction;
+  }
+
+  /**
+   * Gets the direction of the entity.
+   *
+   * @param direction
+   */
+  public void setDirection(Vector2D direction) {
+    this.direction = direction.normalized();
+  }
+
+  public float getAcceleration() {
+    return this.acceleration;
+  }
+
+  public void setAcceleration(float acc) {
+    this.acceleration = acc;
+  }
+
+  public float getDecelerationFactor() {
+    return this.decelerationFactor;
+  }
+
+  public void setDecelerationFactor(float fac) {
+    this.decelerationFactor = fac;
+  }
+
+  /**
+   * Gets the base speed of the entity.
+   *
+   * @return
+   */
+  public float getBaseSpeed() {
+    return baseSpeed;
+  }
+
+  /**
+   * Sets the base speed of the entity.
+   *
+   * @param baseSpeed
+   */
+  public void setBaseSpeed(int baseSpeed) {
+    this.baseSpeed = baseSpeed;
   }
 
   /**
@@ -232,6 +302,29 @@ public class Entity extends Quad {
    */
   public void updatePositionVertex() {
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
+  }
+
+  /**
+   * Check if this entity collides with any of the given list
+   *
+   * @param others
+   * @return
+   */
+  public boolean collidesWithAny(List<Entity> others) {
+    if (!this.collidable) return false;
+    for (int i = 0; i < others.size(); i++) {
+      Entity o = others.get(i);
+      if (o == null) break;
+
+      if (this.isColliding(o)) {
+        if (!this.colliding) onCollision(o);
+        this.colliding = true;
+        return true;
+      }
+    }
+    if (this.colliding) onCollisionEnd();
+    this.colliding = false;
+    return false;
   }
 
   /**
@@ -293,29 +386,6 @@ public class Entity extends Quad {
   }
 
   /**
-   * Check if this entity collides with any of the given list
-   *
-   * @param others
-   * @return
-   */
-  public boolean collidesWithAny(List<Entity> others) {
-    if (!this.collidable) return false;
-    for (int i = 0; i < others.size(); i++) {
-      Entity o = others.get(i);
-      if (o == null) break;
-
-      if (this.isColliding(o)) {
-        if (!this.colliding) onCollision(o);
-        this.colliding = true;
-        return true;
-      }
-    }
-    if (this.colliding) onCollisionEnd();
-    this.colliding = false;
-    return false;
-  }
-
-  /**
    * Called when the entity collides with another entity. This method can be overridden by
    * subclasses to implement custom collision behavior.
    */
@@ -337,22 +407,6 @@ public class Entity extends Quad {
     return "E[" + spriteName + " " + this.position + ", " + this.width + ", " + this.height + "]";
   }
 
-  public void setDecelerationFactor(float fac) {
-    this.decelerationFactor = fac;
-  }
-
-  public float getDecelerationFactor() {
-    return this.decelerationFactor;
-  }
-
-  public float getAcceleration() {
-    return this.acceleration;
-  }
-
-  public void setAcceleration(float acc) {
-    this.acceleration = acc;
-  }
-
   public float getCurrentSpeed() {
     return this.getVelocity().length();
   }
@@ -361,30 +415,35 @@ public class Entity extends Quad {
     return sprite;
   }
 
+  /**
+   * Sets the sprite of the entity based on the sprite name. The sprite is retrieved from the
+   * entity's texture atlas. After setting the sprite, the entity's auxiliary data is updated.
+   *
+   * @param spriteName The name of the sprite to set.
+   */
+  public void setSprite(String spriteName) {
+    this.sprite = textureAtlas.getSprite(spriteName);
+    assert this.sprite != null;
+    this.vbo.updateTexture(this.sprite);
+  }
+
+  /**
+   * Sets the sprite of the entity directly. After setting the sprite, the entity's auxiliary data
+   * is updated.
+   *
+   * @param sprite The sprite to set.
+   */
+  public void setSprite(Sprite sprite) {
+    this.sprite = sprite;
+    this.vbo.updateTexture(this.sprite);
+  }
+
   public float getX() {
     return this.position.getX();
   }
 
   public float getY() {
     return this.position.getY();
-  }
-
-  /**
-   * Sets the velocity of the entity.
-   *
-   * @param velocity
-   */
-  public void setVelocity(Vector2D velocity) {
-    this.velocity = velocity;
-  }
-
-  /**
-   * Gets the velocity of the entity.
-   *
-   * @return
-   */
-  public Vector2D getVelocity() {
-    return this.velocity;
   }
 
   /**
@@ -399,60 +458,12 @@ public class Entity extends Quad {
   }
 
   /**
-   * Gets the direction of the entity.
-   *
-   * @param direction
-   */
-  public void setDirection(Vector2D direction) {
-    this.direction = direction.normalized();
-  }
-
-  /**
-   * Gets the direction of the entity.
-   *
-   * @return
-   */
-  public Vector2D getDirection() {
-    return this.direction;
-  }
-
-  /**
-   * Gets the base speed of the entity.
-   *
-   * @return
-   */
-  public float getBaseSpeed() {
-    return baseSpeed;
-  }
-
-  /**
-   * Sets the base speed of the entity.
-   *
-   * @param baseSpeed
-   */
-  public void setBaseSpeed(int baseSpeed) {
-    this.baseSpeed = baseSpeed;
-  }
-
-  /**
    * Gets the OpenGL texture pointer for the entity.
    *
    * @return
    */
   public int getGl_texture_ptr() {
     return gl_texture_ptr;
-  }
-
-  /**
-   * Sets the sprite of the entity based on the sprite name. The sprite is retrieved from the
-   * entity's texture atlas. After setting the sprite, the entity's auxiliary data is updated.
-   *
-   * @param spriteName The name of the sprite to set.
-   */
-  public void setSprite(String spriteName) {
-    this.sprite = textureAtlas.getSprite(spriteName);
-    assert this.sprite != null;
-    this.vbo.updateTexture(this.sprite);
   }
 
   /**
@@ -472,17 +483,6 @@ public class Entity extends Quad {
   }
 
   /**
-   * Sets the sprite of the entity directly. After setting the sprite, the entity's auxiliary data
-   * is updated.
-   *
-   * @param sprite The sprite to set.
-   */
-  public void setSprite(Sprite sprite) {
-    this.sprite = sprite;
-    this.vbo.updateTexture(this.sprite);
-  }
-
-  /**
    * Sets the texture atlas of the entity. The OpenGL texture pointer is also updated based on the
    * given texture atlas.
    *
@@ -491,6 +491,45 @@ public class Entity extends Quad {
   public void setTextureAtlas(TextureAtlas textureAtlas) {
     this.textureAtlas = textureAtlas;
     this.gl_texture_ptr = textureAtlas.getTexturePtr();
+  }
+
+  /**
+   * Disables the color overlay of the entity. The entity's hasColorOverlay flag is set to false.
+   */
+  public void disableColorOverlay() {
+    this.hasColorOverlay = false;
+    this.vbo.setFlagTexture();
+  }
+
+  /**
+   * Gets the discard flag of the entity. If the discard flag is true, the entity will be removed
+   * from the game loop in the next iteration.
+   *
+   * @return The value of the discard flag.
+   */
+  public boolean getDiscard() {
+    return this.discard;
+  }
+
+  /**
+   * Sets the discard flag of the entity. If set to true, the entity will be removed from the game
+   * loop in the next iteration.
+   *
+   * @param discard The value to set the discard flag to.
+   */
+  public void setDiscard(boolean discard) {
+    this.discard = discard;
+  }
+
+  /**
+   * Returns the color overlay of the entity. The color overlay is an array of four floats
+   * representing the RGBA color values.
+   *
+   * @return An array of four floats representing the RGBA color values of the entity's color
+   *     overlay.
+   */
+  public float[] getColorOverlay() {
+    return colorOverlay;
   }
 
   /**
@@ -508,42 +547,13 @@ public class Entity extends Quad {
   }
 
   /**
-   * Disables the color overlay of the entity. The entity's hasColorOverlay flag is set to false.
-   */
-  public void disableColorOverlay() {
-    this.hasColorOverlay = false;
-    this.vbo.setFlagTexture();
-  }
-
-  /**
-   * Sets the discard flag of the entity. If set to true, the entity will be removed from the game
-   * loop in the next iteration.
+   * Returns the visibility of the entity. If the entity is visible, this method returns true. If
+   * the entity is hidden, this method returns false.
    *
-   * @param discard The value to set the discard flag to.
+   * @return A boolean value indicating whether the entity is visible.
    */
-  public void setDiscard(boolean discard) {
-    this.discard = discard;
-  }
-
-  /**
-   * Gets the discard flag of the entity. If the discard flag is true, the entity will be removed
-   * from the game loop in the next iteration.
-   *
-   * @return The value of the discard flag.
-   */
-  public boolean getDiscard() {
-    return this.discard;
-  }
-
-  /**
-   * Returns the color overlay of the entity. The color overlay is an array of four floats
-   * representing the RGBA color values.
-   *
-   * @return An array of four floats representing the RGBA color values of the entity's color
-   *     overlay.
-   */
-  public float[] getColorOverlay() {
-    return colorOverlay;
+  public boolean isVisible() {
+    return this.isVisible;
   }
 
   /**
@@ -554,16 +564,6 @@ public class Entity extends Quad {
    */
   public void setVisible(boolean visible) {
     this.isVisible = visible;
-  }
-
-  /**
-   * Returns the visibility of the entity. If the entity is visible, this method returns true. If
-   * the entity is hidden, this method returns false.
-   *
-   * @return A boolean value indicating whether the entity is visible.
-   */
-  public boolean isVisible() {
-    return this.isVisible;
   }
 
   /** Hides the entity. This method sets the visibility of the entity to false. */

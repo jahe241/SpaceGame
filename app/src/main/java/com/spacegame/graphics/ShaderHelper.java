@@ -11,10 +11,6 @@ public class ShaderHelper {
     return compileShader(GLES20.GL_VERTEX_SHADER, shaderCode);
   }
 
-  public static int compileFragmentShader(String shaderCode) {
-    return compileShader(GLES20.GL_FRAGMENT_SHADER, shaderCode);
-  }
-
   private static int compileShader(int type, String shaderCode) {
     // Create a new shader object
     final int shaderObjectId = GLES20.glCreateShader(type);
@@ -45,6 +41,10 @@ public class ShaderHelper {
       return 0;
     }
     return shaderObjectId;
+  }
+
+  public static int compileFragmentShader(String shaderCode) {
+    return compileShader(GLES20.GL_FRAGMENT_SHADER, shaderCode);
   }
 
   public static int linkProgram(int vertexShaderId, int fragmentShaderId) {

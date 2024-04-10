@@ -8,14 +8,6 @@ public class Vector2D {
   private float x;
   private float y;
 
-  public void setX(float x) {
-    this.x = x;
-  }
-
-  public void setY(float y) {
-    this.y = y;
-  }
-
   public Vector2D(float x, float y) {
     this.x = x;
     this.y = y;
@@ -30,8 +22,64 @@ public class Vector2D {
     return x;
   }
 
+  /**
+   * Calculate the euclidean distance between two vectors
+   *
+   * @param v1
+   * @param v2
+   * @return
+   */
+  public static float calculateDistance(Vector2D v1, Vector2D v2) {
+    return calculateDistance(v1.getX(), v1.getY(), v2.getX(), v2.getY());
+  }
+
   public float getY() {
     return y;
+  }
+
+  /**
+   * Calculate the euclidean distance between two points
+   *
+   * @param x1 x-coordinate of the first point
+   * @param y1 y-coordinate of the first point
+   * @param x2 x-coordinate of the second point
+   * @param y2 y-coordinate of the second point
+   * @return the distance between the two points
+   */
+  public static float calculateDistance(float x1, float y1, float x2, float y2) {
+    return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  }
+
+  /**
+   * Calculate the angle between two points in Radians
+   *
+   * @param x1 x-coordinate of the first point
+   * @param y1 y-coordinate of the first point
+   * @param x2 x-coordinate of the second point
+   * @param y2 y-coordinate of the second point
+   * @return the angle between the two points
+   */
+  public static float calcAngle(float x1, float y1, float x2, float y2) {
+    return (float) Math.atan2(y2 - y1, x2 - x1);
+  }
+
+  /**
+   * Calculate the length of a vector
+   *
+   * @param x x-coordinate of the vector
+   * @param y y-coordinate of the vector
+   * @return the length of the vector
+   */
+  public static float calcLength(float x, float y) {
+    return (float) Math.sqrt(x * x + y * y);
+  }
+
+  public void setX(float x) {
+    this.x = x;
+  }
+
+  public void setY(float y) {
+    this.y = y;
   }
 
   /**
@@ -50,15 +98,6 @@ public class Vector2D {
    */
   public Vector2D sub(Vector2D other) {
     return new Vector2D(this.getX() - other.getX(), this.getY() - other.getY());
-  }
-
-  /**
-   * Multiply this vector by a scalar
-   *
-   * @param scalar
-   */
-  public Vector2D mult(float scalar) {
-    return new Vector2D(this.getX() * scalar, this.getY() * scalar);
   }
 
   /**
@@ -87,17 +126,6 @@ public class Vector2D {
    */
   public Vector2D to(Vector2D other) {
     return new Vector2D(other.getX() - this.getX(), other.getY() - this.getY());
-  }
-
-  /**
-   * Calculate the length of this vector
-   *
-   * @return the normalized vector of this vector
-   */
-  public Vector2D normalized() {
-    if (x == 0 && y == 0) return new Vector2D(0, 0);
-    float length = (float) Math.sqrt(x * x + y * y);
-    return new Vector2D(x / length, y / length);
   }
 
   /**
@@ -137,6 +165,26 @@ public class Vector2D {
   }
 
   /**
+   * Multiply this vector by a scalar
+   *
+   * @param scalar
+   */
+  public Vector2D mult(float scalar) {
+    return new Vector2D(this.getX() * scalar, this.getY() * scalar);
+  }
+
+  /**
+   * Calculate the length of this vector
+   *
+   * @return the normalized vector of this vector
+   */
+  public Vector2D normalized() {
+    if (x == 0 && y == 0) return new Vector2D(0, 0);
+    float length = (float) Math.sqrt(x * x + y * y);
+    return new Vector2D(x / length, y / length);
+  }
+
+  /**
    * Calculate the angle from this vector to another vector
    *
    * @return the angle in radians
@@ -145,52 +193,9 @@ public class Vector2D {
     return (float) Math.atan2(other.getY() - this.getY(), other.getX() - this.getX());
   }
 
-  /**
-   * Calculate the euclidean distance between two points
-   *
-   * @param x1 x-coordinate of the first point
-   * @param y1 y-coordinate of the first point
-   * @param x2 x-coordinate of the second point
-   * @param y2 y-coordinate of the second point
-   * @return the distance between the two points
-   */
-  public static float calculateDistance(float x1, float y1, float x2, float y2) {
-    return (float) Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  }
-
-  /**
-   * Calculate the euclidean distance between two vectors
-   *
-   * @param v1
-   * @param v2
-   * @return
-   */
-  public static float calculateDistance(Vector2D v1, Vector2D v2) {
-    return calculateDistance(v1.getX(), v1.getY(), v2.getX(), v2.getY());
-  }
-
-  /**
-   * Calculate the angle between two points in Radians
-   *
-   * @param x1 x-coordinate of the first point
-   * @param y1 y-coordinate of the first point
-   * @param x2 x-coordinate of the second point
-   * @param y2 y-coordinate of the second point
-   * @return the angle between the two points
-   */
-  public static float calcAngle(float x1, float y1, float x2, float y2) {
-    return (float) Math.atan2(y2 - y1, x2 - x1);
-  }
-
-  /**
-   * Calculate the length of a vector
-   *
-   * @param x x-coordinate of the vector
-   * @param y y-coordinate of the vector
-   * @return the length of the vector
-   */
-  public static float calcLength(float x, float y) {
-    return (float) Math.sqrt(x * x + y * y);
+  @Override
+  public int hashCode() {
+    return Objects.hash(x, y);
   }
 
   @Override
@@ -199,11 +204,6 @@ public class Vector2D {
     if (o == null || getClass() != o.getClass()) return false;
     Vector2D vector2D = (Vector2D) o;
     return Float.compare(x, vector2D.x) == 0 && Float.compare(y, vector2D.y) == 0;
-  }
-
-  @Override
-  public int hashCode() {
-    return Objects.hash(x, y);
   }
 
   @NonNull

@@ -8,22 +8,21 @@ import android.graphics.BitmapFactory;
 import android.opengl.GLSurfaceView;
 import android.opengl.GLUtils;
 import android.util.Log;
+import android.view.MotionEvent;
 import com.spacegame.R;
 import com.spacegame.graphics.ShaderHelper;
 import com.spacegame.utils.TextResourceReader;
 import java.nio.FloatBuffer;
 import java.util.Arrays;
-
 import javax.microedition.khronos.egl.EGLConfig;
 import javax.microedition.khronos.opengles.GL10;
-import android.view.MotionEvent;
 
 // TODO: Either extract rendering logic to a separate class or refactor
 public class SpaceGLSSurfaceView extends GLSurfaceView {
 
   private static final float ZOOM_FACTOR = 1f;
-  private SpaceRenderer renderer;
   public Context context;
+  private SpaceRenderer renderer;
   private Rect rect;
   private float goToTargetX = 0f;
   private float goToTargetY = 0f;
@@ -92,22 +91,51 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
 
   private class SpaceRenderer implements Renderer {
 
-    Context context;
-    // Zoom factor of the camera
-    private final float[] projectionMatrix = new float[16];
     private static final int BYTES_PER_FLOAT = 4;
-    private FloatBuffer vertexData;
-    private int program;
     private static final String U_COLOR = "u_Color";
-    private int uColorLocation;
     private static final String A_POSITION = "a_Position";
     private static final String U_PROJECTION_MATRIX = "u_ProjectionMatrix";
+    // Zoom factor of the camera
+    private final float[] projectionMatrix = new float[16];
+    Context context;
+    private FloatBuffer vertexData;
+    private int program;
+    private int uColorLocation;
     private int uProjectionMatrixLocation;
     private int aPositionLocation;
     private int pepeTexture;
 
     public SpaceRenderer(Context ctx) {
       this.context = ctx;
+    }
+
+    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
+      Log.d(
+          "DEBUG", "onSurfaceCreated() called with: gl = [" + gl + "], config = [" + config + "]");
+      gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+
+      String vertexShaderSource =
+          TextResourceReader.readTextFileFromResource(context, R.raw.vertex_shader);
+      String fragmentShaderSource =
+          TextResourceReader.readTextFileFromResource(context, R.raw.fragment_shader);
+      Log.d("DEBUG", "Vertex shader: " + vertexShaderSource);
+      int vertexShader = ShaderHelper.compileVertexShader(vertexShaderSource);
+      Log.d("DEBUG", "Vertex shader: " + vertexShader);
+      int fragmentShader = ShaderHelper.compileFragmentShader(fragmentShaderSource);
+      Log.d("DEBUG", "Fragment shader: " + fragmentShader);
+      program = ShaderHelper.linkProgram(vertexShader, fragmentShader);
+      Log.d("DEBUG", "Program: " + program);
+      ShaderHelper.validateProgram(program);
+
+      glUseProgram(program);
+
+      uColorLocation = glGetUniformLocation(program, U_COLOR);
+      aPositionLocation = glGetAttribLocation(program, A_POSITION);
+      uProjectionMatrixLocation = glGetUniformLocation(program, U_PROJECTION_MATRIX);
+
+      pepeTexture = loadTexture(context, R.drawable.peepo);
+
+      rect = new Rect(500f, 500f, 200f, 100f);
     }
 
     private int loadTexture(Context context, int resourceId) {
@@ -143,35 +171,6 @@ public class SpaceGLSSurfaceView extends GLSurfaceView {
       glBindTexture(GL_TEXTURE_2D, 0);
 
       return textureObjectIds[0];
-    }
-
-    public void onSurfaceCreated(GL10 gl, EGLConfig config) {
-      Log.d(
-          "DEBUG", "onSurfaceCreated() called with: gl = [" + gl + "], config = [" + config + "]");
-      gl.glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
-
-      String vertexShaderSource =
-          TextResourceReader.readTextFileFromResource(context, R.raw.vertex_shader);
-      String fragmentShaderSource =
-          TextResourceReader.readTextFileFromResource(context, R.raw.fragment_shader);
-      Log.d("DEBUG", "Vertex shader: " + vertexShaderSource);
-      int vertexShader = ShaderHelper.compileVertexShader(vertexShaderSource);
-      Log.d("DEBUG", "Vertex shader: " + vertexShader);
-      int fragmentShader = ShaderHelper.compileFragmentShader(fragmentShaderSource);
-      Log.d("DEBUG", "Fragment shader: " + fragmentShader);
-      program = ShaderHelper.linkProgram(vertexShader, fragmentShader);
-      Log.d("DEBUG", "Program: " + program);
-      ShaderHelper.validateProgram(program);
-
-      glUseProgram(program);
-
-      uColorLocation = glGetUniformLocation(program, U_COLOR);
-      aPositionLocation = glGetAttribLocation(program, A_POSITION);
-      uProjectionMatrixLocation = glGetUniformLocation(program, U_PROJECTION_MATRIX);
-
-      pepeTexture = loadTexture(context, R.drawable.peepo);
-
-      rect = new Rect(500f, 500f, 200f, 100f);
     }
 
     @Override

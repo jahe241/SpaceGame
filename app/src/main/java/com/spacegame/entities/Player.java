@@ -9,10 +9,8 @@ import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 
 public class Player extends Entity {
-  private Game game;
-
   private final float MOVEMENT_RADIUS = 150f;
-
+  private Game game;
   private boolean isInMovementZone = true;
 
   /**

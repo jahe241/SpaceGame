@@ -3,16 +3,6 @@ package com.spacegame.graphics;
 import com.spacegame.utils.Vector2D;
 
 public class VertexBufferObject {
-  /**
-   * An array representing a single vertex. This is used for reference. The array contains the
-   * following values in order: x, y, z, u, v, flag, R, G, B, A
-   */
-  private float[] oneVertex = { // just for reference
-    // x,  y,   z,    u,    v,    flag,  R,    G,    B,     A
-    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
-    // 0,  1,   2,    3,    4,    5,    6,    7,    8,     9
-  };
-
   /** The stride, or step from one vertex to the next in the vertex data array. */
   public static final int STRIDE = 10;
 
@@ -30,6 +20,16 @@ public class VertexBufferObject {
 
   /** The vertex data array. This contains the data for all vertices of the object. */
   private final float[] vertexData;
+
+  /**
+   * An array representing a single vertex. This is used for reference. The array contains the
+   * following values in order: x, y, z, u, v, flag, R, G, B, A
+   */
+  private float[] oneVertex = { // just for reference
+    // x,  y,   z,    u,    v,    flag,  R,    G,    B,     A
+    0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    // 0,  1,   2,    3,    4,    5,    6,    7,    8,     9
+  };
 
   /** The width of the object. */
   private float width;
@@ -149,6 +149,16 @@ public class VertexBufferObject {
   }
 
   /**
+   * Updates the texture coordinates of the object using a Sprite.
+   *
+   * @param sprite A Sprite object whose UV coordinates are to be set for the object.
+   * @return this VertexBufferObject instance for chaining.
+   */
+  public VertexBufferObject updateTexture(Sprite sprite) {
+    return updateTexture(sprite.uvs());
+  }
+
+  /**
    * Updates the texture coordinates of the object.
    *
    * @param uvs An array of UV coordinates to be set for the object.
@@ -162,16 +172,6 @@ public class VertexBufferObject {
       vertexData[i * STRIDE + OFFSET_TEXTURE + 1] = uvs[i < 2 ? 1 : 3];
     }
     return this;
-  }
-
-  /**
-   * Updates the texture coordinates of the object using a Sprite.
-   *
-   * @param sprite A Sprite object whose UV coordinates are to be set for the object.
-   * @return this VertexBufferObject instance for chaining.
-   */
-  public VertexBufferObject updateTexture(Sprite sprite) {
-    return updateTexture(sprite.uvs());
   }
 
   /**

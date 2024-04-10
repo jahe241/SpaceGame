@@ -5,7 +5,6 @@ import com.spacegame.entities.Entity;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Constants;
-import com.spacegame.utils.DebugLogger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,24 +12,7 @@ import java.util.Map;
 
 public class SpriteLabel implements SpriteContainer {
 
-  private float ADDITIONAL_CHAR_SPACE = 0;
-  private final List<Entity> characters = new ArrayList<>();
-  private final Entity background;
-  private float x; // top left, starting position
-  private float y;
-  private float fontSize;
-  private int charCount;
-  private int length;
-
-  private boolean isVisible = true;
-
-  private float z = 10f;
-
-  private TextureAtlas textureAtlas;
-
   private static final Map<Character, String> problematicChars = new HashMap<>();
-
-  private boolean needsUpdate = false;
 
   static {
     problematicChars.put('&', "ampersand");
@@ -67,6 +49,19 @@ public class SpriteLabel implements SpriteContainer {
     problematicChars.put('`', "backtick");
   }
 
+  private final List<Entity> characters = new ArrayList<>();
+  private final Entity background;
+  private float ADDITIONAL_CHAR_SPACE = 0;
+  private float x; // top left, starting position
+  private float y;
+  private float fontSize;
+  private int charCount;
+  private int length;
+  private boolean isVisible = true;
+  private float z = 10f;
+  private TextureAtlas textureAtlas;
+  private boolean needsUpdate = false;
+
   public SpriteLabel(
       String text,
       float x,
@@ -88,6 +83,11 @@ public class SpriteLabel implements SpriteContainer {
             x + backgroundWidth / 2, y + baseOffset, backgroundWidth, fontSize, backgroundColor);
     background.setZ(9f);
     setText(text);
+    this.length = text.length();
+  }
+
+  public void setText(String text) {
+    updateCharacters(text);
     this.length = text.length();
   }
 
@@ -135,11 +135,6 @@ public class SpriteLabel implements SpriteContainer {
 
       baseX += (fontSize + ADDITIONAL_CHAR_SPACE);
     }
-  }
-
-  public void setText(String text) {
-    updateCharacters(text);
-    this.length = text.length();
   }
 
   private String parseCharacterName(char c) {

@@ -42,17 +42,6 @@ public class SpritePopup implements SpriteContainer {
   }
 
   @Override
-  public Entity[] getElements() {
-    List<Entity> elements = new ArrayList<>();
-    elements.add(this.background);
-    elements.addAll(buttons);
-    for (SpriteLabel label : labels) {
-      elements.addAll(Arrays.asList(label.getElements()));
-    }
-    return elements.toArray(new Entity[0]);
-  }
-
-  @Override
   public void setVisible(boolean visible) {
     this.background.setVisible(visible);
     for (SpriteButton button : buttons) {
@@ -61,5 +50,16 @@ public class SpritePopup implements SpriteContainer {
     for (SpriteLabel label : labels) {
       label.setVisible(visible);
     }
+  }
+
+  @Override
+  public Entity[] getElements() {
+    List<Entity> elements = new ArrayList<>();
+    elements.add(this.background);
+    elements.addAll(buttons);
+    for (SpriteLabel label : labels) {
+      elements.addAll(Arrays.asList(label.getElements()));
+    }
+    return elements.toArray(new Entity[0]);
   }
 }

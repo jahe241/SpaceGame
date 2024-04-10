@@ -2,15 +2,15 @@ package com.spacegame.graphics;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Point;
 import android.opengl.GLSurfaceView;
 import android.util.Log;
-import android.view.MotionEvent;
-import com.spacegame.core.Game;
-import com.spacegame.core.GameInterface;
-import android.graphics.Point;
 import android.view.Display;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.WindowManager;
+import com.spacegame.core.Game;
+import com.spacegame.core.GameInterface;
 
 public class EngineGLSurfaceView extends GLSurfaceView {
 
@@ -44,13 +44,6 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     this.requestFocus();
   }
 
-  @SuppressLint("ClickableViewAccessibility") // handle later
-  @Override
-  public boolean onTouchEvent(MotionEvent event) {
-    gameInterface.receiveTouchEvent(event);
-    return true;
-  }
-
   private void getScreenSize(Context context) {
     WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
     Display display = wm.getDefaultDisplay();
@@ -59,6 +52,20 @@ public class EngineGLSurfaceView extends GLSurfaceView {
     width = size.x;
     height = size.y;
     size = null;
+  }
+
+  @SuppressLint("ClickableViewAccessibility") // handle later
+  @Override
+  public boolean onTouchEvent(MotionEvent event) {
+    gameInterface.receiveTouchEvent(event);
+    return true;
+  }
+
+  @Override
+  public void surfaceDestroyed(SurfaceHolder holder) {
+    super.surfaceDestroyed(holder);
+    gameInterface.onDestroy();
+    Log.d("EngineGLSurfaceView", "Surface destroyed");
   }
 
   @Override
@@ -71,12 +78,5 @@ public class EngineGLSurfaceView extends GLSurfaceView {
   public void onResume() {
     super.onResume();
     gameInterface.onResume();
-  }
-
-  @Override
-  public void surfaceDestroyed(SurfaceHolder holder) {
-    super.surfaceDestroyed(holder);
-    gameInterface.onDestroy();
-    Log.d("EngineGLSurfaceView", "Surface destroyed");
   }
 }

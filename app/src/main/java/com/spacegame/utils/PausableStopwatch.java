@@ -38,14 +38,6 @@ public class PausableStopwatch {
     this.isRunning = false;
   }
 
-  public long getElapsedTime() {
-    if (isRunning) {
-      return System.currentTimeMillis() - startTime;
-    } else {
-      return pauseTime;
-    }
-  }
-
   public String getFormattedElapsedTime() {
     long elapsedTime = getElapsedTime();
     long seconds = elapsedTime / 1000;
@@ -53,5 +45,13 @@ public class PausableStopwatch {
     long hours = minutes / 60;
     //    return String.format("%02d:%02d:%02d", hours, minutes % 60, seconds % 60);
     return String.format("%02d:%02d", minutes % 60, seconds % 60);
+  }
+
+  public long getElapsedTime() {
+    if (isRunning) {
+      return System.currentTimeMillis() - startTime;
+    } else {
+      return pauseTime;
+    }
   }
 }

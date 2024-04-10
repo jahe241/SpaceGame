@@ -31,23 +31,14 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   // Buffer Constants, adjust to change the size of the buffers
   private static final int BATCH_SIZE = 30000;
   private static final int VERTICES_IN_BUFFER = BATCH_SIZE * 4;
-
-  // GL Pointers
-  public int gl_program_ptr = 0;
   // uniform pointers
   public static int gl_u_ProjectionMatrix_ptr;
   public static int gl_u_ActiveVertices_ptr;
-
   // attribute pointers (in/out) data that passes from vertex shader to fragment shader
   public static int gl_a_Position_ptr;
   public static int gl_a_TexCoordinate_ptr;
   public static int gl_a_Flag_ptr;
   public static int gl_a_Color_ptr;
-  public float[] projectionMatrix = new float[16];
-
-  // Render Buffers
-  private FloatBuffer vertexBuffer;
-  ShortBuffer indexBuffer;
   // Zero array for padding, default float values are 0.0f, no ned to fill it
   private final float[] ZERO_ARRAY = new float[VERTICES_IN_BUFFER * VertexBufferObject.STRIDE];
   private final float[] concatenatedVertexArrays =
@@ -55,15 +46,19 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   private final List<Entity> allEntities =
       new ArrayList<>(
           BATCH_SIZE); // defining here, to re-use it TODO: alot ALOT of memory allocation
-
-  // Buffer IDs
-  private int indexBufferId;
-  private int vertexBufferId;
-
   // Other Attributes
   private final Context context;
   private final Game game;
   private final GameInterface gameInterface;
+  // GL Pointers
+  public int gl_program_ptr = 0;
+  public float[] projectionMatrix = new float[16];
+  ShortBuffer indexBuffer;
+  // Render Buffers
+  private FloatBuffer vertexBuffer;
+  // Buffer IDs
+  private int indexBufferId;
+  private int vertexBufferId;
   private TextureAtlas textureAtlas;
 
   // Stats TODO: actually use these
@@ -140,6 +135,29 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   }
 
   /**
+   * This method generates an array of indices for rendering quads in OpenGL. Each quad is
+   * represented by 6 indices (2 triangles per quad), so the size of the array is 6 times the number
+   * of quads. The indices are arranged in such a way that they represent the vertices of the quads
+   * in a counter-clockwise order. This is important for face culling in OpenGL.
+   *
+   * @param quadCount The number of quads to generate indices for.
+   * @return An array of indices for rendering the quads.
+   */
+  @NonNull
+  private static short[] makeIndexArray(int quadCount) {
+    short[] indices = new short[quadCount * 6];
+    for (int i = 0; i < quadCount; i++) {
+      indices[i * 6] = (short) (i * 4);
+      indices[i * 6 + 1] = (short) (i * 4 + 1);
+      indices[i * 6 + 2] = (short) (i * 4 + 2);
+      indices[i * 6 + 3] = (short) (i * 4 + 2);
+      indices[i * 6 + 4] = (short) (i * 4 + 1);
+      indices[i * 6 + 5] = (short) (i * 4 + 3);
+    }
+    return indices;
+  }
+
+  /**
    * This method is used to initialize the buffers for vertex and index data. It creates two buffers
    * and assigns their IDs to the instance variables vertexBufferId and indexBufferId. It then
    * prepares and uploads vertex data to the vertex buffer, and index data to the index buffer.
@@ -182,48 +200,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
                 * 2.0f
                 / (1024 * 1024)) // Multiply by 2 because a short is 2 bytes
             + " MB");
-  }
-
-  /**
-   * This method generates an array of indices for rendering quads in OpenGL. Each quad is
-   * represented by 6 indices (2 triangles per quad), so the size of the array is 6 times the number
-   * of quads. The indices are arranged in such a way that they represent the vertices of the quads
-   * in a counter-clockwise order. This is important for face culling in OpenGL.
-   *
-   * @param quadCount The number of quads to generate indices for.
-   * @return An array of indices for rendering the quads.
-   */
-  @NonNull
-  private static short[] makeIndexArray(int quadCount) {
-    short[] indices = new short[quadCount * 6];
-    for (int i = 0; i < quadCount; i++) {
-      indices[i * 6] = (short) (i * 4);
-      indices[i * 6 + 1] = (short) (i * 4 + 1);
-      indices[i * 6 + 2] = (short) (i * 4 + 2);
-      indices[i * 6 + 3] = (short) (i * 4 + 2);
-      indices[i * 6 + 4] = (short) (i * 4 + 1);
-      indices[i * 6 + 5] = (short) (i * 4 + 3);
-    }
-    return indices;
-  }
-
-  /**
-   * Loads the texture atlas from a resource and creates a TextureAtlas object. The method first
-   * attempts to load a texture from the provided resource ID. If the texture loading is successful,
-   * it creates a new TextureAtlas object with the loaded texture and the provided sprite and atlas
-   * dimensions. The created TextureAtlas object is then stored in the textureAtlas field of the
-   * EngineRenderer class and the game object.
-   */
-  private void loadTextures() throws XmlPullParserException, IOException {
-    int atlasPtr = loadTexture(R.drawable.atlas);
-    if (atlasPtr == 0) {
-      Log.e("EngineRenderer", "Failed to load texture");
-      return;
-    }
-    Log.i("EngineRenderer", "Pepe texture loaded successfully!");
-
-    this.textureAtlas = new TextureAtlas(context, R.raw.atlas, atlasPtr);
-    game.textureAtlas = this.textureAtlas;
   }
 
   /**
@@ -275,23 +251,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     return textureObjectIds[0];
   }
 
-  @Override
-  public void onSurfaceChanged(GL10 gl, int width, int height) {
-    // Set the OpenGL viewport to fill the entire surface
-    gl.glViewport(0, 0, width, height);
-
-    // Set the projection matrix
-    if (width > height) {
-      // Landscape
-      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -20f, 30f);
-    } else {
-      // Portrait or square
-      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -20f, 30f);
-    }
-    // Log the SurfaceView size
-    Log.d("SurfaceView", "Width: " + width + " Height: " + height);
-  }
-
   /**
    * Create a new float buffer and load the data into it sets the position of the buffer to 0 Buffer
    * size is 4 (float size in bytes) * data.length
@@ -325,20 +284,39 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
   }
 
   /**
-   * This method fetches all visible entities from the game and game interface, sorts them by their
-   * Z-Value and returns them as a list. The Z-Value is used to determine the order in which
-   * entities are drawn, with lower Z-Values being drawn first. This method uses Java 8 streams to
-   * perform the operations.
-   *
-   * @return A list of all visible entities, sorted by their Z-Value.
+   * Loads the texture atlas from a resource and creates a TextureAtlas object. The method first
+   * attempts to load a texture from the provided resource ID. If the texture loading is successful,
+   * it creates a new TextureAtlas object with the loaded texture and the provided sprite and atlas
+   * dimensions. The created TextureAtlas object is then stored in the textureAtlas field of the
+   * EngineRenderer class and the game object.
    */
-  private List<Entity> fetchEntities() {
-    // fetch all visible entities, sorted by there Z-Value - streams are fun
-    allEntities.clear();
-    allEntities.addAll(game.getVisibleEntities());
-    allEntities.addAll(gameInterface.getVisibleEntities());
-    allEntities.sort((e1, e2) -> Float.compare(e1.getZ(), e2.getZ()));
-    return allEntities;
+  private void loadTextures() throws XmlPullParserException, IOException {
+    int atlasPtr = loadTexture(R.drawable.atlas);
+    if (atlasPtr == 0) {
+      Log.e("EngineRenderer", "Failed to load texture");
+      return;
+    }
+    Log.i("EngineRenderer", "Pepe texture loaded successfully!");
+
+    this.textureAtlas = new TextureAtlas(context, R.raw.atlas, atlasPtr);
+    game.textureAtlas = this.textureAtlas;
+  }
+
+  @Override
+  public void onSurfaceChanged(GL10 gl, int width, int height) {
+    // Set the OpenGL viewport to fill the entire surface
+    gl.glViewport(0, 0, width, height);
+
+    // Set the projection matrix
+    if (width > height) {
+      // Landscape
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -20f, 30f);
+    } else {
+      // Portrait or square
+      android.opengl.Matrix.orthoM(projectionMatrix, 0, 0, width, height, 0, -20f, 30f);
+    }
+    // Log the SurfaceView size
+    Log.d("SurfaceView", "Width: " + width + " Height: " + height);
   }
 
   @Override
@@ -361,6 +339,23 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
 
     // here we could unbind the texture atlas, but thats not necessary I think, since we only use
     // one texture
+  }
+
+  /**
+   * This method fetches all visible entities from the game and game interface, sorts them by their
+   * Z-Value and returns them as a list. The Z-Value is used to determine the order in which
+   * entities are drawn, with lower Z-Values being drawn first. This method uses Java 8 streams to
+   * perform the operations.
+   *
+   * @return A list of all visible entities, sorted by their Z-Value.
+   */
+  private List<Entity> fetchEntities() {
+    // fetch all visible entities, sorted by there Z-Value - streams are fun
+    allEntities.clear();
+    allEntities.addAll(game.getVisibleEntities());
+    allEntities.addAll(gameInterface.getVisibleEntities());
+    allEntities.sort((e1, e2) -> Float.compare(e1.getZ(), e2.getZ()));
+    return allEntities;
   }
 
   /**

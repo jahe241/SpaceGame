@@ -2,7 +2,6 @@ package com.spacegame.sound;
 
 import android.content.Context;
 import android.media.*;
-
 import com.spacegame.R;
 
 public class SoundEngine {
@@ -15,6 +14,10 @@ public class SoundEngine {
     mainMenu = MediaPlayer.create(context, R.raw.themesong);
     gameMusic = MediaPlayer.create(context, R.raw.orbitalcolossus);
     explosion = MediaPlayer.create(context, R.raw.rlaunch);
+  }
+
+  public static boolean isPlaying(MediaPlayer music) {
+    return music.isPlaying();
   }
 
   public void prepare() {
@@ -39,10 +42,6 @@ public class SoundEngine {
     if (!music.isPlaying()) {
       music.start();
     }
-  }
-
-  public static boolean isPlaying(MediaPlayer music) {
-    return music.isPlaying();
   }
 
   public void stop(MediaPlayer music) {

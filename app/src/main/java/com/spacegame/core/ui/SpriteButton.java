@@ -80,6 +80,18 @@ public class SpriteButton extends Entity implements SpriteContainer {
   }
 
   /**
+   * Checks if a touch event is within the button's bounds.
+   *
+   * @param x The x-coordinate of the touch event.
+   * @param y The y-coordinate of the touch event.
+   * @return True if the touch event is within the button's bounds, false otherwise.
+   */
+  public boolean isTouchWithinButton(float x, float y) {
+    float[] coords = this.getButtonCoords();
+    return x > coords[0] && x < coords[2] && y > coords[3] && y < coords[1];
+  }
+
+  /**
    * Returns the top right and bottom left coordinates of the button.
    *
    * @return A float array containing the top right and bottom left coordinates of the button.
@@ -92,18 +104,6 @@ public class SpriteButton extends Entity implements SpriteContainer {
     coords[2] = this.x + this.background.getWidth() / 2;
     coords[3] = this.y - this.background.getHeight() / 2;
     return coords;
-  }
-
-  /**
-   * Checks if a touch event is within the button's bounds.
-   *
-   * @param x The x-coordinate of the touch event.
-   * @param y The y-coordinate of the touch event.
-   * @return True if the touch event is within the button's bounds, false otherwise.
-   */
-  public boolean isTouchWithinButton(float x, float y) {
-    float[] coords = this.getButtonCoords();
-    return x > coords[0] && x < coords[2] && y > coords[3] && y < coords[1];
   }
 
   /**

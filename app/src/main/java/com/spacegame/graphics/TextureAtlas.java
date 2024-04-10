@@ -121,6 +121,30 @@ public class TextureAtlas {
   }
 
   /**
+   * Skips the current XML tag in the provided XML parser.
+   *
+   * @param parser The XML parser.
+   * @throws XmlPullParserException If an error occurs while parsing the XML file.
+   * @throws IOException If an error occurs while reading the XML file.
+   */
+  private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
+    if (parser.getEventType() != XmlPullParser.START_TAG) {
+      throw new IllegalStateException();
+    }
+    int depth = 1;
+    while (depth != 0) {
+      switch (parser.next()) {
+        case XmlPullParser.END_TAG:
+          depth--;
+          break;
+        case XmlPullParser.START_TAG:
+          depth++;
+          break;
+      }
+    }
+  }
+
+  /**
    * Calculates the UV coordinates for a sprite. Intended for internal use within the TextureAtlas
    * class.
    *
@@ -179,30 +203,6 @@ public class TextureAtlas {
     // add the animation to the cache
     animationSpriteCache.put(name, animationFrames);
     return animationFrames;
-  }
-
-  /**
-   * Skips the current XML tag in the provided XML parser.
-   *
-   * @param parser The XML parser.
-   * @throws XmlPullParserException If an error occurs while parsing the XML file.
-   * @throws IOException If an error occurs while reading the XML file.
-   */
-  private void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-    if (parser.getEventType() != XmlPullParser.START_TAG) {
-      throw new IllegalStateException();
-    }
-    int depth = 1;
-    while (depth != 0) {
-      switch (parser.next()) {
-        case XmlPullParser.END_TAG:
-          depth--;
-          break;
-        case XmlPullParser.START_TAG:
-          depth++;
-          break;
-      }
-    }
   }
 
   /**

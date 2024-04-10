@@ -1,7 +1,6 @@
 package com.spacegame.core.ui;
 
 import android.util.Log;
-import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.entities.Entity;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
@@ -58,6 +57,15 @@ public class GamePad implements SpriteContainer {
   }
 
   /**
+   * Returns the visibility status of the gamepad.
+   *
+   * @return The visibility status of the gamepad.
+   */
+  public boolean isVisible() {
+    return this.visible;
+  }
+
+  /**
    * Sets the visibility status of the gamepad.
    *
    * @param visible The new visibility status of the gamepad.
@@ -65,15 +73,6 @@ public class GamePad implements SpriteContainer {
   @Override
   public void setVisible(boolean visible) {
     this.visible = visible;
-  }
-
-  /**
-   * Returns the visibility status of the gamepad.
-   *
-   * @return The visibility status of the gamepad.
-   */
-  public boolean isVisible() {
-    return this.visible;
   }
 
   /**
@@ -110,11 +109,6 @@ public class GamePad implements SpriteContainer {
     return direction.normalized();
   }
 
-  /** Resets the position of the gamepad's stick to the position of the pad. */
-  public void resetStickPosition() {
-    stick.setPosition(pad.getPosition());
-  }
-
   /**
    * Shows the gamepad at the specified position.
    *
@@ -139,5 +133,10 @@ public class GamePad implements SpriteContainer {
     this.pad.hide();
     this.stick.hide();
     this.resetStickPosition();
+  }
+
+  /** Resets the position of the gamepad's stick to the position of the pad. */
+  public void resetStickPosition() {
+    stick.setPosition(pad.getPosition());
   }
 }

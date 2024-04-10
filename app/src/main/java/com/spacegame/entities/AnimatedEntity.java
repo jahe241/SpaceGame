@@ -1,6 +1,5 @@
 package com.spacegame.entities;
 
-import android.util.Log;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import java.util.List;

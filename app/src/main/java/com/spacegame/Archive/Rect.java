@@ -22,17 +22,6 @@ public class Rect {
   private static final float SPEED = 1f; // Adjust this value to control the speed of the transition
 
   private static final int BYTES_PER_FLOAT = 4;
-  private final FloatBuffer vertexData;
-  private float x;
-  private float y;
-  private float width;
-  private float height;
-
-  private float destinationX;
-  private float destinationY;
-  private float rotationAngle = 0f;
-  private float currentAngle = 0f; // Angle in degrees
-
   // Define the vertices for two triangles that make up a rectangle
   // Add texture coordinates for each vertex
   private static final float[] VERTEX_DATA = {
@@ -55,14 +44,15 @@ public class Rect {
     0.5f, 0.5f, 1.0f, 0.0f
     */
   };
-
-  public float getX() {
-    return x;
-  }
-
-  public float getY() {
-    return y;
-  }
+  private final FloatBuffer vertexData;
+  private float x;
+  private float y;
+  private float width;
+  private float height;
+  private float destinationX;
+  private float destinationY;
+  private float rotationAngle = 0f;
+  private float currentAngle = 0f; // Angle in degrees
 
   public Rect(float x, float y, float width, float height) {
     this.width = width;
@@ -75,11 +65,6 @@ public class Rect {
             .asFloatBuffer();
 
     setVertexData(x, y, width, height);
-  }
-
-  public void setDestination(float x, float y) {
-    this.destinationX = x;
-    this.destinationY = y;
   }
 
   public void setVertexData(float x, float y, float width, float height) {
@@ -138,6 +123,19 @@ public class Rect {
     vertexData.clear();
     vertexData.put(adjustedVertexData);
     vertexData.position(0);
+  }
+
+  public float getX() {
+    return x;
+  }
+
+  public float getY() {
+    return y;
+  }
+
+  public void setDestination(float x, float y) {
+    this.destinationX = x;
+    this.destinationY = y;
   }
 
   // Add texture coordinates for each vertex

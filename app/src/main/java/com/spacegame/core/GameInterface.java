@@ -4,12 +4,12 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
+import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.core.ui.SpriteLabel;
 import com.spacegame.core.ui.SpritePopup;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
-import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.DebugLogger;
@@ -92,24 +92,6 @@ public class GameInterface extends Thread {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-      }
-    }
-  }
-
-  /**
-   * Updates the position and vertex data of each entity in the interface elements list.
-   *
-   * @param deltaTime The time since the last frame in seconds.
-   */
-  public void update(float deltaTime) {
-    //    this.scoreLabel.setText("SCORE: " + game.getScore());
-    this.timeLabel.setText(game.timer.getFormattedElapsedTime());
-
-    synchronized (interfaceElements) {
-      // Remove the entities that are marked for deletion
-      interfaceElements.removeIf(Entity::getDiscard);
-      for (Entity entity : interfaceElements) {
-        entity.update(deltaTime);
       }
     }
   }
@@ -211,18 +193,36 @@ public class GameInterface extends Thread {
   }
 
   /**
-   * Adds a new interface element to the interface elements list.
+   * Updates the position and vertex data of each entity in the interface elements list.
    *
-   * @param element The new interface element to add.
+   * @param deltaTime The time since the last frame in seconds.
    */
-  private void addInterfaceElement(Entity... element) {
-    Collections.addAll(interfaceElements, element);
+  public void update(float deltaTime) {
+    //    this.scoreLabel.setText("SCORE: " + game.getScore());
+    this.timeLabel.setText(game.timer.getFormattedElapsedTime());
+
+    synchronized (interfaceElements) {
+      // Remove the entities that are marked for deletion
+      interfaceElements.removeIf(Entity::getDiscard);
+      for (Entity entity : interfaceElements) {
+        entity.update(deltaTime);
+      }
+    }
   }
 
   private void addInterfaceContainer(SpriteContainer... container) {
     for (SpriteContainer c : container) {
       Collections.addAll(interfaceElements, c.getElements());
     }
+  }
+
+  /**
+   * Adds a new interface element to the interface elements list.
+   *
+   * @param element The new interface element to add.
+   */
+  private void addInterfaceElement(Entity... element) {
+    Collections.addAll(interfaceElements, element);
   }
 
   /**
