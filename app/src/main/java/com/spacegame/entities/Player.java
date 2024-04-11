@@ -65,7 +65,7 @@ public class Player extends Actor {
   }
 
   @Override
-  public void onCollision(Entity other) {
+  public void onCollision(Actor other) {
     this.setColorOverlay(ColorHelper.BLUE);
   }
 

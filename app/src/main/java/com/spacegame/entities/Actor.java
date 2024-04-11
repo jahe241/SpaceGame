@@ -154,7 +154,7 @@ public class Actor extends Entity {
    * Called when the entity collides with another entity. This method can be overridden by
    * subclasses to implement custom collision behavior.
    */
-  public void onCollision(Entity other) {
+  public void onCollision(Actor other) {
     DebugLogger.log("Collision", "Collision happened!");
   }
 
