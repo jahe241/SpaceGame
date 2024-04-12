@@ -32,7 +32,7 @@ public class BaseEnemy extends Actor {
   }
 
   @Override
-  public void onCollision(Entity other) {
+  public void onCollision(Actor other) {
     this.setDiscard(true);
   }
 

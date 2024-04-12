@@ -1,10 +1,8 @@
 package com.spacegame.core;
 
 import android.util.Log;
-import android.view.MotionEvent;
 import com.spacegame.entities.Actor;
-import com.spacegame.entities.AnimatedActor;
-import com.spacegame.entities.AnimatedEntity;
+import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
@@ -181,11 +179,9 @@ public class Game extends Thread {
       entity.update(deltaTime);
 
       // Colision checks
-      entity.collidesWithAny(otherEntities);
       // Set player velocity
       if (entity instanceof Actor actor) {
-        actor.setPlayerVelocity(playerVelocity);
-      } else if (entity instanceof AnimatedActor actor) {
+        actor.collidesWithAny(otherEntities);
         actor.setPlayerVelocity(playerVelocity);
       }
     }
@@ -283,34 +279,6 @@ public class Game extends Thread {
     }
   }
 
-  /**
-   * Handles a touch event. If the game is not paused, it creates an explosion at the touch location
-   * and passes the touch event to the player.
-   *
-   * @param event The touch event to handle.
-   * @see MotionEvent
-   */
-  public void handleTouchEvent(MotionEvent event) {
-    Log.d("Game", "Touch event at: " + event.getX() + ", " + event.getY());
-    Log.d("Game", "Touch Type: " + event.getActionMasked());
-    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-      if (this.state == GameState.PAUSED) return;
-      Log.d("Game", "Touch event at: " + event.getX() + ", " + event.getY());
-      var explosion =
-          new AnimatedEntity(
-              this.textureAtlas,
-              Constants.animation_EXPLOSION,
-              event.getX(),
-              event.getY(),
-              192f,
-              192f,
-              0.03f, // Animation speed in seconds
-              true);
-      this.addEntity(explosion);
-      if (player != null) player.onTouch(event);
-    }
-  }
-
   public void spawnRandomEnemy(int numEnemies) {
     final int maxRetries = 10; // Define your maximum number of retries here
     for (int i = 0; i < numEnemies; i++) {
@@ -352,16 +320,15 @@ public class Game extends Thread {
     randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
     this.addEntity(randomDude);
     float explosionSize = Math.max(randomDude.getWidth(), randomDude.getHeight()) * 1.8f;
-    AnimatedActor explosion =
-        new AnimatedActor(
+    Actor explosion =
+        new Actor(
             this.textureAtlas,
-            Constants.animation_EXPLOSION,
             x,
             y,
             explosionSize,
             explosionSize,
-            0.04f, // Animation speed in seconds
-            false);
+            new AnimationOptions(1f, false, Constants.animation_EXPLOSION, true));
+
     explosion.setZ(0);
     explosion.setRotationRad(randomDude.getRotationRad());
     this.addEntity(explosion);

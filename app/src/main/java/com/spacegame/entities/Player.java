@@ -1,17 +1,15 @@
 package com.spacegame.entities;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
+import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 
-public class Player extends Entity {
-  private final float MOVEMENT_RADIUS = 150f;
+public class Player extends Actor {
   private Game game;
-  private boolean isInMovementZone = true;
 
   /**
    * Constructor for the Player class. This constructor initializes a new Player object by calling
@@ -28,7 +26,6 @@ public class Player extends Entity {
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
-    this.rotationSpeed = 50f;
 
     // Collision stuff
     this.collidable = true;
@@ -42,9 +39,11 @@ public class Player extends Entity {
     float touchX = event.getX();
     float touchY = event.getY();
     // Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
-    Log.d("Movement", "Velocity: " + this.velocity.getX() + ", " + this.velocity.getY());
-    Log.d("Movement", "Direction: " + this.direction.getX() + ", " + this.direction.getY());
-    Log.d("Movement", "Current Position: " + this.position.getX() + ", " + this.position.getY());
+    DebugLogger.log("Movement", "Velocity: " + this.velocity.getX() + ", " + this.velocity.getY());
+    DebugLogger.log(
+        "Movement", "Direction: " + this.direction.getX() + ", " + this.direction.getY());
+    DebugLogger.log(
+        "Movement", "Current Position: " + this.position.getX() + ", " + this.position.getY());
 
     Vector2D destination = new Vector2D(touchX, touchY);
     Vector2D direction = this.position.to(destination).normalized();
@@ -58,14 +57,14 @@ public class Player extends Entity {
   }
 
   @Override
-  void updatePosition(float delta) {
+  public void updatePosition(float delta) {
     Vector2D oldPosition = new Vector2D(this.position);
     super.updatePosition(delta);
     this.position = oldPosition;
   }
 
   @Override
-  public void onCollision(Entity other) {
+  public void onCollision(Actor other) {
     this.setColorOverlay(ColorHelper.BLUE);
   }
 
@@ -86,5 +85,10 @@ public class Player extends Entity {
 
   public void setGame(Game game) {
     this.game = game;
+  }
+
+  @Override
+  public Vector2D getVelocity() {
+    return new Vector2D(this.velocity);
   }
 }
