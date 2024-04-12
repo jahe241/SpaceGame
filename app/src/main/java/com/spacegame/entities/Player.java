@@ -26,7 +26,6 @@ public class Player extends Actor {
       TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
-    this.rotationSpeed = 50f;
 
     // Collision stuff
     this.collidable = true;

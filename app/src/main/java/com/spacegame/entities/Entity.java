@@ -16,13 +16,6 @@ public class Entity extends Quad {
   protected boolean hasColorOverlay = false;
 
   /**
-   * The color overlay to apply to the entity's texture. This is an array of four floats
-   * representing the RGBA color values to apply to the texture. The values should be in the range
-   * [0, 1].
-   */
-  protected boolean hasTexture = false;
-
-  /**
    * The Sprite object associated with the entity. This object contains the size, position, and UV
    * coordinates for the entity's sprite.
    */
@@ -58,22 +51,11 @@ public class Entity extends Quad {
    */
   Vector2D direction = new Vector2D(0, 0);
 
-  /** The current speed of the entity. This is the speed at which the entity is currently moving. */
-  float currentSpeed = 0f;
-
   /**
    * The base speed of the entity. This is the speed at which the entity moves when it is not
    * affected by any external forces.
    */
   float baseSpeed = 500;
-
-  float rotationSpeed = 2f; // This can be adjusted for quicker or slower rotations
-
-  /**
-   * The last rotation angle in radians. This is used to determine if the entity's rotation has
-   * changed since the last update and to snap to the target angle if close enough.
-   */
-  float lastRotationRad = 0f;
 
   /**
    * The TextureAtlas object associated with the entity. This object contains the texture atlas used
@@ -161,10 +143,12 @@ public class Entity extends Quad {
 
     // If direction is zero Vector then decelerate
     if (this.getDirection().length() == 0) {
-      if (this.getVelocity().length() < this.getAcceleration() * 0.2) {
+      if (this.getVelocity().length() < this.getAcceleration() / 2) {
         this.setVelocity(new Vector2D(0, 0));
       } else {
-        this.setVelocity(this.getVelocity().mult(this.getDecelerationFactor()));
+        this.setVelocity(
+            this.getVelocity().toSize(this.getVelocity().length() - this.getAcceleration() / 2));
+        // this.setVelocity(this.getVelocity().mult(this.getDecelerationFactor()));
       }
     }
     // Limit the velocity to the base speed
@@ -182,6 +166,7 @@ public class Entity extends Quad {
    */
   public void updateRotation(float deltaTime) {
     if (this.getDirection().length() == 0) return;
+    if (this.velocity.length() == 0) return;
 
     // Calculate the nextFrameTargetPosition next frame
     Vector2D nextFrameTargetPosition = this.getPosition().add(this.velocity.mult(deltaTime));
@@ -189,35 +174,23 @@ public class Entity extends Quad {
     // Calculate target rotation angle towards the destination point
     // If velocity is zero, keep the last rotation angle
     float rotationAngleRad;
-    if (this.velocity.length() == 0) rotationAngleRad = this.lastRotationRad;
-    else rotationAngleRad = -this.getPosition().calcAngle(nextFrameTargetPosition);
+    rotationAngleRad = -this.getPosition().calcAngle(nextFrameTargetPosition);
 
     // Update position
 
     // Smooth rotation towards the target
     // Calculate the shortest angular distance between the current angle and the target angle
     float angleDifference = rotationAngleRad - this.rotationRad;
-    // Log.d("Entity", "Angle Difference: " + Math.toDegrees(angleDifference));
-    angleDifference -=
-        (float) (Math.floor((angleDifference + Math.PI) / (2 * Math.PI)) * (2 * Math.PI));
 
     // Adjust rotation speed based on the distance and angle difference to ensure smooth turning
     // The rotation speed could be adjusted to make the turn smoother or more immediate
-    this.rotationRad +=
-        Math.signum(angleDifference)
-            * Math.min(rotationSpeed * deltaTime, Math.abs(angleDifference));
+    this.rotationRad += angleDifference;
 
-    // Ensure rotation is within the range [-π, π)
+    // Ensure rotation is within the range [-π, π]
     if (this.rotationRad >= Math.PI) {
       this.rotationRad -= 2 * Math.PI;
     } else if (this.rotationRad < -Math.PI) {
       this.rotationRad += 2 * Math.PI;
-    }
-
-    if (this.rotationRad != this.lastRotationRad) {
-      //      Log.d("Entity", "Rotation in Radians: " + this.rotationRad);
-      //      Log.d("Entity", "Rotation in Degrees: " + Math.toDegrees(this.rotationRad));
-      this.lastRotationRad = this.rotationRad;
     }
   }
 
