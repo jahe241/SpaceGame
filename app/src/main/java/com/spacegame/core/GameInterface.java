@@ -114,29 +114,31 @@ public class GameInterface extends Thread {
     // Reset Button
     addInterfaceContainer(
         new SpriteButton(
-            game.textureAtlas,
-            "joystix_r",
-            "joystix_r",
-            (screenWidth * .9f),
-            (screenHeight * .95f),
-            adaptiveSizeUnit * 3,
-            adaptiveSizeUnit * 3,
-            ButtonType.RESET_GAME,
-            true,
-            ColorHelper.RED));
+                game.textureAtlas,
+                "joystix_r",
+                "joystix_r",
+                (screenWidth * .9f),
+                (screenHeight * .95f),
+                adaptiveSizeUnit * 3,
+                adaptiveSizeUnit * 3,
+                ButtonType.RESET_GAME,
+                true,
+                ColorHelper.RED)
+            .setActiveDuringState(InterfaceState.PLAYING));
     // Debug Button
     addInterfaceContainer(
         new SpriteButton(
-            game.textureAtlas,
-            "joystix_d",
-            "joystix_d",
-            (screenWidth * .9f),
-            (screenHeight * .95f) - adaptiveSizeUnit * 4,
-            adaptiveSizeUnit * 3,
-            adaptiveSizeUnit * 3,
-            ButtonType.DEBUG_BUTTON,
-            true,
-            ColorHelper.ORANGE));
+                game.textureAtlas,
+                "joystix_d",
+                "joystix_d",
+                (screenWidth * .9f),
+                (screenHeight * .95f) - adaptiveSizeUnit * 4,
+                adaptiveSizeUnit * 3,
+                adaptiveSizeUnit * 3,
+                ButtonType.DEBUG_BUTTON,
+                true,
+                ColorHelper.ORANGE)
+            .setActiveDuringState(InterfaceState.PLAYING));
 
     // Add the gamepad
     this.gamePad = new GamePad(game.textureAtlas, screenWidth, screenHeight);
@@ -147,8 +149,8 @@ public class GameInterface extends Thread {
     this.scoreLabel =
         new SpriteLabel(
             "SCORE: 9999",
-            50,
-            screenHeight * .3f,
+            screenWidth * .10f, // Center of the screen
+            screenHeight * .30f,
             this.adaptiveSizeUnit * 2,
             ColorHelper.TRANSPARENT,
             game.textureAtlas);
@@ -178,16 +180,27 @@ public class GameInterface extends Thread {
     this.pauseMenu.addButton(
         new SpriteButton(
             game.textureAtlas,
-            "joystix_q",
-            "joystix_q",
+            "monk",
+            "peepo",
             screenWidth / 2, // Center of the screen
-            screenHeight / 2,
-            200f,
-            200f,
-            ButtonType.TOGGLE_PAUSE,
+            screenHeight * .7f,
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
+            ButtonType.CHEAT_BUTTON,
             true,
             ColorHelper.TRANSPARENT));
     this.pauseMenu.addLabel(this.scoreLabel);
+
+    this.pauseMenu.addLabel(
+        new SpriteLabel(
+            "PAUSED",
+            (screenWidth * .5f)
+                - (((adaptiveSizeUnit * 2) * 5) * .5f), // +5 characterSize, to center the text
+            screenHeight * .18f,
+            this.adaptiveSizeUnit * 2,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas));
+
     this.pauseMenu.hide();
     addInterfaceContainer(this.pauseMenu);
   }
@@ -238,7 +251,10 @@ public class GameInterface extends Thread {
       // Check if the touch event is within the bounds of any of the interface elements
       for (Entity element : interfaceElements) {
         if (element instanceof SpriteButton button) { // this is so fancy!
-          if (button.isActive() && button.isTouchWithinButton(event.getX(), event.getY())) {
+
+          if (button.isActive()
+              && (button.getActiveState() == null || this.state == button.getActiveState())
+              && button.isTouchWithinButton(event.getX(), event.getY())) {
             this.handleButtonEvent(button.click());
             return;
           }
@@ -288,7 +304,6 @@ public class GameInterface extends Thread {
         } else {
           game.pauseGame();
           this.scoreLabel.setText("SCORE: " + game.getScore());
-
           this.state = InterfaceState.PAUSE_MENU;
           this.pauseMenu.show();
           soundEngine.pause(soundEngine.getGameMusic());
@@ -303,6 +318,10 @@ public class GameInterface extends Thread {
       case DEBUG_BUTTON:
         this.game.spawnRandomEnemy(64);
         this.game.setScore(this.game.getScore() + 10);
+        break;
+      case CHEAT_BUTTON:
+        this.game.setScore(this.game.getScore() + 1);
+        this.scoreLabel.setText("SCORE: " + game.getScore());
         break;
     }
   }
