@@ -3,6 +3,7 @@ package com.spacegame.core;
 import android.util.Log;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
+import com.spacegame.entities.BackgroundManager;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
@@ -52,6 +53,8 @@ public class Game extends Thread {
   int score = 0;
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
+  BackgroundManager backgroundManager;
+
   public Game(int height, int width) {
     super("Game Thread");
     this.height = height;
@@ -88,6 +91,8 @@ public class Game extends Thread {
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
+    this.backgroundManager =
+        new BackgroundManager(this.textureAtlas, width, height, adaptiveScaleFactor);
     this.timer.start();
   }
 
@@ -155,6 +160,9 @@ public class Game extends Thread {
    * @param deltaTime The time since the last frame in seconds.
    */
   public void update(float deltaTime) {
+    // Update the background
+    backgroundManager.update(deltaTime, this.player.getPosition());
+
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
     // Remove the entities that are marked for deletion
@@ -162,7 +170,7 @@ public class Game extends Thread {
     for (int i = 0; i < entities.size(); i++) {
       Entity entity = entities.get(i);
       if (entity.getDiscard()) {
-        if (entity instanceof BaseEnemy actor) {
+        if (entity instanceof BaseEnemy) {
           this.addScore(1);
         }
         entities.remove(i);

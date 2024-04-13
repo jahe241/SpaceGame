@@ -114,8 +114,15 @@ public class Entity extends Quad {
     this.sprite = textureAtlas.getAnimationSprites(anim.animationTextureName).get(0);
     assert this.sprite != null;
     this.vbo.updateTexture(this.sprite);
-
     this.anim = new Animation(this, textureAtlas, anim);
+  }
+
+  public Entity(
+      TextureAtlas textureAtlas, Sprite sprite, float x, float y, float width, float height) {
+    super(x, y, width, height);
+    assert sprite != null;
+    assert textureAtlas != null;
+    this.textureAtlas = textureAtlas;
   }
 
   /**
