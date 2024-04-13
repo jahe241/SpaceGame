@@ -48,7 +48,6 @@ public class Game extends Thread {
   int width;
 
   float scaleFactor;
-
   float adaptiveScaleFactor;
   int score = 0;
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
@@ -92,7 +91,8 @@ public class Game extends Thread {
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
     this.backgroundManager =
-        new BackgroundManager(this.textureAtlas, width, height, adaptiveScaleFactor);
+        new BackgroundManager(
+            this.textureAtlas, width, height, adaptiveScaleFactor, player.getPosition());
     this.timer.start();
   }
 
@@ -160,6 +160,7 @@ public class Game extends Thread {
    * @param deltaTime The time since the last frame in seconds.
    */
   public void update(float deltaTime) {
+    //    DebugLogger.log("DEBUG", this.player.toString());
     // Update the background
     backgroundManager.update(deltaTime, this.player.getPosition());
 
@@ -192,6 +193,12 @@ public class Game extends Thread {
         actor.collidesWithAny(otherEntities);
         actor.setPlayerVelocity(playerVelocity);
       }
+    }
+
+    // spawns a spawns a random enemies every frame during every 5th second
+    int spawnTimer = 0;
+    if (timer.getElapsedTime() / 1000 % 5 == 0) {
+      spawnRandomEnemy(1);
     }
     // TODO: Physics / Interaction-Checks here
   }
@@ -322,10 +329,16 @@ public class Game extends Thread {
   private void spawnRandomEntity(float x, float y) {
     String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
     var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
-    randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
+    scaleEntityToScreenSize(randomDude);
+
     randomDude.setZ(-1);
     randomDude.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
-    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
+    // angle them towards the player
+    randomDude.setDirection(
+        this.player.getPosition().to(randomDude.getPosition()).normalized().inversed());
+    //    randomDude.setVelocity(randomDude.getDirection().mult(100f));
+    randomDude.setAcceleration(rng.nextFloat() * 100f);
+    //    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
     this.addEntity(randomDude);
     float explosionSize = Math.max(randomDude.getWidth(), randomDude.getHeight()) * 1.8f;
     Actor explosion =
@@ -335,11 +348,48 @@ public class Game extends Thread {
             y,
             explosionSize,
             explosionSize,
-            new AnimationOptions(1f, false, Constants.animation_EXPLOSION, true));
+            new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
 
     explosion.setZ(0);
     explosion.setRotationRad(randomDude.getRotationRad());
+    explosion.setColorOverlay(new float[] {0f, 0f, 1f, 0.5f});
     this.addEntity(explosion);
+  }
+
+  private void scaleEntityToScreenSize(Entity entity) {
+    DebugLogger.log("DEBUG", "Adapter Scale Factor: " + this.adaptiveScaleFactor);
+    float rngFactor =
+        rng.nextFloat() * 0.05f
+            + 0.01f; // Random percentage between 0.01% and 30%, Represents Screen Space
+    DebugLogger.log("DEBUG", "rngFactor for Scaling: " + rngFactor);
+
+    float originalWidth = entity.getWidth();
+    float originalHeight = entity.getHeight();
+    float originalRatio = originalWidth / originalHeight;
+    float originalArea = originalWidth * originalHeight;
+    float newArea = (this.width * this.height) * (rngFactor);
+    DebugLogger.log(
+        "DEBUG",
+        "Original Area: "
+            + originalArea
+            + " New Area: "
+            + newArea
+            + " Screen Area: "
+            + this.width * this.height);
+    float newWidth = (float) Math.sqrt(newArea / originalRatio);
+    float newHeight = newWidth / originalRatio;
+    DebugLogger.log(
+        "DEBUG",
+        "Original Size: ("
+            + originalWidth
+            + ", "
+            + originalHeight
+            + ") New Size: ("
+            + newWidth
+            + ", "
+            + newHeight
+            + ")");
+    entity.scale(newWidth, newHeight);
   }
 
   public int setScore(int score) {
