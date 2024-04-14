@@ -114,8 +114,15 @@ public class Entity extends Quad {
     this.sprite = textureAtlas.getAnimationSprites(anim.animationTextureName).get(0);
     assert this.sprite != null;
     this.vbo.updateTexture(this.sprite);
-
     this.anim = new Animation(this, textureAtlas, anim);
+  }
+
+  public Entity(
+      TextureAtlas textureAtlas, Sprite sprite, float x, float y, float width, float height) {
+    super(x, y, width, height);
+    assert sprite != null;
+    assert textureAtlas != null;
+    this.textureAtlas = textureAtlas;
   }
 
   /**
@@ -139,21 +146,20 @@ public class Entity extends Quad {
    */
   void updatePosition(float deltaTime) {
     // Update the velocity based on the acceleration
-    this.setVelocity(this.getVelocity().add(this.getDirection().mult(this.getAcceleration())));
+    this.setVelocity(this.velocity.add(this.getDirection().mult(this.getAcceleration())));
 
     // If direction is zero Vector then decelerate
     if (this.getDirection().length() == 0) {
-      if (this.getVelocity().length() < this.getAcceleration() / 2) {
+      if (this.velocity.length() < this.getAcceleration() / 2) {
         this.setVelocity(new Vector2D(0, 0));
       } else {
-        this.setVelocity(
-            this.getVelocity().toSize(this.getVelocity().length() - this.getAcceleration() / 2));
+        this.setVelocity(this.velocity.toSize(this.velocity.length() - this.getAcceleration() / 2));
         // this.setVelocity(this.getVelocity().mult(this.getDecelerationFactor()));
       }
     }
     // Limit the velocity to the base speed
-    if (this.getVelocity().length() > this.getBaseSpeed()) {
-      this.setVelocity(this.getVelocity().toSize(this.getBaseSpeed()));
+    if (this.velocity.length() > this.getBaseSpeed()) {
+      this.setVelocity(this.velocity.toSize(this.getBaseSpeed()));
     }
     this.setPosition(this.getPosition().add(this.getVelocity().mult(deltaTime)));
   }
