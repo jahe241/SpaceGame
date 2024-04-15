@@ -91,8 +91,7 @@ public class Game extends Thread {
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
     this.backgroundManager =
-        new BackgroundManager(
-            this.textureAtlas, width, height, adaptiveScaleFactor, player.getPosition());
+        new BackgroundManager(this.textureAtlas, width, height, adaptiveScaleFactor);
     this.timer.start();
   }
 

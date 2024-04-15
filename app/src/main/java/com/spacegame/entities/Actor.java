@@ -1,5 +1,7 @@
 package com.spacegame.entities;
 
+import com.spacegame.core.Game;
+import com.spacegame.entities.inventory.Inventory;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.DebugLogger;
@@ -8,6 +10,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Actor extends Entity {
+  /** The game class */
+  Game game;
+
+  /** The inventory of the actor */
+  Inventory inventory;
 
   /**
    * Wether this entity is collidable. If true, the entity will be checked for collisions with other
@@ -183,5 +190,10 @@ public class Actor extends Entity {
   public Vector2D getVelocity() {
     if (this.playerVelocity != null) return this.velocity.add(this.playerVelocity.inversed());
     else return new Vector2D(this.velocity);
+  }
+
+  /** Getter for the game class that hold this actor */
+  public Game getGame() {
+    return this.game;
   }
 }
