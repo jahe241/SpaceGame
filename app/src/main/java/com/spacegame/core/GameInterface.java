@@ -67,7 +67,7 @@ public class GameInterface extends Thread {
         (int) (screenWidth * 0.05f); // The font size is 2.5% of the screen height
     DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
-    soundEngine.play(SoundType.inGame);
+    soundEngine.playMusic(SoundType.inGame);
   }
 
   /**
@@ -301,13 +301,13 @@ public class GameInterface extends Thread {
           game.resumeGame();
           this.state = InterfaceState.PLAYING;
           this.pauseMenu.hide();
-          soundEngine.play(SoundType.inGame);
+          soundEngine.playMusic(SoundType.inGame);
         } else {
           game.pauseGame();
           this.scoreLabel.setText("SCORE: " + game.getScore());
           this.state = InterfaceState.PAUSE_MENU;
           this.pauseMenu.show();
-          soundEngine.pause(SoundType.inGame);
+          soundEngine.pauseMusic(SoundType.inGame);
         }
         break;
         // Check other Cases here
@@ -353,15 +353,15 @@ public class GameInterface extends Thread {
   }
 
   public void onPause() {
-    soundEngine.pause(SoundType.inGame);
+    soundEngine.pauseMusic(SoundType.inGame);
   }
 
   public void onResume() {
-    soundEngine.play(SoundType.inGame);
+    soundEngine.playMusic(SoundType.inGame);
   }
 
   public void onDestroy() {
-    soundEngine.stop(SoundType.inGame);
+    soundEngine.stopMusic(SoundType.inGame);
     soundEngine.release();
   }
 }

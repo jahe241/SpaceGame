@@ -4,5 +4,6 @@ public enum SoundType {
     mainMenu,
     inGame,
     shoot,
+    explosion,
     hit,
 }

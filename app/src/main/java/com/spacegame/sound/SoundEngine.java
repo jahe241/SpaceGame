@@ -7,70 +7,83 @@ import com.spacegame.R;
 
 public class SoundEngine {
 
-  private static SoundEngine instance = null;
   private MediaPlayer mainMenu;
   private MediaPlayer inGame;
-  private MediaPlayer explosion;
-  private MediaPlayer shoot;
+  private SoundPool soundPool;
+  private int shoot;
+  private int explosion;
 
-  public SoundEngine(Context context) {
-    mainMenu = MediaPlayer.create(context, R.raw.themesong);
-    inGame = MediaPlayer.create(context, R.raw.orbitalcolossus);
-    explosion = MediaPlayer.create(context, R.raw.rlaunch);
-    shoot = MediaPlayer.create(context, R.raw.shoot1);
-  }
+/**
+ * Constructor for the SoundEngine class.
+ *
+ * @param context The context of the caller. This is used to access application-specific resources.
+ */
+public SoundEngine(Context context) {
+  // Create a MediaPlayer instance for the main menu music, using the themesong resource.
+  mainMenu = MediaPlayer.create(context, R.raw.themesong);
+
+  // Create a MediaPlayer instance for the in-game music, using the orbitalcolossus resource.
+  inGame = MediaPlayer.create(context, R.raw.orbitalcolossus);
+
+  // Create a new SoundPool instance using the builder pattern.
+  soundPool = new SoundPool.Builder().build();
+
+  // Load the explosion sound into the SoundPool, using the rlaunch resource.
+  explosion = soundPool.load(context, R.raw.rlaunch,1 );
+
+  // Load the shoot sound into the SoundPool, using the shoot1 resource.
+  shoot = soundPool.load(context, R.raw.shoot1,1 );
+}
 
   public void prepare() {
     mainMenu.prepareAsync();
     inGame.prepareAsync();
-    explosion.prepareAsync();
   }
 
-  public MediaPlayer getGameMusic() {
-    return inGame;
-  }
 
-  public MediaPlayer getMainMenu() {
-    return mainMenu;
-  }
-
-  public MediaPlayer getExplosion() {
-    return explosion;
-  }
-
-  public MediaPlayer getSound(SoundType soundType) {
+  public MediaPlayer getMusic(SoundType soundType) {
       return switch (soundType) {
-          case mainMenu -> mainMenu;
-          case inGame -> inGame;
-          case shoot -> shoot;
-          default -> throw new IllegalArgumentException("Sound Not Found");
+        case mainMenu -> mainMenu;
+        case inGame -> inGame;
+        default -> throw new IllegalArgumentException("Sound Not Found");
       };
   }
 
-  public void play(SoundType soundType) {
-    MediaPlayer music = getSound(soundType);
+  public int getSound(SoundType soundType) {
+    return switch (soundType) {
+      case explosion -> explosion;
+      case shoot -> shoot;
+      default -> throw new IllegalArgumentException("Sound Not Found");
+    };
+  }
+
+  public void playMusic(SoundType soundType) {
+    MediaPlayer music = getMusic(soundType);
     if (!music.isPlaying()) {
       music.start();
+      music.setLooping(true);
     }
+  }
+
+  public void playSound(SoundType soundType) {
+    int sound = getSound(soundType);
+    soundPool.play(sound, 1,1,0,0,1);
   }
 
   public boolean isPlaying(MediaPlayer music) {
     return music.isPlaying();
   }
 
-
-
-
-  public void stop(SoundType soundType) {
-    MediaPlayer music = getSound(soundType);
+  public void stopMusic(SoundType soundType) {
+    MediaPlayer music = getMusic(soundType);
     if (music.isPlaying()) {
       music.stop();
       music.prepareAsync();
     }
   }
 
-  public void pause(SoundType soundType) {
-    MediaPlayer music = getSound(soundType);
+  public void pauseMusic(SoundType soundType) {
+    MediaPlayer music = getMusic(soundType);
     if (music.isPlaying()) {
       music.pause();
     }
@@ -79,9 +92,7 @@ public class SoundEngine {
   public void release() {
     inGame.release();
     mainMenu.release();
-    explosion.release();
     inGame = null;
     mainMenu = null;
-    explosion = null;
   }
 }
