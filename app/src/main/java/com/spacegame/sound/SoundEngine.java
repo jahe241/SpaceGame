@@ -2,32 +2,32 @@ package com.spacegame.sound;
 
 import android.content.Context;
 import android.media.*;
+
 import com.spacegame.R;
 
 public class SoundEngine {
+
   private static SoundEngine instance = null;
   private MediaPlayer mainMenu;
-  private MediaPlayer gameMusic;
+  private MediaPlayer inGame;
   private MediaPlayer explosion;
+  private MediaPlayer shoot;
 
   public SoundEngine(Context context) {
     mainMenu = MediaPlayer.create(context, R.raw.themesong);
-    gameMusic = MediaPlayer.create(context, R.raw.orbitalcolossus);
+    inGame = MediaPlayer.create(context, R.raw.orbitalcolossus);
     explosion = MediaPlayer.create(context, R.raw.rlaunch);
-  }
-
-  public static boolean isPlaying(MediaPlayer music) {
-    return music.isPlaying();
+    shoot = MediaPlayer.create(context, R.raw.shoot1);
   }
 
   public void prepare() {
     mainMenu.prepareAsync();
-    gameMusic.prepareAsync();
+    inGame.prepareAsync();
     explosion.prepareAsync();
   }
 
   public MediaPlayer getGameMusic() {
-    return gameMusic;
+    return inGame;
   }
 
   public MediaPlayer getMainMenu() {
@@ -38,30 +38,49 @@ public class SoundEngine {
     return explosion;
   }
 
-  public void start(MediaPlayer music) {
+  public MediaPlayer getSound(SoundType soundType) {
+      return switch (soundType) {
+          case mainMenu -> mainMenu;
+          case inGame -> inGame;
+          case shoot -> shoot;
+          default -> throw new IllegalArgumentException("Sound Not Found");
+      };
+  }
+
+  public void play(SoundType soundType) {
+    MediaPlayer music = getSound(soundType);
     if (!music.isPlaying()) {
       music.start();
     }
   }
 
-  public void stop(MediaPlayer music) {
+  public boolean isPlaying(MediaPlayer music) {
+    return music.isPlaying();
+  }
+
+
+
+
+  public void stop(SoundType soundType) {
+    MediaPlayer music = getSound(soundType);
     if (music.isPlaying()) {
       music.stop();
       music.prepareAsync();
     }
   }
 
-  public void pause(MediaPlayer music) {
+  public void pause(SoundType soundType) {
+    MediaPlayer music = getSound(soundType);
     if (music.isPlaying()) {
       music.pause();
     }
   }
 
   public void release() {
-    gameMusic.release();
+    inGame.release();
     mainMenu.release();
     explosion.release();
-    gameMusic = null;
+    inGame = null;
     mainMenu = null;
     explosion = null;
   }
