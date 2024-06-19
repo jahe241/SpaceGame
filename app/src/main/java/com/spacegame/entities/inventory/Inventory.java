@@ -12,19 +12,25 @@ import java.util.List;
 public class Inventory {
 
   /** Value for the absolute base speed that accumulates from the items held by this inventory */
-  float speedAbsolute = 0;
+  private float speedAbsolute = 1000;
+
+  public float getSpeedAbsolute() {
+    return this.speedAbsolute;
+  }
 
   /**
    * Value for the relative base speed factor that accumulates from the items held by this inventory
    */
-  float speedRelative = 0;
+  private float speedRelative = 0;
+
+  public float getSpeedRelative() {
+    return speedRelative;
+  }
 
   /** The actor that holds this inventory */
   Actor actor;
 
   /** All items held by this inventory */
-  List<Item> items = new ArrayList<>();
-
   private final List<AtRandomItem> atRandomItems = new ArrayList<>();
 
   private final List<OnDamageTakenItem> onDamageTakenItems = new ArrayList<>();
@@ -38,7 +44,6 @@ public class Inventory {
   }
 
   public void addItem(Item item) {
-    items.add(item);
     if (item instanceof AtRandomItem randomItem) {
       this.atRandomItems.add(randomItem);
     } else if (item instanceof OnDamageTakenItem dt) {
@@ -76,5 +81,35 @@ public class Inventory {
     for (OnEnemyHitItem item : this.onEnemyHitItems) {
       item.onEnemyHit();
     }
+  }
+
+  /**
+   * Retrieves all items this {@link Inventory} is holding
+   *
+   * @return
+   */
+  public List<Item> getAllItems() {
+    List<Item> allItems = new ArrayList<>();
+    allItems.addAll(this.atRandomItems);
+    allItems.addAll(this.onDamageTakenItems);
+    allItems.addAll(this.onEnemyHitItems);
+    allItems.addAll(this.statIncreaseItems);
+    return allItems;
+  }
+
+  public List<Item> getAtRandomItems() {
+    return new ArrayList<>(this.atRandomItems);
+  }
+
+  public List<Item> getOnDamageTakenItems() {
+    return new ArrayList<>(this.onDamageTakenItems);
+  }
+
+  public List<Item> getOnEnemyHitItems() {
+    return new ArrayList<>(this.onEnemyHitItems);
+  }
+
+  public List<Item> getStatIncreaseItems() {
+    return new ArrayList<>(this.statIncreaseItems);
   }
 }

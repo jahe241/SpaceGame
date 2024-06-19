@@ -91,6 +91,10 @@ public class Vector2D {
     return new Vector2D(this.getX() + other.getX(), this.getY() + other.getY());
   }
 
+  public Vector2D add(float abs) {
+    return this.toSize(this.length() + abs);
+  }
+
   /**
    * Subtract another vector from this vector
    *

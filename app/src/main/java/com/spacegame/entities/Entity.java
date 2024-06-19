@@ -40,12 +40,6 @@ public class Entity extends Quad {
   Vector2D velocity = new Vector2D(0, 0);
 
   /**
-   * The acceleration of the entity. This is used for simulating changing directions and speeding up
-   * the entity's movement. The acceleration should be used as pixels per second.
-   */
-  float acceleration = 20f;
-
-  /**
    * The direction of the entity. This is a unit vector that represents the direction in which the
    * entity will move to.
    */
@@ -237,11 +231,13 @@ public class Entity extends Quad {
   }
 
   public float getAcceleration() {
-    return this.acceleration;
+    return this.getBaseSpeed() * 0.1f;
   }
 
   public void setAcceleration(float acc) {
-    this.acceleration = acc;
+    // TODO: Delete all usages of this function
+    return;
+    // this.acceleration = acc;
   }
 
   public float getDecelerationFactor() {
