@@ -13,10 +13,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class BackgroundManager {
   // SETTINGS FOR BACKGROUND UNUSED RN
-  private static final int CAP_BACKGROUND_ASSETS = 500; // number of assets to spawn
+  private static final int CAP_BACKGROUND_ASSETS = 750; // number of assets to spawn
   private static final float MAX_SCREEN_SPACE_PERCENTAGE = .25f; // max size a single asset can take
   private static final float MIN_SCREEN_SPACE_PERCENTAGE = .05f; // min size a single asset can take
-  private static final float BACKGROUND_ASSET_PADDING = .1f; // in screen space percentage
+  private static final float BACKGROUND_ASSET_PADDING = .02f; // in screen space percentage
   private static final int LOOP_THRESHOLD_MULTIPLIER = 10; // distance from player to loop asset
   private final int screenSizeConstant;
   private final float loopThreshold;
@@ -84,6 +84,7 @@ public class BackgroundManager {
       // TODO: test this! might lag the game too much on launch!!
       boolean overlaps;
       do {
+        int maxTries = 0;
         overlaps = false;
         x = (rng.nextFloat() * screenSizeConstant) * LOOP_THRESHOLD_MULTIPLIER;
         y = (rng.nextFloat() * screenSizeConstant) * LOOP_THRESHOLD_MULTIPLIER;
@@ -96,6 +97,7 @@ public class BackgroundManager {
             overlaps = true;
             break;
           }
+          if (++maxTries > 250) break;
         }
       } while (overlaps);
 
