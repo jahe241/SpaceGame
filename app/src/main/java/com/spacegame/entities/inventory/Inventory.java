@@ -10,6 +10,36 @@ import java.util.List;
 
 public class Inventory {
 
+  /** The additional attack speed from items */
+  private float attackSpeed = 0f;
+
+  /**
+   * Getter for attackSpeed
+   *
+   * @return
+   */
+  public float getAttackSpeed() {
+    return this.attackSpeed;
+  }
+
+  /**
+   * Adds onto the attackSpeed
+   *
+   * @param attackSpeed
+   */
+  public void addAttackSpeed(float attackSpeed) {
+    this.attackSpeed += attackSpeed;
+  }
+
+  /**
+   * Substract from attackSpeed
+   *
+   * @param attackSpeed
+   */
+  public void subAttackSpeed(float attackSpeed) {
+    this.attackSpeed -= attackSpeed;
+  }
+
   /** Value for the absolute base speed that accumulates from the items held by this inventory */
   private float speedAbsolute = 1000;
 
