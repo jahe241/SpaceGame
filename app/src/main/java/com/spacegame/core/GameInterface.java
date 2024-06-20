@@ -64,7 +64,9 @@ public class GameInterface extends Thread {
     this.screenWidth = screenWidth;
     this.screenHeight = screenHeight;
     this.adaptiveSizeUnit =
-        (int) (screenWidth * 0.05f); // The font size is 2.5% of the screen height
+        (int)
+            (Math.min(screenWidth, screenHeight)
+                * 0.05f); // The font size is 2.5% of the screen height
     DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
     soundEngine.playMusic(SoundType.inGame);

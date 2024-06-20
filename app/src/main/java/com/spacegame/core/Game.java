@@ -3,6 +3,8 @@ package com.spacegame.core;
 import android.util.Log;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
+import com.spacegame.entities.AssetActor;
+import com.spacegame.entities.BackgroundManager;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
@@ -47,10 +49,11 @@ public class Game extends Thread {
   int width;
 
   float scaleFactor;
-
-  float adaptiveScaleFactor;
+  float normalizedScreenWidth;
   int score = 0;
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
+
+  BackgroundManager backgroundManager;
 
   public Game(int height, int width) {
     super("Game Thread");
@@ -81,13 +84,15 @@ public class Game extends Thread {
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
     float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
-    this.adaptiveScaleFactor = Math.min(this.width, this.height);
+    this.normalizedScreenWidth = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     player.setGame(this);
     this.setPlayer(player);
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
+    this.backgroundManager =
+        new BackgroundManager(this.textureAtlas, width, height, normalizedScreenWidth, this);
     this.timer.start();
   }
 
@@ -155,6 +160,10 @@ public class Game extends Thread {
    * @param deltaTime The time since the last frame in seconds.
    */
   public void update(float deltaTime) {
+    //    DebugLogger.log("DEBUG", this.player.toString());
+    // Update the background
+    backgroundManager.update(deltaTime);
+
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
     // Remove the entities that are marked for deletion
@@ -162,7 +171,7 @@ public class Game extends Thread {
     for (int i = 0; i < entities.size(); i++) {
       Entity entity = entities.get(i);
       if (entity.getDiscard()) {
-        if (entity instanceof BaseEnemy actor) {
+        if (entity instanceof BaseEnemy) {
           this.addScore(1);
         }
       }
@@ -183,6 +192,12 @@ public class Game extends Thread {
         actor.collidesWithAny(otherEntities);
         actor.setPlayerVelocity(playerVelocity);
       }
+    }
+
+    // spawns a spawns a random enemies every frame during every 5th second
+    int spawnTimer = 0;
+    if (timer.getElapsedTime() / 1000 % 5 == 0) {
+      spawnRandomEnemy(1);
     }
     // TODO: Physics / Interaction-Checks here
   }
@@ -274,6 +289,7 @@ public class Game extends Thread {
           visibleEntities.add(entity);
         }
       }
+      if (backgroundManager != null) visibleEntities.addAll(backgroundManager.backgroundAssets);
       return visibleEntities;
     }
   }
@@ -312,13 +328,19 @@ public class Game extends Thread {
 
   private void spawnRandomEntity(float x, float y) {
     String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
-    var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
-    randomDude.scale(randomDude.getSprite().w(), randomDude.getSprite().h());
-    randomDude.setZ(-1);
-    randomDude.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
-    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
-    this.addEntity(randomDude);
-    float explosionSize = Math.max(randomDude.getWidth(), randomDude.getHeight()) * 1.8f;
+    var ranEnemeyEntity = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
+    scaleEntityToScreenSize(ranEnemeyEntity);
+
+    ranEnemeyEntity.setZ(-1);
+    ranEnemeyEntity.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
+    // angle them towards the player
+    ranEnemeyEntity.setDirection(
+        this.player.getPosition().to(ranEnemeyEntity.getPosition()).normalized().inversed());
+    //    randomDude.setVelocity(randomDude.getDirection().mult(100f));
+    ranEnemeyEntity.setAcceleration(rng.nextFloat() * 100f);
+    //    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
+    this.addEntity(ranEnemeyEntity);
+    float explosionSize = Math.max(ranEnemeyEntity.getWidth(), ranEnemeyEntity.getHeight()) * 1.8f;
     Actor explosion =
         new Actor(
             this.textureAtlas,
@@ -326,11 +348,48 @@ public class Game extends Thread {
             y,
             explosionSize,
             explosionSize,
-            new AnimationOptions(1f, false, Constants.animation_EXPLOSION, true));
+            new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
 
     explosion.setZ(0);
-    explosion.setRotationRad(randomDude.getRotationRad());
+    explosion.setRotationRad(ranEnemeyEntity.getRotationRad());
+    explosion.setColorOverlay(new float[] {0f, 0f, 1f, 0.5f});
     this.addEntity(explosion);
+  }
+
+  private void scaleEntityToScreenSize(Entity entity) {
+    DebugLogger.log("DEBUG", "Adapter Scale Factor: " + this.normalizedScreenWidth);
+    float rngFactor =
+        rng.nextFloat() * 0.05f
+            + 0.01f; // Random percentage between 0.01% and 30%, Represents Screen Space
+    DebugLogger.log("DEBUG", "rngFactor for Scaling: " + rngFactor);
+
+    float originalWidth = entity.getWidth();
+    float originalHeight = entity.getHeight();
+    float originalRatio = originalWidth / originalHeight;
+    float originalArea = originalWidth * originalHeight;
+    float newArea = (this.width * this.height) * (rngFactor);
+    DebugLogger.log(
+        "DEBUG",
+        "Original Area: "
+            + originalArea
+            + " New Area: "
+            + newArea
+            + " Screen Area: "
+            + this.width * this.height);
+    float newWidth = (float) Math.sqrt(newArea / originalRatio);
+    float newHeight = newWidth / originalRatio;
+    DebugLogger.log(
+        "DEBUG",
+        "Original Size: ("
+            + originalWidth
+            + ", "
+            + originalHeight
+            + ") New Size: ("
+            + newWidth
+            + ", "
+            + newHeight
+            + ")");
+    entity.scale(newWidth, newHeight);
   }
 
   public int setScore(int score) {

@@ -1,5 +1,6 @@
 package com.spacegame.entities;
 
+import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
@@ -66,6 +67,11 @@ public class Actor extends Entity {
       AnimationOptions anim) {
     super(textureAtlas, x, y, width, height, anim);
     this.collidable = true;
+  }
+
+  public Actor(
+      TextureAtlas textureAtlas, Sprite sprite, float x, float y, float width, float height) {
+    super(textureAtlas, sprite, x, y, width, height);
   }
 
   /**

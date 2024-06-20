@@ -1,5 +1,7 @@
 package com.spacegame.entities;
 
+import com.spacegame.graphics.TextureAtlas;
+
 /**
  * The ColorEntity class extends the Entity class and represents an entity with a solid color. This
  * class is used to create entities that do not have a texture, but instead are rendered with a
@@ -20,7 +22,7 @@ public class ColorEntity extends Entity {
    *     four floats representing the RGBA color values.
    */
   public ColorEntity(float x, float y, float width, float height, float[] colorOverlay) {
-    super(null, null, x, y, width, height);
+    super((TextureAtlas) null, (String) null, x, y, width, height); // weird
     this.colorOverlay = colorOverlay;
     this.hasColorOverlay = true;
     this.setColorOverlay(colorOverlay);

@@ -1,6 +1,7 @@
 package com.spacegame.entities;
 
 import android.view.MotionEvent;
+import androidx.annotation.NonNull;
 import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
@@ -90,5 +91,22 @@ public class Player extends Actor {
   @Override
   public Vector2D getVelocity() {
     return new Vector2D(this.velocity);
+  }
+
+  @NonNull
+  @Override
+  public String toString() {
+    return "Player{"
+        + "Pos="
+        + this.getPosition()
+        + ", Vel="
+        + this.getVelocity()
+        + ", Dir="
+        + this.getDirection()
+        + ", Acc="
+        + this.getAcceleration()
+        + ", Speed="
+        + this.getBaseSpeed()
+        + "}";
   }
 }

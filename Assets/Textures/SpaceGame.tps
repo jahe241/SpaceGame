@@ -4,7 +4,7 @@
         <key>fileFormatVersion</key>
         <int>6</int>
         <key>texturePackerVersion</key>
-        <string>7.1.0</string>
+        <string>7.0.3</string>
         <key>autoSDSettings</key>
         <array>
             <struct type="AutoSDSettings">
@@ -80,9 +80,9 @@
         <key>maxTextureSize</key>
         <QSize>
             <key>width</key>
-            <int>2048</int>
+            <int>4096</int>
             <key>height</key>
-            <int>2048</int>
+            <int>4096</int>
         </QSize>
         <key>fixedTextureSize</key>
         <QSize>
@@ -94,7 +94,7 @@
         <key>algorithmSettings</key>
         <struct type="AlgorithmSettings">
             <key>algorithm</key>
-            <enum type="AlgorithmSettings::AlgorithmId">Basic</enum>
+            <enum type="AlgorithmSettings::AlgorithmId">MaxRects</enum>
             <key>freeSizeMode</key>
             <enum type="AlgorithmSettings::AlgorithmFreeSizeMode">Best</enum>
             <key>sizeConstraints</key>
@@ -484,6 +484,47 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
+            <key type="filename">background/background_planet_001.png</key>
+            <key type="filename">background/background_planet_002.png</key>
+            <key type="filename">background/background_planet_003.png</key>
+            <key type="filename">background/background_planet_004.png</key>
+            <key type="filename">background/background_planet_005.png</key>
+            <key type="filename">background/background_planet_006.png</key>
+            <key type="filename">background/background_planet_007.png</key>
+            <key type="filename">background/background_planet_008.png</key>
+            <key type="filename">background/background_planet_009.png</key>
+            <key type="filename">background/background_planet_010.png</key>
+            <key type="filename">background/background_planet_011.png</key>
+            <key type="filename">background/background_planet_012.png</key>
+            <key type="filename">background/background_planet_013.png</key>
+            <key type="filename">background/background_planet_014.png</key>
+            <key type="filename">background/background_planet_015.png</key>
+            <key type="filename">background/background_planet_016.png</key>
+            <key type="filename">background/background_planet_017.png</key>
+            <key type="filename">background/background_planet_018.png</key>
+            <key type="filename">background/background_planet_019.png</key>
+            <key type="filename">background/background_planet_020.png</key>
+            <key type="filename">background/background_planet_021.png</key>
+            <key type="filename">background/background_planet_022.png</key>
+            <key type="filename">background/background_planet_023.png</key>
+            <key type="filename">background/background_planet_024.png</key>
+            <key type="filename">background/background_planet_025.png</key>
+            <key type="filename">background/background_planet_026.png</key>
+            <key type="filename">background/background_planet_027.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.25</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>256,256,512,512</rect>
+                <key>scale9Paddings</key>
+                <rect>256,256,512,512</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
             <key type="filename">interface/scifi_inventory01.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -556,6 +597,7 @@
                     <filename>Actors</filename>
                     <filename>animations</filename>
                     <filename>interface</filename>
+                    <filename>background</filename>
                 </array>
             </struct>
         </map>
