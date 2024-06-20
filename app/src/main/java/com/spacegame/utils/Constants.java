@@ -6,6 +6,8 @@ public class Constants {
   public static String PLAYER = "pixel_ship_pepe";
   public static String FONT_PREFIX = "joystix_";
 
+  public static String BLUE_PROJECTILE = "blue_projectile";
+
   public static String PLANETS = "background_planet_";
 
   public static String[] GAMEPAD = {

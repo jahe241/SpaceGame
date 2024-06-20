@@ -5,4 +5,5 @@ public enum ItemClass {
   ON_ENEMY_HIT,
   ON_DAMAGE_TAKEN,
   STAT_INCREASE,
+  TIMER
 }
