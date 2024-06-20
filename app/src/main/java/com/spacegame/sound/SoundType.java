@@ -6,4 +6,5 @@ public enum SoundType {
     shoot,
     explosion,
     hit,
+    gameOver,
 }
