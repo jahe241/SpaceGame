@@ -167,14 +167,13 @@ public class Game extends Thread {
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
     // Remove the entities that are marked for deletion
-    //    entities.removeIf(Entity::getDiscard);
+    entities.removeIf(Entity::getDiscard);
     for (int i = 0; i < entities.size(); i++) {
       Entity entity = entities.get(i);
       if (entity.getDiscard()) {
         if (entity instanceof BaseEnemy) {
           this.addScore(1);
         }
-        entities.remove(i);
       }
     }
 
