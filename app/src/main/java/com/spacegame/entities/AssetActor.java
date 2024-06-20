@@ -18,6 +18,7 @@ public class AssetActor extends Actor {
     super(textureAtlas, sprite, x, y, width, height);
     this.parallaxFactor = parallaxFactor;
     this.collidable = false;
+    this.setZ(-5);
   }
 
   @Override
