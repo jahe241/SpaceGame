@@ -77,38 +77,32 @@ public class BackgroundManager {
 
       addBackgroundAsset(sprite, x, y, size, size);
     }
+    backgroundAssets.sort((a, b) -> Float.compare(b.getZ(), a.getZ()));
   }
 
   private void addBackgroundAsset(Sprite sprite, float x, float y, float width, float height) {
     // calc value between .1 and .9f
     float parralaxFactor = randomFloat(.1f, .9f);
     AssetActor asset = new AssetActor(textureAtlas, sprite, x, y, width, height, parralaxFactor);
-    float z_index = 0.0f - ((int) (parralaxFactor * 10));
-    DebugLogger.log(
-        "BackgroundManager",
-        "Adding background asset at "
-            + x
-            + ","
-            + y
-            + " with dimensions "
-            + width
-            + "x"
-            + height
-            + " and z-index "
-            + z_index);
+    float z_index = 0.0f - ((parralaxFactor * 10));
+    //    DebugLogger.log(
+    //        "BackgroundManager",
+    //        "Adding background asset at "
+    //            + x
+    //            + ","
+    //            + y
+    //            + " with dimensions "
+    //            + width
+    //            + "x"
+    //            + height
+    //            + " and z-index "
+    //            + z_index);
     asset.scale(width, height);
     asset.setZ(z_index);
     asset.setRotationRad(rng.nextFloat() * 2 * (float) Math.PI);
     //     calculate the overlay opacity based on the parallax layer
     float dimFactor = (1 - parralaxFactor) * 1.5f;
-    System.out.printf("dimFactor: %f\n", dimFactor);
-    asset.setColorOverlay(
-        new float[] {
-          dimFactor - randomFloat(.01f, .2f),
-          dimFactor - randomFloat(.01f, .2f),
-          dimFactor - randomFloat(.01f, .2f),
-          1.f
-        });
+    asset.setColorOverlay(new float[] {dimFactor, dimFactor, dimFactor, 1.f});
     backgroundAssets.add(asset);
   }
 
