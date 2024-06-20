@@ -11,6 +11,7 @@ import com.spacegame.core.ui.SpritePopup;
 import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.sound.SoundEngine;
+import com.spacegame.sound.SoundType;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.DebugLogger;
 import java.util.ArrayList;
@@ -66,7 +67,7 @@ public class GameInterface extends Thread {
         (int) (screenWidth * 0.05f); // The font size is 2.5% of the screen height
     DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
-    soundEngine.start(soundEngine.getGameMusic());
+    soundEngine.playMusic(SoundType.inGame);
   }
 
   /**
@@ -300,13 +301,13 @@ public class GameInterface extends Thread {
           game.resumeGame();
           this.state = InterfaceState.PLAYING;
           this.pauseMenu.hide();
-          soundEngine.start(soundEngine.getGameMusic());
+          soundEngine.playMusic(SoundType.inGame);
         } else {
           game.pauseGame();
           this.scoreLabel.setText("SCORE: " + game.getScore());
           this.state = InterfaceState.PAUSE_MENU;
           this.pauseMenu.show();
-          soundEngine.pause(soundEngine.getGameMusic());
+          soundEngine.pauseMusic(SoundType.inGame);
         }
         break;
         // Check other Cases here
@@ -352,15 +353,15 @@ public class GameInterface extends Thread {
   }
 
   public void onPause() {
-    soundEngine.pause(soundEngine.getGameMusic());
+    soundEngine.pauseMusic(SoundType.inGame);
   }
 
   public void onResume() {
-    soundEngine.start(soundEngine.getGameMusic());
+    soundEngine.playMusic(SoundType.inGame);
   }
 
   public void onDestroy() {
-    soundEngine.stop(soundEngine.getGameMusic());
+    soundEngine.stopMusic(SoundType.inGame);
     soundEngine.release();
   }
 }
