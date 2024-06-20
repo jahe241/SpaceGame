@@ -3,6 +3,7 @@ package com.spacegame.core;
 import android.util.Log;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
+import com.spacegame.entities.AssetActor;
 import com.spacegame.entities.BackgroundManager;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
@@ -48,7 +49,7 @@ public class Game extends Thread {
   int width;
 
   float scaleFactor;
-  float adaptiveScaleFactor;
+  float normalizedScreenWidth;
   int score = 0;
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
@@ -83,7 +84,7 @@ public class Game extends Thread {
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
     float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
-    this.adaptiveScaleFactor = Math.min(this.width, this.height);
+    this.normalizedScreenWidth = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     player.setGame(this);
     this.setPlayer(player);
@@ -91,7 +92,7 @@ public class Game extends Thread {
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
     this.backgroundManager =
-        new BackgroundManager(this.textureAtlas, width, height, adaptiveScaleFactor);
+        new BackgroundManager(this.textureAtlas, width, height, normalizedScreenWidth, this);
     this.timer.start();
   }
 
@@ -161,7 +162,7 @@ public class Game extends Thread {
   public void update(float deltaTime) {
     //    DebugLogger.log("DEBUG", this.player.toString());
     // Update the background
-    backgroundManager.update(deltaTime, this.player.getPosition());
+    backgroundManager.update(deltaTime);
 
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
@@ -288,6 +289,7 @@ public class Game extends Thread {
           visibleEntities.add(entity);
         }
       }
+      if (backgroundManager != null) visibleEntities.addAll(backgroundManager.backgroundAssets);
       return visibleEntities;
     }
   }
@@ -326,19 +328,19 @@ public class Game extends Thread {
 
   private void spawnRandomEntity(float x, float y) {
     String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
-    var randomDude = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
-    scaleEntityToScreenSize(randomDude);
+    var ranEnemeyEntity = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
+    scaleEntityToScreenSize(ranEnemeyEntity);
 
-    randomDude.setZ(-1);
-    randomDude.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
+    ranEnemeyEntity.setZ(-1);
+    ranEnemeyEntity.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
     // angle them towards the player
-    randomDude.setDirection(
-        this.player.getPosition().to(randomDude.getPosition()).normalized().inversed());
+    ranEnemeyEntity.setDirection(
+        this.player.getPosition().to(ranEnemeyEntity.getPosition()).normalized().inversed());
     //    randomDude.setVelocity(randomDude.getDirection().mult(100f));
-    randomDude.setAcceleration(rng.nextFloat() * 100f);
+    ranEnemeyEntity.setAcceleration(rng.nextFloat() * 100f);
     //    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
-    this.addEntity(randomDude);
-    float explosionSize = Math.max(randomDude.getWidth(), randomDude.getHeight()) * 1.8f;
+    this.addEntity(ranEnemeyEntity);
+    float explosionSize = Math.max(ranEnemeyEntity.getWidth(), ranEnemeyEntity.getHeight()) * 1.8f;
     Actor explosion =
         new Actor(
             this.textureAtlas,
@@ -349,13 +351,13 @@ public class Game extends Thread {
             new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
 
     explosion.setZ(0);
-    explosion.setRotationRad(randomDude.getRotationRad());
+    explosion.setRotationRad(ranEnemeyEntity.getRotationRad());
     explosion.setColorOverlay(new float[] {0f, 0f, 1f, 0.5f});
     this.addEntity(explosion);
   }
 
   private void scaleEntityToScreenSize(Entity entity) {
-    DebugLogger.log("DEBUG", "Adapter Scale Factor: " + this.adaptiveScaleFactor);
+    DebugLogger.log("DEBUG", "Adapter Scale Factor: " + this.normalizedScreenWidth);
     float rngFactor =
         rng.nextFloat() * 0.05f
             + 0.01f; // Random percentage between 0.01% and 30%, Represents Screen Space
