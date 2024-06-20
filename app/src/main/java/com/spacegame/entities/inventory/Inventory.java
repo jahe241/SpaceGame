@@ -114,7 +114,7 @@ public class Inventory {
   }
 
   /** The actor that holds this inventory */
-  Actor actor;
+  public Actor actor;
 
   private List<Item> allItems = new ArrayList<>();
 

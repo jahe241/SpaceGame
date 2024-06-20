@@ -9,11 +9,13 @@ public abstract class Item {
   protected Inventory inventory;
   public final ItemClass itemClass;
 
-  protected Item(int id, ItemClass itemClass, String name, String description) {
+  protected Item(
+      int id, ItemClass itemClass, String name, String description, Inventory inventory) {
     this.id = id;
     this.itemClass = itemClass;
     this.name = name;
     this.description = description;
+    this.inventory = inventory;
   }
 
   public abstract void onAdd(Inventory inventory);

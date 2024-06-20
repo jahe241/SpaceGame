@@ -5,8 +5,8 @@ import com.spacegame.entities.inventory.Inventory;
 
 public class LaserCanon extends TimerItem {
 
-  public LaserCanon() {
-    super(2, "Laser Canon", "Pew pew", 2.5f);
+  public LaserCanon(Inventory inventory) {
+    super(2, "Laser Canon", "Pew pew", 2.5f, inventory);
   }
 
   @Override
