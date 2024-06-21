@@ -12,11 +12,10 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class BackgroundManager {
-  // SETTINGS FOR BACKGROUND UNUSED RN
-  private static final int CAP_BACKGROUND_ASSETS = 3000; // number of assets to spawn
+  private static final int CAP_BACKGROUND_ASSETS = 500; // number of assets to spawn
   private static final float MAX_SCREEN_SPACE_PERCENTAGE = .3f; // max size a single asset can take
   private static final float MIN_SCREEN_SPACE_PERCENTAGE = .05f; // min size a single asset can take
-  private static final float BACKGROUND_ASSET_PADDING = .3f; // in screen space percentage
+  private static final float BACKGROUND_ASSET_PADDING = .6f; // in screen space percentage
   private static final int LOOP_THRESHOLD_MULTIPLIER = 10; // distance from player to loop asset
   private final int screenSizeConstant;
   private final float loopThreshold;
@@ -55,6 +54,10 @@ public class BackgroundManager {
     float cellWidth = (float) (screenSizeConstant * LOOP_THRESHOLD_MULTIPLIER) / gridSize;
     float cellHeight = (float) (screenSizeConstant * LOOP_THRESHOLD_MULTIPLIER) / gridSize;
 
+    // Center the grid around (0,0)
+    float gridOriginX = -(gridSize * cellWidth) / 2;
+    float gridOriginY = -(gridSize * cellHeight) / 2;
+
     for (int i = 0; i < CAP_BACKGROUND_ASSETS; i++) {
       float sizeFactor = MIN_SCREEN_SPACE_PERCENTAGE + rng.nextFloat() * sizeRange;
       float size = screenSizeConstant * sizeFactor;
@@ -62,16 +65,16 @@ public class BackgroundManager {
       int row = i / gridSize;
       int col = i % gridSize;
 
-      float xBase = col * cellWidth;
-      float yBase = row * cellHeight;
+      float xBase = gridOriginX + col * cellWidth;
+      float yBase = gridOriginY + row * cellHeight;
 
-      // Apply staggered grid (hexagonal-like) pattern
+      // Offset odd rows for a staggered grid effect
       if (row % 2 == 1) {
         xBase += cellWidth / 2;
       }
 
-      float x = xBase + rng.nextFloat() * (cellWidth - size - padding);
-      float y = yBase + rng.nextFloat() * (cellHeight - size - padding);
+      float x = xBase + padding / 2 + rng.nextFloat() * (cellWidth - size - padding);
+      float y = yBase + padding / 2 + rng.nextFloat() * (cellHeight - size - padding);
 
       Sprite sprite = backgroundSprites.get(rng.nextInt(backgroundSprites.size()));
 
@@ -81,8 +84,7 @@ public class BackgroundManager {
   }
 
   private void addBackgroundAsset(Sprite sprite, float x, float y, float width, float height) {
-    // calc value between .1 and .9f
-    float parralaxFactor = randomFloat(.1f, .9f);
+    float parralaxFactor = randomFloat(.3f, .9f);
     AssetActor asset = new AssetActor(textureAtlas, sprite, x, y, width, height, parralaxFactor);
     float z_index = 0.0f - ((parralaxFactor * 10));
     //    DebugLogger.log(
@@ -100,7 +102,6 @@ public class BackgroundManager {
     asset.scale(width, height);
     asset.setZ(z_index);
     asset.setRotationRad(rng.nextFloat() * 2 * (float) Math.PI);
-    //     calculate the overlay opacity based on the parallax layer
     float dimFactor = (1 - parralaxFactor) * 1.5f;
     asset.setColorOverlay(new float[] {dimFactor, dimFactor, dimFactor, 1.f});
     backgroundAssets.add(asset);
