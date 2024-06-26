@@ -55,6 +55,7 @@ public class Player extends Actor {
   @Override
   public void update(float delta) {
     super.update(delta);
+    DebugLogger.log("PLAYERSPEED", String.valueOf(this.baseSpeed));
   }
 
   @Override

@@ -42,7 +42,7 @@ public class Inventory {
   }
 
   /** Value for the absolute base speed that accumulates from the items held by this inventory */
-  private float speedAbsolute = 1000;
+  private float speedAbsolute = 0;
 
   /**
    * Adds to speedAbsolute, called when a {@link

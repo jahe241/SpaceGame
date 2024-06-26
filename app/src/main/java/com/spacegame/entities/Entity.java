@@ -49,7 +49,7 @@ public class Entity extends Quad {
    * The base speed of the entity. This is the speed at which the entity moves when it is not
    * affected by any external forces.
    */
-  float baseSpeed = 500;
+  public float baseSpeed = 300;
 
   /**
    * The TextureAtlas object associated with the entity. This object contains the texture atlas used

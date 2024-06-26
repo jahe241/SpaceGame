@@ -24,6 +24,7 @@ public class LaserCanonProjectile extends Actor {
     this.collidable = true;
     this.collisionMask = CollisionMask.PLAYER_PROJECTILE;
     this.collidesWith = new ArrayList<>(List.of(CollisionMask.ENEMY));
+    this.baseSpeed = 1000;
   }
 
   @Override
