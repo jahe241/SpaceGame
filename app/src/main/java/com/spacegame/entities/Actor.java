@@ -1,6 +1,5 @@
 package com.spacegame.entities;
 
-import com.spacegame.core.Game;
 import com.spacegame.entities.inventory.Inventory;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
@@ -10,11 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Actor extends Entity {
-  /** The game class */
-  Game game;
-
   /** The inventory of the actor */
-  Inventory inventory = new Inventory(this);
+  public Inventory inventory = new Inventory(this);
 
   /**
    * Wether this entity is collidable. If true, the entity will be checked for collisions with other
@@ -79,6 +75,12 @@ public class Actor extends Entity {
   public Actor(
       TextureAtlas textureAtlas, Sprite sprite, float x, float y, float width, float height) {
     super(textureAtlas, sprite, x, y, width, height);
+  }
+
+  @Override
+  public void update(float delta) {
+    super.update(delta);
+    this.inventory.tick(delta);
   }
 
   /**
@@ -197,10 +199,5 @@ public class Actor extends Entity {
     if (this.inventory == null) return this.baseSpeed;
     return (this.inventory.getSpeedAbsolute() + this.baseSpeed)
         * (1 + this.inventory.getSpeedRelative());
-  }
-
-  /** Getter for the game class that hold this actor */
-  public Game getGame() {
-    return this.game;
   }
 }

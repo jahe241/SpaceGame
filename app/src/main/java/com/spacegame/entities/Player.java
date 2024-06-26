@@ -2,16 +2,15 @@ package com.spacegame.entities;
 
 import android.view.MotionEvent;
 import androidx.annotation.NonNull;
-import com.spacegame.core.Game;
+import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Player extends Actor {
-  private Game game;
-
   /**
    * Constructor for the Player class. This constructor initializes a new Player object by calling
    * the superclass constructor with the provided parameters.
@@ -31,9 +30,10 @@ public class Player extends Actor {
     // Collision stuff
     this.collidable = true;
     this.collisionMask = CollisionMask.PLAYER;
-    ArrayList<CollisionMask> temp = new ArrayList<>();
-    temp.add(CollisionMask.ENEMY);
-    this.collidesWith = temp;
+    this.collidesWith =
+        new ArrayList<>(
+            Arrays.asList(CollisionMask.ENEMY, CollisionMask.ENEMY_PROJECTILE, CollisionMask.ITEM));
+    this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
   }
 
   public void onTouch(MotionEvent event) {
@@ -82,10 +82,6 @@ public class Player extends Actor {
     colorOverlay[1] = rainbowColor[1];
     colorOverlay[2] = rainbowColor[2];
     this.setColorOverlay(colorOverlay);
-  }
-
-  public void setGame(Game game) {
-    this.game = game;
   }
 
   @Override

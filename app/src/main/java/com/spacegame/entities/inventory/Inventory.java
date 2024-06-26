@@ -5,6 +5,7 @@ import com.spacegame.entities.inventory.items.AtRandomItem;
 import com.spacegame.entities.inventory.items.Item;
 import com.spacegame.entities.inventory.items.OnDamageTakenItem;
 import com.spacegame.entities.inventory.items.OnEnemyHitItem;
+import com.spacegame.entities.inventory.items.TimerItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -137,10 +138,12 @@ public class Inventory {
    * Will be called every frame For items with a chance of spawning projectiles or something at
    * random with no event triggering them, only random chance
    */
-  public void tick(Actor actor) {
+  public void tick(float deltaTime) {
     for (Item item : this.allItems) {
       if (item instanceof AtRandomItem i) {
-        i.tick(actor);
+        i.tick();
+      } else if (item instanceof TimerItem i) {
+        i.tick(deltaTime);
       }
     }
   }

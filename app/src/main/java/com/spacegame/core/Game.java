@@ -3,7 +3,6 @@ package com.spacegame.core;
 import android.util.Log;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
-import com.spacegame.entities.AssetActor;
 import com.spacegame.entities.BackgroundManager;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
@@ -23,6 +22,9 @@ import java.util.concurrent.ThreadLocalRandom;
  * information about the game's state, entities, and player.
  */
 public class Game extends Thread {
+
+  public static Game game;
+
   /** The list of entities in the game. */
   public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
 
@@ -59,6 +61,7 @@ public class Game extends Thread {
     super("Game Thread");
     this.height = height;
     this.width = width;
+    Game.game = this;
   }
 
   public void setPlayerDirection(Vector2D stickDirection) {
@@ -86,7 +89,6 @@ public class Game extends Thread {
     float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
     this.normalizedScreenWidth = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
-    player.setGame(this);
     this.setPlayer(player);
     addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
@@ -332,7 +334,8 @@ public class Game extends Thread {
     scaleEntityToScreenSize(ranEnemeyEntity);
 
     ranEnemeyEntity.setZ(-1);
-    ranEnemeyEntity.setColorOverlay(new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
+    ranEnemeyEntity.setColorOverlay(
+        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
     // angle them towards the player
     ranEnemeyEntity.setDirection(
         this.player.getPosition().to(ranEnemeyEntity.getPosition()).normalized().inversed());
