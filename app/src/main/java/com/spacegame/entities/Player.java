@@ -34,6 +34,7 @@ public class Player extends Actor {
         new ArrayList<>(
             Arrays.asList(CollisionMask.ENEMY, CollisionMask.ENEMY_PROJECTILE, CollisionMask.ITEM));
     this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
+    this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
   }
 
   public void onTouch(MotionEvent event) {

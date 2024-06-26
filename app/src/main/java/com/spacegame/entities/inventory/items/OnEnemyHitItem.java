@@ -1,5 +1,6 @@
 package com.spacegame.entities.inventory.items;
 
+import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.Inventory;
 
 public abstract class OnEnemyHitItem extends Item {
@@ -7,5 +8,5 @@ public abstract class OnEnemyHitItem extends Item {
     super(id, ItemClass.ON_ENEMY_HIT, name, description, inventory);
   }
 
-  public abstract void onEnemyHit();
+  public abstract void onEnemyHit(Actor target);
 }

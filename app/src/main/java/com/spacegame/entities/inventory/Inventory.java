@@ -161,7 +161,7 @@ public class Inventory {
   public void onEnemyHit(Actor target) {
     for (Item item : this.allItems) {
       if (item instanceof OnEnemyHitItem i) {
-        i.onEnemyHit();
+        i.onEnemyHit(target);
       }
     }
   }

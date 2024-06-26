@@ -28,6 +28,8 @@ public class Game extends Thread {
   /** The list of entities in the game. */
   public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
 
+  public final List<BaseEnemy> enemies = new ArrayList<>();
+
   public final PausableStopwatch timer = new PausableStopwatch();
 
   /** The player entity. */
@@ -106,6 +108,9 @@ public class Game extends Thread {
   public void addEntity(Entity entity) {
     synchronized (entities) {
       entities.add(entity);
+      if (entity instanceof BaseEnemy enemy) {
+        this.enemies.add(enemy);
+      }
     }
   }
 
@@ -170,6 +175,7 @@ public class Game extends Thread {
     // on the new position
     // Remove the entities that are marked for deletion
     entities.removeIf(Entity::getDiscard);
+    enemies.removeIf(Entity::getDiscard);
     for (int i = 0; i < entities.size(); i++) {
       Entity entity = entities.get(i);
       if (entity.getDiscard()) {
@@ -398,6 +404,32 @@ public class Game extends Thread {
   public int setScore(int score) {
     this.score = score;
     return this.score;
+  }
+
+  public Actor getClosestEnemy(float x, float y) {
+    Vector2D point = new Vector2D(x, y);
+    float shortestDistance = Float.MAX_VALUE;
+    Actor closestEnemy = null;
+    for (BaseEnemy enemy : this.enemies) {
+      float distance = new Vector2D(enemy.getX(), enemy.getY()).to(point).length();
+      if (distance < shortestDistance) {
+        shortestDistance = distance;
+        closestEnemy = enemy;
+      }
+    }
+    return closestEnemy;
+  }
+
+  public Actor createExplosion(float x, float y, float size) {
+    Actor explosion =
+        new Actor(
+            this.textureAtlas,
+            x,
+            y,
+            size,
+            size,
+            new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
+    return explosion;
   }
 
   public int getScore() {
