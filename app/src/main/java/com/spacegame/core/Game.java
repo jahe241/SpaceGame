@@ -429,6 +429,7 @@ public class Game extends Thread {
             size,
             size,
             new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
+    this.addEntity(explosion);
     return explosion;
   }
 
