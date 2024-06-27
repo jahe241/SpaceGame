@@ -33,8 +33,9 @@ public class Player extends Actor {
     this.collidesWith =
         new ArrayList<>(
             Arrays.asList(CollisionMask.ENEMY, CollisionMask.ENEMY_PROJECTILE, CollisionMask.ITEM));
-    this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
-    this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
+    // this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
+    // this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
+    this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
   }
 
   public void onTouch(MotionEvent event) {
@@ -56,7 +57,6 @@ public class Player extends Actor {
   @Override
   public void update(float delta) {
     super.update(delta);
-    DebugLogger.log("PLAYERSPEED", String.valueOf(this.baseSpeed));
   }
 
   @Override

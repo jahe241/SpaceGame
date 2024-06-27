@@ -7,7 +7,8 @@ public class Items {
   public enum AllItems {
     LaserCanon,
     JetPack,
-    RocketLauncher
+    RocketLauncher,
+    LaserBeam
   }
 
   public static Item createItem(AllItems item, Inventory ownerInventory) {
@@ -15,6 +16,7 @@ public class Items {
       case JetPack -> new JetPack(ownerInventory);
       case LaserCanon -> new LaserCanon(ownerInventory);
       case RocketLauncher -> new RocketLauncher(ownerInventory);
+      case LaserBeam -> new LaserBeam(ownerInventory);
     };
   }
 }

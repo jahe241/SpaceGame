@@ -96,7 +96,8 @@ public class Actor extends Entity {
       if (e == null) break;
       if (e instanceof Actor o) {
         if (this.isColliding(o)) {
-          if (!this.colliding) onCollision(o);
+          // if (!this.colliding) onCollision(o);
+          onCollision(o);
           this.colliding = true;
           return true;
         }
