@@ -2,18 +2,27 @@ package com.spacegame.entities.inventory.items;
 
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.Inventory;
+import java.util.Random;
 
 public class RocketLauncher extends OnEnemyHitItem {
 
-  static final float probability = 1;
+  static final float probability = 0.5f;
 
   public RocketLauncher(Inventory inventory) {
-    super(Items.AllItems.RocketLauncher.ordinal(), "Rocket Launcher", "Bum bum", inventory);
+    super(
+        Items.AllItems.RocketLauncher.ordinal(),
+        "Rocket Launcher",
+        "Shoots rockets when an enemy was hit",
+        inventory);
   }
 
   @Override
   public void onEnemyHit(Actor target) {
-    RocketLauncherProjectile projectile = RocketLauncherProjectile.create(this);
+    Random rand = new Random();
+    float randFloat = rand.nextFloat();
+    if (randFloat <= RocketLauncher.probability) {
+      RocketLauncherProjectile.create(this);
+    }
   }
 
   @Override

@@ -36,6 +36,16 @@ public class LaserCanonProjectile extends Actor {
     DebugLogger.log("PROJECTILE", "PLAYER PROJECTILE HIT SOMETHING!");
   }
 
+  @Override
+  public void update(float delta) {
+    // If the projectile is not in the game bounds discard it
+    if (!Game.game.isInBounds(this.getX(), this.getY())) {
+      this.setDiscard(true);
+      return;
+    }
+    super.update(delta);
+  }
+
   public static LaserCanonProjectile create(LaserCanon from, Vector2D direction) {
     LaserCanonProjectile ret = new LaserCanonProjectile(from);
     ret.setDirection(direction);

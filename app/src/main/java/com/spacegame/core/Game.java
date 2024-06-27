@@ -23,6 +23,9 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class Game extends Thread {
 
+  public final float BOUNDS;
+
+  /** The created game, accessable as a Singleton from everywhere */
   public static Game game;
 
   /** The list of entities in the game. */
@@ -47,10 +50,10 @@ public class Game extends Thread {
   volatile GameState state = GameState.PLAYING;
 
   /** Sceen height */
-  int height;
+  public int height;
 
   /** Screen width */
-  int width;
+  public int width;
 
   float scaleFactor;
   float normalizedScreenWidth;
@@ -63,6 +66,7 @@ public class Game extends Thread {
     super("Game Thread");
     this.height = height;
     this.width = width;
+    this.BOUNDS = Math.max(height, width) * 10;
     Game.game = this;
   }
 
@@ -406,6 +410,13 @@ public class Game extends Thread {
     return this.score;
   }
 
+  /**
+   * Gets the closest enemy from a specified point
+   *
+   * @param x
+   * @param y
+   * @return
+   */
   public Actor getClosestEnemy(float x, float y) {
     Vector2D point = new Vector2D(x, y);
     float shortestDistance = Float.MAX_VALUE;
@@ -420,6 +431,14 @@ public class Game extends Thread {
     return closestEnemy;
   }
 
+  /**
+   * Creates an explosion entity
+   *
+   * @param x
+   * @param y
+   * @param size
+   * @return
+   */
   public Actor createExplosion(float x, float y, float size) {
     Actor explosion =
         new Actor(
@@ -431,6 +450,17 @@ public class Game extends Thread {
             new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
     this.addEntity(explosion);
     return explosion;
+  }
+
+  /**
+   * Checks if the given point is in the game bounds
+   *
+   * @param x
+   * @param y
+   * @return
+   */
+  public boolean isInBounds(float x, float y) {
+    return x <= BOUNDS || y <= BOUNDS;
   }
 
   public int getScore() {

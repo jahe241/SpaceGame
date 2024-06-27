@@ -40,11 +40,17 @@ public class RocketLauncherProjectile extends Actor {
 
   @Override
   public void update(float delta) {
+    // If the projectile is not in the games bounds, discard it
+    if (!Game.game.isInBounds(this.getX(), this.getY())) {
+      this.setDiscard(true);
+      return;
+    }
     super.update(delta);
     // Track closest enemy
     // If the current target gets discarded or becomes null, switch target;
     if (currentTarget == null || currentTarget.getDiscard()) {
       this.currentTarget = Game.game.getClosestEnemy(this.getX(), this.getY());
+      // If there are no enemies in the game currently
       if (this.currentTarget == null) {
         return;
       }
@@ -55,6 +61,12 @@ public class RocketLauncherProjectile extends Actor {
     this.setDirection(newDirection);
   }
 
+  /**
+   * Creates a Projectile for the Rocket Launcher, also adds it to the game
+   *
+   * @param from
+   * @return
+   */
   public static RocketLauncherProjectile create(RocketLauncher from) {
     // Get closest Enemy
     Actor closestEnemy =

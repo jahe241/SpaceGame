@@ -128,6 +128,7 @@ public class Entity extends Quad {
    * @param delta The time elapsed since the last update.
    */
   public void update(float delta) {
+    if (this.discard) return;
     this.updatePosition(delta);
     this.updateRotation(delta);
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
