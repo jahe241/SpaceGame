@@ -7,7 +7,7 @@ public class JetPack extends StatIncreaseItem {
   private static final float SPEED_INCREASE = 100f;
 
   public JetPack(Inventory inventory) {
-    super(1, "Jet Pack", "Rockets go brrr (+100 speed)", inventory);
+    super(Items.AllItems.JetPack.ordinal(), "Jet Pack", "Rockets go brrr (+100 speed)", inventory);
   }
 
   @Override
