@@ -119,7 +119,7 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
     // Set GL Flags
     glEnable(GLES30.GL_DEPTH_TEST);
     glEnable(GL_BLEND);
-    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     // Load texture atlas and initialize buffers
     try {

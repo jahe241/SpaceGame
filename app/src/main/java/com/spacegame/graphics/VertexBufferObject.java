@@ -18,6 +18,8 @@ public class VertexBufferObject {
   /** The offset of the color data in the vertex data array. */
   public static final int OFFSET_COLOR = 6;
 
+  public static final int OFFSET_OPACITY = 9;
+
   /** The vertex data array. This contains the data for all vertices of the object. */
   private final float[] vertexData;
 
@@ -216,6 +218,17 @@ public class VertexBufferObject {
   public VertexBufferObject setFlagSolidColor() {
     for (int i = 0; i < 4; i++) {
       vertexData[i * STRIDE + OFFSET_FLAG] = 2.0f;
+    }
+    return this;
+  }
+
+  public VertexBufferObject setOpacity(float opacity) {
+    if (opacity < 0f || opacity > 1f)
+      throw new IllegalArgumentException("Opacity has to be between 0 and 1");
+    this.setFlagColorOverlay();
+    this.setColor(new float[] {1f, 1f, 1f});
+    for (int i = 0; i < 4; i++) {
+      vertexData[i * STRIDE + OFFSET_OPACITY] = opacity;
     }
     return this;
   }
