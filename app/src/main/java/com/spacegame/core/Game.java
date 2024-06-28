@@ -7,6 +7,8 @@ import com.spacegame.entities.BackgroundManager;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
+import com.spacegame.entities.inventory.items.ItemPickup;
+import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.DebugLogger;
@@ -102,6 +104,7 @@ public class Game extends Thread {
     this.backgroundManager =
         new BackgroundManager(this.textureAtlas, width, height, normalizedScreenWidth, this);
     this.timer.start();
+    ItemPickup.create(Items.AllItems.LaserCanon, 1000, 1000);
   }
 
   /**
