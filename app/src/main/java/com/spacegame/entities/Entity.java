@@ -40,12 +40,6 @@ public class Entity extends Quad {
   Vector2D velocity = new Vector2D(0, 0);
 
   /**
-   * The acceleration of the entity. This is used for simulating changing directions and speeding up
-   * the entity's movement. The acceleration should be used as pixels per second.
-   */
-  float acceleration = 20f;
-
-  /**
    * The direction of the entity. This is a unit vector that represents the direction in which the
    * entity will move to.
    */
@@ -55,7 +49,7 @@ public class Entity extends Quad {
    * The base speed of the entity. This is the speed at which the entity moves when it is not
    * affected by any external forces.
    */
-  float baseSpeed = 500;
+  public float baseSpeed = 300;
 
   /**
    * The TextureAtlas object associated with the entity. This object contains the texture atlas used
@@ -134,6 +128,7 @@ public class Entity extends Quad {
    * @param delta The time elapsed since the last update.
    */
   public void update(float delta) {
+    if (this.discard) return;
     this.updatePosition(delta);
     this.updateRotation(delta);
     this.vbo.updateVBOPosition(this.position, this.z_index, this.rotationRad);
@@ -239,11 +234,13 @@ public class Entity extends Quad {
   }
 
   public float getAcceleration() {
-    return this.acceleration;
+    return this.getBaseSpeed() * 0.1f;
   }
 
   public void setAcceleration(float acc) {
-    this.acceleration = acc;
+    // TODO: Delete all usages of this function
+    return;
+    // this.acceleration = acc;
   }
 
   public float getDecelerationFactor() {

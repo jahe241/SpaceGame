@@ -1,5 +1,6 @@
 package com.spacegame.entities;
 
+import com.spacegame.entities.inventory.Inventory;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.DebugLogger;
@@ -8,6 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Actor extends Entity {
+  /** The inventory of the actor */
+  public Inventory inventory = new Inventory(this);
 
   /**
    * Wether this entity is collidable. If true, the entity will be checked for collisions with other
@@ -74,6 +77,12 @@ public class Actor extends Entity {
     super(textureAtlas, sprite, x, y, width, height);
   }
 
+  @Override
+  public void update(float delta) {
+    super.update(delta);
+    this.inventory.tick(delta);
+  }
+
   /**
    * Check if this entity collides with any of the given list
    *
@@ -87,7 +96,8 @@ public class Actor extends Entity {
       if (e == null) break;
       if (e instanceof Actor o) {
         if (this.isColliding(o)) {
-          if (!this.colliding) onCollision(o);
+          // if (!this.colliding) onCollision(o);
+          onCollision(o);
           this.colliding = true;
           return true;
         }
@@ -183,5 +193,12 @@ public class Actor extends Entity {
   public Vector2D getVelocity() {
     if (this.playerVelocity != null) return this.velocity.add(this.playerVelocity.inversed());
     else return new Vector2D(this.velocity);
+  }
+
+  @Override
+  public float getBaseSpeed() {
+    if (this.inventory == null) return this.baseSpeed;
+    return (this.inventory.getSpeedAbsolute() + this.baseSpeed)
+        * (1 + this.inventory.getSpeedRelative());
   }
 }
