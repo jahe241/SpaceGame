@@ -13,6 +13,8 @@ import java.util.List;
 public class LaserBeamProjectile extends Actor {
   LaserBeam from;
 
+  Vector2D basePoint = new Vector2D(0, 0);
+
   public static final float timeToLive = 0.5f;
 
   private float timeLeft = LaserBeamProjectile.timeToLive;
@@ -23,8 +25,8 @@ public class LaserBeamProjectile extends Actor {
         Constants.BLUE_PROJECTILE,
         from.inventory.actor.getX(),
         from.inventory.actor.getY(),
-        700,
-        150);
+        500,
+        100);
     this.from = from;
     this.collidable = true;
     this.collisionMask = CollisionMask.PLAYER_PROJECTILE;
@@ -46,13 +48,18 @@ public class LaserBeamProjectile extends Actor {
       this.setDiscard(true);
       return;
     }
-
-    super.update(delta);
     Actor actor = this.from.inventory.actor;
-    Vector2D basePoint =
-        new Vector2D(actor.getX(), actor.getY()).add(this.getDirection().mult(this.getWidth() / 2));
+    float padding = (this.getWidth() / 2) + Math.max(actor.getHeight(), actor.getWidth()) / 2;
+    Vector2D basePoint = actor.getPosition().add(this.getDirection().mult(padding));
     this.setX(basePoint.getX());
     this.setY(basePoint.getY());
+    this.vbo().updateVBOPosition(this.getX(), this.getY(), this.getZ(), this.getRotationRad());
+  }
+
+  @Override
+  public void setDirection(Vector2D direction) {
+    super.setDirection(direction);
+    this.setRotationRad(this.calcAngleRad());
   }
 
   public static LaserBeamProjectile create(LaserBeam from, Vector2D direction) {
@@ -60,5 +67,9 @@ public class LaserBeamProjectile extends Actor {
     ret.setDirection(direction);
     Game.game.addEntity(ret);
     return ret;
+  }
+
+  public float calcAngleRad() {
+    return (float) -Math.atan2(this.getDirection().getY(), this.getDirection().getX());
   }
 }
