@@ -9,6 +9,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Actor extends Entity {
+
+  /** The damage the other actor takes when colliding with this actor */
+  int collisionDamage = 1;
+
+  /** The max health of the actor */
+  private int maxHealth = 1;
+
+  /** The current health of the actor */
+  private int currentHealth = maxHealth;
+
   /** The inventory of the actor */
   public Inventory inventory = new Inventory(this);
 
@@ -26,7 +36,7 @@ public class Actor extends Entity {
    * frame. This way we can determine if a collision is entered or left or if the collision already
    * happened last frame
    */
-  private boolean colliding = false;
+  boolean colliding = false;
 
   /**
    * All other collision masks this entity can collide with. Needs to be set for collision checking
@@ -79,6 +89,10 @@ public class Actor extends Entity {
 
   @Override
   public void update(float delta) {
+    if (this.currentHealth <= 0) {
+      this.setDiscard(true);
+      return;
+    }
     super.update(delta);
     this.inventory.tick(delta);
   }
@@ -172,6 +186,9 @@ public class Actor extends Entity {
    */
   public void onCollision(Actor other) {
     DebugLogger.log("Collision", "Collision happened!");
+    int collisionDamage = other.getCollisionDamage();
+    if (collisionDamage < 0) return;
+    this.takeDamage(collisionDamage);
   }
 
   /**
@@ -200,5 +217,40 @@ public class Actor extends Entity {
     if (this.inventory == null) return this.baseSpeed;
     return (this.inventory.getSpeedAbsolute() + this.baseSpeed)
         * (1 + this.inventory.getSpeedRelative());
+  }
+
+  /**
+   * Setter for {@link this.maxHealth}. Also sets the current health back to max health
+   *
+   * @param newMaxHealth
+   */
+  public void setMaxHealth(int newMaxHealth) {
+    this.maxHealth = newMaxHealth;
+    this.currentHealth = newMaxHealth;
+  }
+
+  public int getMaxHealth() {
+    return this.maxHealth;
+  }
+
+  public int getCurrentHealth() {
+    return this.currentHealth;
+  }
+
+  public void takeDamage(int damage) {
+    this.currentHealth -= damage;
+  }
+
+  public void takeHeal(int heal) {
+    // Make sure the current health won't go above max health
+    this.maxHealth += Math.min(this.maxHealth, this.currentHealth + heal);
+  }
+
+  public void fullHeal() {
+    this.currentHealth = this.maxHealth;
+  }
+
+  public int getCollisionDamage() {
+    return collisionDamage;
   }
 }

@@ -36,6 +36,7 @@ public class Player extends Actor {
     // this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
     // this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
     this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
+    this.setMaxHealth(3);
   }
 
   public void onTouch(MotionEvent event) {
@@ -56,6 +57,15 @@ public class Player extends Actor {
 
   @Override
   public void update(float delta) {
+    DebugLogger.log("PlayerHealth", "Current Player Health " + this.getCurrentHealth());
+    if (this.getCurrentHealth() <= 0) this.fullHeal();
+    // TODO: Uncomment this when the game over game state is handled
+    /*
+    if (this.getCurrentHealth() <= 0) {
+      Game.game.onPlayerDeath();
+      return;
+    }
+     */
     super.update(delta);
   }
 
@@ -69,6 +79,10 @@ public class Player extends Actor {
   @Override
   public void onCollision(Actor other) {
     this.setColorOverlay(ColorHelper.BLUE);
+    if (!this.colliding) {
+      int damage = other.getCollisionDamage();
+      this.takeDamage(damage);
+    }
   }
 
   @Override

@@ -141,7 +141,7 @@ public class Inventory {
   public void tick(float deltaTime) {
     for (Item item : this.allItems) {
       if (item instanceof AtRandomItem i) {
-        i.tick();
+        i.tick(deltaTime);
       } else if (item instanceof TimerItem i) {
         i.tick(deltaTime);
       }

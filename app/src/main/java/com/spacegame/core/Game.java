@@ -104,7 +104,7 @@ public class Game extends Thread {
     this.backgroundManager =
         new BackgroundManager(this.textureAtlas, width, height, normalizedScreenWidth, this);
     this.timer.start();
-    ItemPickup.create(Items.AllItems.LaserCanon, 1000, 1000);
+    ItemPickup.create(Items.AllItems.Shield, 1000, 1000);
   }
 
   /**
@@ -146,6 +146,7 @@ public class Game extends Thread {
           }
         }
       }
+      // TODO: Handle game over state
       long startTime = System.nanoTime();
       float elapsed = (startTime - lastFrameTime) / 1_000_000f;
 
@@ -267,6 +268,10 @@ public class Game extends Thread {
   public void setPlayer(Player player) {
     this.player = player;
     entities.add(player);
+  }
+
+  public void onPlayerDeath() {
+    this.state = GameState.GAME_OVER;
   }
 
   /**

@@ -8,7 +8,8 @@ public class Items {
     LaserCanon,
     JetPack,
     RocketLauncher,
-    LaserBeam
+    LaserBeam,
+    Shield
   }
 
   public static Item createItem(AllItems item, Inventory ownerInventory) {
@@ -17,6 +18,7 @@ public class Items {
       case LaserCanon -> new LaserCanon(ownerInventory);
       case RocketLauncher -> new RocketLauncher(ownerInventory);
       case LaserBeam -> new LaserBeam(ownerInventory);
+      case Shield -> new Shield(ownerInventory);
     };
   }
 }

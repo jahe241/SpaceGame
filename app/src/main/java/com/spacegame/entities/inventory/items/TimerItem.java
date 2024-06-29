@@ -15,6 +15,7 @@ public abstract class TimerItem extends Item {
 
   public abstract void activate(Actor self);
 
+  @Override
   public void tick(float delta) {
     this.timeLeft -= delta;
     if (this.timeLeft <= 0) {
