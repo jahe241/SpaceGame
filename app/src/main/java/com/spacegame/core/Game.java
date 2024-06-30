@@ -7,6 +7,7 @@ import com.spacegame.entities.BackgroundManager;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
+import com.spacegame.entities.enemies.Sniper;
 import com.spacegame.entities.inventory.items.ItemPickup;
 import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
@@ -211,11 +212,14 @@ public class Game extends Thread {
     }
 
     // spawns a spawns a random enemies every frame during every 5th second
+    /*
     int spawnTimer = 0;
     if (timer.getElapsedTime() / 1000 % 5 == 0) {
       spawnRandomEnemy(1);
     }
     // TODO: Physics / Interaction-Checks here
+
+     */
   }
 
   private void addScore(int i) {
@@ -256,7 +260,7 @@ public class Game extends Thread {
    *
    * @return The player entity.
    */
-  public Entity getPlayer() {
+  public Player getPlayer() {
     return player;
   }
 
@@ -315,6 +319,10 @@ public class Game extends Thread {
   }
 
   public void spawnRandomEnemy(int numEnemies) {
+    float x = rng.nextFloat() * this.width;
+    float y = rng.nextFloat() * this.height;
+    this.addEntity(new Sniper(x, y));
+    /*
     final int maxRetries = 10; // Define your maximum number of retries here
     for (int i = 0; i < numEnemies; i++) {
       float x = rng.nextFloat() * this.width;
@@ -332,6 +340,7 @@ public class Game extends Thread {
         spawnRandomEntity(x, y);
       }
     }
+     */
   }
 
   private boolean isPositionOccupied(float x, float y) {

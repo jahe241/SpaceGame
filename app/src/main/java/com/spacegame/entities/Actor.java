@@ -11,7 +11,7 @@ import java.util.List;
 public class Actor extends Entity {
 
   /** The damage the other actor takes when colliding with this actor */
-  int collisionDamage = 0;
+  public int collisionDamage = 0;
 
   /** The max health of the actor */
   private int maxHealth = 1;

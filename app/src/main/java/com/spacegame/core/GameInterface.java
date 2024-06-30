@@ -319,7 +319,7 @@ public class GameInterface extends Thread {
         game.resetGame();
         break;
       case DEBUG_BUTTON:
-        this.game.spawnRandomEnemy(64);
+        this.game.spawnRandomEnemy(1);
         this.game.setScore(this.game.getScore() + 10);
         break;
       case CHEAT_BUTTON:

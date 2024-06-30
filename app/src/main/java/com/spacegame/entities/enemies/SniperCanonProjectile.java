@@ -1,0 +1,49 @@
+package com.spacegame.entities.enemies;
+
+import com.spacegame.core.Game;
+import com.spacegame.entities.Actor;
+import com.spacegame.entities.CollisionMask;
+import com.spacegame.utils.Constants;
+import com.spacegame.utils.Vector2D;
+import java.util.ArrayList;
+import java.util.List;
+
+public class SniperCanonProjectile extends Actor {
+
+  public static final float SPEED = 500;
+
+  public SniperCanonProjectile(Sniper from, Vector2D direction) {
+    super(Game.game.textureAtlas, Constants.BLUE_PROJECTILE, from.getX(), from.getY(), 50, 50);
+    this.setDirection(direction);
+    this.baseSpeed = SPEED;
+    this.collisionMask = CollisionMask.ENEMY_PROJECTILE;
+    this.collidesWith = new ArrayList<>(List.of(CollisionMask.PLAYER));
+  }
+
+  @Override
+  public void onCollision(Actor other) {
+    super.onCollision(other);
+    this.setDiscard(true);
+  }
+
+  @Override
+  public void update(float delta) {
+    super.update(delta);
+  }
+
+  public static SniperCanonProjectile create(Sniper from, Actor target) {
+    Vector2D targetPosition = target.getPosition();
+    Vector2D targetVelocity = target.getVelocity();
+    Vector2D toTarget = from.getPosition().to(targetPosition);
+    float distance = toTarget.length();
+    float secondsToArrive = distance / SPEED;
+    Vector2D predictedPosition = targetPosition.add(targetVelocity.mult(secondsToArrive));
+
+    Vector2D shootDirection = from.getPosition().to(predictedPosition);
+
+    SniperCanonProjectile projectile = new SniperCanonProjectile(from, shootDirection);
+
+    Game.game.addEntity(projectile);
+    return projectile;
+  }
+}
