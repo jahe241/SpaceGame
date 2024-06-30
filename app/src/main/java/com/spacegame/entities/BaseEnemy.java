@@ -30,12 +30,12 @@ public class BaseEnemy extends Actor {
     temp.add(CollisionMask.PLAYER);
     this.collidesWith = temp;
     this.collisionDamage = 1;
+    this.baseSpeed = 100;
   }
 
   @Override
   public void onCollision(Actor other) {
-    int damage = other.getCollisionDamage();
-    this.takeDamage(damage);
+    this.takeDamage(other);
   }
 
   @Override

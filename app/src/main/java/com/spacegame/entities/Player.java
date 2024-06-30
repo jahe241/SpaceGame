@@ -37,6 +37,7 @@ public class Player extends Actor {
     // this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
     this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
     this.setMaxHealth(3);
+    this.baseSpeed = 300;
   }
 
   public void onTouch(MotionEvent event) {
@@ -80,8 +81,7 @@ public class Player extends Actor {
   public void onCollision(Actor other) {
     this.setColorOverlay(ColorHelper.BLUE);
     if (!this.colliding) {
-      int damage = other.getCollisionDamage();
-      this.takeDamage(damage);
+      this.takeDamage(other);
     }
   }
 

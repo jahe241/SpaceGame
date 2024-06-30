@@ -1,11 +1,9 @@
 package com.spacegame.entities.inventory;
 
 import com.spacegame.entities.Actor;
-import com.spacegame.entities.inventory.items.AtRandomItem;
 import com.spacegame.entities.inventory.items.Item;
 import com.spacegame.entities.inventory.items.OnDamageTakenItem;
 import com.spacegame.entities.inventory.items.OnEnemyHitItem;
-import com.spacegame.entities.inventory.items.TimerItem;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -140,21 +138,21 @@ public class Inventory {
    */
   public void tick(float deltaTime) {
     for (Item item : this.allItems) {
-      if (item instanceof AtRandomItem i) {
-        i.tick(deltaTime);
-      } else if (item instanceof TimerItem i) {
-        i.tick(deltaTime);
-      }
+      item.tick(deltaTime);
     }
   }
 
-  /** Callback for when the actor takes damage */
-  public void onDamageTaken(Actor from, Actor self) {
+  /** Callback for when the actor takes damage. Returns the reduced damage number */
+  public int onDamageTaken(Actor from) {
+    int damage = from.getCollisionDamage();
     for (Item item : this.allItems) {
       if (item instanceof OnDamageTakenItem i) {
-        i.onDamageTaken();
+        damage = i.onDamageTaken(damage, from);
       }
     }
+    // Make sure the damage taken is not negative
+    // This would result in a heal
+    return Math.max(0, damage);
   }
 
   /** Callback for when the actor hits an enemy */

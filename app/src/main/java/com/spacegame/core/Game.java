@@ -94,7 +94,7 @@ public class Game extends Thread {
     // Add the player character
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
-    float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
+    float size = Math.min(this.width, this.height) * 0.15f; // 20% of the screen size
     this.normalizedScreenWidth = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     this.setPlayer(player);
