@@ -7,6 +7,9 @@ import com.spacegame.entities.BackgroundManager;
 import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
+import com.spacegame.entities.enemies.Sniper;
+import com.spacegame.entities.inventory.items.ItemPickup;
+import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.DebugLogger;
@@ -92,7 +95,7 @@ public class Game extends Thread {
     // Add the player character
     float playerX = this.width / 2f;
     float playerY = this.height / 2f;
-    float size = Math.min(this.width, this.height) * 0.2f; // 20% of the screen size
+    float size = Math.min(this.width, this.height) * 0.15f; // 20% of the screen size
     this.normalizedScreenWidth = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     this.setPlayer(player);
@@ -102,6 +105,7 @@ public class Game extends Thread {
     this.backgroundManager =
         new BackgroundManager(this.textureAtlas, width, height, normalizedScreenWidth, this);
     this.timer.start();
+    ItemPickup.create(Items.AllItems.Shield, 1000, 1000);
   }
 
   /**
@@ -143,6 +147,7 @@ public class Game extends Thread {
           }
         }
       }
+      // TODO: Handle game over state
       long startTime = System.nanoTime();
       float elapsed = (startTime - lastFrameTime) / 1_000_000f;
 
@@ -207,11 +212,14 @@ public class Game extends Thread {
     }
 
     // spawns a spawns a random enemies every frame during every 5th second
+    /*
     int spawnTimer = 0;
     if (timer.getElapsedTime() / 1000 % 5 == 0) {
       spawnRandomEnemy(1);
     }
     // TODO: Physics / Interaction-Checks here
+
+     */
   }
 
   private void addScore(int i) {
@@ -252,7 +260,7 @@ public class Game extends Thread {
    *
    * @return The player entity.
    */
-  public Entity getPlayer() {
+  public Player getPlayer() {
     return player;
   }
 
@@ -264,6 +272,10 @@ public class Game extends Thread {
   public void setPlayer(Player player) {
     this.player = player;
     entities.add(player);
+  }
+
+  public void onPlayerDeath() {
+    this.state = GameState.GAME_OVER;
   }
 
   /**
@@ -307,6 +319,10 @@ public class Game extends Thread {
   }
 
   public void spawnRandomEnemy(int numEnemies) {
+    float x = rng.nextFloat() * this.width;
+    float y = rng.nextFloat() * this.height;
+    this.addEntity(new Sniper(x, y));
+    /*
     final int maxRetries = 10; // Define your maximum number of retries here
     for (int i = 0; i < numEnemies; i++) {
       float x = rng.nextFloat() * this.width;
@@ -324,6 +340,7 @@ public class Game extends Thread {
         spawnRandomEntity(x, y);
       }
     }
+     */
   }
 
   private boolean isPositionOccupied(float x, float y) {

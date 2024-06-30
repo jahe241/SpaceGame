@@ -141,7 +141,7 @@ public class Entity extends Quad {
    *
    * @param deltaTime The time elapsed since the last update.
    */
-  void updatePosition(float deltaTime) {
+  public void updatePosition(float deltaTime) {
     // Update the velocity based on the acceleration
     this.setVelocity(this.velocity.add(this.getDirection().mult(this.getAcceleration())));
 
@@ -225,7 +225,7 @@ public class Entity extends Quad {
   }
 
   /**
-   * Gets the direction of the entity.
+   * Sets the direction of the entity. Also normalizes the direction given
    *
    * @param direction
    */

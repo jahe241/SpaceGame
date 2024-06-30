@@ -18,6 +18,8 @@ public abstract class Item {
     this.inventory = inventory;
   }
 
+  public void tick(float delta) {}
+
   public abstract void onAdd(Inventory inventory);
 
   public abstract void onRemove(Inventory inventory);

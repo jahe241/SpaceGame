@@ -2,10 +2,8 @@ package com.spacegame.entities;
 
 import android.view.MotionEvent;
 import androidx.annotation.NonNull;
-import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
-import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -35,19 +33,22 @@ public class Player extends Actor {
             Arrays.asList(CollisionMask.ENEMY, CollisionMask.ENEMY_PROJECTILE, CollisionMask.ITEM));
     // this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
     // this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
-    this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
+    //this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
+    this.setMaxHealth(3);
+    this.baseSpeed = 300;
   }
 
   public void onTouch(MotionEvent event) {
     float touchX = event.getX();
     float touchY = event.getY();
+    /*
     // Log.d("Entity", "Setting Destination to touch Event: (" + touchX + ", " + touchY + ')');
     DebugLogger.log("Movement", "Velocity: " + this.velocity.getX() + ", " + this.velocity.getY());
     DebugLogger.log(
         "Movement", "Direction: " + this.direction.getX() + ", " + this.direction.getY());
     DebugLogger.log(
         "Movement", "Current Position: " + this.position.getX() + ", " + this.position.getY());
-
+     */
     Vector2D destination = new Vector2D(touchX, touchY);
     Vector2D direction = this.position.to(destination).normalized();
 
@@ -56,6 +57,14 @@ public class Player extends Actor {
 
   @Override
   public void update(float delta) {
+    if (this.getCurrentHealth() <= 0) this.fullHeal();
+    // TODO: Uncomment this when the game over game state is handled
+    /*
+    if (this.getCurrentHealth() <= 0) {
+      Game.game.onPlayerDeath();
+      return;
+    }
+     */
     super.update(delta);
   }
 
@@ -69,6 +78,9 @@ public class Player extends Actor {
   @Override
   public void onCollision(Actor other) {
     this.setColorOverlay(ColorHelper.BLUE);
+    if (!this.colliding) {
+      this.takeDamage(other);
+    }
   }
 
   @Override

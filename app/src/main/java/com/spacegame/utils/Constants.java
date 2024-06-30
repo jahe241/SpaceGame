@@ -8,6 +8,10 @@ public class Constants {
 
   public static String BLUE_PROJECTILE = "blue_projectile";
 
+  public static String MONK_PEPE = "monk";
+
+  public static String SCIFI_INVENTORY = "scifi_inventory01";
+
   public static String PLANETS = "background_planet_";
   public static int NUM_BACKGROUND_ASSETS = 28;
   public static String[] BACKGROUND_ASSETS = {

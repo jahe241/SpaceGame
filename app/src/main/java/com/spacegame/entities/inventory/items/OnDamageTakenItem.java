@@ -1,5 +1,6 @@
 package com.spacegame.entities.inventory.items;
 
+import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.Inventory;
 
 public abstract class OnDamageTakenItem extends Item {
@@ -8,5 +9,5 @@ public abstract class OnDamageTakenItem extends Item {
     super(id, ItemClass.ON_DAMAGE_TAKEN, name, description, inventory);
   }
 
-  public abstract void onDamageTaken();
+  public abstract int onDamageTaken(int damage, Actor from);
 }

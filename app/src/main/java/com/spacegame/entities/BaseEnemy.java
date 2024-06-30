@@ -29,11 +29,13 @@ public class BaseEnemy extends Actor {
     ArrayList<CollisionMask> temp = new ArrayList<>();
     temp.add(CollisionMask.PLAYER);
     this.collidesWith = temp;
+    this.collisionDamage = 1;
+    this.baseSpeed = 100;
   }
 
   @Override
   public void onCollision(Actor other) {
-    this.setDiscard(true);
+    this.takeDamage(other);
   }
 
   @Override
