@@ -15,10 +15,7 @@ public class Shield extends OnDamageTakenItem {
 
   public Shield(Inventory ownerInventory) {
     super(
-        Items.AllItems.Shield.ordinal(),
-        "Shield",
-        "Shields you from the next incoming attack",
-        ownerInventory);
+        Items.AllItems.Shield.ordinal(), "Shield", "Shields next incoming attack", ownerInventory);
   }
 
   @Override
