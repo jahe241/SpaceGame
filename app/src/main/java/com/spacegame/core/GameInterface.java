@@ -4,7 +4,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
-import com.spacegame.core.ui.ItemPickupToast;
 import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.core.ui.SpriteLabel;
@@ -350,10 +349,6 @@ public class GameInterface extends Thread {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
       for (Entity entity : interfaceElements) {
         if (entity.isVisible()) {
-          if (entity instanceof ItemPickupToast) {
-            DebugLogger.log("Item", "Toast in visible Entities");
-          }
-          //          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
           visibleEntities.add(entity);
         }
       }

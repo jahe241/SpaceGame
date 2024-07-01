@@ -13,9 +13,7 @@ import androidx.annotation.NonNull;
 import com.spacegame.R;
 import com.spacegame.core.Game;
 import com.spacegame.core.GameInterface;
-import com.spacegame.core.ui.ItemPickupToast;
 import com.spacegame.entities.Entity;
-import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.TextResourceReader;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -375,9 +373,6 @@ public class EngineRenderer implements GLSurfaceView.Renderer {
       //      Log.d("EngineRenderer", "Rendering Batch: " + batchStart + " to " + batchEnd);
       for (int j = batchStart; j < batchEnd; j++) {
         Entity entity = allEntities.get(j);
-        if (entity instanceof ItemPickupToast) {
-          DebugLogger.log("Item", "Toast in render process");
-        }
         float[] entityVertexArray = entity.vbo().getVertexArray();
 
         System.arraycopy(
