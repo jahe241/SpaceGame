@@ -61,7 +61,7 @@ public class ItemPickupToast extends Entity {
     this.description = item.description;
     this.background =
         new ColorEntity(
-            halfScreenX, halfScreenY, pos.width, pos.height, new float[] {0.5f, 0.5f, 0.5f});
+            halfScreenX, halfScreenY, pos.width, pos.height, new float[] {0.5f, 0.5f, 0.5f, 1f});
     this.background.setZ(20);
     this.setVisible(true);
   }
@@ -80,7 +80,8 @@ public class ItemPickupToast extends Entity {
     float y = this.getY() - this.getHeight() + 20f;
     float fontSize = Math.min(this.getWidth(), this.getHeight()) * 0.05f;
     SpriteLabel itemName =
-        new SpriteLabel(name, x, y, fontSize * 2, new float[] {1, 1, 1}, Game.game.textureAtlas);
+        new SpriteLabel(
+            name, x, y, fontSize * 2, new float[] {1, 1, 1, 1f}, Game.game.textureAtlas);
     itemName.setZ(21);
     itemName.setVisible(true);
     this.itemName = itemName;
@@ -92,7 +93,7 @@ public class ItemPickupToast extends Entity {
     float fontSize = Math.min(this.getWidth(), this.getHeight()) * 0.05f;
     SpriteLabel itemDescription =
         new SpriteLabel(
-            description, x, y, fontSize, new float[] {1f, 1f, 1f}, Game.game.textureAtlas);
+            description, x, y, fontSize, new float[] {1f, 1f, 1f, 1f}, Game.game.textureAtlas);
     itemDescription.setZ(21);
     itemDescription.setVisible(true);
     this.itemDescription = itemDescription;
