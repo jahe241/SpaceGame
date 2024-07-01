@@ -349,10 +349,10 @@ public class GameInterface extends Thread {
     synchronized (interfaceElements) {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
       for (Entity entity : interfaceElements) {
-        if (entity instanceof ItemPickupToast) {
-          DebugLogger.log("Item", "Toast in visible Entities");
-        }
         if (entity.isVisible()) {
+          if (entity instanceof ItemPickupToast) {
+            DebugLogger.log("Item", "Toast in visible Entities");
+          }
           //          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
           visibleEntities.add(entity);
         }

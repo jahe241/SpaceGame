@@ -115,6 +115,7 @@ public class ItemPickupToast extends Entity {
     toast.setItemSprite(item);
     synchronized (GameInterface.gameInterface) {
       GameInterface.gameInterface.addInterfaceElement(toast);
+      GameInterface.gameInterface.addInterfaceElement(toast.background);
       GameInterface.gameInterface.addInterfaceElement(toast.itemSprite);
       GameInterface.gameInterface.addInterfaceContainer(toast.itemDescription);
       GameInterface.gameInterface.addInterfaceContainer(toast.itemName);
