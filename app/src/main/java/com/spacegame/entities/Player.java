@@ -2,6 +2,8 @@ package com.spacegame.entities;
 
 import android.view.MotionEvent;
 import androidx.annotation.NonNull;
+import com.spacegame.core.ui.ItemPickupToast;
+import com.spacegame.entities.inventory.items.ItemPickup;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Vector2D;
@@ -33,7 +35,7 @@ public class Player extends Actor {
             Arrays.asList(CollisionMask.ENEMY, CollisionMask.ENEMY_PROJECTILE, CollisionMask.ITEM));
     // this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
     // this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
-    //this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
+    // this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
     this.setMaxHealth(3);
     this.baseSpeed = 300;
   }

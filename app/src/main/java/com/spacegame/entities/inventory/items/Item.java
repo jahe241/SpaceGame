@@ -1,6 +1,7 @@
 package com.spacegame.entities.inventory.items;
 
 import com.spacegame.entities.inventory.Inventory;
+import com.spacegame.utils.Constants;
 
 public abstract class Item {
   public final int id;
@@ -23,4 +24,8 @@ public abstract class Item {
   public abstract void onAdd(Inventory inventory);
 
   public abstract void onRemove(Inventory inventory);
+
+  public String getSpriteName() {
+    return Constants.SCIFI_INVENTORY;
+  }
 }

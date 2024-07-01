@@ -26,8 +26,7 @@ public class Items {
   public static AllItems pickRandomItem() {
     float rand = ThreadLocalRandom.current().nextFloat();
     int index = (int) Math.floor(rand * AllItems.values().length);
-    AllItems ret = AllItems.values()[index];
-    return ret;
+    return AllItems.values()[index];
   }
 
   public static void createRandomPickupItem(float x, float y) {

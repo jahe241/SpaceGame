@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.Log;
 import android.view.MotionEvent;
 import com.spacegame.core.ui.GamePad;
+import com.spacegame.core.ui.ItemPickupToast;
 import com.spacegame.core.ui.SpriteButton;
 import com.spacegame.core.ui.SpriteContainer;
 import com.spacegame.core.ui.SpriteLabel;
@@ -24,11 +25,13 @@ import java.util.List;
  */
 public class GameInterface extends Thread {
 
+  public static GameInterface gameInterface;
+
   /** The game instance that this interface interacts with. */
   private final Game game;
 
   /** The application context. */
-  private final Context context;
+  // private final Context context;
 
   /** A list of SpriteButton objects that represent the interface elements of the game. */
   private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
@@ -60,7 +63,7 @@ public class GameInterface extends Thread {
    */
   public GameInterface(Context context, Game game, float screenWidth, float screenHeight) {
     this.game = game;
-    this.context = context;
+    // this.context = context;
     this.screenWidth = screenWidth;
     this.screenHeight = screenHeight;
     this.adaptiveSizeUnit =
@@ -70,6 +73,7 @@ public class GameInterface extends Thread {
     DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
     soundEngine.playMusic(SoundType.inGame);
+    GameInterface.gameInterface = this;
   }
 
   /**
@@ -226,7 +230,7 @@ public class GameInterface extends Thread {
     }
   }
 
-  private void addInterfaceContainer(SpriteContainer... container) {
+  public void addInterfaceContainer(SpriteContainer... container) {
     for (SpriteContainer c : container) {
       Collections.addAll(interfaceElements, c.getElements());
     }
@@ -237,7 +241,7 @@ public class GameInterface extends Thread {
    *
    * @param element The new interface element to add.
    */
-  private void addInterfaceElement(Entity... element) {
+  public void addInterfaceElement(Entity... element) {
     Collections.addAll(interfaceElements, element);
   }
 
@@ -345,6 +349,9 @@ public class GameInterface extends Thread {
     synchronized (interfaceElements) {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
       for (Entity entity : interfaceElements) {
+        if (entity instanceof ItemPickupToast) {
+          DebugLogger.log("Item", "Toast in visible Entities");
+        }
         if (entity.isVisible()) {
           //          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
           visibleEntities.add(entity);
