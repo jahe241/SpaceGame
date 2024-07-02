@@ -2,6 +2,7 @@ package com.spacegame.entities.inventory.items;
 
 import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
+import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
@@ -22,11 +23,11 @@ public class LaserBeamProjectile extends Actor {
   public LaserBeamProjectile(LaserBeam from) {
     super(
         Game.game.textureAtlas,
-        Constants.BLUE_PROJECTILE,
         from.inventory.actor.getX(),
         from.inventory.actor.getY(),
         500,
-        100);
+        100,
+        new AnimationOptions(.3f, true, "projectile_mirrored_bolt-", false));
     this.from = from;
     this.collidable = true;
     this.collisionMask = CollisionMask.PLAYER_PROJECTILE;
@@ -54,6 +55,7 @@ public class LaserBeamProjectile extends Actor {
     this.setX(basePoint.getX());
     this.setY(basePoint.getY());
     this.vbo().updateVBOPosition(this.getX(), this.getY(), this.getZ(), this.getRotationRad());
+    if (this.anim != null) anim.update(delta);
   }
 
   @Override
