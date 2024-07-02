@@ -5,6 +5,7 @@ import java.util.Map;
 public class Constants {
   // Might aswell keep them here, will be easier to change them later
   public static String animation_EXPLOSION = "exp2_0-";
+  public static String animation_SHIELD = "warp_shield-";
   public static String PLAYER = "pixel_ship_pepe";
   public static String FONT_PREFIX = "joystix_";
 

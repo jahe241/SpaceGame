@@ -1,6 +1,7 @@
 package com.spacegame.entities.inventory.items;
 
 import com.spacegame.core.Game;
+import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.Entity;
 import com.spacegame.utils.Constants;
 
@@ -11,11 +12,11 @@ public class ShieldEntity extends Entity {
   public ShieldEntity(Shield from) {
     super(
         Game.game.textureAtlas,
-        Constants.BLUE_PROJECTILE,
         from.inventory.actor.getX(),
         from.inventory.actor.getY(),
         from.inventory.actor.getWidth() * 1.5f,
-        from.inventory.actor.getHeight() * 1.5f);
+        from.inventory.actor.getHeight() * 1.5f,
+        new AnimationOptions(0.9f, true, Constants.animation_SHIELD, false));
     this.from = from;
   }
 
@@ -23,7 +24,7 @@ public class ShieldEntity extends Entity {
     ShieldEntity shield = new ShieldEntity(from);
     shield.setX(from.inventory.actor.getX());
     shield.setY(from.inventory.actor.getY());
-    shield.vbo().setOpacity(0.3f);
+    //    shield.vbo().setOpacity(1f);
     shield.setZ(2f);
     Game.game.addEntity(shield);
     return shield;
