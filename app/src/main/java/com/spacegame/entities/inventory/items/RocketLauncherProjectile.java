@@ -2,6 +2,7 @@ package com.spacegame.entities.inventory.items;
 
 import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
+import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
@@ -16,11 +17,11 @@ public class RocketLauncherProjectile extends Actor {
   public RocketLauncherProjectile(RocketLauncher from, Actor initialTarget) {
     super(
         Game.game.textureAtlas,
-        Constants.BLUE_PROJECTILE,
         from.inventory.actor.getX(),
         from.inventory.actor.getY(),
+        80,
         50,
-        50);
+        new AnimationOptions(.3f, true, "projectile_waveform-", false));
     this.from = from;
     this.currentTarget = initialTarget;
     this.collidable = true;
@@ -59,6 +60,7 @@ public class RocketLauncherProjectile extends Actor {
         new Vector2D(this.getX(), this.getY())
             .to(new Vector2D(currentTarget.getX(), currentTarget.getY()));
     this.setDirection(newDirection);
+    if (this.anim != null) anim.update(delta);
   }
 
   /**

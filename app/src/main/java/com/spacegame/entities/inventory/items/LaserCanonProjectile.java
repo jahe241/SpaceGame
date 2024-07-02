@@ -2,6 +2,7 @@ package com.spacegame.entities.inventory.items;
 
 import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
+import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.DebugLogger;
@@ -15,11 +16,11 @@ public class LaserCanonProjectile extends Actor {
   public LaserCanonProjectile(LaserCanon from) {
     super(
         Game.game.textureAtlas,
-        Constants.BLUE_PROJECTILE,
         from.inventory.actor.getX(),
         from.inventory.actor.getY(),
         50,
-        50);
+        50,
+        new AnimationOptions(.3f, true, "projectile_spark-", false));
     this.from = from;
     this.collidable = true;
     this.collisionMask = CollisionMask.PLAYER_PROJECTILE;

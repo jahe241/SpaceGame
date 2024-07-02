@@ -2,6 +2,7 @@ package com.spacegame.entities.enemies;
 
 import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
+import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
@@ -13,11 +14,18 @@ public class SniperCanonProjectile extends Actor {
   public static final float SPEED = 500;
 
   public SniperCanonProjectile(Sniper from, Vector2D direction) {
-    super(Game.game.textureAtlas, Constants.BLUE_PROJECTILE, from.getX(), from.getY(), 50, 50);
+    super(
+        Game.game.textureAtlas,
+        from.getX(),
+        from.getY(),
+        100,
+        50,
+        new AnimationOptions(.3f, true, "projectile_pulse-", false));
     this.setDirection(direction);
     this.baseSpeed = SPEED;
     this.collisionMask = CollisionMask.ENEMY_PROJECTILE;
     this.collidesWith = new ArrayList<>(List.of(CollisionMask.PLAYER));
+    //    this.setColorOverlay(new float[] {.5f, 0, 0, 1});
   }
 
   @Override
