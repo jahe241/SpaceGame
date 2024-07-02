@@ -13,7 +13,6 @@ public class SpawnManager {
   private final Game game;
   private final ThreadLocalRandom rng = ThreadLocalRandom.current();
   private final PausableStopwatch timer;
-  private long lastSpawn = System.currentTimeMillis();
 
   private float spawnCredits = 0;
 
@@ -25,12 +24,10 @@ public class SpawnManager {
   public void update(float delta) {
     // time passed in seconds
     int timePassed = (int) (timer.getElapsedTime() / 1000f);
-    //
+    // Increase the amount of spawn credits given, the longer the game goes
     this.spawnCredits += delta * ((timePassed / 10) + 1);
     // Spend tickets every 5 seconds
-
     if (timePassed % 5 == 0) {
-      this.lastSpawn = System.currentTimeMillis();
       while (this.spawnCredits >= 1) {
         // Get the rng, which is between the credits to spend and the maximum numbers of enemy types
         int rng =
@@ -40,11 +37,6 @@ public class SpawnManager {
         this.spawnCredits -= rng + 1;
       }
     }
-
-    // spawn enemies
-    //        if (rng.nextInt(0, 100) < 5) {
-    //            game.spawnEnemy();
-    //        }
   }
 
   public void spawnEnemy(AllEnemies enemyType) {
