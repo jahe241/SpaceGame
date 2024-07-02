@@ -6,8 +6,17 @@ import com.spacegame.entities.ColorEntity;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.inventory.items.Item;
 import com.spacegame.utils.Vector2D;
+import java.util.LinkedList;
+import java.util.Queue;
+
+// TODO: Clean up
+// TODO: Adjust centering of text
 
 public class ItemPickupToast extends ColorEntity {
+
+  public static Queue<Item> queue = new LinkedList<>();
+
+  public static boolean isDisplaying = false;
 
   public static final float TIME_TO_LIVE = 5f;
 
@@ -16,15 +25,18 @@ public class ItemPickupToast extends ColorEntity {
   private float fontSize;
 
   /** The height of the toast relative to the screen height */
-  public static final float HEIGHT_RELATIVE = 0.2f;
+  public static final float HEIGHT_RELATIVE = 0.1f;
 
   /** The height of the toast relative to the screen height */
   public static final float WIDTH_RELATIVE = 0.8f;
 
+  /** The Sprite Label that hold the item name text */
   public SpriteLabel itemNameLabel;
 
+  /** The Sprite Label that hold the item description text */
   public SpriteLabel itemDescriptionLabel;
 
+  /** The Entity that hold the item sprite */
   public Entity itemSprite;
 
   public ItemPickupToast(Item item, Vector2D position, Vector2D dimensions) {
@@ -39,13 +51,18 @@ public class ItemPickupToast extends ColorEntity {
     this.setItemNameLabel(item.name);
     this.setItemDescriptionLabel(item.description);
     this.setItemSprite(item);
-    this.setZ(10);
-    this.itemNameLabel.setZ(12);
-    this.itemDescriptionLabel.setZ(12);
-    this.itemSprite.setZ(12);
+    this.setZ(17);
+    this.itemNameLabel.setZ(18);
+    this.itemDescriptionLabel.setZ(18);
+    this.itemSprite.setZ(18);
   }
 
   public static void create(Item item) {
+    if (ItemPickupToast.isDisplaying) {
+      ItemPickupToast.queue.add(item);
+      return;
+    }
+    ItemPickupToast.isDisplaying = true;
     Vector2D screenDimension = Game.game.getScreenDimensions();
     float width = screenDimension.getX() * WIDTH_RELATIVE;
     float height = screenDimension.getY() * HEIGHT_RELATIVE;
@@ -62,24 +79,35 @@ public class ItemPickupToast extends ColorEntity {
   }
 
   public void setItemNameLabel(String name) {
-    float x = this.getX() - this.getWidth() / 4;
-    float y = this.getY() - 100f;
     this.itemNameLabel =
         new SpriteLabel(
-            name, x, y, this.fontSize, new float[] {0f, 0f, 0f, 0f}, Game.game.textureAtlas);
+            name,
+            this.getX(),
+            this.getY(),
+            this.fontSize,
+            new float[] {0f, 0f, 0f, 0f},
+            Game.game.textureAtlas);
+    // Item name in the top quarter of the box
+    float y = this.getY() - this.getHeight() / 2 + (this.getHeight() * 0.25f);
+    // Center the text
+    float x = this.getX() - this.itemNameLabel.getWidth() / 2;
+    this.itemNameLabel.setPosition(new Vector2D(x, y));
   }
 
   public void setItemDescriptionLabel(String description) {
-    float x = this.getX() - this.getWidth() / 4;
-    float y = this.getY() + 100f;
     this.itemDescriptionLabel =
         new SpriteLabel(
             description,
-            x,
-            y,
-            this.fontSize * 0.6f,
+            this.getX(),
+            this.getY(),
+            this.fontSize * 0.4f,
             new float[] {0f, 0f, 0f, 0f},
             Game.game.textureAtlas);
+    // Item name in the top quarter of the box
+    float y = this.getY() + this.getHeight() / 2 - (this.getHeight() * 0.25f);
+    // Center the text
+    float x = this.getX() - this.itemDescriptionLabel.getWidth() / 2;
+    this.itemDescriptionLabel.setPosition(new Vector2D(x, y));
   }
 
   public void setItemSprite(Item item) {
@@ -91,8 +119,8 @@ public class ItemPickupToast extends ColorEntity {
             item.getSpriteName(),
             x,
             y,
-            this.getHeight() / 2,
-            this.getHeight() / 2);
+            this.getHeight() / 4,
+            this.getHeight() / 4);
   }
 
   @Override
@@ -111,7 +139,6 @@ public class ItemPickupToast extends ColorEntity {
   public void update(float delta) {
     super.update(delta);
     this.timeLived += delta;
-    /*
     if (this.timeLived < 1) {
       this.setOpacity(timeLived);
     } else if (this.timeLived >= 1 && this.timeLived < TIME_TO_LIVE - 1) {
@@ -120,14 +147,18 @@ public class ItemPickupToast extends ColorEntity {
       this.setOpacity(Math.max(TIME_TO_LIVE - this.timeLived, 0));
     }
 
-     */
     if (timeLived >= TIME_TO_LIVE) {
       this.setDiscard(true);
+      ItemPickupToast.isDisplaying = false;
+      if (!ItemPickupToast.queue.isEmpty()) {
+        ItemPickupToast.create(ItemPickupToast.queue.poll());
+      }
     }
   }
 
   public void setOpacity(float opacity) {
-    this.vbo().setOpacity(opacity);
+    // this.vbo().setOpacity(opacity);
+    this.vbo().setColor(new float[] {0.5f, 0.5f, 0.5f, opacity});
     this.vbo().setFlagSolidColor();
     this.itemSprite.vbo().setOpacity(opacity);
     for (Entity e : this.itemNameLabel.getElements()) {

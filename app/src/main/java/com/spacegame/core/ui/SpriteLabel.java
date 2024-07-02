@@ -5,6 +5,7 @@ import com.spacegame.entities.Entity;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.Constants;
+import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -61,6 +62,7 @@ public class SpriteLabel implements SpriteContainer {
   private float z = 10f;
   private TextureAtlas textureAtlas;
   private boolean needsUpdate = false;
+  private String text;
 
   public SpriteLabel(
       String text,
@@ -89,6 +91,7 @@ public class SpriteLabel implements SpriteContainer {
   public void setText(String text) {
     updateCharacters(text);
     this.length = text.length();
+    this.text = text;
   }
 
   private void updateCharacters(String text) {
@@ -172,6 +175,34 @@ public class SpriteLabel implements SpriteContainer {
       character.setZ(z);
     }
     background.setZ(z - 1);
+  }
+
+  public void setX(float x) {
+    this.x = x;
+    updateCharacters(this.text);
+  }
+
+  public float getX() {
+    return this.x;
+  }
+
+  public void setY(float y) {
+    this.y = y;
+    updateCharacters(this.text);
+  }
+
+  public float getY() {
+    return this.y;
+  }
+
+  public float getWidth() {
+    return this.length * this.fontSize * 0.8f;
+  }
+
+  public void setPosition(Vector2D pos) {
+    this.x = pos.getX();
+    this.y = pos.getY();
+    updateCharacters(this.text);
   }
 
   public boolean isNeedsUpdate() {

@@ -223,15 +223,18 @@ public class GameInterface extends Thread {
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
       interfaceElements.removeIf(Entity::getDiscard);
-      for (Entity entity : interfaceElements) {
-        entity.update(deltaTime);
+      for (int i = 0; i < interfaceElements.size(); i++) {
+        Entity e = interfaceElements.get(i);
+        if (e != null) e.update(deltaTime);
       }
     }
   }
 
   public void addInterfaceContainer(SpriteContainer... container) {
-    for (SpriteContainer c : container) {
-      Collections.addAll(interfaceElements, c.getElements());
+    synchronized (interfaceElements) {
+      for (SpriteContainer c : container) {
+        Collections.addAll(interfaceElements, c.getElements());
+      }
     }
   }
 
@@ -241,7 +244,9 @@ public class GameInterface extends Thread {
    * @param element The new interface element to add.
    */
   public void addInterfaceElement(Entity... element) {
-    Collections.addAll(interfaceElements, element);
+    synchronized (interfaceElements) {
+      Collections.addAll(interfaceElements, element);
+    }
   }
 
   /**
