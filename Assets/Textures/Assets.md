@@ -18,6 +18,8 @@ This file is stored in the `src/res/raw/` directory.
 - "**Space Boss Battle Theme**" by "**Matthew Pablo**" licensed CC0 1.0 https://opengameart.org/content/space-boss-battle-theme
 - "**Retro Shooter Sound Effects**" by "**Muncheybobo**" licensed CC0 1.0 https://opengameart.org/content/retro-shooter-sound-effects
 - "**Free Cyberpunk Resource Pixel Icons**" https://free-game-assets.itch.io/free-cyberpunk-resource-pixel-art-3232-icons
+- "**Free Gun Icons 32×32**" https://free-game-assets.itch.io/free-guns-icon-3232-pixel-pack
+
 ## List of AI-Generated assets
 - Background Assets (Planets), Stable Diffusion, Model: animaPencilXL_v100
 - Spaceships, Stable Diffusion, Model: animaPencilXL_v100, LoRa: Pixel Art XL
