@@ -26,7 +26,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <true/>
+        <false/>
         <key>shapeDebug</key>
         <false/>
         <key>dpi</key>
@@ -161,7 +161,7 @@
             <key>trimMargin</key>
             <uint>0</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>
@@ -361,6 +361,11 @@
             <key type="filename">Joystix_font/joystix_x.png</key>
             <key type="filename">Joystix_font/joystix_y.png</key>
             <key type="filename">Joystix_font/joystix_z.png</key>
+            <key type="filename">Loose Files/icon_jetpack.png</key>
+            <key type="filename">Loose Files/icon_laserbeam.png</key>
+            <key type="filename">Loose Files/icon_lasercanon.png</key>
+            <key type="filename">Loose Files/icon_rocketlauncher.png</key>
+            <key type="filename">Loose Files/icon_shield.png</key>
             <key type="filename">interface/tex.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
