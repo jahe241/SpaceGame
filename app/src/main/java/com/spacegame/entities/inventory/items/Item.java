@@ -9,6 +9,7 @@ public abstract class Item {
   public final String description;
   protected Inventory inventory;
   public final ItemClass itemClass;
+  public String spriteName = Constants.SCIFI_INVENTORY;
 
   protected Item(
       int id, ItemClass itemClass, String name, String description, Inventory inventory) {
@@ -26,6 +27,7 @@ public abstract class Item {
   public abstract void onRemove(Inventory inventory);
 
   public String getSpriteName() {
-    return Constants.SCIFI_INVENTORY;
+    System.out.println("item sprite name:" + this.name);
+    return Constants.ITEM_ICONS.get(this.name);
   }
 }
