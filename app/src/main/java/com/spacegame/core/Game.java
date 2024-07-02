@@ -52,6 +52,8 @@ public class Game extends Thread {
 
   volatile GameState state = GameState.PLAYING;
 
+  public SpawnManager spawnManager;
+
   /** Sceen height */
   public int height;
 
@@ -71,6 +73,7 @@ public class Game extends Thread {
     this.width = width;
     this.BOUNDS = Math.max(height, width) * 10;
     Game.game = this;
+    this.spawnManager = new SpawnManager(this, this.timer);
   }
 
   public void setPlayerDirection(Vector2D stickDirection) {
@@ -179,6 +182,7 @@ public class Game extends Thread {
     //    DebugLogger.log("DEBUG", this.player.toString());
     // Update the background
     backgroundManager.update(deltaTime);
+    this.spawnManager.update(deltaTime);
 
     // Calls the update method for each entity: Updates Position and adjusts the vertex data based
     // on the new position
