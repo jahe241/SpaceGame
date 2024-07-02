@@ -366,6 +366,12 @@
             <key type="filename">Loose Files/icon_lasercanon.png</key>
             <key type="filename">Loose Files/icon_rocketlauncher.png</key>
             <key type="filename">Loose Files/icon_shield.png</key>
+            <key type="filename">animations/projectile_crossed-01.png</key>
+            <key type="filename">animations/projectile_crossed-02.png</key>
+            <key type="filename">animations/projectile_crossed-03.png</key>
+            <key type="filename">animations/projectile_crossed-04.png</key>
+            <key type="filename">animations/projectile_crossed-05.png</key>
+            <key type="filename">animations/projectile_crossed-06.png</key>
             <key type="filename">interface/tex.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -518,6 +524,85 @@
                 <rect>16,16,32,32</rect>
                 <key>scale9Paddings</key>
                 <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_bolt-01.png</key>
+            <key type="filename">animations/projectile_bolt-02.png</key>
+            <key type="filename">animations/projectile_bolt-03.png</key>
+            <key type="filename">animations/projectile_bolt-04.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,8,24,16</rect>
+                <key>scale9Paddings</key>
+                <rect>12,8,24,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_charged-01.png</key>
+            <key type="filename">animations/projectile_charged-02.png</key>
+            <key type="filename">animations/projectile_charged-03.png</key>
+            <key type="filename">animations/projectile_charged-04.png</key>
+            <key type="filename">animations/projectile_charged-05.png</key>
+            <key type="filename">animations/projectile_charged-06.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,12,31,24</rect>
+                <key>scale9Paddings</key>
+                <rect>16,12,31,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_pulse-01.png</key>
+            <key type="filename">animations/projectile_pulse-02.png</key>
+            <key type="filename">animations/projectile_pulse-03.png</key>
+            <key type="filename">animations/projectile_pulse-04.png</key>
+            <key type="filename">animations/projectile_spark-01.png</key>
+            <key type="filename">animations/projectile_spark-02.png</key>
+            <key type="filename">animations/projectile_spark-03.png</key>
+            <key type="filename">animations/projectile_spark-04.png</key>
+            <key type="filename">animations/projectile_spark-05.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,8,31,16</rect>
+                <key>scale9Paddings</key>
+                <rect>16,8,31,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_waveform-01.png</key>
+            <key type="filename">animations/projectile_waveform-02.png</key>
+            <key type="filename">animations/projectile_waveform-03.png</key>
+            <key type="filename">animations/projectile_waveform-04.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,8,47,16</rect>
+                <key>scale9Paddings</key>
+                <rect>24,8,47,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
