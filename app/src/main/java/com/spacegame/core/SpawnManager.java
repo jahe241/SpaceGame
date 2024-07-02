@@ -25,7 +25,8 @@ public class SpawnManager {
     // time passed in seconds
     int timePassed = (int) (timer.getElapsedTime() / 1000f);
     // Increase the amount of spawn credits given, the longer the game goes
-    this.spawnCredits += delta * ((timePassed / 10) + 1);
+    // Every 30 seconds the credits given per frame are increased exponentially
+    this.spawnCredits += delta * ((timePassed / 30) + 1);
     // Spend tickets every 5 seconds
     if (timePassed % 5 == 0) {
       while (this.spawnCredits >= 1) {
@@ -40,11 +41,14 @@ public class SpawnManager {
   }
 
   public void spawnEnemy(AllEnemies enemyType) {
-    float rng = this.rng.nextFloat();
-    float x = rng > 0.5f ? rng * game.width : rng * -game.width;
-    float y = rng > 0.5f ? rng * game.height : rng * -game.height;
+    Vector2D screenMiddle = new Vector2D(game.width / 2f, game.height / 2f);
+    float rngX = this.rng.nextFloat() * 2 - 1;
+    float rngY = this.rng.nextFloat() * 2 - 1;
     // Make sure enemies get spawned outside of game screen
-    Vector2D spawnPosition = new Vector2D(x, y).toSize(Math.max(game.width / 2, game.height / 2));
+    Vector2D spawnPosition =
+        new Vector2D(rngX, rngY)
+            .toSize(Math.max(game.width / 2, game.height / 2))
+            .add(screenMiddle);
     BaseEnemy enemy = null;
     switch (enemyType) {
       case Stalker -> enemy = new Stalker(spawnPosition.getX(), spawnPosition.getY());
@@ -52,6 +56,6 @@ public class SpawnManager {
     }
     assert (enemy != null);
     game.addEntity(enemy);
-    DebugLogger.log("Spawner", "Enemy spawned!");
+    DebugLogger.log("Spawner", "Enemy spawned at: " + spawnPosition);
   }
 }
