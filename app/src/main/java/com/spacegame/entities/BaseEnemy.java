@@ -1,9 +1,12 @@
 package com.spacegame.entities;
 
+import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
 import java.util.ArrayList;
 
 public class BaseEnemy extends Actor {
+
+  public int id;
 
   /**
    * Constructor for the Entity class. This constructor initializes a new Entity object by setting
@@ -21,9 +24,16 @@ public class BaseEnemy extends Actor {
    * @param height The height of the entity.
    */
   public BaseEnemy(
-      TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
+      int id,
+      TextureAtlas textureAtlas,
+      String spriteName,
+      float x,
+      float y,
+      float width,
+      float height) {
     super(textureAtlas, spriteName, x, y, width, height);
     // Collision stuff
+    this.id = id;
     this.collidable = true;
     this.collisionMask = CollisionMask.ENEMY;
     ArrayList<CollisionMask> temp = new ArrayList<>();
@@ -41,5 +51,11 @@ public class BaseEnemy extends Actor {
   @Override
   public void onCollisionEnd() {
     this.disableColorOverlay();
+  }
+
+  @Override
+  public void setDiscard(boolean discard) {
+    super.setDiscard(discard);
+    Game.game.onEnemyDeath(this);
   }
 }

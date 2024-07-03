@@ -8,6 +8,7 @@ import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.entities.enemies.Sniper;
+import com.spacegame.entities.enemies.Stalker;
 import com.spacegame.entities.inventory.items.ItemPickup;
 import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
@@ -19,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
+
+// TODO: Make a player death screen
 
 /**
  * The Game class extends the Thread class and represents the main game loop. It contains
@@ -73,7 +76,7 @@ public class Game extends Thread {
     this.width = width;
     this.BOUNDS = Math.max(height, width) * 10;
     Game.game = this;
-    this.spawnManager = new SpawnManager(this, this.timer);
+    this.spawnManager = new SpawnManager(this);
   }
 
   public void setPlayerDirection(Vector2D stickDirection) {
@@ -102,7 +105,7 @@ public class Game extends Thread {
     this.normalizedScreenWidth = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     this.setPlayer(player);
-    addEntity(new BaseEnemy(this.textureAtlas, "ship_red_01", 500f, 500f, 338f, 166f));
+    addEntity(new Stalker(500f, 500f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
     this.backgroundManager =
@@ -189,14 +192,6 @@ public class Game extends Thread {
     // Remove the entities that are marked for deletion
     entities.removeIf(Entity::getDiscard);
     enemies.removeIf(Entity::getDiscard);
-    for (int i = 0; i < entities.size(); i++) {
-      Entity entity = entities.get(i);
-      if (entity.getDiscard()) {
-        if (entity instanceof BaseEnemy) {
-          this.addScore(1);
-        }
-      }
-    }
 
     Vector2D playerVelocity = this.getPlayerVelocity();
 
@@ -359,6 +354,7 @@ public class Game extends Thread {
     return false;
   }
 
+  /*
   private void spawnRandomEntity(float x, float y) {
     String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
     var ranEnemeyEntity = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
@@ -389,6 +385,8 @@ public class Game extends Thread {
     explosion.setColorOverlay(new float[] {0f, 0f, 1f, 0.5f});
     this.addEntity(explosion);
   }
+
+   */
 
   private void scaleEntityToScreenSize(Entity entity) {
     DebugLogger.log("DEBUG", "Adapter Scale Factor: " + this.normalizedScreenWidth);
@@ -450,6 +448,10 @@ public class Game extends Thread {
       }
     }
     return closestEnemy;
+  }
+
+  public void onEnemyDeath(BaseEnemy enemy) {
+    this.addScore(enemy.id + 1);
   }
 
   /**

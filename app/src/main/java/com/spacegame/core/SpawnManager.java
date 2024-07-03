@@ -5,30 +5,32 @@ import com.spacegame.entities.enemies.AllEnemies;
 import com.spacegame.entities.enemies.Sniper;
 import com.spacegame.entities.enemies.Stalker;
 import com.spacegame.utils.DebugLogger;
-import com.spacegame.utils.PausableStopwatch;
 import com.spacegame.utils.Vector2D;
 import java.util.concurrent.ThreadLocalRandom;
+
+// TODO: Check why spawner spawns a lot after unpause game
 
 public class SpawnManager {
   private final Game game;
   private final ThreadLocalRandom rng = ThreadLocalRandom.current();
-  private final PausableStopwatch timer;
+
+  private float timePassed = 0f;
 
   private float spawnCredits = 0;
 
-  public SpawnManager(Game game, PausableStopwatch timer) {
+  public SpawnManager(Game game) {
     this.game = game;
-    this.timer = timer;
   }
 
   public void update(float delta) {
     // time passed in seconds
-    int timePassed = (int) (timer.getElapsedTime() / 1000f);
+    this.timePassed += delta;
+    int timePassedInSeconds = (int) (this.timePassed / 1000f);
     // Increase the amount of spawn credits given, the longer the game goes
     // Every 30 seconds the credits given per frame are increased exponentially
-    this.spawnCredits += delta * ((timePassed / 30) + 1);
+    this.spawnCredits += delta * ((timePassedInSeconds / 30) + 1);
     // Spend tickets every 5 seconds
-    if (timePassed % 5 == 0) {
+    if (timePassedInSeconds % 5 == 0) {
       while (this.spawnCredits >= 1) {
         // Get the rng, which is between the credits to spend and the maximum numbers of enemy types
         int rng =

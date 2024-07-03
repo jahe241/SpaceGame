@@ -16,7 +16,8 @@ public class Sniper extends BaseEnemy {
   static final float fuzzyThreshold = 50;
 
   public Sniper(float x, float y) {
-    super(Game.game.textureAtlas, Constants.ENEMIES[3], x, y, 100, 100);
+    super(
+        AllEnemies.Sniper.ordinal(), Game.game.textureAtlas, Constants.ENEMIES[3], x, y, 100, 100);
     this.player = Game.game.getPlayer();
     this.baseSpeed = 500;
   }

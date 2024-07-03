@@ -12,7 +12,8 @@ public class Stalker extends BaseEnemy {
   Player player;
 
   public Stalker(float x, float y) {
-    super(Game.game.textureAtlas, Constants.ENEMIES[1], x, y, 100, 100);
+    super(
+        AllEnemies.Stalker.ordinal(), Game.game.textureAtlas, Constants.ENEMIES[1], x, y, 100, 100);
     this.baseSpeed = 150;
     this.collisionDamage = 2;
     this.player = Game.game.getPlayer();
