@@ -359,7 +359,9 @@ public class GameInterface extends Thread {
         Log.d("GameInterface", "Resetting Game");
         this.game.player.vbo().print();
         this.gameOverMenu.hide();
-        game.resetGame();
+        synchronized (this.game) {
+          game.resetGame();
+        }
         break;
       case DEBUG_BUTTON:
         this.game.spawnRandomEnemy(1);
@@ -411,6 +413,7 @@ public class GameInterface extends Thread {
 
   public void onPlayerDeath() {
     this.pauseMenu.hide();
+    this.scoreLabel.setText(String.valueOf(game.getScore()));
     this.gameOverMenu.show();
   }
 }

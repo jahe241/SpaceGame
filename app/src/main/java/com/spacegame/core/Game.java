@@ -88,12 +88,13 @@ public class Game extends Thread {
   }
 
   public void resetGame() {
-    synchronized (this) {
-      entities.clear();
-      this.timer.reset();
-      this.state = GameState.PLAYING;
-      notify();
+    for (Entity e : this.entities) {
+      e.setDiscard(true);
     }
+    this.timer.reset();
+    this.score = 0;
+    this.state = GameState.PLAYING;
+    notify();
     setupGame();
   }
 
@@ -155,6 +156,7 @@ public class Game extends Thread {
         while (this.state == GameState.GAME_OVER) {
           try {
             GameInterface.gameInterface.onPlayerDeath();
+            this.timer.pause();
             wait();
           } catch (InterruptedException e) {
             e.printStackTrace();
