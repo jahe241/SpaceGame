@@ -4,7 +4,7 @@ import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
-import com.spacegame.utils.Constants;
+import com.spacegame.entities.Player;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +25,7 @@ public class SniperCanonProjectile extends Actor {
     this.baseSpeed = SPEED;
     this.collisionMask = CollisionMask.ENEMY_PROJECTILE;
     this.collidesWith = new ArrayList<>(List.of(CollisionMask.PLAYER));
+    this.collisionDamage = 1;
     //    this.setColorOverlay(new float[] {.5f, 0, 0, 1});
   }
 
@@ -32,6 +33,9 @@ public class SniperCanonProjectile extends Actor {
   public void onCollision(Actor other) {
     super.onCollision(other);
     this.setDiscard(true);
+    if (other instanceof Player p) {
+      p.takeDamage(other);
+    }
   }
 
   @Override

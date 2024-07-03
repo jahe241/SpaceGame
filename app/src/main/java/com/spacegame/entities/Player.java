@@ -2,9 +2,11 @@ package com.spacegame.entities;
 
 import android.view.MotionEvent;
 import androidx.annotation.NonNull;
+import com.spacegame.core.Game;
 import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
+import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -58,15 +60,13 @@ public class Player extends Actor {
 
   @Override
   public void update(float delta) {
-    if (this.getCurrentHealth() <= 0) this.fullHeal();
     // TODO: Uncomment this when the game over game state is handled
-    /*
     if (this.getCurrentHealth() <= 0) {
       Game.game.onPlayerDeath();
       return;
     }
-     */
     super.update(delta);
+    // DebugLogger.log("GameOver", "Player  Health: " + this.getCurrentHealth());
   }
 
   @Override
@@ -78,10 +78,7 @@ public class Player extends Actor {
 
   @Override
   public void onCollision(Actor other) {
-    this.setColorOverlay(ColorHelper.BLUE);
-    if (!this.colliding) {
-      this.takeDamage(other);
-    }
+    this.takeDamage(other);
   }
 
   @Override
@@ -119,5 +116,13 @@ public class Player extends Actor {
         + ", Speed="
         + this.getBaseSpeed()
         + "}";
+  }
+
+  @Override
+  public void takeDamage(Actor from) {
+    DebugLogger.log("GameOver", "TakeDamage: " + from.getCollisionDamage());
+    DebugLogger.log("GameOver", "Before CurrentHealth: " + from.getCollisionDamage());
+    super.takeDamage(from);
+    DebugLogger.log("GameOver", "After CurrentHealth: " + from.getCollisionDamage());
   }
 }

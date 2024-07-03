@@ -206,9 +206,43 @@ public class GameInterface extends Thread {
             this.adaptiveSizeUnit * 2,
             ColorHelper.TRANSPARENT,
             game.textureAtlas));
-
     this.pauseMenu.hide();
     addInterfaceContainer(this.pauseMenu);
+
+    this.gameOverMenu =
+        new SpritePopup(
+            new ColorEntity(
+                screenWidth / 2, // Center of the screen
+                screenHeight / 2,
+                screenWidth * .9f,
+                screenHeight * .7f,
+                ColorHelper.PINK));
+
+    this.gameOverMenu.addButton(
+        new SpriteButton(
+            game.textureAtlas,
+            "monk",
+            "peepo",
+            screenWidth / 2, // Center of the screen
+            screenHeight * .7f,
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
+            ButtonType.RESET_GAME,
+            true,
+            ColorHelper.TRANSPARENT));
+    this.gameOverMenu.addLabel(this.scoreLabel);
+
+    this.gameOverMenu.addLabel(
+        new SpriteLabel(
+            "GAME OVER",
+            (screenWidth * .5f)
+                - (((adaptiveSizeUnit * 2) * 5) * .5f), // +5 characterSize, to center the text
+            screenHeight * .18f,
+            this.adaptiveSizeUnit * 2,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas));
+    this.gameOverMenu.hide();
+    addInterfaceContainer(this.gameOverMenu);
   }
 
   /**
@@ -324,6 +358,7 @@ public class GameInterface extends Thread {
       case RESET_GAME:
         Log.d("GameInterface", "Resetting Game");
         this.game.player.vbo().print();
+        this.gameOverMenu.hide();
         game.resetGame();
         break;
       case DEBUG_BUTTON:
@@ -372,5 +407,10 @@ public class GameInterface extends Thread {
   public void onDestroy() {
     soundEngine.stopMusic(SoundType.inGame);
     soundEngine.release();
+  }
+
+  public void onPlayerDeath() {
+    this.pauseMenu.hide();
+    this.gameOverMenu.show();
   }
 }

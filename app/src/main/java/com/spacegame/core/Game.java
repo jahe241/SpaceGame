@@ -8,7 +8,6 @@ import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.Entity;
 import com.spacegame.entities.Player;
 import com.spacegame.entities.enemies.Sniper;
-import com.spacegame.entities.enemies.Stalker;
 import com.spacegame.entities.inventory.items.ItemPickup;
 import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
@@ -37,7 +36,7 @@ public class Game extends Thread {
   /** The list of entities in the game. */
   public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
 
-  public final List<BaseEnemy> enemies = new ArrayList<>();
+  public final List<BaseEnemy> enemies = Collections.synchronizedList(new ArrayList<>());
 
   public final PausableStopwatch timer = new PausableStopwatch();
 
@@ -89,9 +88,11 @@ public class Game extends Thread {
   }
 
   public void resetGame() {
-    synchronized (entities) {
+    synchronized (this) {
       entities.clear();
       this.timer.reset();
+      this.state = GameState.PLAYING;
+      notify();
     }
     setupGame();
   }
@@ -105,7 +106,6 @@ public class Game extends Thread {
     this.normalizedScreenWidth = Math.min(this.width, this.height);
     Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     this.setPlayer(player);
-    addEntity(new Stalker(500f, 500f));
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
     this.backgroundManager =
@@ -147,6 +147,14 @@ public class Game extends Thread {
       synchronized (this) {
         while (this.state == GameState.PAUSED) {
           try {
+            wait();
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }
+        while (this.state == GameState.GAME_OVER) {
+          try {
+            GameInterface.gameInterface.onPlayerDeath();
             wait();
           } catch (InterruptedException e) {
             e.printStackTrace();

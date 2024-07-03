@@ -11,7 +11,7 @@ import java.util.List;
 public class Actor extends Entity {
 
   /** The damage the other actor takes when colliding with this actor */
-  public int collisionDamage = 0;
+  public int collisionDamage = 1;
 
   /** The max health of the actor */
   private int maxHealth = 1;
@@ -236,8 +236,8 @@ public class Actor extends Entity {
   }
 
   public void takeDamage(Actor from) {
-    int damage = inventory.onDamageTaken(from);
-    this.currentHealth -= damage;
+    // int damage = inventory.onDamageTaken(from);
+    this.currentHealth -= from.getCollisionDamage();
   }
 
   public void takeHeal(int heal) {

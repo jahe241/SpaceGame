@@ -4,7 +4,6 @@ import com.spacegame.entities.BaseEnemy;
 import com.spacegame.entities.enemies.AllEnemies;
 import com.spacegame.entities.enemies.Sniper;
 import com.spacegame.entities.enemies.Stalker;
-import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -58,6 +57,5 @@ public class SpawnManager {
     }
     assert (enemy != null);
     game.addEntity(enemy);
-    DebugLogger.log("Spawner", "Enemy spawned at: " + spawnPosition);
   }
 }
