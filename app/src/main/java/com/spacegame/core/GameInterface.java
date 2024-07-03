@@ -413,7 +413,7 @@ public class GameInterface extends Thread {
 
   public void onPlayerDeath() {
     this.pauseMenu.hide();
-    this.scoreLabel.setText(String.valueOf(game.getScore()));
+    this.scoreLabel.setText("SCORE: " + game.getScore());
     this.gameOverMenu.show();
   }
 }
