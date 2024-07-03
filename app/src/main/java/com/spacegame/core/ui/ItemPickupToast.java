@@ -115,12 +115,7 @@ public class ItemPickupToast extends ColorEntity {
     float y = this.getY();
     this.itemSprite =
         new Entity(
-            Game.game.textureAtlas,
-            item.getSpriteName(),
-            x,
-            y,
-            this.getHeight() / 4,
-            this.getHeight() / 4);
+            Game.game.textureAtlas, item.getSpriteName(), x, y, this.getHeight(), this.getHeight());
   }
 
   @Override
