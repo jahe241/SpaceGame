@@ -49,6 +49,10 @@ public class RocketLauncherProjectile extends Actor {
     super.update(delta);
     // Track closest enemy
     // If the current target gets discarded or becomes null, switch target;
+    if (!Game.game.isInBounds(this.getX(), this.getY())) {
+      this.setDiscard(true);
+      return;
+    }
     if (currentTarget == null || currentTarget.getDiscard()) {
       this.currentTarget = Game.game.getClosestEnemy(this.getX(), this.getY());
       // If there are no enemies in the game currently

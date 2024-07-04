@@ -45,6 +45,16 @@ public class BaseEnemy extends Actor {
   }
 
   @Override
+  public void update(float delta) {
+    super.update(delta);
+    // If the enemy is out of bounds, discard it and add the credits to the spawn manager
+    if (!Game.game.isInBounds(this.getX(), this.getY())) {
+      this.setDiscard(true);
+      Game.game.spawnManager.addCredits(this.id + 1);
+    }
+  }
+
+  @Override
   public void onCollision(Actor other) {
     this.takeDamage(other);
   }

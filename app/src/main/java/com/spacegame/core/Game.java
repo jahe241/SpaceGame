@@ -508,4 +508,8 @@ public class Game extends Thread {
   public int getScore() {
     return this.score;
   }
+
+  public float getNormalizedScreenWidth() {
+    return this.normalizedScreenWidth;
+  }
 }

@@ -44,6 +44,8 @@ public class SniperCanonProjectile extends Actor {
   }
 
   public static SniperCanonProjectile create(Sniper from, Actor target) {
+    // Needed to nerf this as the shots are too difficult to dodge, if prediction is applied
+    /*
     Vector2D targetPosition = target.getPosition();
     Vector2D targetVelocity = target.getVelocity();
     Vector2D toTarget = from.getPosition().to(targetPosition);
@@ -55,6 +57,15 @@ public class SniperCanonProjectile extends Actor {
 
     SniperCanonProjectile projectile = new SniperCanonProjectile(from, shootDirection);
 
+    Game.game.addEntity(projectile);
+    return projectile;
+
+     */
+    Vector2D targetPosition = target.getPosition();
+    Vector2D fromPosition = from.getPosition();
+    Vector2D shootDirection = fromPosition.to(targetPosition);
+
+    SniperCanonProjectile projectile = new SniperCanonProjectile(from, shootDirection);
     Game.game.addEntity(projectile);
     return projectile;
   }
