@@ -16,6 +16,8 @@ public class SpawnManager {
   private final Game game;
   private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
+  private static final int STALKER_EVENT_TIME = 30;
+
   private boolean stalkerEvent = false;
 
   private float timePassed = 0f;
@@ -45,7 +47,7 @@ public class SpawnManager {
     }
     // Initiate stalker event
     if (this.stalkerEvent) return;
-    if (timePassedInSeconds >= 10) createStalkerEvent();
+    if (timePassedInSeconds >= STALKER_EVENT_TIME) createStalkerEvent();
   }
 
   /**
@@ -98,7 +100,7 @@ public class SpawnManager {
     List<Vector2D> spawnPositions = new ArrayList<>();
     for (float i = -1; i <= 1; i += .5f) {
       for (float j = -1; j <= 1; j += .5f) {
-        if (i == 0 && j == 0) continue;
+        if (i == 0 && j == 0) continue; // Null vector needs to be skipped
         spawnPositions.add(new Vector2D(i, j).toSize(length).add(playerPos));
       }
     }
