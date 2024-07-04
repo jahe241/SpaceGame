@@ -1,5 +1,6 @@
 package com.spacegame.entities.inventory;
 
+import com.spacegame.core.ui.ItemPickupToast;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.items.Item;
 import com.spacegame.entities.inventory.items.OnDamageTakenItem;
@@ -128,6 +129,7 @@ public class Inventory {
   public void addItem(Item item) {
     this.allItems.add(item);
     item.onAdd(this);
+    ItemPickupToast.create(item);
   }
 
   public void removeItem(Item item) {}

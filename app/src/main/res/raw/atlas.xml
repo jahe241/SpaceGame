@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with TexturePacker https://www.codeandweb.com/texturepacker -->
-<!-- $TexturePacker:SmartUpdate:4fff509760161f9b36407a7565b0f57f:9c5349231e4a204d6585b36a71e3f3e3:cde709370900f12288f3449eded86f07$ -->
+<!-- $TexturePacker:SmartUpdate:7ad010d0bb2cba18d58b571dad03b33e:7b3d968c3f0b0d11b5d2cc79c71fb494:cde709370900f12288f3449eded86f07$ -->
 <!--Format:
 n  => name of the sprite
 x  => sprite x pos in texture
@@ -19,139 +19,192 @@ vertices   => points in sprite coordinate system (x0,y0,x1,y1,x2,y2, ...)
 verticesUV => points in sheet coordinate system (x0,y0,x1,y1,x2,y2, ...)
 triangles  => sprite triangulation, 3 vertex indices per triangle
 -->
-<TextureAtlas imagePath="atlas.png" width="1015" height="2393">
-    <sprite n="background_planet_001" x="3" y="1890" w="250" h="241" pX="0.5" pY="0.5" oX="3" oY="7" oW="256" oH="256"/>
-    <sprite n="background_planet_002" x="254" y="1146" w="241" h="236" pX="0.5" pY="0.5" oX="7" oY="11" oW="256" oH="256"/>
-    <sprite n="background_planet_003" x="661" y="453" w="210" h="206" pX="0.5" pY="0.5" oX="20" oY="24" oW="256" oH="256"/>
-    <sprite n="background_planet_004" x="3" y="2144" w="249" h="245" pX="0.5" pY="0.5" oX="3" oY="4" oW="256" oH="256"/>
-    <sprite n="background_planet_005" x="263" y="1890" w="243" h="241" pX="0.5" pY="0.5" oX="5" oY="7" oW="256" oH="256"/>
-    <sprite n="background_planet_006" x="3" y="1392" w="250" h="237" pX="0.5" pY="0.5" oX="3" oY="4" oW="256" oH="256"/>
-    <sprite n="background_planet_007" x="771" y="1392" w="241" h="238" pX="0.5" pY="0.5" oX="4" oY="15" oW="256" oH="256"/>
-    <sprite n="background_planet_008" x="401" y="453" w="250" h="187" pX="0.5" pY="0.5" oX="3" oY="38" oW="256" oH="256"/>
-    <sprite n="background_planet_009" x="3" y="669" w="243" h="209" pX="0.5" pY="0.5" oX="10" oY="28" oW="256" oH="256"/>
-    <sprite n="background_planet_010" x="520" y="2144" w="249" h="246" pX="0.5" pY="0.5" oX="3" oY="5" oW="256" oH="256"/>
-    <sprite n="background_planet_011" x="256" y="669" w="222" h="214" pX="0.5" pY="0.5" oX="15" oY="20" oW="256" oH="256"/>
-    <sprite n="background_planet_012" x="738" y="901" w="244" h="235" pX="0.5" pY="0.5" oX="5" oY="10" oW="256" oH="256"/>
-    <sprite n="background_planet_013" x="505" y="1146" w="241" h="236" pX="0.5" pY="0.5" oX="7" oY="10" oW="256" oH="256"/>
-    <sprite n="background_planet_014" x="488" y="669" w="218" h="215" pX="0.5" pY="0.5" oX="20" oY="21" oW="256" oH="256"/>
-    <sprite n="background_planet_015" x="262" y="2144" w="248" h="245" pX="0.5" pY="0.5" oX="4" oY="6" oW="256" oH="256"/>
-    <sprite n="background_planet_016" x="516" y="1890" w="250" h="244" pX="0.5" pY="0.5" oX="2" oY="6" oW="256" oH="256"/>
-    <sprite n="background_planet_017" x="756" y="1146" w="249" h="236" pX="0.5" pY="0.5" oX="3" oY="9" oW="256" oH="256"/>
-    <sprite n="background_planet_018" x="260" y="1640" w="248" h="240" pX="0.5" pY="0.5" oX="4" oY="8" oW="256" oH="256"/>
-    <sprite n="background_planet_019" x="518" y="1640" w="249" h="240" pX="0.5" pY="0.5" oX="3" oY="8" oW="256" oH="256"/>
-    <sprite n="background_planet_020" x="263" y="1392" w="243" h="237" pX="0.5" pY="0.5" oX="6" oY="10" oW="256" oH="256"/>
-    <sprite n="background_planet_021" x="3" y="1640" w="247" h="239" pX="0.5" pY="0.5" oX="4" oY="8" oW="256" oH="256"/>
-    <sprite n="background_planet_022" x="516" y="1392" w="245" h="237" pX="0.5" pY="0.5" oX="5" oY="8" oW="256" oH="256"/>
-    <sprite n="background_planet_023" x="716" y="669" w="225" h="222" pX="0.5" pY="0.5" oX="16" oY="15" oW="256" oH="256"/>
-    <sprite n="background_planet_024" x="243" y="901" w="235" h="232" pX="0.5" pY="0.5" oX="10" oY="12" oW="256" oH="256"/>
-    <sprite n="background_planet_025" x="488" y="901" w="240" h="232" pX="0.5" pY="0.5" oX="8" oY="12" oW="256" oH="256"/>
-    <sprite n="background_planet_026" x="3" y="1146" w="241" h="235" pX="0.5" pY="0.5" oX="7" oY="10" oW="256" oH="256"/>
-    <sprite n="background_planet_027" x="3" y="901" w="230" h="227" pX="0.5" pY="0.5" oX="12" oY="14" oW="256" oH="256"/>
-    <sprite n="blue_projectile" x="114" y="3" w="24" h="12" pX="0.5" pY="0.5" oX="2" oY="7" oW="28" oH="28"/>
-    <sprite n="exp2_0-00" x="630" y="167" w="56" h="51" pX="0.5" pY="0.5" oX="6" oY="4" oW="64" oH="64"/>
-    <sprite n="exp2_0-01" x="63" y="232" w="62" h="56" pX="0.5" pY="0.5" oX="2" oY="2" oW="64" oH="64"/>
-    <sprite n="exp2_0-02" x="282" y="232" w="64" h="60" pX="0.5" pY="0.5" oX="0" oY="0" oW="64" oH="64"/>
-    <sprite n="exp2_0-03" x="208" y="232" w="64" h="58" pX="0.5" pY="0.5" oX="0" oY="2" oW="64" oH="64"/>
-    <sprite n="exp2_0-04" x="135" y="232" w="63" h="56" pX="0.5" pY="0.5" oX="0" oY="4" oW="64" oH="64"/>
-    <sprite n="exp2_0-05" x="761" y="167" w="61" h="55" pX="0.5" pY="0.5" oX="1" oY="4" oW="64" oH="64"/>
-    <sprite n="exp2_0-06" x="696" y="167" w="55" h="54" pX="0.5" pY="0.5" oX="2" oY="5" oW="64" oH="64"/>
-    <sprite n="exp2_0-07" x="569" y="167" w="51" h="48" pX="0.5" pY="0.5" oX="3" oY="10" oW="64" oH="64"/>
-    <sprite n="exp2_0-08" x="509" y="167" w="50" h="46" pX="0.5" pY="0.5" oX="4" oY="11" oW="64" oH="64"/>
-    <sprite n="exp2_0-09" x="953" y="3" w="46" h="44" pX="0.5" pY="0.5" oX="7" oY="12" oW="64" oH="64"/>
-    <sprite n="exp2_0-10" x="900" y="3" w="43" h="42" pX="0.5" pY="0.5" oX="8" oY="13" oW="64" oH="64"/>
-    <sprite n="exp2_0-11" x="801" y="3" w="40" h="37" pX="0.5" pY="0.5" oX="11" oY="14" oW="64" oH="64"/>
-    <sprite n="exp2_0-12" x="715" y="3" w="32" h="34" pX="0.5" pY="0.5" oX="13" oY="14" oW="64" oH="64"/>
-    <sprite n="exp2_0-13" x="486" y="3" w="20" h="32" pX="0.5" pY="0.5" oX="24" oY="15" oW="64" oH="64"/>
-    <sprite n="exp2_0-14" x="277" y="3" w="18" h="18" pX="0.5" pY="0.5" oX="26" oY="21" oW="64" oH="64"/>
-    <sprite n="exp2_0-15" x="3" y="3" w="3" h="3" pX="0.5" pY="0.5" oX="27" oY="25" oW="64" oH="64"/>
-    <sprite n="joystix_0" x="3" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_1" x="58" y="57" w="39" h="45" pX="0.5" pY="0.5" oX="8" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_2" x="107" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_3" x="162" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_4" x="217" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_5" x="272" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_6" x="327" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_7" x="382" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_8" x="437" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_9" x="492" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_a" x="547" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_ampersand" x="602" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_apostrophe" x="397" y="3" w="13" h="26" pX="0.5" pY="0.5" oX="21" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_asterisk" x="657" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_at" x="712" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_b" x="767" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_backslash" x="822" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_backtick" x="148" y="3" w="21" h="13" pX="0.5" pY="0.5" oX="17" oY="0" oW="64" oH="64"/>
-    <sprite n="joystix_c" x="877" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_caret" x="305" y="3" w="33" h="20" pX="0.5" pY="0.5" oX="11" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_colon" x="600" y="3" w="13" h="33" pX="0.5" pY="0.5" oX="21" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_comma" x="420" y="3" w="13" h="26" pX="0.5" pY="0.5" oX="21" oY="38" oW="64" oH="64"/>
-    <sprite n="joystix_d" x="932" y="57" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_dollar" x="3" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_e" x="58" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_equals" x="348" y="3" w="39" h="20" pX="0.5" pY="0.5" oX="8" oY="32" oW="64" oH="64"/>
-    <sprite n="joystix_exclamation" x="113" y="112" w="33" h="45" pX="0.5" pY="0.5" oX="11" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_f" x="156" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_g" x="211" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_greater_than" x="266" y="112" w="33" h="45" pX="0.5" pY="0.5" oX="11" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_h" x="309" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_hash" x="623" y="3" w="33" h="33" pX="0.5" pY="0.5" oX="11" oY="25" oW="64" oH="64"/>
-    <sprite n="joystix_i" x="364" y="112" w="39" h="45" pX="0.5" pY="0.5" oX="8" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_j" x="413" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_k" x="468" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_l" x="523" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_left_curly_brace" x="832" y="167" w="27" h="55" pX="0.5" pY="0.5" oX="17" oY="9" oW="64" oH="64"/>
-    <sprite n="joystix_left_parenthesis" x="869" y="167" w="20" h="55" pX="0.5" pY="0.5" oX="24" oY="9" oW="64" oH="64"/>
-    <sprite n="joystix_left_square_bracket" x="899" y="167" w="27" h="55" pX="0.5" pY="0.5" oX="17" oY="9" oW="64" oH="64"/>
-    <sprite n="joystix_less_than" x="578" y="112" w="33" h="45" pX="0.5" pY="0.5" oX="11" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_m" x="621" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_minus" x="71" y="3" w="33" h="7" pX="0.5" pY="0.5" oX="11" oY="38" oW="64" oH="64"/>
-    <sprite n="joystix_n" x="676" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_o" x="731" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_p" x="786" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_percent" x="851" y="3" w="39" h="39" pX="0.5" pY="0.5" oX="8" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_period" x="179" y="3" w="13" h="13" pX="0.5" pY="0.5" oX="21" oY="51" oW="64" oH="64"/>
-    <sprite n="joystix_plus" x="666" y="3" w="39" h="33" pX="0.5" pY="0.5" oX="8" oY="25" oW="64" oH="64"/>
-    <sprite n="joystix_q" x="841" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_question" x="896" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_quote" x="443" y="3" w="33" h="26" pX="0.5" pY="0.5" oX="11" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_r" x="951" y="112" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_right_curly_brace" x="936" y="167" w="27" h="55" pX="0.5" pY="0.5" oX="11" oY="9" oW="64" oH="64"/>
-    <sprite n="joystix_right_parenthesis" x="973" y="167" w="20" h="55" pX="0.5" pY="0.5" oX="11" oY="9" oW="64" oH="64"/>
-    <sprite n="joystix_right_square_bracket" x="3" y="232" w="27" h="55" pX="0.5" pY="0.5" oX="11" oY="9" oW="64" oH="64"/>
-    <sprite n="joystix_s" x="3" y="167" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_semicolon" x="58" y="167" w="13" h="45" pX="0.5" pY="0.5" oX="21" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_slash" x="81" y="167" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_t" x="136" y="167" w="39" h="45" pX="0.5" pY="0.5" oX="8" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_tilde" x="202" y="3" w="39" h="14" pX="0.5" pY="0.5" oX="8" oY="38" oW="64" oH="64"/>
-    <sprite n="joystix_u" x="185" y="167" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_underscore" x="16" y="3" w="45" h="3" pX="0.5" pY="0.5" oX="5" oY="61" oW="64" oH="64"/>
-    <sprite n="joystix_v" x="240" y="167" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_vertical_bar" x="40" y="232" w="13" h="55" pX="0.5" pY="0.5" oX="21" oY="9" oW="64" oH="64"/>
-    <sprite n="joystix_w" x="295" y="167" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_x" x="350" y="167" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_y" x="405" y="167" w="39" h="45" pX="0.5" pY="0.5" oX="8" oY="19" oW="64" oH="64"/>
-    <sprite n="joystix_z" x="454" y="167" w="45" h="45" pX="0.5" pY="0.5" oX="5" oY="19" oW="64" oH="64"/>
-    <sprite n="monk" x="722" y="232" w="61" h="67" pX="0.5" pY="0.5" oX="3" oY="0" oW="67" oH="67"/>
-    <sprite n="peepo" x="182" y="318" w="50" h="84" pX="0.5" pY="0.5"/>
-    <sprite n="peepo_mad.webp" x="430" y="232" w="64" h="63" pX="0.5" pY="0.5" oX="0" oY="0" oW="64" oH="64"/>
-    <sprite n="peepo_paused" x="356" y="232" w="64" h="62" pX="0.5" pY="0.5" oX="0" oY="2" oW="64" oH="64"/>
-    <sprite n="peepo_playing" x="504" y="232" w="64" h="63" pX="0.5" pY="0.5" oX="0" oY="0" oW="64" oH="64"/>
-    <sprite n="peepo_schlafanzug.webp" x="578" y="232" w="60" h="64" pX="0.5" pY="0.5" oX="0" oY="0" oW="64" oH="64"/>
-    <sprite n="pixel_ship_pepe" x="851" y="318" w="109" h="125" pX="0.5" pY="0.5" oX="18" oY="2" oW="128" oH="128"/>
-    <sprite n="scifi_inventory01" x="757" y="3" w="34" h="34" pX="0.5" pY="0.5"/>
-    <sprite n="ship_black_01" x="380" y="318" w="128" h="120" pX="0.5" pY="0.5"/>
-    <sprite n="ship_blue_01" x="518" y="318" w="90" h="122" pX="0.5" pY="0.5"/>
-    <sprite n="ship_green_01" x="618" y="318" w="117" h="122" pX="0.5" pY="0.5"/>
-    <sprite n="ship_grey_01" x="3" y="318" w="169" h="83" pX="0.5" pY="0.5"/>
-    <sprite n="ship_red_01" x="129" y="453" w="124" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="ship_red_02" x="3" y="453" w="116" h="125" pX="0.5" pY="0.5"/>
-    <sprite n="ship_red_03" x="745" y="318" w="96" h="124" pX="0.5" pY="0.5"/>
-    <sprite n="ship_spikey_01" x="242" y="318" w="128" h="112" pX="0.5" pY="0.5"/>
-    <sprite n="tex" x="516" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
-    <sprite n="titan" x="793" y="232" w="96" h="76" pX="0.5" pY="0.5" oX="0" oY="10" oW="96" oH="96"/>
-    <sprite n="touch_input_2d" x="648" y="232" w="64" h="64" pX="0.5" pY="0.5"/>
-    <sprite n="touch_input_2d_white" x="263" y="453" w="128" h="128" pX="0.5" pY="0.5"/>
-    <sprite n="touch_input_cursor" x="251" y="3" w="16" h="16" pX="0.5" pY="0.5"/>
-    <sprite n="touch_input_cursor_white" x="558" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+<TextureAtlas imagePath="atlas.png" width="1950" height="1568">
+    <sprite n="background_planet_001" x="275" y="511" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_002" x="541" y="511" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_003" x="807" y="511" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_004" x="1073" y="511" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_005" x="1339" y="511" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_006" x="1605" y="511" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_007" x="3" y="777" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_008" x="269" y="777" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_009" x="535" y="777" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_010" x="801" y="777" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_011" x="1067" y="777" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_012" x="1333" y="777" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_013" x="1599" y="777" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_014" x="3" y="1043" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_015" x="269" y="1043" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_016" x="535" y="1043" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_017" x="801" y="1043" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_018" x="1067" y="1043" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_019" x="1333" y="1043" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_020" x="1599" y="1043" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_021" x="3" y="1309" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_022" x="269" y="1309" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_023" x="535" y="1309" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_024" x="801" y="1309" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_025" x="1067" y="1309" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_026" x="1333" y="1309" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="background_planet_027" x="1599" y="1309" w="256" h="256" pX="0.5" pY="0.5"/>
+    <sprite n="blue_projectile" x="29" y="3" w="28" h="28" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-00" x="67" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-01" x="109" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-02" x="151" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-03" x="193" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-04" x="235" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-05" x="277" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-06" x="319" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-07" x="361" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-08" x="403" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-09" x="445" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-10" x="487" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-11" x="529" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-12" x="571" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-13" x="613" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-14" x="655" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="exp2_0-15" x="697" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="icon_jetpack" x="739" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="icon_laserbeam" x="781" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="icon_lasercanon" x="823" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="icon_rocketlauncher" x="865" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="icon_shield" x="907" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_0" x="1354" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_1" x="1428" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_2" x="1502" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_3" x="1576" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_4" x="1650" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_5" x="1724" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_6" x="1798" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_7" x="1872" y="45" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_8" x="3" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_9" x="77" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_a" x="151" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_ampersand" x="225" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_apostrophe" x="299" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_asterisk" x="373" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_at" x="447" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_b" x="521" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_backslash" x="595" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_backtick" x="669" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_c" x="743" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_caret" x="817" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_colon" x="891" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_comma" x="965" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_d" x="1039" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_dollar" x="1113" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_e" x="1187" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_equals" x="1261" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_exclamation" x="1335" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_f" x="1409" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_g" x="1483" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_greater_than" x="1557" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_h" x="1631" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_hash" x="1705" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_i" x="1779" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_j" x="1853" y="119" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_k" x="3" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_l" x="77" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_left_curly_brace" x="151" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_left_parenthesis" x="225" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_left_square_bracket" x="299" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_less_than" x="373" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_m" x="447" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_minus" x="521" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_n" x="595" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_o" x="669" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_p" x="743" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_percent" x="817" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_period" x="891" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_plus" x="965" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_q" x="1039" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_question" x="1113" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_quote" x="1187" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_r" x="1261" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_right_curly_brace" x="1335" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_right_parenthesis" x="1409" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_right_square_bracket" x="1483" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_s" x="1557" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_semicolon" x="1631" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_slash" x="1705" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_t" x="1779" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_tilde" x="1853" y="193" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_u" x="3" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_underscore" x="77" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_v" x="151" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_vertical_bar" x="225" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_w" x="299" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_x" x="373" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_y" x="447" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="joystix_z" x="521" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="monk" x="965" y="267" w="67" h="67" pX="0.5" pY="0.5"/>
+    <sprite n="peepo" x="1221" y="267" w="50" h="84" pX="0.5" pY="0.5"/>
+    <sprite n="peepo_mad.webp" x="595" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="peepo_paused" x="669" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="peepo_playing" x="743" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="peepo_schlafanzug.webp" x="817" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="pixel_ship_pepe" x="1798" y="373" w="128" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_bolt-01" x="949" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_bolt-02" x="1007" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_bolt-03" x="1065" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_bolt-04" x="1123" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_charged-01" x="916" y="45" w="63" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_charged-02" x="989" y="45" w="63" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_charged-03" x="1062" y="45" w="63" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_charged-04" x="1135" y="45" w="63" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_charged-05" x="1208" y="45" w="63" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_charged-06" x="1281" y="45" w="63" h="48" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_crossed-01" x="1181" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_crossed-02" x="1223" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_crossed-03" x="1265" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_crossed-04" x="1307" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_crossed-05" x="1349" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_crossed-06" x="1391" y="3" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_mirrored_bolt-01" x="1433" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_mirrored_bolt-02" x="1491" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_mirrored_bolt-03" x="1549" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_mirrored_bolt-04" x="1607" y="3" w="48" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_pulse-01" x="1665" y="3" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_pulse-02" x="1738" y="3" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_pulse-03" x="1811" y="3" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_pulse-04" x="1884" y="3" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_spark-01" x="3" y="45" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_spark-02" x="76" y="45" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_spark-03" x="149" y="45" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_spark-04" x="222" y="45" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_spark-05" x="295" y="45" w="63" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_waveform-01" x="368" y="45" w="95" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_waveform-02" x="473" y="45" w="95" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_waveform-03" x="578" y="45" w="95" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="projectile_waveform-04" x="683" y="45" w="95" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="scifi_inventory01" x="872" y="45" w="34" h="34" pX="0.5" pY="0.5"/>
+    <sprite n="ship_black_01" x="1201" y="373" w="128" h="120" pX="0.5" pY="0.5"/>
+    <sprite n="ship_blue_01" x="1339" y="373" w="90" h="122" pX="0.5" pY="0.5"/>
+    <sprite n="ship_green_01" x="1439" y="373" w="117" h="122" pX="0.5" pY="0.5"/>
+    <sprite n="ship_grey_01" x="1042" y="267" w="169" h="83" pX="0.5" pY="0.5"/>
+    <sprite n="ship_red_01" x="3" y="511" w="124" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="ship_red_02" x="1672" y="373" w="116" h="125" pX="0.5" pY="0.5"/>
+    <sprite n="ship_red_03" x="1566" y="373" w="96" h="124" pX="0.5" pY="0.5"/>
+    <sprite n="ship_spikey_01" x="1063" y="373" w="128" h="112" pX="0.5" pY="0.5"/>
+    <sprite n="tex" x="788" y="45" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="titan" x="1281" y="267" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="touch_input_2d" x="891" y="267" w="64" h="64" pX="0.5" pY="0.5"/>
+    <sprite n="touch_input_2d_white" x="137" y="511" w="128" h="128" pX="0.5" pY="0.5"/>
+    <sprite n="touch_input_cursor" x="3" y="3" w="16" h="16" pX="0.5" pY="0.5"/>
+    <sprite n="touch_input_cursor_white" x="830" y="45" w="32" h="32" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-00" x="1387" y="267" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-01" x="1493" y="267" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-02" x="1599" y="267" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-03" x="1705" y="267" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-04" x="1811" y="267" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-05" x="3" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-06" x="109" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-07" x="215" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-08" x="321" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-09" x="427" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-10" x="533" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-11" x="639" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-12" x="745" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-13" x="851" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
+    <sprite n="warp_shield-14" x="957" y="373" w="96" h="96" pX="0.5" pY="0.5"/>
 </TextureAtlas>

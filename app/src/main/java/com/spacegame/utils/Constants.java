@@ -1,8 +1,11 @@
 package com.spacegame.utils;
 
+import java.util.Map;
+
 public class Constants {
   // Might aswell keep them here, will be easier to change them later
   public static String animation_EXPLOSION = "exp2_0-";
+  public static String animation_SHIELD = "warp_shield-";
   public static String PLAYER = "pixel_ship_pepe";
   public static String FONT_PREFIX = "joystix_";
 
@@ -11,6 +14,14 @@ public class Constants {
   public static String MONK_PEPE = "monk";
 
   public static String SCIFI_INVENTORY = "scifi_inventory01";
+
+  public static Map<String, String> ITEM_ICONS =
+      Map.of(
+          "Laser Canon", "icon_lasercanon",
+          "Jet Pack", "icon_jetpack",
+          "Rocket Launcher", "icon_rocketlauncher",
+          "Laser Beam", "icon_laserbeam",
+          "Shield", "icon_shield");
 
   public static String PLANETS = "background_planet_";
   public static int NUM_BACKGROUND_ASSETS = 28;

@@ -7,7 +7,7 @@ import com.spacegame.utils.Vector2D;
 
 public class Entity extends Quad {
 
-  Animation anim;
+  protected Animation anim;
 
   /**
    * Whether the entity has a color overlay applied to its texture. If true, the entity's texture is

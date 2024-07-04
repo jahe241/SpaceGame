@@ -24,11 +24,13 @@ import java.util.List;
  */
 public class GameInterface extends Thread {
 
+  public static GameInterface gameInterface;
+
   /** The game instance that this interface interacts with. */
   private final Game game;
 
   /** The application context. */
-  private final Context context;
+  // private final Context context;
 
   /** A list of SpriteButton objects that represent the interface elements of the game. */
   private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
@@ -60,7 +62,7 @@ public class GameInterface extends Thread {
    */
   public GameInterface(Context context, Game game, float screenWidth, float screenHeight) {
     this.game = game;
-    this.context = context;
+    // this.context = context;
     this.screenWidth = screenWidth;
     this.screenHeight = screenHeight;
     this.adaptiveSizeUnit =
@@ -70,6 +72,7 @@ public class GameInterface extends Thread {
     DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
     soundEngine.playMusic(SoundType.inGame);
+    GameInterface.gameInterface = this;
   }
 
   /**
@@ -203,9 +206,43 @@ public class GameInterface extends Thread {
             this.adaptiveSizeUnit * 2,
             ColorHelper.TRANSPARENT,
             game.textureAtlas));
-
     this.pauseMenu.hide();
     addInterfaceContainer(this.pauseMenu);
+
+    this.gameOverMenu =
+        new SpritePopup(
+            new ColorEntity(
+                screenWidth / 2, // Center of the screen
+                screenHeight / 2,
+                screenWidth * .9f,
+                screenHeight * .7f,
+                ColorHelper.PINK));
+
+    this.gameOverMenu.addButton(
+        new SpriteButton(
+            game.textureAtlas,
+            "monk",
+            "peepo",
+            screenWidth / 2, // Center of the screen
+            screenHeight * .7f,
+            adaptiveSizeUnit * 3,
+            adaptiveSizeUnit * 3,
+            ButtonType.RESET_GAME,
+            true,
+            ColorHelper.TRANSPARENT));
+    this.gameOverMenu.addLabel(this.scoreLabel);
+
+    this.gameOverMenu.addLabel(
+        new SpriteLabel(
+            "GAME OVER",
+            (screenWidth * .5f)
+                - (((adaptiveSizeUnit * 2) * 5) * .5f), // +5 characterSize, to center the text
+            screenHeight * .18f,
+            this.adaptiveSizeUnit * 2,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas));
+    this.gameOverMenu.hide();
+    addInterfaceContainer(this.gameOverMenu);
   }
 
   /**
@@ -220,15 +257,18 @@ public class GameInterface extends Thread {
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
       interfaceElements.removeIf(Entity::getDiscard);
-      for (Entity entity : interfaceElements) {
-        entity.update(deltaTime);
+      for (int i = 0; i < interfaceElements.size(); i++) {
+        Entity e = interfaceElements.get(i);
+        if (e != null) e.update(deltaTime);
       }
     }
   }
 
-  private void addInterfaceContainer(SpriteContainer... container) {
-    for (SpriteContainer c : container) {
-      Collections.addAll(interfaceElements, c.getElements());
+  public void addInterfaceContainer(SpriteContainer... container) {
+    synchronized (interfaceElements) {
+      for (SpriteContainer c : container) {
+        Collections.addAll(interfaceElements, c.getElements());
+      }
     }
   }
 
@@ -237,8 +277,10 @@ public class GameInterface extends Thread {
    *
    * @param element The new interface element to add.
    */
-  private void addInterfaceElement(Entity... element) {
-    Collections.addAll(interfaceElements, element);
+  public void addInterfaceElement(Entity... element) {
+    synchronized (interfaceElements) {
+      Collections.addAll(interfaceElements, element);
+    }
   }
 
   /**
@@ -316,7 +358,10 @@ public class GameInterface extends Thread {
       case RESET_GAME:
         Log.d("GameInterface", "Resetting Game");
         this.game.player.vbo().print();
-        game.resetGame();
+        this.gameOverMenu.hide();
+        synchronized (this.game) {
+          game.resetGame();
+        }
         break;
       case DEBUG_BUTTON:
         this.game.spawnRandomEnemy(1);
@@ -346,7 +391,6 @@ public class GameInterface extends Thread {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
       for (Entity entity : interfaceElements) {
         if (entity.isVisible()) {
-          //          DebugLogger.log("Game", "Adding Visible Entity: " + entity);
           visibleEntities.add(entity);
         }
       }
@@ -365,5 +409,11 @@ public class GameInterface extends Thread {
   public void onDestroy() {
     soundEngine.stopMusic(SoundType.inGame);
     soundEngine.release();
+  }
+
+  public void onPlayerDeath() {
+    this.pauseMenu.hide();
+    this.scoreLabel.setText("SCORE: " + game.getScore());
+    this.gameOverMenu.show();
   }
 }

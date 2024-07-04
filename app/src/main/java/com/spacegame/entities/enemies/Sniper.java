@@ -16,14 +16,19 @@ public class Sniper extends BaseEnemy {
   static final float fuzzyThreshold = 50;
 
   public Sniper(float x, float y) {
-    super(Game.game.textureAtlas, Constants.ENEMIES[3], x, y, 100, 100);
+    super(
+        AllEnemies.Sniper.ordinal(), Game.game.textureAtlas, Constants.ENEMIES[3], x, y, 100, 100);
     this.player = Game.game.getPlayer();
     this.baseSpeed = 500;
+    this.setMaxHealth(1);
   }
 
   @Override
   public void update(float delta) {
     super.update(delta);
+    if (this.getCurrentHealth() <= 0) {
+      onDeath();
+    }
     this.canon.tick(delta);
     if (this.player == null) return;
     // Fly near the player, but always keep a set distance

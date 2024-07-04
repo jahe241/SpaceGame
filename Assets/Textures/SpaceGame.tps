@@ -26,7 +26,7 @@
             </struct>
         </array>
         <key>allowRotation</key>
-        <true/>
+        <false/>
         <key>shapeDebug</key>
         <false/>
         <key>dpi</key>
@@ -161,7 +161,7 @@
             <key>trimMargin</key>
             <uint>0</uint>
             <key>trimMode</key>
-            <enum type="SpriteSettings::TrimMode">Trim</enum>
+            <enum type="SpriteSettings::TrimMode">None</enum>
             <key>tracerTolerance</key>
             <int>200</int>
             <key>heuristicMask</key>
@@ -361,6 +361,17 @@
             <key type="filename">Joystix_font/joystix_x.png</key>
             <key type="filename">Joystix_font/joystix_y.png</key>
             <key type="filename">Joystix_font/joystix_z.png</key>
+            <key type="filename">Loose Files/icon_jetpack.png</key>
+            <key type="filename">Loose Files/icon_laserbeam.png</key>
+            <key type="filename">Loose Files/icon_lasercanon.png</key>
+            <key type="filename">Loose Files/icon_rocketlauncher.png</key>
+            <key type="filename">Loose Files/icon_shield.png</key>
+            <key type="filename">animations/projectile_crossed-01.png</key>
+            <key type="filename">animations/projectile_crossed-02.png</key>
+            <key type="filename">animations/projectile_crossed-03.png</key>
+            <key type="filename">animations/projectile_crossed-04.png</key>
+            <key type="filename">animations/projectile_crossed-05.png</key>
+            <key type="filename">animations/projectile_crossed-06.png</key>
             <key type="filename">interface/tex.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
@@ -423,22 +434,6 @@
             </struct>
             <key type="filename">Loose Files/peepo_mad.webp</key>
             <key type="filename">Loose Files/peepo_schlafanzug.webp</key>
-            <key type="filename">animations/exp2_0-00.png</key>
-            <key type="filename">animations/exp2_0-01.png</key>
-            <key type="filename">animations/exp2_0-02.png</key>
-            <key type="filename">animations/exp2_0-03.png</key>
-            <key type="filename">animations/exp2_0-04.png</key>
-            <key type="filename">animations/exp2_0-05.png</key>
-            <key type="filename">animations/exp2_0-06.png</key>
-            <key type="filename">animations/exp2_0-07.png</key>
-            <key type="filename">animations/exp2_0-08.png</key>
-            <key type="filename">animations/exp2_0-09.png</key>
-            <key type="filename">animations/exp2_0-10.png</key>
-            <key type="filename">animations/exp2_0-11.png</key>
-            <key type="filename">animations/exp2_0-12.png</key>
-            <key type="filename">animations/exp2_0-13.png</key>
-            <key type="filename">animations/exp2_0-14.png</key>
-            <key type="filename">animations/exp2_0-15.png</key>
             <key type="filename">interface/peepo_paused.png</key>
             <key type="filename">interface/peepo_playing.png</key>
             <struct type="IndividualSpriteSettings">
@@ -472,6 +467,21 @@
                 <false/>
             </struct>
             <key type="filename">Loose Files/titan.png</key>
+            <key type="filename">animations/warp_shield-00.png</key>
+            <key type="filename">animations/warp_shield-01.png</key>
+            <key type="filename">animations/warp_shield-02.png</key>
+            <key type="filename">animations/warp_shield-03.png</key>
+            <key type="filename">animations/warp_shield-04.png</key>
+            <key type="filename">animations/warp_shield-05.png</key>
+            <key type="filename">animations/warp_shield-06.png</key>
+            <key type="filename">animations/warp_shield-07.png</key>
+            <key type="filename">animations/warp_shield-08.png</key>
+            <key type="filename">animations/warp_shield-09.png</key>
+            <key type="filename">animations/warp_shield-10.png</key>
+            <key type="filename">animations/warp_shield-11.png</key>
+            <key type="filename">animations/warp_shield-12.png</key>
+            <key type="filename">animations/warp_shield-13.png</key>
+            <key type="filename">animations/warp_shield-14.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -483,6 +493,120 @@
                 <rect>48,48,96,96</rect>
                 <key>scale9Paddings</key>
                 <rect>48,48,96,96</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/exp2_0-00.png</key>
+            <key type="filename">animations/exp2_0-01.png</key>
+            <key type="filename">animations/exp2_0-02.png</key>
+            <key type="filename">animations/exp2_0-03.png</key>
+            <key type="filename">animations/exp2_0-04.png</key>
+            <key type="filename">animations/exp2_0-05.png</key>
+            <key type="filename">animations/exp2_0-06.png</key>
+            <key type="filename">animations/exp2_0-07.png</key>
+            <key type="filename">animations/exp2_0-08.png</key>
+            <key type="filename">animations/exp2_0-09.png</key>
+            <key type="filename">animations/exp2_0-10.png</key>
+            <key type="filename">animations/exp2_0-11.png</key>
+            <key type="filename">animations/exp2_0-12.png</key>
+            <key type="filename">animations/exp2_0-13.png</key>
+            <key type="filename">animations/exp2_0-14.png</key>
+            <key type="filename">animations/exp2_0-15.png</key>
+            <key type="filename">interface/touch_input_cursor_white.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>0.5</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9Paddings</key>
+                <rect>16,16,32,32</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_bolt-01.png</key>
+            <key type="filename">animations/projectile_bolt-02.png</key>
+            <key type="filename">animations/projectile_bolt-03.png</key>
+            <key type="filename">animations/projectile_bolt-04.png</key>
+            <key type="filename">animations/projectile_mirrored_bolt-01.png</key>
+            <key type="filename">animations/projectile_mirrored_bolt-02.png</key>
+            <key type="filename">animations/projectile_mirrored_bolt-03.png</key>
+            <key type="filename">animations/projectile_mirrored_bolt-04.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>12,8,24,16</rect>
+                <key>scale9Paddings</key>
+                <rect>12,8,24,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_charged-01.png</key>
+            <key type="filename">animations/projectile_charged-02.png</key>
+            <key type="filename">animations/projectile_charged-03.png</key>
+            <key type="filename">animations/projectile_charged-04.png</key>
+            <key type="filename">animations/projectile_charged-05.png</key>
+            <key type="filename">animations/projectile_charged-06.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,12,31,24</rect>
+                <key>scale9Paddings</key>
+                <rect>16,12,31,24</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_pulse-01.png</key>
+            <key type="filename">animations/projectile_pulse-02.png</key>
+            <key type="filename">animations/projectile_pulse-03.png</key>
+            <key type="filename">animations/projectile_pulse-04.png</key>
+            <key type="filename">animations/projectile_spark-01.png</key>
+            <key type="filename">animations/projectile_spark-02.png</key>
+            <key type="filename">animations/projectile_spark-03.png</key>
+            <key type="filename">animations/projectile_spark-04.png</key>
+            <key type="filename">animations/projectile_spark-05.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>16,8,31,16</rect>
+                <key>scale9Paddings</key>
+                <rect>16,8,31,16</rect>
+                <key>scale9FromFile</key>
+                <false/>
+            </struct>
+            <key type="filename">animations/projectile_waveform-01.png</key>
+            <key type="filename">animations/projectile_waveform-02.png</key>
+            <key type="filename">animations/projectile_waveform-03.png</key>
+            <key type="filename">animations/projectile_waveform-04.png</key>
+            <struct type="IndividualSpriteSettings">
+                <key>pivotPoint</key>
+                <point_f>0.5,0.5</point_f>
+                <key>spriteScale</key>
+                <double>1</double>
+                <key>scale9Enabled</key>
+                <false/>
+                <key>scale9Borders</key>
+                <rect>24,8,47,16</rect>
+                <key>scale9Paddings</key>
+                <rect>24,8,47,16</rect>
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
@@ -563,21 +687,6 @@
                 <point_f>0.5,0.5</point_f>
                 <key>spriteScale</key>
                 <double>0.25</double>
-                <key>scale9Enabled</key>
-                <false/>
-                <key>scale9Borders</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9Paddings</key>
-                <rect>16,16,32,32</rect>
-                <key>scale9FromFile</key>
-                <false/>
-            </struct>
-            <key type="filename">interface/touch_input_cursor_white.png</key>
-            <struct type="IndividualSpriteSettings">
-                <key>pivotPoint</key>
-                <point_f>0.5,0.5</point_f>
-                <key>spriteScale</key>
-                <double>0.5</double>
                 <key>scale9Enabled</key>
                 <false/>
                 <key>scale9Borders</key>

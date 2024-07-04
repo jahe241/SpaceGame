@@ -2,8 +2,8 @@ package com.spacegame.entities.inventory.items;
 
 import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
+import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
-import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,17 +16,18 @@ public class RocketLauncherProjectile extends Actor {
   public RocketLauncherProjectile(RocketLauncher from, Actor initialTarget) {
     super(
         Game.game.textureAtlas,
-        Constants.BLUE_PROJECTILE,
         from.inventory.actor.getX(),
         from.inventory.actor.getY(),
+        80,
         50,
-        50);
+        new AnimationOptions(.3f, true, "projectile_waveform-", false));
     this.from = from;
     this.currentTarget = initialTarget;
     this.collidable = true;
     this.collisionMask = CollisionMask.PLAYER_PROJECTILE;
     this.collidesWith = new ArrayList<>(List.of(CollisionMask.ENEMY));
     this.baseSpeed = 1500;
+    this.collisionDamage = 1;
   }
 
   @Override
@@ -34,7 +35,7 @@ public class RocketLauncherProjectile extends Actor {
     super.onCollision(other);
     this.setDiscard(true);
     Game.game.createExplosion(this.getX(), this.getY(), 100);
-    other.setDiscard(true);
+    other.takeDamage(this);
     this.from.inventory.onEnemyHit(other);
   }
 
@@ -48,6 +49,10 @@ public class RocketLauncherProjectile extends Actor {
     super.update(delta);
     // Track closest enemy
     // If the current target gets discarded or becomes null, switch target;
+    if (!Game.game.isInBounds(this.getX(), this.getY())) {
+      this.setDiscard(true);
+      return;
+    }
     if (currentTarget == null || currentTarget.getDiscard()) {
       this.currentTarget = Game.game.getClosestEnemy(this.getX(), this.getY());
       // If there are no enemies in the game currently
@@ -59,6 +64,7 @@ public class RocketLauncherProjectile extends Actor {
         new Vector2D(this.getX(), this.getY())
             .to(new Vector2D(currentTarget.getX(), currentTarget.getY()));
     this.setDirection(newDirection);
+    if (this.anim != null) anim.update(delta);
   }
 
   /**

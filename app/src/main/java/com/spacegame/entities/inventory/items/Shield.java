@@ -2,7 +2,6 @@ package com.spacegame.entities.inventory.items;
 
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.Inventory;
-import com.spacegame.utils.DebugLogger;
 
 public class Shield extends OnDamageTakenItem {
 
@@ -16,17 +15,12 @@ public class Shield extends OnDamageTakenItem {
 
   public Shield(Inventory ownerInventory) {
     super(
-        Items.AllItems.Shield.ordinal(),
-        "Shield",
-        "Shields you from the next incoming attack",
-        ownerInventory);
+        Items.AllItems.Shield.ordinal(), "Shield", "Shields next incoming attack", ownerInventory);
   }
 
   @Override
   public void tick(float delta) {
     if (this.shieldEntity == null) return;
-    DebugLogger.log(
-        "SHIELD", "tick\tactive: " + this.active + "\ttimeUntilCharged: " + timeUntilCharged);
     if (active) return;
     timeUntilCharged -= delta;
     if (timeUntilCharged <= 0) {
@@ -37,7 +31,6 @@ public class Shield extends OnDamageTakenItem {
 
   @Override
   public int onDamageTaken(int damage, Actor from) {
-    DebugLogger.log("SHIELD", "On damage taken called\tdamage: " + damage);
     // If the incoming damage is already 0 the shield shouldn't activate
     // This could be when other items already reduced the damage to 0
     if (damage <= 0) return 0;
