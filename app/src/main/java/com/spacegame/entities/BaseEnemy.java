@@ -41,6 +41,7 @@ public class BaseEnemy extends Actor {
     this.collidesWith = temp;
     this.collisionDamage = 1;
     this.baseSpeed = 100;
+    this.setMaxHealth(1);
   }
 
   @Override
@@ -56,6 +57,11 @@ public class BaseEnemy extends Actor {
   @Override
   public void setDiscard(boolean discard) {
     super.setDiscard(discard);
+  }
+
+  @Override
+  public void onDeath() {
+    super.onDeath();
     Game.game.onEnemyDeath(this);
   }
 }

@@ -4,15 +4,19 @@ import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
-import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 // TODO: The hitbox is a bit wierd, maybe we can fix this
 
 public class LaserBeamProjectile extends Actor {
   LaserBeam from;
+
+  Map<UUID, Boolean> collisionMap = new HashMap<>();
 
   Vector2D basePoint = new Vector2D(0, 0);
 
@@ -33,13 +37,16 @@ public class LaserBeamProjectile extends Actor {
     this.collisionMask = CollisionMask.PLAYER_PROJECTILE;
     this.collidesWith = new ArrayList<>(List.of(CollisionMask.ENEMY));
     this.baseSpeed = 1;
+    this.collisionDamage = 3;
   }
 
   @Override
   public void onCollision(Actor other) {
     super.onCollision(other);
-    other.setDiscard(true);
-    Game.game.createExplosion(other.getX(), other.getY(), 100);
+    if (!this.collisionMap.containsKey(other.getActorId())) {
+      other.takeDamage(this);
+      this.collisionMap.put(other.getActorId(), true);
+    }
   }
 
   @Override

@@ -58,4 +58,9 @@ public class SpawnManager {
     assert (enemy != null);
     game.addEntity(enemy);
   }
+
+  public void reset() {
+    this.spawnCredits = 0;
+    this.timePassed = 0;
+  }
 }

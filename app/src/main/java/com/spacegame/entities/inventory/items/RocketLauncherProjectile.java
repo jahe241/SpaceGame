@@ -4,7 +4,6 @@ import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
 import com.spacegame.entities.CollisionMask;
-import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +27,7 @@ public class RocketLauncherProjectile extends Actor {
     this.collisionMask = CollisionMask.PLAYER_PROJECTILE;
     this.collidesWith = new ArrayList<>(List.of(CollisionMask.ENEMY));
     this.baseSpeed = 1500;
+    this.collisionDamage = 1;
   }
 
   @Override
@@ -35,7 +35,7 @@ public class RocketLauncherProjectile extends Actor {
     super.onCollision(other);
     this.setDiscard(true);
     Game.game.createExplosion(this.getX(), this.getY(), 100);
-    other.setDiscard(true);
+    other.takeDamage(this);
     this.from.inventory.onEnemyHit(other);
   }
 

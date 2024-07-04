@@ -73,7 +73,7 @@ public class Game extends Thread {
     super("Game Thread");
     this.height = height;
     this.width = width;
-    this.BOUNDS = Math.max(height, width) * 10;
+    this.BOUNDS = Math.max(height, width) * 5;
     Game.game = this;
     this.spawnManager = new SpawnManager(this);
   }
@@ -94,6 +94,7 @@ public class Game extends Thread {
     this.timer.reset();
     this.score = 0;
     this.state = GameState.PLAYING;
+    this.spawnManager.reset();
     notify();
     setupGame();
   }
@@ -112,7 +113,7 @@ public class Game extends Thread {
     this.backgroundManager =
         new BackgroundManager(this.textureAtlas, width, height, normalizedScreenWidth, this);
     this.timer.start();
-    ItemPickup.create(Items.AllItems.Shield, 1000, 1000);
+    ItemPickup.create(Items.AllItems.LaserCanon, 1000, 1000);
   }
 
   /**
@@ -462,6 +463,12 @@ public class Game extends Thread {
 
   public void onEnemyDeath(BaseEnemy enemy) {
     this.addScore(enemy.id + 1);
+    this.createExplosion(enemy.getX(), enemy.getY(), 100);
+    // 15% chance on item drop, when an enemy dies
+    float rng = this.rng.nextFloat() * 100f;
+    if (rng <= 15f) {
+      Items.createRandomPickupItem(enemy.getX(), enemy.getY());
+    }
   }
 
   /**
@@ -493,7 +500,9 @@ public class Game extends Thread {
    * @return
    */
   public boolean isInBounds(float x, float y) {
-    return x <= BOUNDS || y <= BOUNDS;
+    Vector2D screenMiddle = this.player.getPosition();
+    Vector2D toPoint = screenMiddle.to(new Vector2D(x, y));
+    return toPoint.length() <= this.BOUNDS;
   }
 
   public int getScore() {

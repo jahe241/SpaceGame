@@ -7,7 +7,7 @@ import com.spacegame.utils.Vector2D;
 public class LaserCanon extends TimerItem {
 
   public LaserCanon(Inventory inventory) {
-    super(Items.AllItems.LaserCanon.ordinal(), "Laser Canon", "Pew pew", 2.5f, inventory);
+    super(Items.AllItems.LaserCanon.ordinal(), "Laser Canon", "Pew pew", 1f, inventory);
   }
 
   @Override

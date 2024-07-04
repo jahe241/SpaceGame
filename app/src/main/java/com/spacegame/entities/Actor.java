@@ -7,8 +7,12 @@ import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class Actor extends Entity {
+
+  /** The id for this actor, uniquely identifying the actor */
+  private UUID actorId = UUID.randomUUID();
 
   /** The damage the other actor takes when colliding with this actor */
   public int collisionDamage = 1;
@@ -103,8 +107,8 @@ public class Actor extends Entity {
    * @param others
    * @return
    */
-  public boolean collidesWithAny(List<Entity> others) {
-    if (!this.collidable) return false;
+  public void collidesWithAny(List<Entity> others) {
+    if (!this.collidable) return;
     for (int i = 0; i < others.size(); i++) {
       Entity e = others.get(i);
       if (e == null) break;
@@ -113,13 +117,11 @@ public class Actor extends Entity {
           // if (!this.colliding) onCollision(o);
           onCollision(o);
           this.colliding = true;
-          return true;
         }
       }
     }
     if (this.colliding) onCollisionEnd();
     this.colliding = false;
-    return false;
   }
 
   /**
@@ -184,10 +186,7 @@ public class Actor extends Entity {
    * Called when the entity collides with another entity. This method can be overridden by
    * subclasses to implement custom collision behavior.
    */
-  public void onCollision(Actor other) {
-    DebugLogger.log("Collision", "Collision happened!");
-    this.takeDamage(other);
-  }
+  public void onCollision(Actor other) {}
 
   /**
    * Called the first frame the Entity is no longer colliding. Only called when the entity was
@@ -251,5 +250,13 @@ public class Actor extends Entity {
 
   public int getCollisionDamage() {
     return collisionDamage;
+  }
+
+  public void onDeath() {
+    this.setDiscard(true);
+  }
+
+  public UUID getActorId() {
+    return this.actorId;
   }
 }

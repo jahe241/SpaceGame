@@ -3,7 +3,6 @@ package com.spacegame.entities;
 import android.view.MotionEvent;
 import androidx.annotation.NonNull;
 import com.spacegame.core.Game;
-import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.DebugLogger;
@@ -34,9 +33,9 @@ public class Player extends Actor {
     this.collidesWith =
         new ArrayList<>(
             Arrays.asList(CollisionMask.ENEMY, CollisionMask.ENEMY_PROJECTILE, CollisionMask.ITEM));
-    this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
-    this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
-    this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
+    // this.inventory.addItem(Items.createItem(Items.AllItems.LaserCanon, this.inventory));
+    // this.inventory.addItem(Items.createItem(Items.AllItems.RocketLauncher, this.inventory));
+    // this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
     this.setMaxHealth(3);
     this.baseSpeed = 300;
   }
@@ -60,9 +59,8 @@ public class Player extends Actor {
 
   @Override
   public void update(float delta) {
-    // TODO: Uncomment this when the game over game state is handled
     if (this.getCurrentHealth() <= 0) {
-      Game.game.onPlayerDeath();
+      this.onDeath();
       return;
     }
     super.update(delta);
@@ -78,7 +76,8 @@ public class Player extends Actor {
 
   @Override
   public void onCollision(Actor other) {
-    this.takeDamage(other);
+    DebugLogger.log("Coll", "Player Collided!");
+    // this.takeDamage(other);
   }
 
   @Override
@@ -121,8 +120,14 @@ public class Player extends Actor {
   @Override
   public void takeDamage(Actor from) {
     DebugLogger.log("GameOver", "TakeDamage: " + from.getCollisionDamage());
-    DebugLogger.log("GameOver", "Before CurrentHealth: " + from.getCollisionDamage());
+    DebugLogger.log("GameOver", "Before CurrentHealth: " + from.getCurrentHealth());
     super.takeDamage(from);
-    DebugLogger.log("GameOver", "After CurrentHealth: " + from.getCollisionDamage());
+    DebugLogger.log("GameOver", "After CurrentHealth: " + from.getCurrentHealth());
+  }
+
+  @Override
+  public void onDeath() {
+    super.onDeath();
+    Game.game.onPlayerDeath();
   }
 }
