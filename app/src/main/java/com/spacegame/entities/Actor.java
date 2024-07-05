@@ -235,8 +235,8 @@ public class Actor extends Entity {
   }
 
   public void takeDamage(Actor from) {
-    // int damage = inventory.onDamageTaken(from);
-    this.currentHealth -= from.getCollisionDamage();
+    int damage = inventory.onDamageTaken(from);
+    this.currentHealth -= damage;
   }
 
   public void takeHeal(int heal) {

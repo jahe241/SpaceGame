@@ -119,10 +119,7 @@ public class Player extends Actor {
 
   @Override
   public void takeDamage(Actor from) {
-    DebugLogger.log("GameOver", "TakeDamage: " + from.getCollisionDamage());
-    DebugLogger.log("GameOver", "Before CurrentHealth: " + from.getCurrentHealth());
     super.takeDamage(from);
-    DebugLogger.log("GameOver", "After CurrentHealth: " + from.getCurrentHealth());
   }
 
   @Override
