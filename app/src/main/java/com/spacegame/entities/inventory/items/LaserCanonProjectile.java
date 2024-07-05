@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+/**
+ * The projectile of the {@link LaserCanon} item
+ */
 public class LaserCanonProjectile extends Actor {
   LaserCanon from;
 
@@ -54,6 +57,12 @@ public class LaserCanonProjectile extends Actor {
     super.update(delta);
   }
 
+  /**
+   * Creates this projectile flying in the given direction
+   * @param from
+   * @param direction
+   * @return
+   */
   public static LaserCanonProjectile create(LaserCanon from, Vector2D direction) {
     LaserCanonProjectile ret = new LaserCanonProjectile(from);
     ret.setDirection(direction);

@@ -7,8 +7,14 @@ import com.spacegame.entities.Player;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 
+/**
+ * The stalker enemy class. Flies in a steady pace to the player and tries to crash into the player.
+ */
 public class Stalker extends BaseEnemy {
 
+  /**
+   * The current {@link Player} instance
+   */
   Player player;
 
   public Stalker(float x, float y) {

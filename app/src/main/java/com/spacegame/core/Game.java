@@ -20,14 +20,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-// TODO: Make a player death screen
-
 /**
  * The Game class extends the Thread class and represents the main game loop. It contains
  * information about the game's state, entities, and player.
  */
 public class Game extends Thread {
 
+  /**
+   * The bounds of the game. All entities out side of these bound will be discarded.
+   */
   public final float BOUNDS;
 
   /** The created game, accessable as a Singleton from everywhere */
@@ -36,8 +37,14 @@ public class Game extends Thread {
   /** The list of entities in the game. */
   public final List<Entity> entities = Collections.synchronizedList(new ArrayList<>());
 
+  /**
+   * All enemies currently in the game
+   */
   public final List<BaseEnemy> enemies = Collections.synchronizedList(new ArrayList<>());
 
+  /**
+   * The timer measuring the passed game time
+   */
   public final PausableStopwatch timer = new PausableStopwatch();
 
   /** The player entity. */
@@ -52,8 +59,14 @@ public class Game extends Thread {
   /** The running state of the game. True if the game is running, false otherwise. */
   volatile boolean running = false;
 
+  /**
+   * The current state of the game
+   */
   volatile GameState state = GameState.PLAYING;
 
+  /**
+   * The spawn manager for the game
+   */
   public SpawnManager spawnManager;
 
   /** Sceen height */
@@ -62,11 +75,24 @@ public class Game extends Thread {
   /** Screen width */
   public int width;
 
-  float scaleFactor;
+  /**
+   * The screen width or height, depending on which is higher
+   */
   float normalizedScreenWidth;
+
+  /**
+   * The current score
+   */
   int score = 0;
+
+  /**
+   * The {@link ThreadLocalRandom} for generating random  values
+   */
   ThreadLocalRandom rng = ThreadLocalRandom.current(); // RNG is seeded with current thread
 
+  /**
+   * The {@link BackgroundManager}, spawning the background assets
+   */
   BackgroundManager backgroundManager;
 
   public Game(int height, int width) {
@@ -78,15 +104,28 @@ public class Game extends Thread {
     this.spawnManager = new SpawnManager(this);
   }
 
+  /**
+   * Sets the player direction.
+   * Important for all Actors to simulate the player flying through space
+   * In reality the whole world moves around the player
+   * @param stickDirection
+   */
   public void setPlayerDirection(Vector2D stickDirection) {
     if (player != null) player.setDirection(stickDirection);
     Log.d("Game", "Setting Player Direction: " + stickDirection);
   }
 
+  /**
+   * Gets the screen dimensions of the app
+   * @return
+   */
   public Vector2D getScreenDimensions() {
     return new Vector2D(this.width, this.height);
   }
 
+  /**
+   * Resets the game to its starting state
+   */
   public void resetGame() {
     for (Entity e : this.entities) {
       e.setDiscard(true);
@@ -220,18 +259,12 @@ public class Game extends Thread {
         actor.setPlayerVelocity(playerVelocity);
       }
     }
-
-    // spawns a spawns a random enemies every frame during every 5th second
-    /*
-    int spawnTimer = 0;
-    if (timer.getElapsedTime() / 1000 % 5 == 0) {
-      spawnRandomEnemy(1);
-    }
-    // TODO: Physics / Interaction-Checks here
-
-     */
   }
 
+  /**
+   * Adds to the games score
+   * @param i
+   */
   private void addScore(int i) {
     this.score += i;
   }
@@ -284,19 +317,11 @@ public class Game extends Thread {
     entities.add(player);
   }
 
+  /**
+   * Callback for when the player dies
+   */
   public void onPlayerDeath() {
     this.state = GameState.GAME_OVER;
-  }
-
-  /**
-   * Removes an entity from the entities list.
-   *
-   * @param entity The entity to remove.
-   */
-  public void removeEntity(Entity entity) {
-    synchronized (entities) {
-      entities.remove(entity);
-    }
   }
 
   /**
@@ -328,113 +353,21 @@ public class Game extends Thread {
     }
   }
 
+  /**
+   * Spawns a {@link Sniper} in a random position
+   * @param numEnemies
+   */
   public void spawnRandomEnemy(int numEnemies) {
     float x = rng.nextFloat() * this.width;
     float y = rng.nextFloat() * this.height;
     this.addEntity(new Sniper(x, y));
-    /*
-    final int maxRetries = 10; // Define your maximum number of retries here
-    for (int i = 0; i < numEnemies; i++) {
-      float x = rng.nextFloat() * this.width;
-      float y = rng.nextFloat() * this.height;
-      int retryCount = 0;
-      while (isPositionOccupied(x, y)) {
-        if (++retryCount == maxRetries) {
-          System.out.println("Warning: Maximum number of retries reached when spawning enemy.");
-          break;
-        }
-        x = rng.nextFloat() * this.width;
-        y = rng.nextFloat() * this.height;
-      }
-      if (retryCount < maxRetries) {
-        spawnRandomEntity(x, y);
-      }
-    }
-     */
   }
 
-  private boolean isPositionOccupied(float x, float y) {
-    synchronized (entities) {
-      for (Entity entity : entities) {
-        if (Math.abs(entity.getX() - x) < entity.getWidth()
-            && Math.abs(entity.getY() - y) < entity.getHeight()) {
-          return true;
-        }
-      }
-    }
-    return false;
-  }
-
-  /*
-  private void spawnRandomEntity(float x, float y) {
-    String randomEnemy = Constants.ENEMIES[rng.nextInt(Constants.ENEMIES.length)];
-    var ranEnemeyEntity = new BaseEnemy(this.textureAtlas, randomEnemy, x, y, 338f, 166f);
-    scaleEntityToScreenSize(ranEnemeyEntity);
-
-    ranEnemeyEntity.setZ(-1);
-    ranEnemeyEntity.setColorOverlay(
-        new float[] {rng.nextFloat(), rng.nextFloat(), rng.nextFloat(), 1f});
-    // angle them towards the player
-    ranEnemeyEntity.setDirection(
-        this.player.getPosition().to(ranEnemeyEntity.getPosition()).normalized().inversed());
-    //    randomDude.setVelocity(randomDude.getDirection().mult(100f));
-    ranEnemeyEntity.setAcceleration(rng.nextFloat() * 100f);
-    //    randomDude.setRotationRad(rng.nextFloat() * (float) (2 * Math.PI));
-    this.addEntity(ranEnemeyEntity);
-    float explosionSize = Math.max(ranEnemeyEntity.getWidth(), ranEnemeyEntity.getHeight()) * 1.8f;
-    Actor explosion =
-        new Actor(
-            this.textureAtlas,
-            x,
-            y,
-            explosionSize,
-            explosionSize,
-            new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
-
-    explosion.setZ(0);
-    explosion.setRotationRad(ranEnemeyEntity.getRotationRad());
-    explosion.setColorOverlay(new float[] {0f, 0f, 1f, 0.5f});
-    this.addEntity(explosion);
-  }
-
+  /**
+   * Setter for the score of the game
+   * @param score
+   * @return
    */
-
-  private void scaleEntityToScreenSize(Entity entity) {
-    DebugLogger.log("DEBUG", "Adapter Scale Factor: " + this.normalizedScreenWidth);
-    float rngFactor =
-        rng.nextFloat() * 0.05f
-            + 0.01f; // Random percentage between 0.01% and 30%, Represents Screen Space
-    DebugLogger.log("DEBUG", "rngFactor for Scaling: " + rngFactor);
-
-    float originalWidth = entity.getWidth();
-    float originalHeight = entity.getHeight();
-    float originalRatio = originalWidth / originalHeight;
-    float originalArea = originalWidth * originalHeight;
-    float newArea = (this.width * this.height) * (rngFactor);
-    DebugLogger.log(
-        "DEBUG",
-        "Original Area: "
-            + originalArea
-            + " New Area: "
-            + newArea
-            + " Screen Area: "
-            + this.width * this.height);
-    float newWidth = (float) Math.sqrt(newArea / originalRatio);
-    float newHeight = newWidth / originalRatio;
-    DebugLogger.log(
-        "DEBUG",
-        "Original Size: ("
-            + originalWidth
-            + ", "
-            + originalHeight
-            + ") New Size: ("
-            + newWidth
-            + ", "
-            + newHeight
-            + ")");
-    entity.scale(newWidth, newHeight);
-  }
-
   public int setScore(int score) {
     this.score = score;
     return this.score;
@@ -461,6 +394,10 @@ public class Game extends Thread {
     return closestEnemy;
   }
 
+  /**
+   * Callback, when an enemy dies
+   * @param enemy
+   */
   public void onEnemyDeath(BaseEnemy enemy) {
     this.addScore(enemy.id + 1);
     this.createExplosion(enemy.getX(), enemy.getY(), 100);
@@ -505,10 +442,18 @@ public class Game extends Thread {
     return toPoint.length() <= this.BOUNDS;
   }
 
+  /**
+   * Getter for the games score
+   * @return
+   */
   public int getScore() {
     return this.score;
   }
 
+  /**
+   * Getter for the normalized screen width
+   * @return
+   */
   public float getNormalizedScreenWidth() {
     return this.normalizedScreenWidth;
   }

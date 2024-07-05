@@ -9,8 +9,14 @@ import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The projectile of the {@link SniperCanon}
+ */
 public class SniperCanonProjectile extends Actor {
 
+  /**
+   * The speed of the projectile
+   */
   public static final float SPEED = 500;
 
   public SniperCanonProjectile(Sniper from, Vector2D direction) {
@@ -43,6 +49,12 @@ public class SniperCanonProjectile extends Actor {
     super.update(delta);
   }
 
+  /**
+   * Creates a projectile. Called when the {@link SniperCanon} shoots
+   * @param from
+   * @param target
+   * @return
+   */
   public static SniperCanonProjectile create(Sniper from, Actor target) {
     // Needed to nerf this as the shots are too difficult to dodge, if prediction is applied
     /*

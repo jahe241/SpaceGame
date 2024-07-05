@@ -6,13 +6,28 @@ import com.spacegame.entities.Player;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.Vector2D;
 
+/**
+ * The sniper enemy class
+ */
 public class Sniper extends BaseEnemy {
+  /**
+   * The current {@link Player} instance
+   */
   Player player;
 
+  /**
+   * The weapon of the {@link Sniper} instance
+   */
   SniperCanon canon = new SniperCanon(this);
 
+  /**
+   * The distance the sniper should keep to the player
+   */
   static final float playerGap = 500f;
 
+  /**
+   * The threshold of the distance the sniper should keep to the player
+   */
   static final float fuzzyThreshold = 50;
 
   public Sniper(float x, float y) {

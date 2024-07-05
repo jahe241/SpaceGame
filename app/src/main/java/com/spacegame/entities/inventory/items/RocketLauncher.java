@@ -4,8 +4,14 @@ import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.Inventory;
 import java.util.Random;
 
+/**
+ * The class for the rocket launcher items
+ */
 public class RocketLauncher extends OnEnemyHitItem {
 
+  /**
+   * The probability of the rocket launcher to trigger
+   */
   static final float probability = 0.5f;
 
   public RocketLauncher(Inventory inventory) {

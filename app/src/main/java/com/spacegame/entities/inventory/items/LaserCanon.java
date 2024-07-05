@@ -4,6 +4,9 @@ import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.Inventory;
 import com.spacegame.utils.Vector2D;
 
+/**
+ * The laser canon item
+ */
 public class LaserCanon extends TimerItem {
 
   public LaserCanon(Inventory inventory) {

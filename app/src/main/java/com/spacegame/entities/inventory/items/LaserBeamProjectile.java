@@ -11,17 +11,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-// TODO: The hitbox is a bit wierd, maybe we can fix this
 
+/**
+ * The laser beam projectile
+ */
 public class LaserBeamProjectile extends Actor {
+  /**
+   * The item this projectile is from
+   */
   LaserBeam from;
 
+  /**
+   * A map that tracks which actor it already hit
+   * This is for making sure that no actor is hit twice with one instance
+   */
   Map<UUID, Boolean> collisionMap = new HashMap<>();
 
-  Vector2D basePoint = new Vector2D(0, 0);
-
+  /**
+   * The time to live of this projectile
+   */
   public static final float timeToLive = 0.5f;
 
+  /**
+   * The time left of this projectile
+   */
   private float timeLeft = LaserBeamProjectile.timeToLive;
 
   public LaserBeamProjectile(LaserBeam from) {
@@ -71,6 +84,12 @@ public class LaserBeamProjectile extends Actor {
     this.setRotationRad(this.calcAngleRad());
   }
 
+  /**
+   * Creates this projectile
+   * @param from
+   * @param direction
+   * @return
+   */
   public static LaserBeamProjectile create(LaserBeam from, Vector2D direction) {
     LaserBeamProjectile ret = new LaserBeamProjectile(from);
     ret.setDirection(direction);
@@ -78,6 +97,10 @@ public class LaserBeamProjectile extends Actor {
     return ret;
   }
 
+  /**
+   * Calculate the angle of this projectile
+   * @return
+   */
   public float calcAngleRad() {
     return (float) -Math.atan2(this.getDirection().getY(), this.getDirection().getX());
   }

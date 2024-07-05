@@ -9,8 +9,18 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * The projectile of the {@link RocketLauncher} item
+ */
 public class RocketLauncherProjectile extends Actor {
+  /**
+   * The {@link Item} this projectile is from
+   */
   RocketLauncher from;
+
+  /**
+   * The current target of this projectile
+   */
   Actor currentTarget;
 
   public RocketLauncherProjectile(RocketLauncher from, Actor initialTarget) {

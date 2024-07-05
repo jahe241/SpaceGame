@@ -10,18 +10,39 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
-// TODO: Check why spawner spawns a lot after unpause game
-
+/**
+ * The class managing the spawning of enemies for the game.
+ * It also controls the different events coming up in the game
+ */
 public class SpawnManager {
+  /**
+   * The current {@link Game} instance of the thread
+   */
   private final Game game;
+
+  /**
+   * The rng instance for generating random values
+   */
   private final ThreadLocalRandom rng = ThreadLocalRandom.current();
 
+  /**
+   * At which game time the stalker event should happen, in seconds
+   */
   private static final int STALKER_EVENT_TIME = 30;
 
+  /**
+   * If the stalker event happened
+   */
   private boolean stalkerEvent = false;
 
+  /**
+   * The current time passed in the game
+   */
   private float timePassed = 0f;
 
+  /**
+   * The credits for spawning enemies. These are spent for spawning enemies
+   */
   private float spawnCredits = 0;
 
   public SpawnManager(Game game) {
@@ -84,16 +105,26 @@ public class SpawnManager {
     game.addEntity(enemy);
   }
 
+  /**
+   * Resets the spawner
+   */
   public void reset() {
     this.spawnCredits = 0;
     this.timePassed = 0;
     this.stalkerEvent = false;
   }
 
+  /**
+   * Adds spawn credits to the spawner
+   * @param credits
+   */
   public void addCredits(float credits) {
     this.spawnCredits += credits;
   }
 
+  /**
+   * Creates the stalker event
+   */
   public void createStalkerEvent() {
     float length = Game.game.getNormalizedScreenWidth();
     Vector2D playerPos = Game.game.getPlayer().getPosition();

@@ -7,8 +7,14 @@ import com.spacegame.utils.Constants;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * An item pickup found in the world to be picked up by the player
+ */
 public class ItemPickup extends Actor {
 
+  /**
+   * The item, which the pickup holds
+   */
   Items.AllItems item;
 
   public ItemPickup(float x, float y, Items.AllItems item) {
@@ -19,6 +25,13 @@ public class ItemPickup extends Actor {
     this.collidesWith = new ArrayList<>(List.of(CollisionMask.PLAYER));
   }
 
+  /**
+   * Creates a pickup for the given item at the given coordinates
+   * @param item
+   * @param x
+   * @param y
+   * @return
+   */
   public static ItemPickup create(Items.AllItems item, float x, float y) {
     ItemPickup ret = new ItemPickup(x, y, item);
     Game.game.addEntity(ret);

@@ -2,8 +2,14 @@ package com.spacegame.entities.inventory.items;
 
 import com.spacegame.entities.inventory.Inventory;
 
+/**
+ * The JetPack item
+ */
 public class JetPack extends StatIncreaseItem {
 
+  /**
+   * The speed increase from this item
+   */
   private static final float SPEED_INCREASE = 100f;
 
   public JetPack(Inventory inventory) {

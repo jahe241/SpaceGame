@@ -24,19 +24,30 @@ import java.util.List;
  */
 public class GameInterface extends Thread {
 
+  /**
+   * The current {@link GameInterface} instance of this {@link Thread}
+   */
   public static GameInterface gameInterface;
 
   /** The game instance that this interface interacts with. */
   private final Game game;
 
-  /** The application context. */
-  // private final Context context;
-
   /** A list of SpriteButton objects that represent the interface elements of the game. */
   private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
 
+  /**
+   *
+   */
   private final List<SpriteContainer> variableContainers = new ArrayList<>();
+
+  /**
+   * The current state of the interface
+   */
   InterfaceState state = InterfaceState.PLAYING;
+
+  /**
+   * The game pad of the game
+   */
   private GamePad gamePad;
 
   /** The width of the screen. */
@@ -45,12 +56,34 @@ public class GameInterface extends Thread {
   /** The height of the screen. */
   private float screenHeight;
 
+  /**
+   * The sound engine, for playing music and sfx
+   */
   private SoundEngine soundEngine;
+
+  /**
+   * The label for displaying the score
+   */
   private SpriteLabel scoreLabel;
+
+  /**
+   * The label for displaying the passed time
+   */
   private SpriteLabel timeLabel;
+
+  /**
+   * The pause menu popup
+   */
   private SpritePopup pauseMenu;
+
+  /**
+   * The game over menu popup
+   */
   private SpritePopup gameOverMenu;
-  private SpritePopup upgradeMenu;
+
+  /**
+   * The adaptiveSizeUnit for calculating the sizes of text and sprites of the interface
+   */
   private int adaptiveSizeUnit;
 
   /**
@@ -264,6 +297,10 @@ public class GameInterface extends Thread {
     }
   }
 
+  /**
+   * Adds multiple {@link SpriteContainer} to the games interface
+   * @param container
+   */
   public void addInterfaceContainer(SpriteContainer... container) {
     synchronized (interfaceElements) {
       for (SpriteContainer c : container) {
@@ -386,6 +423,10 @@ public class GameInterface extends Thread {
     }
   }
 
+  /**
+   * Get all currently visible entities of the interface
+   * @return
+   */
   public List<Entity> getVisibleEntities() {
     synchronized (interfaceElements) {
       List<Entity> visibleEntities = new ArrayList<>(interfaceElements.size());
@@ -398,19 +439,31 @@ public class GameInterface extends Thread {
     }
   }
 
+  /**
+   * Callback when the game comes in pause mode
+   */
   public void onPause() {
     soundEngine.pauseMusic(SoundType.inGame);
   }
 
+  /**
+   * Callback when the game resumed from pause mode
+   */
   public void onResume() {
     soundEngine.playMusic(SoundType.inGame);
   }
 
+  /**
+   * When game game is closed
+   */
   public void onDestroy() {
     soundEngine.stopMusic(SoundType.inGame);
     soundEngine.release();
   }
 
+  /**
+   * Callback when the player dies
+   */
   public void onPlayerDeath() {
     this.pauseMenu.hide();
     this.scoreLabel.setText("SCORE: " + game.getScore());

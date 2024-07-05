@@ -97,18 +97,36 @@ public class Inventory {
     this.speedRelative -= speed;
   }
 
+  /**
+   * Gets the relative speed accumulated of all items in the inventory
+   * @return
+   */
   public float getSpeedRelative() {
     return speedRelative;
   }
 
+  /**
+   * The absolute attack damage accumulated through all items
+   */
   private float attackDamageAbsolute = 0;
 
+  /**
+   * Getter for attackDamageAbsolute
+   * @return
+   */
   public float getAttackDamageAbsolute() {
     return this.attackDamageAbsolute;
   }
 
+  /**
+   * The relative attack damage accumulated through all items
+   */
   private float attackDamageRelative = 0;
 
+  /**
+   * Getter for attackDamageRelative
+   * @return
+   */
   public float getAttackDamageRelative() {
     return this.attackDamageRelative;
   }
@@ -116,6 +134,9 @@ public class Inventory {
   /** The actor that holds this inventory */
   public Actor actor;
 
+  /**
+   * The list of all items in the inventory
+   */
   private List<Item> allItems = new ArrayList<>();
 
   public List<Item> getAllItems() {
@@ -126,6 +147,10 @@ public class Inventory {
     this.actor = actor;
   }
 
+  /**
+   * Adds an item to the inventory
+   * @param item
+   */
   public void addItem(Item item) {
     this.allItems.add(item);
     item.onAdd(this);

@@ -12,16 +12,35 @@ import java.util.Queue;
 // TODO: Clean up
 // TODO: Adjust centering of text
 
+/**
+ * The class handling the toast, when a item was picked up
+ */
 public class ItemPickupToast extends ColorEntity {
 
+  /**
+   * The queue for displaying the items picked up.
+   * This makes sure all items that were picked up are being displayed.
+   */
   public static Queue<Item> queue = new LinkedList<>();
 
+  /**
+   * If an item toast is currently displaying
+   */
   public static boolean isDisplaying = false;
 
-  public static final float TIME_TO_LIVE = 5f;
+  /**
+   * How long the toast should be visible in seconds.
+   */
+  public static final float TIME_TO_LIVE = 3f;
 
+  /**
+   * The current time lived of the current toast
+   */
   private float timeLived = 0f;
 
+  /**
+   * The font size used for the toasts
+   */
   private float fontSize;
 
   /** The height of the toast relative to the screen height */
@@ -57,6 +76,10 @@ public class ItemPickupToast extends ColorEntity {
     this.itemSprite.setZ(18);
   }
 
+  /**
+   * Creates a toast for the given item
+   * @param item
+   */
   public static void create(Item item) {
     if (ItemPickupToast.isDisplaying) {
       ItemPickupToast.queue.add(item);
@@ -78,6 +101,10 @@ public class ItemPickupToast extends ColorEntity {
     }
   }
 
+  /**
+   * Setter for the itemNameLabel
+   * @param name
+   */
   public void setItemNameLabel(String name) {
     this.itemNameLabel =
         new SpriteLabel(
@@ -94,6 +121,10 @@ public class ItemPickupToast extends ColorEntity {
     this.itemNameLabel.setPosition(new Vector2D(x, y));
   }
 
+  /**
+   * Setter for itemDescriptionLabel
+   * @param description
+   */
   public void setItemDescriptionLabel(String description) {
     this.itemDescriptionLabel =
         new SpriteLabel(
@@ -151,6 +182,10 @@ public class ItemPickupToast extends ColorEntity {
     }
   }
 
+  /**
+   * Sets the opacity for the whole toast
+   * @param opacity
+   */
   public void setOpacity(float opacity) {
     // this.vbo().setOpacity(opacity);
     this.vbo().setColor(new float[] {0.5f, 0.5f, 0.5f, opacity});
