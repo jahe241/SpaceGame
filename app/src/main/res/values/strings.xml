@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SpaceGame</string>
+    <string name="app_name">Cosmic Survivors</string>
     <string name="btnStart">Start!</string>
     <string name="btnOptions">Options</string>
 </resources>
