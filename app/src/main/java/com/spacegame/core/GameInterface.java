@@ -24,9 +24,7 @@ import java.util.List;
  */
 public class GameInterface extends Thread {
 
-  /**
-   * The current {@link GameInterface} instance of this {@link Thread}
-   */
+  /** The current {@link GameInterface} instance of this {@link Thread} */
   public static GameInterface gameInterface;
 
   /** The game instance that this interface interacts with. */
@@ -35,19 +33,13 @@ public class GameInterface extends Thread {
   /** A list of SpriteButton objects that represent the interface elements of the game. */
   private final List<Entity> interfaceElements = Collections.synchronizedList(new ArrayList<>());
 
-  /**
-   *
-   */
+  /** */
   private final List<SpriteContainer> variableContainers = new ArrayList<>();
 
-  /**
-   * The current state of the interface
-   */
+  /** The current state of the interface */
   InterfaceState state = InterfaceState.PLAYING;
 
-  /**
-   * The game pad of the game
-   */
+  /** The game pad of the game */
   private GamePad gamePad;
 
   /** The width of the screen. */
@@ -56,34 +48,26 @@ public class GameInterface extends Thread {
   /** The height of the screen. */
   private float screenHeight;
 
-  /**
-   * The sound engine, for playing music and sfx
-   */
+  /** The sound engine, for playing music and sfx */
   private SoundEngine soundEngine;
 
-  /**
-   * The label for displaying the score
-   */
+  /** The label for displaying the score */
   private SpriteLabel scoreLabel;
 
-  /**
-   * The label for displaying the passed time
-   */
+  private SpriteLabel gameOverScoreLabel;
+
+  /** The label for displaying the passed time */
   private SpriteLabel timeLabel;
 
-  /**
-   * The pause menu popup
-   */
+  private SpriteLabel healthLabel;
+
+  /** The pause menu popup */
   private SpritePopup pauseMenu;
 
-  /**
-   * The game over menu popup
-   */
+  /** The game over menu popup */
   private SpritePopup gameOverMenu;
 
-  /**
-   * The adaptiveSizeUnit for calculating the sizes of text and sprites of the interface
-   */
+  /** The adaptiveSizeUnit for calculating the sizes of text and sprites of the interface */
   private int adaptiveSizeUnit;
 
   /**
@@ -207,6 +191,18 @@ public class GameInterface extends Thread {
     variableContainers.add(timeLabel);
     Log.d("GameInterface", "Setup Interface: " + interfaceElements);
 
+    this.healthLabel =
+        new SpriteLabel(
+            "HP: 3",
+            (screenWidth * .5f)
+                - ((adaptiveSizeUnit * 5) * .5f), // +5 characterSize, to center the text
+            (screenHeight * .99f) - adaptiveSizeUnit * 2,
+            adaptiveSizeUnit,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas);
+    addInterfaceContainer(healthLabel);
+    variableContainers.add(healthLabel);
+
     this.pauseMenu =
         new SpritePopup(
             new ColorEntity(
@@ -263,7 +259,16 @@ public class GameInterface extends Thread {
             ButtonType.RESET_GAME,
             true,
             ColorHelper.TRANSPARENT));
-    this.gameOverMenu.addLabel(this.scoreLabel);
+    this.gameOverScoreLabel =
+        new SpriteLabel(
+            "SCORE: 9999",
+            screenWidth * .10f, // Center of the screen
+            screenHeight * .30f,
+            this.adaptiveSizeUnit * 2,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas);
+
+    this.gameOverMenu.addLabel(this.gameOverScoreLabel);
 
     this.gameOverMenu.addLabel(
         new SpriteLabel(
@@ -286,6 +291,7 @@ public class GameInterface extends Thread {
   public void update(float deltaTime) {
     //    this.scoreLabel.setText("SCORE: " + game.getScore());
     this.timeLabel.setText(game.timer.getFormattedElapsedTime());
+    this.healthLabel.setText("HP: " + game.player.getCurrentHealth());
 
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
@@ -299,6 +305,7 @@ public class GameInterface extends Thread {
 
   /**
    * Adds multiple {@link SpriteContainer} to the games interface
+   *
    * @param container
    */
   public void addInterfaceContainer(SpriteContainer... container) {
@@ -383,6 +390,13 @@ public class GameInterface extends Thread {
           this.state = InterfaceState.PLAYING;
           this.pauseMenu.hide();
           soundEngine.playMusic(SoundType.inGame);
+        } else if (game.state == GameState.GAME_OVER) {
+          this.game.player.vbo().print();
+          this.gameOverMenu.hide();
+          synchronized (this.game) {
+            game.resetGame();
+          }
+          break;
         } else {
           game.pauseGame();
           this.scoreLabel.setText("SCORE: " + game.getScore());
@@ -425,6 +439,7 @@ public class GameInterface extends Thread {
 
   /**
    * Get all currently visible entities of the interface
+   *
    * @return
    */
   public List<Entity> getVisibleEntities() {
@@ -439,34 +454,26 @@ public class GameInterface extends Thread {
     }
   }
 
-  /**
-   * Callback when the game comes in pause mode
-   */
+  /** Callback when the game comes in pause mode */
   public void onPause() {
     soundEngine.pauseMusic(SoundType.inGame);
   }
 
-  /**
-   * Callback when the game resumed from pause mode
-   */
+  /** Callback when the game resumed from pause mode */
   public void onResume() {
     soundEngine.playMusic(SoundType.inGame);
   }
 
-  /**
-   * When game game is closed
-   */
+  /** When game game is closed */
   public void onDestroy() {
     soundEngine.stopMusic(SoundType.inGame);
     soundEngine.release();
   }
 
-  /**
-   * Callback when the player dies
-   */
+  /** Callback when the player dies */
   public void onPlayerDeath() {
     this.pauseMenu.hide();
-    this.scoreLabel.setText("SCORE: " + game.getScore());
+    this.gameOverScoreLabel.setText("SCORE: " + game.getScore());
     this.gameOverMenu.show();
   }
 }
