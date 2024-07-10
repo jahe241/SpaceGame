@@ -390,6 +390,13 @@ public class GameInterface extends Thread {
           this.state = InterfaceState.PLAYING;
           this.pauseMenu.hide();
           soundEngine.playMusic(SoundType.inGame);
+        } else if (game.state == GameState.GAME_OVER) {
+          this.game.player.vbo().print();
+          this.gameOverMenu.hide();
+          synchronized (this.game) {
+            game.resetGame();
+          }
+          break;
         } else {
           game.pauseGame();
           this.scoreLabel.setText("SCORE: " + game.getScore());
