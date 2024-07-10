@@ -54,6 +54,8 @@ public class GameInterface extends Thread {
   /** The label for displaying the score */
   private SpriteLabel scoreLabel;
 
+  private SpriteLabel gameOverScoreLabel;
+
   /** The label for displaying the passed time */
   private SpriteLabel timeLabel;
 
@@ -257,7 +259,16 @@ public class GameInterface extends Thread {
             ButtonType.RESET_GAME,
             true,
             ColorHelper.TRANSPARENT));
-    this.gameOverMenu.addLabel(this.scoreLabel);
+    this.gameOverScoreLabel =
+        new SpriteLabel(
+            "SCORE: 9999",
+            screenWidth * .10f, // Center of the screen
+            screenHeight * .30f,
+            this.adaptiveSizeUnit * 2,
+            ColorHelper.TRANSPARENT,
+            game.textureAtlas);
+
+    this.gameOverMenu.addLabel(this.gameOverScoreLabel);
 
     this.gameOverMenu.addLabel(
         new SpriteLabel(
@@ -455,7 +466,7 @@ public class GameInterface extends Thread {
   /** Callback when the player dies */
   public void onPlayerDeath() {
     this.pauseMenu.hide();
-    this.scoreLabel.setText("SCORE: " + game.getScore());
+    this.gameOverScoreLabel.setText("SCORE: " + game.getScore());
     this.gameOverMenu.show();
   }
 }
