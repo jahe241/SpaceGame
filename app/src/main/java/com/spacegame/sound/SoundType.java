@@ -1,10 +1,12 @@
 package com.spacegame.sound;
 
 public enum SoundType {
-    mainMenu,
-    inGame,
-    shoot,
-    explosion,
-    hit,
-    gameOver,
+    MAIN_MENU,
+    IN_GAME,
+    CANON,
+    LAUNCHER,
+    SNIPER,
+    EXPLOSION,
+    HIT,
+    GAME_OVER,
 }

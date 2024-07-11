@@ -3,6 +3,7 @@ package com.spacegame.entities;
 import com.spacegame.entities.inventory.Inventory;
 import com.spacegame.graphics.Sprite;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.sound.SoundEngine;
 import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
 import java.util.ArrayList;
@@ -53,6 +54,7 @@ public class Actor extends Entity {
    * moving, based on the player's velocity.
    */
   Vector2D playerVelocity;
+
 
   /**
    * Constructor for the Entity class. This constructor initializes a new Entity object by setting

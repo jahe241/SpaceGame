@@ -1,9 +1,12 @@
 package com.spacegame.entities;
 
+import android.content.Context;
 import android.view.MotionEvent;
 import androidx.annotation.NonNull;
 import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.sound.SoundEngine;
+import com.spacegame.sound.SoundType;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
@@ -11,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Player extends Actor {
+  SoundEngine soundEngine;
   /**
    * Constructor for the Player class. This constructor initializes a new Player object by calling
    * the superclass constructor with the provided parameters.
@@ -23,7 +27,7 @@ public class Player extends Actor {
    * @param height The height of the player.
    */
   public Player(
-      TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
+          Context context, TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
 
@@ -38,6 +42,7 @@ public class Player extends Actor {
     // this.inventory.addItem(Items.createItem(Items.AllItems.LaserBeam, this.inventory));
     this.setMaxHealth(3);
     this.baseSpeed = 300;
+    soundEngine = new SoundEngine(context);
   }
 
   public void onTouch(MotionEvent event) {
@@ -119,6 +124,7 @@ public class Player extends Actor {
 
   @Override
   public void takeDamage(Actor from) {
+    Game.game.soundEngine.playSound(SoundType.HIT);
     super.takeDamage(from);
   }
 
