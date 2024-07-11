@@ -17,6 +17,7 @@ public class SoundEngine {
   private int hit;
   private int gameOver;
   private int sniper;
+  private int beam;
 
 /**
  * Constructor for the SoundEngine class.
@@ -49,6 +50,9 @@ public SoundEngine(Context context) {
   // Load the hit sound into the SoundPool, using the hit resource.
   hit = soundPool.load(context, R.raw.hit,1 );
 
+  // Load the beam sound into the SoundPool, using the beam resource.
+  beam = soundPool.load(context, R.raw.beam,1 );
+
   // Load the game over sound into the SoundPool, using the gameover resource.
   gameOver = soundPool.load(context, R.raw.gameover,1 );
 }
@@ -75,6 +79,7 @@ public SoundEngine(Context context) {
       case EXPLOSION -> explosion;
       case HIT -> hit;
       case SNIPER -> sniper;
+      case BEAM -> beam;
       case GAME_OVER -> gameOver;
       default -> throw new IllegalArgumentException("Sound Not Found");
     };

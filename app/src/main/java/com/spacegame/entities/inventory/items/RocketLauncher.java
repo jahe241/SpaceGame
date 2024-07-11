@@ -1,7 +1,10 @@
 package com.spacegame.entities.inventory.items;
 
+import com.spacegame.core.Game;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.inventory.Inventory;
+import com.spacegame.sound.SoundType;
+
 import java.util.Random;
 
 /**
@@ -28,6 +31,7 @@ public class RocketLauncher extends OnEnemyHitItem {
     float randFloat = rand.nextFloat();
     if (randFloat <= RocketLauncher.probability) {
       RocketLauncherProjectile.create(this);
+      Game.game.soundEngine.playSound(SoundType.LAUNCHER);
     }
   }
 

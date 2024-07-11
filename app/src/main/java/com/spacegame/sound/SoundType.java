@@ -6,6 +6,7 @@ public enum SoundType {
     CANON,
     LAUNCHER,
     SNIPER,
+    BEAM,
     EXPLOSION,
     HIT,
     GAME_OVER,

@@ -154,7 +154,7 @@ public class Game extends Thread {
     float playerY = this.height / 2f;
     float size = Math.min(this.width, this.height) * 0.15f; // 20% of the screen size
     this.normalizedScreenWidth = Math.min(this.width, this.height);
-    Player player = new Player(this.context, this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
+    Player player = new Player(this.textureAtlas, Constants.PLAYER, playerX, playerY, size, size);
     this.setPlayer(player);
     //    addEntity(new ColorEntity(500f, 500f, 100f, 100f, new float[] {1f, 0f, 1f, 1f}));
     this.state = GameState.PLAYING;
