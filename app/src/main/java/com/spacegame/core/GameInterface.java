@@ -88,7 +88,7 @@ public class GameInterface extends Thread {
                 * 0.05f); // The font size is 2.5% of the screen height
     DebugLogger.log("Game", "Fontsize set to:" + adaptiveSizeUnit);
     this.soundEngine = new SoundEngine(context);
-    soundEngine.playMusic(SoundType.inGame);
+    soundEngine.playMusic(SoundType.IN_GAME);
     GameInterface.gameInterface = this;
   }
 
@@ -291,7 +291,9 @@ public class GameInterface extends Thread {
   public void update(float deltaTime) {
     //    this.scoreLabel.setText("SCORE: " + game.getScore());
     this.timeLabel.setText(game.timer.getFormattedElapsedTime());
-    this.healthLabel.setText("HP: " + game.player.getCurrentHealth());
+    if(game.player != null) {
+      this.healthLabel.setText("HP: " + game.player.getCurrentHealth());
+    }
 
     synchronized (interfaceElements) {
       // Remove the entities that are marked for deletion
@@ -389,7 +391,7 @@ public class GameInterface extends Thread {
           game.resumeGame();
           this.state = InterfaceState.PLAYING;
           this.pauseMenu.hide();
-          soundEngine.playMusic(SoundType.inGame);
+          soundEngine.playMusic(SoundType.IN_GAME);
         } else if (game.state == GameState.GAME_OVER) {
           this.game.player.vbo().print();
           this.gameOverMenu.hide();
@@ -402,7 +404,7 @@ public class GameInterface extends Thread {
           this.scoreLabel.setText("SCORE: " + game.getScore());
           this.state = InterfaceState.PAUSE_MENU;
           this.pauseMenu.show();
-          soundEngine.pauseMusic(SoundType.inGame);
+          soundEngine.pauseMusic(SoundType.IN_GAME);
         }
         break;
         // Check other Cases here
@@ -456,22 +458,23 @@ public class GameInterface extends Thread {
 
   /** Callback when the game comes in pause mode */
   public void onPause() {
-    soundEngine.pauseMusic(SoundType.inGame);
+    soundEngine.pauseMusic(SoundType.IN_GAME);
   }
 
   /** Callback when the game resumed from pause mode */
   public void onResume() {
-    soundEngine.playMusic(SoundType.inGame);
+    soundEngine.playMusic(SoundType.IN_GAME);
   }
 
   /** When game game is closed */
   public void onDestroy() {
-    soundEngine.stopMusic(SoundType.inGame);
+    soundEngine.stopMusic(SoundType.IN_GAME);
     soundEngine.release();
   }
 
   /** Callback when the player dies */
   public void onPlayerDeath() {
+    soundEngine.playSound(SoundType.GAME_OVER);
     this.pauseMenu.hide();
     this.gameOverScoreLabel.setText("SCORE: " + game.getScore());
     this.gameOverMenu.show();

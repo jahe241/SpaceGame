@@ -4,6 +4,7 @@ import android.view.MotionEvent;
 import androidx.annotation.NonNull;
 import com.spacegame.core.Game;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.sound.SoundType;
 import com.spacegame.utils.ColorHelper;
 import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.Vector2D;
@@ -23,7 +24,7 @@ public class Player extends Actor {
    * @param height The height of the player.
    */
   public Player(
-      TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
+          TextureAtlas textureAtlas, String spriteName, float x, float y, float width, float height) {
     super(textureAtlas, spriteName, x, y, width, height);
     this.setZ(1);
 
@@ -119,6 +120,7 @@ public class Player extends Actor {
 
   @Override
   public void takeDamage(Actor from) {
+    Game.game.soundEngine.playSound(SoundType.HIT);
     super.takeDamage(from);
   }
 

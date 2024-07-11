@@ -32,7 +32,7 @@ public class EngineGLSurfaceView extends GLSurfaceView {
 
     // Initialize the game and start it
     getScreenSize(context);
-    this.game = new Game(this.height, this.width);
+    this.game = new Game(context, this.height, this.width);
 
     // Initialize the renderer and set the OpenGL version to 3.0
     this.gameInterface = new GameInterface(context, game, this.width, this.height);

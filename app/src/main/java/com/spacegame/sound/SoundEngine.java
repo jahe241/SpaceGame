@@ -7,13 +7,17 @@ import com.spacegame.R;
 
 public class SoundEngine {
 
+
   private MediaPlayer mainMenu;
   private MediaPlayer inGame;
   private SoundPool soundPool;
-  private int shoot;
+  private int canon;
+  private int launcher;
   private int explosion;
   private int hit;
   private int gameOver;
+  private int sniper;
+  private int beam;
 
 /**
  * Constructor for the SoundEngine class.
@@ -31,17 +35,28 @@ public SoundEngine(Context context) {
   soundPool = new SoundPool.Builder().build();
 
   // Load the explosion sound into the SoundPool, using the rlaunch resource.
-  explosion = soundPool.load(context, R.raw.rlaunch,1 );
+  launcher = soundPool.load(context, R.raw.launcher,1 );
+
+  // Load the explosion sound into the SoundPool, using the explosion resource.
+  explosion = soundPool.load(context, R.raw.explosion,1 );
+
 
   // Load the shoot sound into the SoundPool, using the shoot1 resource.
-  shoot = soundPool.load(context, R.raw.shoot1,1 );
+  canon = soundPool.load(context, R.raw.canon,1 );
+
+  // Load the shoot sound into the SoundPool, using the shoot1 resource.
+  sniper = soundPool.load(context, R.raw.sniper,1 );
 
   // Load the hit sound into the SoundPool, using the hit resource.
   hit = soundPool.load(context, R.raw.hit,1 );
 
+  // Load the beam sound into the SoundPool, using the beam resource.
+  beam = soundPool.load(context, R.raw.beam,1 );
+
   // Load the game over sound into the SoundPool, using the gameover resource.
   gameOver = soundPool.load(context, R.raw.gameover,1 );
 }
+
 
   public void prepare() {
     mainMenu.prepareAsync();
@@ -51,18 +66,21 @@ public SoundEngine(Context context) {
 
   public MediaPlayer getMusic(SoundType soundType) {
       return switch (soundType) {
-        case mainMenu -> mainMenu;
-        case inGame -> inGame;
+        case MAIN_MENU -> mainMenu;
+        case IN_GAME -> inGame;
         default -> throw new IllegalArgumentException("Sound Not Found");
       };
   }
 
   public int getSound(SoundType soundType) {
     return switch (soundType) {
-      case explosion -> explosion;
-      case shoot -> shoot;
-      case hit -> hit;
-      case gameOver -> gameOver;
+      case LAUNCHER -> launcher;
+      case CANON -> canon;
+      case EXPLOSION -> explosion;
+      case HIT -> hit;
+      case SNIPER -> sniper;
+      case BEAM -> beam;
+      case GAME_OVER -> gameOver;
       default -> throw new IllegalArgumentException("Sound Not Found");
     };
   }

@@ -1,6 +1,7 @@
 package com.spacegame.entities.enemies;
 
 import com.spacegame.core.Game;
+import com.spacegame.sound.SoundType;
 
 /**
  * The weapon of the {@link Sniper}
@@ -34,5 +35,6 @@ public class SniperCanon {
     }
     this.timeUntilCharged = CHARGE_TIME;
     SniperCanonProjectile.create(this.from, Game.game.getPlayer());
+    Game.game.soundEngine.playSound(SoundType.SNIPER);
   }
 }

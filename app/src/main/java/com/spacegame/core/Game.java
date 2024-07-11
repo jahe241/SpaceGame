@@ -1,5 +1,6 @@
 package com.spacegame.core;
 
+import android.content.Context;
 import android.util.Log;
 import com.spacegame.entities.Actor;
 import com.spacegame.entities.AnimationOptions;
@@ -11,6 +12,8 @@ import com.spacegame.entities.enemies.Sniper;
 import com.spacegame.entities.inventory.items.ItemPickup;
 import com.spacegame.entities.inventory.items.Items;
 import com.spacegame.graphics.TextureAtlas;
+import com.spacegame.sound.SoundEngine;
+import com.spacegame.sound.SoundType;
 import com.spacegame.utils.Constants;
 import com.spacegame.utils.DebugLogger;
 import com.spacegame.utils.PausableStopwatch;
@@ -95,13 +98,19 @@ public class Game extends Thread {
    */
   BackgroundManager backgroundManager;
 
-  public Game(int height, int width) {
+  public final SoundEngine soundEngine;
+
+  Context context;
+
+  public Game(Context context, int height, int width) {
     super("Game Thread");
     this.height = height;
     this.width = width;
     this.BOUNDS = Math.max(height, width) * 5;
     Game.game = this;
     this.spawnManager = new SpawnManager(this);
+    this.context = context;
+    this.soundEngine = new SoundEngine(this.context);
   }
 
   /**
@@ -426,6 +435,7 @@ public class Game extends Thread {
             size,
             new AnimationOptions(.7f, false, Constants.animation_EXPLOSION, true));
     this.addEntity(explosion);
+    soundEngine.playSound(SoundType.EXPLOSION);
     return explosion;
   }
 
