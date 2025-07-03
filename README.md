@@ -3,8 +3,8 @@
 A modern Android space shooter game built with OpenGL ES 3.0, featuring dynamic gameplay mechanics, item pickups, and procedural enemy spawning.
 
 ## Screenshots
-[<img src="assets/gameplay1.png" width=320>](assets/gameplay.png)
-[<img src="assets/gameplay1.png" width=320>](assets/gameplay1.png)
+[<img src="pictures/gameplay.png" width=640>](pictures/gameplay.png)  
+[<img src="pictures/gameplay1.png" width=640>](pictures/gameplay1.png)
 
 ## Features
 
