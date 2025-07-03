@@ -134,34 +134,34 @@ public class GameInterface extends Thread {
             ButtonType.TOGGLE_PAUSE,
             true,
             ColorHelper.TRANSPARENT));
-    // Reset Button
-    addInterfaceContainer(
-        new SpriteButton(
-                game.textureAtlas,
-                "joystix_r",
-                "joystix_r",
-                (screenWidth * .9f),
-                (screenHeight * .95f),
-                adaptiveSizeUnit * 3,
-                adaptiveSizeUnit * 3,
-                ButtonType.RESET_GAME,
-                true,
-                ColorHelper.RED)
-            .setActiveDuringState(InterfaceState.PLAYING));
-    // Debug Button
-    addInterfaceContainer(
-        new SpriteButton(
-                game.textureAtlas,
-                "joystix_d",
-                "joystix_d",
-                (screenWidth * .9f),
-                (screenHeight * .95f) - adaptiveSizeUnit * 4,
-                adaptiveSizeUnit * 3,
-                adaptiveSizeUnit * 3,
-                ButtonType.DEBUG_BUTTON,
-                true,
-                ColorHelper.ORANGE)
-            .setActiveDuringState(InterfaceState.PLAYING));
+//    // Reset Button
+//    addInterfaceContainer(
+//        new SpriteButton(
+//                game.textureAtlas,
+//                "joystix_r",
+//                "joystix_r",
+//                (screenWidth * .9f),
+//                (screenHeight * .95f),
+//                adaptiveSizeUnit * 3,
+//                adaptiveSizeUnit * 3,
+//                ButtonType.RESET_GAME,
+//                true,
+//                ColorHelper.RED)
+//            .setActiveDuringState(InterfaceState.PLAYING));
+//    // Debug Button
+//    addInterfaceContainer(
+//        new SpriteButton(
+//                game.textureAtlas,
+//                "joystix_d",
+//                "joystix_d",
+//                (screenWidth * .9f),
+//                (screenHeight * .95f) - adaptiveSizeUnit * 4,
+//                adaptiveSizeUnit * 3,
+//                adaptiveSizeUnit * 3,
+//                ButtonType.DEBUG_BUTTON,
+//                true,
+//                ColorHelper.ORANGE)
+//            .setActiveDuringState(InterfaceState.PLAYING));
 
     // Add the gamepad
     this.gamePad = new GamePad(game.textureAtlas, screenWidth, screenHeight);

@@ -1,6 +1,10 @@
-# Cosmic Survivors - Android Space Shooter Game
+# Cosmic Survivors - 
 
 A modern Android space shooter game built with OpenGL ES 3.0, featuring dynamic gameplay mechanics, item pickups, and procedural enemy spawning.
+
+## Screenshots
+[<img src="assets/gameplay1.png" width=320>](assets/gameplay.png)
+[<img src="assets/gameplay1.png" width=320>](assets/gameplay1.png)
 
 ## Features
 
@@ -117,7 +121,7 @@ The project follows a clean architecture pattern with clear separation of concer
 
 1. Clone the repository
 2. Open in Android Studio
-3. Build and run on a compatible Android device
+3. Build and run on the emulator or compatible Android device
 
 ## Development Best Practices
 
@@ -143,4 +147,4 @@ Planned features for future releases:
 - More sound effects and music
 
 ## Credits
-- [List of used assets](/Assets/Textures/Assets.md)
+- [List of used assets](/Assets/Assets.md)
